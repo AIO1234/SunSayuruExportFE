@@ -1,0 +1,52 @@
+/*================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+.search_icon_color {
+  color: #0052ba;
+}
+.button_color {
+  background-color: #0052ba;
+  width: 160px;
+  border-radius: 8px;
+}
+.export_button {
+  width: 160px;
+  border-radius: 8px;
+}
+.button_text_styles {
+  font-family: Urbanist;
+  font-size: 16px;
+  font-weight: 300;
+  color: #ffffff;
+  padding-top: 10px;
+}
+.export_button_text {
+  font-family: Urbanist;
+  font-size: 16px;
+  font-weight: 300;
+  color: #0052ba;
+  text-align: center;
+  padding-top: 5px;
+}
+.form_input_styles::placeholder {
+  color: #0052ba;
+}
+.form_input_styles_date {
+  color: #0052ba;
+  height: 40px;
+  border-radius: 5px;
+  border-color: #0052ba;
+}
+.form_input_styles_date::placeholder {
+  color: #0052ba;
+}
+.form_input_styles_group {
+  border-radius: 5px;
+  border: 0.1px solid #0052ba;
+}
+.b-form-datepicker::placeholder {
+  color: #0052ba;
+}
