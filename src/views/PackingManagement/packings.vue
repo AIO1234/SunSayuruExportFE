@@ -16,7 +16,7 @@
         </b-col>
 
         <b-col lg="2">
-          <v-date-picker v-model="date" is-required>
+          <v-date-picker v-model="startdate" is-required>
             <template v-slot="{ inputValue, inputEvents }">
               <b-input-group class="input-group-merge form_input_styles_group">
                 <b-input-group-prepend is-text>
@@ -34,7 +34,7 @@
         </b-col>
 
         <b-col lg="2">
-          <v-date-picker v-model="date" is-required>
+          <v-date-picker v-model="enddate" is-required>
             <template v-slot="{ inputValue, inputEvents }">
               <b-input-group class="input-group-merge form_input_styles_group">
                 <b-input-group-prepend is-text>
@@ -137,7 +137,8 @@ import {
 export default {
   data() {
     return {
-      date: "16 January 2024",
+      startdate: "16 January 2024",
+      enddate: "16 January 2024",
       isCalendarVisible: false,
     };
   },

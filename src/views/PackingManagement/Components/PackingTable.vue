@@ -1,43 +1,62 @@
 <template>
-  <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-    <template #cell(supliers)="data">
-     
+  <div>
+    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <template #cell(supliers)="data">
         <div>Namal - 6kg</div>
-      
+
         <div>Kasun - 6kg</div>
-      
-    </template>
-    <template #cell(materialcost)="data">
-   
+      </template>
+      <template #cell(materialcost)="data">
         <div>Boxes - 5.00</div>
-    
+
         <div>Ice - 5.00</div>
-    
-    </template>
-    <template #cell(status)="data">
-      <b-badge style="background-color:#CDF59B ; color: #67B108;">{{ data.value }}</b-badge>
-    </template>
-    <template #cell(action)="data">
-      <b-row no-gutters >
-        <b-col lg="6" >
-          <b-button variant="none">
-            <feather-icon icon="Edit2Icon" class="mr-25"
-          /></b-button>
-        </b-col>
-        <b-col lg="6">
-          <b-button variant="none">
-            <b-img
-              width="17px"
-              src="@/assets/images/icons/Group 59.png"
-            ></b-img>
-          </b-button>
-        </b-col>
-      </b-row>
-    </template>
-  </b-table>
+      </template>
+      <template #cell(status)="data">
+        <b-badge style="background-color: #cdf59b; color: #67b108">{{
+          data.value
+        }}</b-badge>
+      </template>
+      <template #cell(action)="data">
+        <b-row no-gutters>
+          <b-col lg="4">
+            <b-button variant="none">
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 117855.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+          <b-col lg="4">
+            <b-button variant="none" @click="openUpdateModal(data.item)">
+              <feather-icon icon="Edit2Icon" class="mr-25"
+            /></b-button>
+          </b-col>
+          <b-col lg="4">
+            <b-button variant="none">
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 59.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+    </b-table>
+
+    <b-modal
+      ref="UpdateModal"
+      title="Edit Packing"
+      title-class="modal_title_color"
+      hide-footer
+      size="xl"
+    >
+      <PackingUpdateForm :selectedPacking="selectedPacking" />
+    </b-modal>
+  </div>
 </template>
 
 <script>
+import PackingUpdateForm from "@/views/PackingManagement/Components/UpdatePackingForm.vue";
 import {
   BModal,
   BCard,
@@ -59,6 +78,7 @@ export default {
     BModal,
     BImg,
     BButton,
+    PackingUpdateForm,
     BCol,
     BBadge,
     BAvatar,
@@ -71,10 +91,10 @@ export default {
   data() {
     return {
       show: false,
-      selectedItem: {},
+      selectedPacking: {},
       fields: [
         {
-          key: "boxnumber",
+          key: "box_number",
           label: "Box Number",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -100,7 +120,7 @@ export default {
           key: "grading",
           label: "Grading",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "10%" },
           // tdClass: "custom-cell-padding",
         },
         {
@@ -135,13 +155,13 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "2%" },
+          thStyle: { width: "15%"  },
           // tdClass: "custom-cell-padding",
         },
       ],
       items: [
         {
-          boxnumber: "P001",
+          box_number: "P001",
           seafoodtype: "Prawns",
           quality: "A+",
           grading: "50 - 60",
@@ -149,7 +169,7 @@ export default {
           status: "Ongoing",
         },
         {
-          boxnumber: "U002",
+          box_number: "U002",
           seafoodtype: "Sithum Perera",
           quality: "A+",
           grading: "50 - 60",
@@ -157,7 +177,7 @@ export default {
           status: "Ongoing",
         },
         {
-          boxnumber: "U003",
+          box_number: "U003",
           seafoodtype: "Sithum Perera",
           quality: "A+",
           grading: "50 - 60",
@@ -173,6 +193,10 @@ export default {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
+    },
+    openUpdateModal(data) {
+      this.$refs.UpdateModal.show();
+      this.selectedPacking = data;
     },
   },
 };
