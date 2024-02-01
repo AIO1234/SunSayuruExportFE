@@ -53,7 +53,11 @@
 
         <b-col lg="5" cols="6">
           <div class="text-right">
-            <b-button variant="none" class="button_color">
+            <b-button
+              variant="none"
+              class="button_color"
+              @click="openCreateModal()"
+            >
               <div class="d-flex justify-content-center">
                 <b-row>
                   <b-col lg="2" cols="2">
@@ -101,6 +105,10 @@
       </div>
     </div>
 
+    <b-modal ref="createmodal" hide-footer title="Create a packing" size="xl"  title-class="modal_title_color">
+      <PackingCreateForm />
+    </b-modal>
+ 
     <div class="pt-5">
       <b-card>
         <PackingTable />
@@ -111,10 +119,12 @@
 
 <script>
 import PackingTable from "@/views/PackingManagement/Components/PackingTable.vue";
+import PackingCreateForm from "@/views/PackingManagement/Components/CreatePackingForm.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
   BRow,
+  BModal,
   BCard,
   BCalendar,
   BFormDatepicker,
@@ -134,7 +144,9 @@ export default {
   name: "users",
   components: {
     BInputGroup,
+    PackingCreateForm,
     BCalendar,
+    BModal,
     BFormDatepicker,
     BImg,
     BCard,
@@ -149,8 +161,8 @@ export default {
     Ripple,
   },
   methods: {
-    openCalander() {
-      this.$refs.calendar.show();
+    openCreateModal() {
+      this.$refs.createmodal.show();
     },
   },
 };

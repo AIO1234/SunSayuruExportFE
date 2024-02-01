@@ -16,7 +16,7 @@
 
       <b-col lg="8" cols="6">
         <div class="text-right">
-          <b-button variant="none" class="button_color">
+          <b-button variant="none" class="button_color" @click="openModal()">
             <div class="d-flex justify-content-center">
               <b-row>
                 <b-col lg="2" cols="2">
@@ -61,15 +61,27 @@
           </div>
         </b-col>
       </b-row>
+      <b-modal
+        ref="CreateModal"
+        title="Create User"
+        title-class="modal_title_color"
+        hide-footer
+      >
+        <div v-if="modalType === 'Create User'">
+          <CreateUserForm />
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
 <script>
-import CommonHeader from "@/Components/CommonHeader.vue";
+import CreateUserForm from "@/views/UserManagement/Components/AddUsers.vue";
+
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
   BRow,
+  BModal,
   BCard,
   BImg,
   BCol,
@@ -81,8 +93,9 @@ export default {
   name: "CommonHeader",
   components: {
     BInputGroup,
+    BModal,
+    CreateUserForm,
     BImg,
-    CommonHeader,
     BCard,
     BButton,
     BInputGroupPrepend,
@@ -90,10 +103,22 @@ export default {
     BRow,
     BCol,
   },
+  props: {
+    modalType: String,
+  },
   directives: {
     Ripple,
+  },
+  methods: {
+    openModal() {
+      this.$refs.CreateModal.show();
+    },
   },
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.modal_title_color {
+  color: #0052ba;
+}
+</style>

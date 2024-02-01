@@ -33,6 +33,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 .form_input_styles::placeholder {
   color: #0052ba;
+  font-family: Urbanist;
+  font-weight: 100;
 }
 .form_input_styles_date {
   color: #0052ba;
@@ -49,4 +51,36 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 .b-form-datepicker::placeholder {
   color: #0052ba;
+}
+.modal_title_color {
+  color: #0052ba;
+  font-family: Urbanist;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 25px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+.form_label_class {
+  font-family: Urbanist;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #444444;
+}
+.form_submit_button {
+  background-color: #0052ba;
+  width: 130px;
+  border-radius: 8px;
+}
+.form_label_class_heading{
+  font-family: Urbanist;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #444444;
 }

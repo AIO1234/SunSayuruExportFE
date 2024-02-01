@@ -1,26 +1,45 @@
 <template>
-  <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-    <template #cell(action)="data">
-      <b-row>
-        <b-col lg="2">
-          <b-button variant="none">
-            <feather-icon icon="Edit2Icon" class="mr-25"
-          /></b-button>
-        </b-col>
-        <b-col lg="2">
-          <b-button variant="none">
-            <b-img
-              width="17px"
-              src="@/assets/images/icons/Group 59.png"
-            ></b-img>
-          </b-button>
-        </b-col>
-      </b-row>
-    </template>
-  </b-table>
+  <div>
+    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <template #cell(action)="data">
+        <b-row>
+          <b-col lg="3">
+            <b-button
+              variant="flat-none"
+              @click="openUpdateModal(data.item)"
+              class="btn-icon"
+            >
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 101.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+          <b-col lg="1">
+            <b-button variant="none">
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 59.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+    </b-table>
+
+    <b-modal
+      ref="UpdateModal"
+      title="Edit User"
+      title-class="modal_title_color"
+      hide-footer
+    >
+      <UserUpdateForm :selectedItem="selectedUser" />
+    </b-modal>
+  </div>
 </template>
 
 <script>
+import UserUpdateForm from "@/views/UserManagement/Components/UpdateUser.vue";
 import {
   BModal,
   BCard,
@@ -38,6 +57,7 @@ import {
 export default {
   name: "UserTable",
   components: {
+    UserUpdateForm,
     BCard,
     BModal,
     BImg,
@@ -54,21 +74,21 @@ export default {
   data() {
     return {
       show: false,
-      selectedItem: {},
+      selectedUser: {},
       fields: [
         {
           key: "referenceid",
           label: "User Id",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+          // tdClass: "td-style",
         },
         {
           key: "name",
           label: "User Name",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+          // tdClass: "td-style",
         },
 
         {
@@ -76,7 +96,7 @@ export default {
           label: "User Type",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+          // tdClass: "td-style",
         },
 
         {
@@ -84,35 +104,29 @@ export default {
           label: "Email",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+          // tdClass: "td-style",
         },
+      
         {
           key: "mobile",
           label: "Mobile",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+          // tdClass: "td-style",
         },
-        {
-          key: "mobile",
-          label: "Mobile",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-        {
-          key: "country",
-          label: "Country",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
+        // {
+        //   key: "country",
+        //   label: "Country",
+        //   sortable: true,
+        //   // thStyle: { width: "2%" },
+        //   // tdClass: "td-style",
+        // },
         {
           key: "action",
           label: "Action",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
+
+          // tdClass: "td-style",
         },
       ],
       items: [
@@ -149,6 +163,10 @@ export default {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
+    },
+    openUpdateModal(data) {
+      this.$refs.UpdateModal.show();
+      this.selectedUser = data;
     },
   },
 };

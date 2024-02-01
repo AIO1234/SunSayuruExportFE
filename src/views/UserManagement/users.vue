@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-3">
-      <CommonHeader/>
+      <CommonHeader :modalType="modalType" />
     </div>
     <div class="pt-5">
       <b-card>
@@ -27,7 +27,14 @@ import {
 } from "bootstrap-vue";
 export default {
   name: "users",
-
+  data() {
+    return {
+      modalType: "",
+    };
+  },
+  created() {
+    this.modalType = "Create User";
+  },
   components: {
     BInputGroup,
     CommonHeader,
