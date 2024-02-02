@@ -13,7 +13,7 @@
         <span class="menu-title text-truncate">{{ t(item.title) }}</span>
       </div>
       <div v-else>
-        <b-img width="20px" src="@/assets/images/870056 (1).png" style="background-color: transparent;color: aliceblue;"> </b-img>
+        <i class="fa fa-ship" aria-hidden="true"></i>
 
         <span class="menu-title text-truncate pl-1">{{ t(item.title) }}</span>
       </div>
@@ -71,3 +71,6 @@ export default {
   },
 };
 </script>
+<style>
+@import url("https://kit.fontawesome.com/your-code-number.js");
+</style>
