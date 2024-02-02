@@ -13,7 +13,7 @@
         <span class="menu-title text-truncate">{{ t(item.title) }}</span>
       </div>
       <div v-else>
-        <b-img width="20px" src="@/assets/images/870056 (1).png"> </b-img>
+        <b-img width="20px" src="@/assets/images/870056 (1).png" style="background-color: transparent;color: aliceblue;"> </b-img>
 
         <span class="menu-title text-truncate pl-1">{{ t(item.title) }}</span>
       </div>

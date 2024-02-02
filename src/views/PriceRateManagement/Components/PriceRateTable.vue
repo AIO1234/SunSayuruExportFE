@@ -75,13 +75,13 @@ export default {
       ],
       items: [
         {
-          suplier: "Namal",
+          suplier: "Namal Udugama",
         },
         {
-          suplier: "Namal",
+          suplier: "Namal Udugama",
         },
         {
-          suplier: "Namal",
+          suplier: "Namal Udugama",
         },
       ],
     };

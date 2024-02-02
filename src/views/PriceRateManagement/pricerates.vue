@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-3">
-     <CommonHeader/>
+     <CommonHeader :modalType="modalType"/>
     </div>
     <div class="pt-5">
       <b-card>
@@ -26,7 +26,12 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 export default {
-  name: "shipmentmanagement",
+  name: "pricerates",
+  data() {
+    return {
+      modalType: "",
+    };
+  },
   components: {
     CommonHeader,
     BInputGroup,
@@ -38,6 +43,9 @@ export default {
     BFormInput,
     BRow,
     BCol,
+  },
+  created() {
+    this.modalType = "Create Price List";
   },
   directives: {
     Ripple,

@@ -61,22 +61,32 @@
           </div>
         </b-col>
       </b-row>
-      <b-modal
-        ref="CreateModal"
-        title="Create User"
-        title-class="modal_title_color"
-        hide-footer
-      >
-        <div v-if="modalType === 'Create User'">
+      <div v-if="modalType === 'Create User'">
+        <b-modal
+          ref="CreateModal"
+          title="Create User"
+          title-class="modal_title_color"
+          hide-footer
+        >
           <CreateUserForm />
-        </div>
-      </b-modal>
+        </b-modal>
+      </div>
+      <div v-else-if="modalType === 'Create Price List'">
+        <b-modal
+          ref="CreateModal"
+          title="Create Seafood  Price List"
+          title-class="modal_title_color"
+          hide-footer
+        >
+          <CreatePriceList />
+        </b-modal>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import CreateUserForm from "@/views/UserManagement/Components/AddUsers.vue";
-
+import CreatePriceList from "@/views/PriceRateManagement/Components/CreatePricelist.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
@@ -95,6 +105,7 @@ export default {
     BInputGroup,
     BModal,
     CreateUserForm,
+    CreatePriceList,
     BImg,
     BCard,
     BButton,
