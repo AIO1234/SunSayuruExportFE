@@ -26,7 +26,7 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 export default {
-  name: "shipmentmanagement",
+  name: "meterialcosts",
   components: {
     BInputGroup,
     CommonHeader,

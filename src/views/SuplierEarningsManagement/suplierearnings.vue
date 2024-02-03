@@ -26,7 +26,7 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 export default {
-  name: "suplierearning",
+  name: "suplierearnings",
   components: {
     BInputGroup,
     BImg,

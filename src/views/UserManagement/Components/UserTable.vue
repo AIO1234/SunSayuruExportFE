@@ -3,7 +3,7 @@
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
       <template #cell(action)="data">
         <b-row>
-          <b-col lg="3">
+          <b-col lg="2">
             <b-button
               variant="flat-none"
               @click="openUpdateModal(data.item)"
@@ -15,7 +15,7 @@
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="1">
+          <b-col lg="2">
             <b-button variant="none">
               <b-img
                 width="17px"

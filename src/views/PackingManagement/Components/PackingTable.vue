@@ -19,7 +19,7 @@
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none">
+            <b-button variant="none" @click="openDetailsModal(data.item)">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -28,8 +28,11 @@
           </b-col>
           <b-col lg="4">
             <b-button variant="none" @click="openUpdateModal(data.item)">
-              <feather-icon icon="Edit2Icon" class="mr-25"
-            /></b-button>
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 101.png"
+              ></b-img>
+            </b-button>
           </b-col>
           <b-col lg="4">
             <b-button variant="none">
@@ -52,11 +55,23 @@
     >
       <PackingUpdateForm :selectedPacking="selectedPacking" />
     </b-modal>
+
+    <b-modal
+      ref="DetailsModal"
+      :title="`View packing box number ${selectedPacking.box_number}`"
+      title-class="modal_title_color"
+      hide-footer
+      size="lg"
+    >
+      <ViewPacking :selectedPacking="selectedPacking" />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import PackingUpdateForm from "@/views/PackingManagement/Components/UpdatePackingForm.vue";
+import ViewPacking from "@/views/PackingManagement/Components/ViewPacking.vue";
+
 import {
   BModal,
   BCard,
@@ -72,13 +87,14 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "UserTable",
+  name: "PackingTable",
   components: {
     BCard,
     BModal,
     BImg,
     BButton,
     PackingUpdateForm,
+    ViewPacking,
     BCol,
     BBadge,
     BAvatar,
@@ -155,7 +171,7 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "15%"  },
+          thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
       ],
@@ -166,22 +182,25 @@ export default {
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
+          materialcost: "500.00",
           status: "Ongoing",
         },
         {
-          box_number: "U002",
+          box_number: "P002",
           seafoodtype: "Sithum Perera",
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
+          materialcost: "500.00",
           status: "Ongoing",
         },
         {
-          box_number: "U003",
+          box_number: "P003",
           seafoodtype: "Sithum Perera",
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
+          materialcost: "500.00",
           status: "Ongoing",
         },
       ],
@@ -196,6 +215,11 @@ export default {
     },
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
+      this.selectedPacking = data;
+    },
+
+    openDetailsModal(data) {
+      this.$refs.DetailsModal.show();
       this.selectedPacking = data;
     },
   },

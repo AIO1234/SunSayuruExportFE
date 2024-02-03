@@ -88,7 +88,7 @@
                   </b-form-group>
                 </b-col>
 
-                <b-col lg="10" class="mb-1">
+                <!-- <b-col lg="10" class="mb-1">
                   <b-form-group
                     label="Total weight(kg)*"
                     label-class="form_label_class"
@@ -104,9 +104,9 @@
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
-                </b-col>
+                </b-col> -->
 
-                <b-col lg="10" class="mb-1">
+                <!-- <b-col lg="10" class="mb-1">
                   <b-form-group label="Status*" label-class="form_label_class">
                     <validation-Provider
                       name="status"
@@ -123,7 +123,7 @@
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
-                </b-col>
+                </b-col> -->
               </b-row>
             </b-col>
 
@@ -286,7 +286,6 @@
                           label-class="form_label_class"
                         >
                           <b-form-input
-                            readonly
                             placeholder="Enter amount"
                             v-model="item.amount"
                           />
@@ -355,7 +354,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
 export default {
-  name: "AddUser",
+  name: "CreatePackingForm",
   components: {
     BCard,
     BFormRadio,

@@ -4,8 +4,11 @@
       <b-row>
         <b-col lg="2">
           <b-button variant="none">
-            <feather-icon icon="Edit2Icon" class="mr-25"
-          /></b-button>
+            <b-img
+              width="17px"
+              src="@/assets/images/icons/Group 117855.png"
+            ></b-img>
+          </b-button>
         </b-col>
         <b-col lg="2">
           <b-button variant="none">
@@ -36,7 +39,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "UserTable",
+  name: "EarningTable",
   components: {
     BCard,
     BModal,

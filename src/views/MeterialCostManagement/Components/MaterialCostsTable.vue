@@ -2,8 +2,10 @@
   <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
     <template #cell(action)="data">
       <b-button variant="none">
-        <feather-icon icon="Edit2Icon" class="mr-25"
-          />
+        <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 101.png"
+              ></b-img>
       </b-button>
     </template>
     <template #cell(status)="data">
@@ -45,7 +47,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "PriceRateTable",
+  name: "MaterialCostsTable",
   components: {
     BCard,
     BModal,

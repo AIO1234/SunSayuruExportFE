@@ -1,43 +1,60 @@
 <template>
-  <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-    <template #cell(action)="data">
-      <b-row>
-        <b-col lg="2">
-          <b-button variant="none">
-            <feather-icon icon="Edit2Icon" class="mr-25"
-          /></b-button>
-        </b-col>
-        <b-col lg="2">
-          <b-button variant="none">
-            <b-img
-              width="17px"
-              src="@/assets/images/icons/Group 59.png"
-            ></b-img>
-          </b-button>
-        </b-col>
-      </b-row>
-    </template>
-    <template #cell(packingids)="data">
-      <div>P - 001</div>
+  <div>
+    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <template #cell(action)="data">
+        <b-row no-gutters>
+          <b-col lg="4">
+            <b-button variant="none">
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 117855.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+          <b-col lg="4">
+            <b-button variant="none" @click="openUpdateModal(data.item)">
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 101.png"
+              ></b-img>
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+      <template #cell(packingids)="data">
+        <div>P - 001</div>
 
-      <div>P - 002</div>
-    </template>
-    <template #cell(status)="data">
-      <b-badge
-        v-if="data.value === 'Ongoing'"
-        style="background-color: #cdf59b; color: #67b108"
-        >{{ data.value }}</b-badge
-      >
-      <b-badge
-        v-else-if="data.value === 'Done'"
-        style="background-color: #ff8787; color: #de0000"
-        >{{ data.value }}</b-badge
-      >
-    </template>
-  </b-table>
+        <div>P - 002</div>
+      </template>
+      <template #cell(status)="data">
+        <b-badge
+          v-if="data.value === 'Ongoing'"
+          style="background-color: #cdf59b; color: #67b108"
+          >{{ data.value }}</b-badge
+        >
+        <b-badge
+          v-else-if="data.value === 'Done'"
+          style="background-color: #ff8787; color: #de0000"
+          >{{ data.value }}</b-badge
+        >
+      </template>
+
+      <template #cell(additionalcosts)="data"> 400 </template>
+    </b-table>
+    <b-modal
+      ref="UpdateModal"
+      title="Edit Shipment"
+      title-class="modal_title_color"
+      hide-footer
+      size="xl"
+    >
+      <ShipmentUpdateForm :selectedshipment="selectedshipment" />
+    </b-modal>
+  </div>
 </template>
 
 <script>
+import ShipmentUpdateForm from "@/views/ShipmentManagement/Components/UpdateShipment.vue";
 import {
   BModal,
   BCard,
@@ -57,6 +74,7 @@ export default {
   components: {
     BCard,
     BModal,
+    ShipmentUpdateForm,
     BImg,
     BButton,
     BCol,
@@ -71,7 +89,7 @@ export default {
   data() {
     return {
       show: false,
-      selectedItem: {},
+      selectedshipment: {},
       fields: [
         {
           key: "shipmentid",
@@ -136,7 +154,7 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
       ],
@@ -145,9 +163,15 @@ export default {
           shipmentid: "U001",
           datetime: "2024.01.10 08.00am",
           consignee: "Jone",
-          packingids: "1000",
+          packingids: ["P - 001", "P - 002"],
           totalweight: "100",
-          additionalcosts: "400",
+          additionalcosts: [
+            {
+              id: 1,
+              description: "ehngbvfd",
+              amount: 400.0,
+            },
+          ],
           flight: "F2569",
           status: "Done",
         },
@@ -155,9 +179,15 @@ export default {
           shipmentid: "U001",
           datetime: "2024.01.10 08.00am",
           consignee: "Jone",
-          packingids: "400",
+          packingids: ["P - 001", "P - 002"],
           totalweight: "100",
-          additionalcosts: "400",
+          additionalcosts: [
+            {
+              id: 1,
+              description: "ehngbvfd",
+              amount: 400.0,
+            },
+          ],
           flight: "F2569",
           status: "Ongoing",
         },
@@ -165,9 +195,15 @@ export default {
           shipmentid: "U001",
           datetime: "2024.01.10 08.00am",
           consignee: "Jone",
-          packingids: "400",
+          packingids: ["P - 001", "P - 002"],
           totalweight: "100",
-          additionalcosts: "400",
+          additionalcosts: [
+            {
+              id: 1,
+              description: "ehngbvfd",
+              amount: 400.0,
+            },
+          ],
           flight: "F2569",
           status: "Ongoing",
         },
@@ -177,9 +213,9 @@ export default {
   async created() {},
 
   methods: {
-    setCellPadding(value, key, item) {
-      // Add a custom class to table cells based on your requirements
-      return "custom-cell-padding";
+    openUpdateModal(data) {
+      this.$refs.UpdateModal.show();
+      this.selectedshipment = data;
     },
   },
 };

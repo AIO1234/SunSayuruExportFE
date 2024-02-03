@@ -354,7 +354,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
 export default {
-  name: "AddUser",
+  name: "UpdatePackingForm",
   components: {
     BCard,
     BFormRadio,

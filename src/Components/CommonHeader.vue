@@ -81,12 +81,24 @@
           <CreatePriceList />
         </b-modal>
       </div>
+      <div v-else-if="modalType === 'Create Shipment'">
+        <b-modal
+          size="xl"
+          ref="CreateModal"
+          title="Create Shipment"
+          title-class="modal_title_color"
+          hide-footer
+        >
+          <CreateShipment />
+        </b-modal>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import CreateUserForm from "@/views/UserManagement/Components/AddUsers.vue";
 import CreatePriceList from "@/views/PriceRateManagement/Components/CreatePricelist.vue";
+import CreateShipment from "@/views/ShipmentManagement/Components/CreateShipment.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
@@ -103,6 +115,7 @@ export default {
   name: "CommonHeader",
   components: {
     BInputGroup,
+    CreateShipment,
     BModal,
     CreateUserForm,
     CreatePriceList,

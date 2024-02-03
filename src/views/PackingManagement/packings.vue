@@ -135,6 +135,7 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 export default {
+  name: "Packings",
   data() {
     return {
       startdate: "16 January 2024",
