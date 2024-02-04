@@ -1,6 +1,6 @@
 <template>
   <div>
-    <br>
+    <br />
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
       <template #cell(action)="data">
         <b-row no-gutters>
@@ -23,9 +23,19 @@
         </b-row>
       </template>
     </b-table>
+    <b-modal
+      ref="UpdateModal"
+      title="Edit Price Rate"
+      title-class="modal_title_color"
+      hide-footer
+      size="lg"
+    >
+      <UpdatePrice :selectedPrice="selectedPrice" />
+    </b-modal>
   </div>
 </template>
 <script>
+import UpdatePrice from "@/views/PriceRateManagement/Components/UpdatePriceRate.vue";
 import {
   BModal,
   BCard,
@@ -43,6 +53,7 @@ import {
 export default {
   data() {
     return {
+      selectedPrice: {},
       fields: [
         {
           key: "seafoodtype",
@@ -107,6 +118,7 @@ export default {
     };
   },
   components: {
+    UpdatePrice,
     BCard,
     BModal,
     BImg,
@@ -122,6 +134,13 @@ export default {
   },
   props: {
     selectedItem: Object,
+  },
+
+  methods: {
+    openUpdateModal(data) {
+      this.$refs.UpdateModal.show();
+      this.selectedPrice = data;
+    },
   },
 };
 </script>
