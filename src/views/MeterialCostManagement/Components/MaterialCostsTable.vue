@@ -1,37 +1,48 @@
 <template>
-  <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-    <template #cell(action)="data">
-      <b-button variant="none">
-        <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 101.png"
-              ></b-img>
-      </b-button>
-    </template>
-    <template #cell(status)="data">
-      <b-badge
-        v-if="data.value === 'Ongoing'"
-        style="background-color: #cdf59b; color: #67b108"
-        >{{ data.value }}</b-badge
-      >
-      <b-badge
-        v-else-if="data.value === 'Done'"
-        style="background-color: #ff8787; color: #de0000"
-        >{{ data.value }}</b-badge
-      >
-    </template>
+  <div>
+    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <template #cell(action)="data">
+        <b-button variant="none">
+          <b-img
+            width="17px"
+            src="@/assets/images/icons/Group 101.png"
+            @click="openUpdateModal(data.item)"
+          ></b-img>
+        </b-button>
+      </template>
+      <template #cell(status)="data">
+        <b-badge
+          v-if="data.value === 'Ongoing'"
+          style="background-color: #cdf59b; color: #67b108"
+          >{{ data.value }}</b-badge
+        >
+        <b-badge
+          v-else-if="data.value === 'Done'"
+          style="background-color: #ff8787; color: #de0000"
+          >{{ data.value }}</b-badge
+        >
+      </template>
 
-    <template #cell(costlist)="data">
-     
+      <template #cell(costlist)="data">
         <div>Boxes - 5.00</div>
-        
+
         <div>Ice - 5.00</div>
-      
-    </template>
-  </b-table>
+      </template>
+    </b-table>
+
+    <b-modal
+      ref="UpdateModal"
+      title="Edit Material Costs"
+      title-class="modal_title_color"
+      hide-footer
+    >
+      <MaterialCostsUpdateForm :selectedItem="selectedItem" />
+    </b-modal>
+  </div>
 </template>
 
 <script>
+import MaterialCostsUpdateForm from "@/views/MeterialCostManagement/Components/UpdateMaterialCost.vue";
 import {
   BModal,
   BCard,
@@ -49,6 +60,7 @@ import {
 export default {
   name: "MaterialCostsTable",
   components: {
+    MaterialCostsUpdateForm,
     BCard,
     BModal,
     BImg,
@@ -99,14 +111,38 @@ export default {
       items: [
         {
           boxnumber: "P001",
+          costlist: [
+            {
+              id: 1,
+              description: "Ice Cube",
+              quantity: 2,
+              amount: "100.00",
+            },
+          ],
           amount: "20.00",
         },
         {
           boxnumber: "P001",
+          costlist: [
+            {
+              id: 1,
+              description: "Ice Cube",
+              quantity: 2,
+              amount: "100.00",
+            },
+          ],
           amount: "20.00",
         },
         {
           boxnumber: "P001",
+          costlist: [
+            {
+              id: 1,
+              description: "Ice Cube",
+              quantity: 2,
+              amount: "100.00",
+            },
+          ],
           amount: "20.00",
         },
       ],
@@ -118,6 +154,10 @@ export default {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
+    },
+    openUpdateModal(data) {
+      this.$refs.UpdateModal.show();
+      this.selectedItem = data;
     },
   },
 };
