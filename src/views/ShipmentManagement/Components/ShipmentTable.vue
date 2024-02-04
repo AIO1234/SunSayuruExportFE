@@ -4,7 +4,7 @@
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none">
+            <b-button variant="none" @click="openDetailsModal(data.item)">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -50,11 +50,22 @@
     >
       <ShipmentUpdateForm :selectedshipment="selectedshipment" />
     </b-modal>
+
+    <b-modal
+      ref="DetailsModal"
+      :title="`View shipment number ${selectedshipment.shipmentid}`"
+      title-class="modal_title_color"
+      hide-footer
+      size="lg"
+    >
+      <ViewShipment :selectedshipment="selectedshipment" />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import ShipmentUpdateForm from "@/views/ShipmentManagement/Components/UpdateShipment.vue";
+import ViewShipment from "@/views/ShipmentManagement/Components/ViewShipment.vue";
 import {
   BModal,
   BCard,
@@ -75,6 +86,7 @@ export default {
     BCard,
     BModal,
     ShipmentUpdateForm,
+    ViewShipment,
     BImg,
     BButton,
     BCol,
@@ -168,7 +180,7 @@ export default {
           additionalcosts: [
             {
               id: 1,
-              description: "ehngbvfd",
+              description: "Transport",
               amount: 400.0,
             },
           ],
@@ -184,7 +196,7 @@ export default {
           additionalcosts: [
             {
               id: 1,
-              description: "ehngbvfd",
+              description: "Transport",
               amount: 400.0,
             },
           ],
@@ -200,7 +212,7 @@ export default {
           additionalcosts: [
             {
               id: 1,
-              description: "ehngbvfd",
+              description: "Transport",
               amount: 400.0,
             },
           ],
@@ -215,6 +227,10 @@ export default {
   methods: {
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
+      this.selectedshipment = data;
+    },
+    openDetailsModal(data) {
+      this.$refs.DetailsModal.show();
       this.selectedshipment = data;
     },
   },

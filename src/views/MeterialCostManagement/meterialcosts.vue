@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="pt-3">
-      <CommonHeader />
+      <CommonHeader :modalType="modalType"/>
     </div>
     <div class="pt-5">
       <b-card>
-        <MaterialCostsTable />
+        <MaterialCostsTable  />
       </b-card>
     </div>
   </div>
@@ -27,6 +27,11 @@ import {
 } from "bootstrap-vue";
 export default {
   name: "meterialcosts",
+  data() {
+    return {
+      modalType: "",
+    };
+  },
   components: {
     BInputGroup,
     CommonHeader,
@@ -38,6 +43,9 @@ export default {
     BFormInput,
     BRow,
     BCol,
+  },
+  created() {
+    this.modalType = "Material Modal";
   },
   directives: {
     Ripple,

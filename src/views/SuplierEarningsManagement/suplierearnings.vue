@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-3">
-      <CommonHeader />
+      <CommonHeader :modalType="modalType" />
     </div>
     <div class="pt-5">
       <b-card>
@@ -27,6 +27,11 @@ import {
 } from "bootstrap-vue";
 export default {
   name: "suplierearnings",
+  data() {
+    return {
+      modalType: "",
+    };
+  },
   components: {
     BInputGroup,
     BImg,
@@ -38,6 +43,9 @@ export default {
     BFormInput,
     BRow,
     BCol,
+  },
+  created() {
+    this.modalType = "Earnings Modal";
   },
   directives: {
     Ripple,

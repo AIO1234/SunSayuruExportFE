@@ -15,7 +15,12 @@
       </b-col>
 
       <b-col lg="8" cols="6">
-        <div class="text-right">
+        <div
+          class="text-right"
+          v-if="
+            modalType !== 'Material Modal' && modalType !== 'Earnings Modal'
+          "
+        >
           <b-button variant="none" class="button_color" @click="openModal()">
             <div class="d-flex justify-content-center">
               <b-row>
