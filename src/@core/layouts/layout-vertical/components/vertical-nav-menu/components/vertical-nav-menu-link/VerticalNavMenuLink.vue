@@ -69,6 +69,4 @@ export default {
 };
 </script>
 <style>
-@import url("https://kit.fontawesome.com/your-code-number.js");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");
 </style>
