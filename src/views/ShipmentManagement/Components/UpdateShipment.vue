@@ -36,7 +36,7 @@
                       v-slot="{ errors }"
                     >
                       <v-select
-                        v-model="selected"
+                        v-model="consignee"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
                         :options="options"
@@ -59,10 +59,10 @@
                     >
                       <v-select
                         multiple
-                        v-model="selected1"
+                        v-model="packingids"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options1"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -108,10 +108,10 @@
                       v-slot="{ errors }"
                     >
                       <v-select
-                        v-model="selected3"
+                        v-model="status"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options2"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -178,7 +178,14 @@
                           </validation-Provider>
                         </b-form-group>
                       </b-col>
-
+                      <hr
+                        style="
+                          width: 100%;
+                          text-align: left;
+                          margin-left: 0;
+                          background-color: #000;
+                        "
+                      />
                       <!-- Remove Button -->
                     </b-row>
                   </b-form>
@@ -270,18 +277,16 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
-        title: "Select Seafood Type",
+      consignee: {
+        title: "Select Consignee",
       },
-      selected1: {
-        title: "Malayasia",
+      packingids: {
+        title: "p - 001",
       },
-      selected2: {
-        title: "Select Grading",
+      status: {
+        title: "Done",
       },
-      selected3: {
-        title: "Select Status",
-      },
+
       items: [
         {
           id: 1,
@@ -298,26 +303,20 @@ export default {
           prevHeight: 0,
         },
       ],
-      options: [
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
+      options: [{ title: "Jane" }, { title: "John" }, { title: "Maria" }],
+      options1: [
+        { title: "P - 001" },
+        { title: "P - 002" },
+        { title: "P - 002" },
       ],
+      options2: [{ title: "Ongoing" }, { title: "Done" }],
     };
   },
   created() {
     this.form = this.selectedshipment;
-    this.selected = this.selectedshipment.consignee;
-    this.selected1 = this.selectedshipment.packingids;
-    this.selected2 = this.selectedshipment.grading;
-    this.selected3 = this.selectedshipment.status;
+    this.consignee = this.selectedshipment.consignee;
+    this.packingids = this.selectedshipment.packingids;
+    this.status = this.selectedshipment.status;
     this.items = this.selectedshipment.additionalcosts;
   },
   computed: {

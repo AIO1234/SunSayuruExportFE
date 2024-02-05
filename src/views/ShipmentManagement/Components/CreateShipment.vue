@@ -36,7 +36,7 @@
                       v-slot="{ errors }"
                     >
                       <v-select
-                        v-model="selected"
+                        v-model="consignee"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
                         :options="options"
@@ -59,17 +59,17 @@
                     >
                       <v-select
                         multiple
-                        v-model="selected1"
+                        v-model="packingids"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options1"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
-<!-- 
+                <!-- 
                 <b-col lg="10" class="mb-1">
                   <b-form-group
                     label="Total weight(kg)*"
@@ -165,20 +165,27 @@
                           label="Amount*"
                           label-class="form_label_class"
                         >
-                        <validation-Provider
+                          <validation-Provider
                             name="Amount"
                             rules="required"
                             v-slot="{ errors }"
                           >
-                          <b-form-input
-                            placeholder="Enter amount"
-                            v-model="item.amount"
-                          />
-                          <span class="text-danger">{{ errors[0] }}</span>
+                            <b-form-input
+                              placeholder="Enter amount"
+                              v-model="item.amount"
+                            />
+                            <span class="text-danger">{{ errors[0] }}</span>
                           </validation-Provider>
                         </b-form-group>
                       </b-col>
-
+                      <hr
+                        style="
+                          width: 100%;
+                          text-align: left;
+                          margin-left: 0;
+                          background-color: #000;
+                        "
+                      />
                       <!-- Remove Button -->
                     </b-row>
                   </b-form>
@@ -267,18 +274,13 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
-        title: "Select Seafood Type",
+      consignee: {
+        title: "Select Consignee",
       },
-      selected1: {
-        title: "Malayasia",
+      packingids: {
+        title: "p - 001",
       },
-      selected2: {
-        title: "Select Grading",
-      },
-      selected3: {
-        title: "Select Status",
-      },
+      
       items: [
         {
           id: 1,
@@ -296,17 +298,11 @@ export default {
           prevHeight: 0,
         },
       ],
-      options: [
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
+      options: [{ title: "Jane" }, { title: "John" }, { title: "Maria" }],
+      options1: [
+        { title: "P - 001" },
+        { title: "P - 002" },
+        { title: "P - 002" },
       ],
     };
   },

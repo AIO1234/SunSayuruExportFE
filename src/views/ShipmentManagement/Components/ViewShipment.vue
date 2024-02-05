@@ -2,7 +2,7 @@
   <div>
     <br />
     <b-row>
-      <b-col lg="6">
+      <b-col lg="6" cols="6">
         <b-row>
           <b-col lg="4"
             ><span class="detailed_modal_heading">date & time</span></b-col
@@ -50,7 +50,7 @@
         <br />
       </b-col>
 
-      <b-col lg="6">
+      <b-col lg="6" cols="6">
         <b-row>
           <b-col lg="6"
             ><span class="detailed_modal_heading">Total Cost($)</span></b-col
@@ -75,11 +75,11 @@
     <span class="detailed_modal_heading" style="font-size: 18px">Packings</span>
     <div class="pt-3"></div>
     <b-row>
-      <b-col lg="6">
+      <b-col lg="6" cols="6">
         <span class="table_headings">Packing ID</span>
       </b-col>
 
-      <b-col lg="6">
+      <b-col lg="6" cols="6">
         <span class="table_headings">Total Cost($)</span>
       </b-col>
     </b-row>
@@ -87,13 +87,13 @@
     <div class="pt-3"></div>
     <b-container>
       <b-row v-for="packing in selectedshipment.packingids" :key="packing">
-        <b-col lg="6">
+        <b-col lg="6" cols="6">
           <span class="detailed_modal_content">{{ packing }}</span>
           <br />
           <br />
         </b-col>
 
-        <b-col lg="6">
+        <b-col lg="6" cols="6">
           <span class="detailed_modal_content">1820</span>
           <br />
           <br />
@@ -109,11 +109,11 @@
     <div class="pt-3"></div>
     <b-container>
       <b-row>
-        <b-col lg="9">
+        <b-col lg="9" cols="6">
           <span class="table_headings">Description</span>
         </b-col>
 
-        <b-col lg="3">
+        <b-col lg="3" cols="6">
           <span class="table_headings">Amount</span>
         </b-col>
       </b-row>
@@ -122,10 +122,10 @@
         v-for="shipment in selectedshipment.additionalcosts"
         :key="shipment"
       >
-        <b-col lg="9">
+        <b-col lg="9" cols="6">
           <span class="detailed_modal_content">{{ shipment.description }}</span>
         </b-col>
-        <b-col lg="3">
+        <b-col lg="3" cols="6">
           <span class="detailed_modal_content">{{ shipment.amount }}</span>
         </b-col>
       </b-row>
