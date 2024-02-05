@@ -1,0 +1,6 @@
+.alligns_header {
+  text-align: right;
+  @media (max-width: 768px) {
+    text-align: left;
+  }
+}

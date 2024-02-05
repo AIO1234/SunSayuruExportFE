@@ -3,8 +3,10 @@
     <b-row class="auth-inner m-0">
       <!-- Brand logo-->
       <b-link class="brand-logo">
-        <b-img style="width: 70px" > </b-img>
-        <h2 class="brand-text text-primary ml-1">The Social Media Buying</h2>
+        <b-img style="width: 70px" src="@/assets/images/logo/logo.jpg"> </b-img>
+        <h2 class="brand-text ml-1" style="color: #0052ba">
+          Sun Sayuru Export Managemnt
+        </h2>
       </b-link>
       <!-- /Brand logo-->
 
@@ -21,7 +23,11 @@
       <!-- Login-->
       <b-col lg="4" class="d-flex align-items-center auth-bg px-2 p-lg-5">
         <b-col sm="8" md="6" lg="12" class="px-xl-2 mx-auto">
-          <b-card-title title-tag="h2" class="font-weight-bold mb-1">
+          <b-card-title
+            title-tag="h2"
+            class="font-weight-bold mb-1"
+            style="color: #0052ba"
+          >
             Welcome
             <!-- The Cake House! 👋 -->
           </b-card-title>
@@ -33,7 +39,11 @@
           <validation-observer ref="loginValidation">
             <b-form class="auth-login-form mt-2" @submit.prevent>
               <!-- email -->
-              <b-form-group label="Email" label-for="login-email">
+              <b-form-group
+                label="Email*"
+                label-for="login-email"
+                label-class="form_label_class"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Email"
@@ -51,10 +61,11 @@
               </b-form-group>
 
               <!-- forgot password -->
-              <b-form-group>
-                <div class="d-flex justify-content-between">
-                  <label for="login-password">Password</label>
-                </div>
+              <b-form-group
+                label="Password*"
+                label-for="login-password"
+                label-class="form_label_class"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Password"
@@ -86,23 +97,13 @@
               </b-form-group>
 
               <!-- submit buttons -->
-              <b-button
-                type="submit"
-                variant="primary"
-                block
-                @click="validationForm"
+              <b-button variant="none" style="background-color: #0052ba" block @click="$router.push('/dashboard')">
+                <span class="button_text_styles" style="">
+                  Sign In</span
+                ></b-button
               >
-                Sign in
-              </b-button>
             </b-form>
           </validation-observer>
-          <b-card-text class="text-center mt-2">
-            <span>Dont have an account?</span>
-            &nbsp;
-            <b-link :to="{ name: 'register' }">
-              <span>Sign Up</span>
-            </b-link>
-          </b-card-text>
         </b-col>
       </b-col>
       <!-- /Login-->

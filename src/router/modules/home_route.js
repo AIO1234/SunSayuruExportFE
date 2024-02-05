@@ -1,7 +1,7 @@
 export default [
   {
-    path: "/",
-    name: "home",
+    path: "/dashboard",
+    name: "dashboard",
     component: () => import("@/views/Home.vue"),
     meta: {
       pageTitle: "Home",
@@ -15,7 +15,7 @@ export default [
   },
 
   {
-    path: "/login",
+    path: "/",
     name: "login",
     component: () => import("@/views/Login.vue"),
     meta: {

@@ -47,7 +47,7 @@
             ></b-col
           >
           <b-col lg="6"
-            ><span class="detailed_modal_content">{{ selectedPacking.materialcost }}</span></b-col
+            ><span class="detailed_modal_content">200</span></b-col
           >
         </b-row>
         <br />

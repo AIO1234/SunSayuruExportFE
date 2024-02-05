@@ -14,7 +14,7 @@
             ></b-form-input>
           </b-input-group>
         </b-col>
-
+        <div class="pt-5 mobile_only_view"></div>
         <b-col lg="2">
           <v-date-picker v-model="startdate" is-required>
             <template v-slot="{ inputValue, inputEvents }">
@@ -32,7 +32,7 @@
             </template>
           </v-date-picker>
         </b-col>
-
+        <div class="pt-5 mobile_only_view"></div>
         <b-col lg="2">
           <v-date-picker v-model="enddate" is-required>
             <template v-slot="{ inputValue, inputEvents }">
@@ -50,7 +50,7 @@
             </template>
           </v-date-picker>
         </b-col>
-
+        <div class="pt-5 mobile_only_view"></div>
         <b-col lg="5" cols="6">
           <div class="text-right">
             <b-button

@@ -24,9 +24,9 @@
       </template>
 
       <template #cell(costlist)="data">
-        <div>Boxes - 5.00</div>
+        <div><b class="font-weight-bold">Boxes</b> - 5.00</div>
 
-        <div>Ice - 5.00</div>
+        <div><b class="font-weight-bold">Ice</b> - 5.00</div>
       </template>
     </b-table>
 

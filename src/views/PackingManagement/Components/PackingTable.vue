@@ -2,15 +2,16 @@
   <div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
       <template #cell(supliers)="data">
-        <div>Namal - 6kg</div>
+        <div><b class="font-weight-bold">Namal</b> - 6kg</div>
 
-        <div>Kasun - 6kg</div>
+        <div><b class="font-weight-bold">Kasun</b> - 6kg</div>
       </template>
       <template #cell(materialcost)="data">
-        <div>Boxes - 5.00</div>
+        <div><b class="font-weight-bold">Boxes</b> - 5.00</div>
 
-        <div>Ice - 5.00</div>
+        <div><b class="font-weight-bold">Ice</b> - 5.00</div>
       </template>
+
       <template #cell(status)="data">
         <b-badge style="background-color: #cdf59b; color: #67b108">{{
           data.value
@@ -182,7 +183,30 @@ export default {
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
-          materialcost: "500.00",
+          supliers: [
+            {
+              suplier: "Kasun Perera",
+              weight: "6",
+              rate: "100",
+            },
+            {
+              suplier: "Namal Udugama",
+              weight: "6",
+              rate: "100",
+            },
+          ],
+          materialcost: [
+            {
+              description: "Ice Cube",
+              quantity: "6",
+              amount: "100",
+            },
+            {
+              description: "Box",
+              boxtype: "Box Type 1",
+              amount: "100",
+            },
+          ],
           status: "Ongoing",
         },
         {
@@ -191,7 +215,30 @@ export default {
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
-          materialcost: "500.00",
+          supliers: [
+            {
+              suplier: "Kasun Perera",
+              weight: "6",
+              rate: "100",
+            },
+            {
+              suplier: "Namal Udugama",
+              weight: "6",
+              rate: "100",
+            },
+          ],
+          materialcost: [
+            {
+              description: "Ice Cube",
+              quantity: "6",
+              amount: "100",
+            },
+            {
+              description: "Box",
+              boxtype: "Box Type 2",
+              amount: "100",
+            },
+          ],
           status: "Ongoing",
         },
         {
@@ -200,7 +247,30 @@ export default {
           quality: "A+",
           grading: "50 - 60",
           totalweight: "12",
-          materialcost: "500.00",
+          supliers: [
+            {
+              suplier: "Kasun Perera",
+              weight: "Kasun Perera",
+              rate: "100",
+            },
+            {
+              suplier: "Namal Udugama",
+              weight: "6",
+              rate: "100",
+            },
+          ],
+          materialcost: [
+            {
+              description: "Ice Cube",
+              quantity: "6",
+              amount: "100",
+            },
+            {
+              description: "Box",
+              boxtype: "Box Type 3",
+              amount: "100",
+            },
+          ],
           status: "Ongoing",
         },
       ],

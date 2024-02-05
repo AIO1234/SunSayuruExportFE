@@ -1,7 +1,7 @@
 export default [
   {
     title: "Dashboard",
-    route: "home",
+    route: "dashboard",
     icon: "HomeIcon",
     // role: "Admin",
   },

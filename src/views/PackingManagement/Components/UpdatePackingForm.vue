@@ -58,7 +58,7 @@
                         v-model="selected1"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options1"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -80,7 +80,7 @@
                         v-model="selected2"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options2"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -117,7 +117,7 @@
                         v-model="selected3"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="options"
+                        :options="options3"
                       />
 
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -161,7 +161,7 @@
                                 $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                               "
                               label="title"
-                              :options="options"
+                              :options="options4"
                             />
 
                             <span class="text-danger">{{ errors[0] }}</span>
@@ -260,6 +260,31 @@
                       <!-- Quantity -->
                       <b-col lg="4">
                         <b-form-group
+                          v-if="
+                            item.description === 'Box' ||
+                            item.description === 'box'
+                          "
+                          label="Box Type*"
+                          label-class="form_label_class"
+                        >
+                          <validation-Provider
+                            name="Box Type"
+                            rules="required"
+                            v-slot="{ errors }"
+                          >
+                            <b-form-input
+                              placeholder="Enter box type"
+                              v-model="item.boxtype"
+                            />
+                            <span class="text-danger">{{ errors[0] }}</span>
+                          </validation-Provider>
+                        </b-form-group>
+
+                        <b-form-group
+                          v-else-if="
+                            item.description !== 'Box' ||
+                            item.description !== 'box'
+                          "
                           label="Quantity*"
                           label-class="form_label_class"
                         >
@@ -269,7 +294,6 @@
                             v-slot="{ errors }"
                           >
                             <b-form-input
-                              type="number"
                               placeholder="Enter quantity"
                               v-model="item.quantity"
                             />
@@ -404,22 +428,28 @@ export default {
       items1: [
         {
           id: 1,
-          selected: "male",
-          selected1: "designer",
+          description: "",
+          quantity: "",
+          amount: "",
           prevHeight: 0,
         },
       ],
       options: [
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
+        { title: "Kelawalla" },
+        { title: "Thalapath" },
+        { title: "Hurulla" },
+      ],
+      options1: [{ title: "A+" }, { title: "A-" }, { title: "B+" }],
+      options2: [
+        { title: "50 - 60" },
+        { title: "70 - 80" },
+        { title: "90 - 100" },
+      ],
+      options3: [{ title: "Ongoing" }, { title: "Done" }],
+      options4: [
+        { title: "Kasun Perera" },
+        { title: "Sithum Perera" },
+        { title: "Namal Udugama" },
       ],
     };
   },
@@ -439,9 +469,11 @@ export default {
   created() {
     this.form = this.selectedPacking;
     this.selected = this.selectedPacking.seafoodtype;
-    this.selected1 = this.selectedPacking.quality
-    this.selected2 = this.selectedPacking.grading
-    this.selected3 = this.selectedPacking.status
+    this.selected1 = this.selectedPacking.quality;
+    this.selected2 = this.selectedPacking.grading;
+    this.selected3 = this.selectedPacking.status;
+    this.items = this.selectedPacking.supliers;
+    this.items1 = this.selectedPacking.materialcost;
   },
   methods: {
     async validationPackingEditForm() {
