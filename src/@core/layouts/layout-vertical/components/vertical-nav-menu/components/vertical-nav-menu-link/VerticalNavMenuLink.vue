@@ -15,7 +15,7 @@
       <div v-else>
         <i class="fa fa-ship" aria-hidden="true"></i>
 
-        <span class="menu-title text-truncate pl-1">{{ t(item.title) }}</span>
+        <span class="menu-title text-truncate">{{ t(item.title) }}</span>
       </div>
 
       <b-badge
