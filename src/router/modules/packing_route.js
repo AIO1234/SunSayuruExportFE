@@ -4,10 +4,10 @@ export default [
     name: "packinglist",
     component: () => import("@/views/PackingManagement/packings.vue"),
     meta: {
-      pageTitle: "Packing List",
+      pageTitle: "Buyer earnings",
       breadcrumb: [
         {
-          text: "Packing List",
+          text: "Buyer earnings",
           active: true,
         },
       ],

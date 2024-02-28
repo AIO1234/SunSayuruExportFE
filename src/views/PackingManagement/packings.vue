@@ -1,5 +1,56 @@
 <template>
   <div>
+    <!-- upper search section -->
+    <div>
+      <b-row>
+        <b-col lg="8">
+          <div class="packing_main_button_set">
+            <b-row>
+              <b-col lg="3">
+                <v-select
+                  class="select_styles"
+                  v-model="country"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="countries"
+                />
+              </b-col>
+              <div class="pt-5 mobile_only_view"></div>
+              <b-col lg="3">
+                <v-select
+                  class="select_styles"
+                  v-model="buyer"
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="buyers"
+                />
+              </b-col>
+              <div class="pt-5 mobile_only_view"></div>
+              <b-col lg="5">
+                <v-select
+                  class="select_styles"
+                  v-model="type"
+                
+                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                  label="title"
+                  :options="types"
+                />
+              </b-col>
+              <div class="pt-5 mobile_only_view"></div>
+              <b-col lg="1" class="search_padding">
+                <b-button class="search_button" variant="none"
+                  ><span class="text-white search_text">Search</span></b-button
+                >
+              </b-col>
+            </b-row>
+          </div>
+        </b-col>
+
+        <b-col lg="4"> </b-col>
+      </b-row>
+    </div>
+
+    <!-- below search section -->
     <div class="pt-3">
       <b-row>
         <b-col lg="3" cols="6">
@@ -67,7 +118,7 @@
                     ></b-img>
                   </b-col>
                   <b-col lg="2" cols="2">
-                    <span class="button_text_styles">Create</span>
+                    <span class="button_text_styles">Create Shipment</span>
                   </b-col>
                 </b-row>
               </div>
@@ -105,22 +156,30 @@
       </div>
     </div>
 
-    <b-modal ref="createmodal" hide-footer title="Create a packing" size="xl"  title-class="modal_title_color">
+    <!--  shipment create form -->
+    <b-modal
+      ref="createmodal"
+      hide-footer
+      title="Create a packing"
+      size="xl"
+      title-class="modal_title_color"
+    >
       <PackingCreateForm />
     </b-modal>
- 
+
     <div class="pt-5">
       <b-card>
-        <PackingTable />
+        <ShipmentTable />
       </b-card>
     </div>
   </div>
 </template>
 
 <script>
-import PackingTable from "@/views/PackingManagement/Components/PackingTable.vue";
+import ShipmentTable from "@/views/PackingManagement/Components/ShipmentsTable.vue";
 import PackingCreateForm from "@/views/PackingManagement/Components/CreatePackingForm.vue";
 import Ripple from "vue-ripple-directive";
+import vSelect from "vue-select";
 import {
   BFormInput,
   BRow,
@@ -141,11 +200,19 @@ export default {
       startdate: "16 January 2024",
       enddate: "16 January 2024",
       isCalendarVisible: false,
+      countries: ["Thailand", "Philiphine"],
+      buyers: ["A123", "A234"],
+      types: ["Packing & Receivings", "Documentations"],
+      country: "Thailand",
+      buyer: "Buyer",
+      type: "Packing & Receivings",
     };
   },
   name: "users",
   components: {
+    ShipmentTable,
     BInputGroup,
+    vSelect,
     PackingCreateForm,
     BCalendar,
     BModal,
@@ -154,7 +221,6 @@ export default {
     BCard,
     BButton,
     BInputGroupPrepend,
-    PackingTable,
     BFormInput,
     BRow,
     BCol,
@@ -170,7 +236,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .calendar-container {
   position: relative;
 }
@@ -180,4 +246,5 @@ export default {
   top: 100%;
   left: 0;
 }
+@import "@core/scss/vue/libs/vue-select.scss";
 </style>
