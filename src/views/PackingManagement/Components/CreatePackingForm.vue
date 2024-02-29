@@ -200,13 +200,20 @@
                           <b-form-input readonly v-model="item.rate" />
                         </b-form-group>
                       </b-col>
-                      <hr style="width:100%;text-align:left;margin-left:0;background-color: #000;">
+                      <hr
+                        style="
+                          width: 100%;
+                          text-align: left;
+                          margin-left: 0;
+                          background-color: #000;
+                        "
+                      />
                       <!-- Remove Button -->
                     </b-row>
                   </b-form>
                 </div>
                 <br />
-               
+
                 <div class="text-right">
                   <b-button
                     v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -315,7 +322,14 @@
                           />
                         </b-form-group>
                       </b-col>
-                      <hr style="width:100%;text-align:left;margin-left:0;background-color: #000;">
+                      <hr
+                        style="
+                          width: 100%;
+                          text-align: left;
+                          margin-left: 0;
+                          background-color: #000;
+                        "
+                      />
                       <!-- Remove Button -->
                     </b-row>
                   </b-form>

@@ -112,3 +112,53 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     display: block;
   }
 }
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1em;
+  
+  .progress {
+    position: absolute;
+    top: 2em;
+    height: 5px;
+    margin: 0;
+    box-shadow: none;
+    background-color: #cdcdcd;
+    
+    .progress-bar {
+      background-color: #46c0bd;
+    }
+  }
+  
+  .step {
+    text-align: center;
+    z-index: 2;
+
+    .step-number {
+      background-color: #cdcdcd;
+      padding: 0.5em;
+      color: white;
+      border-radius: 2em;
+      
+      background-size: 0% 0%;
+      background-position: center;
+      background-image: radial-gradient(circle at center , #b384c7 50%, transparent 50%);
+      background-repeat: no-repeat;
+    }
+    
+    &.current {
+      .step-number {
+        background-size: 200% 200%;
+        transition: all .4s .5s;
+      }
+    }
+    
+    &.done {
+      .step-number { background-color: #46c0bd; }
+    }
+    .step-label {
+      padding-top: 5px;
+    }
+  }
+}

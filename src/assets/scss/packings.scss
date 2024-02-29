@@ -50,3 +50,50 @@
     padding-left: 15px;
   }
 }
+.completed_dot {
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  background-color: #f8a838;
+  border-radius: 50%;
+  color: white;
+  display: inline-block;
+}
+.pending_dot {
+  border: 2px solid #f8a838;
+  background-color: #ffffff;
+  height: 25px;
+  width: 25px;
+  color: #f8a838;
+
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+}
+.step_line {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 250px;
+  background-color: #afc4c0;
+}
+.step_line_active {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 250px;
+  background-color:#353131;
+}
+.heading_spaces {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 150px;
+  background-color: #ffffff;
+}
+.heading_colors {
+  color: #003f3a;
+  font-weight: 400;
+}
+.heading_colors_active {
+  color: #353131;
+  font-weight: 600;
+}

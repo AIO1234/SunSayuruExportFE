@@ -107,7 +107,7 @@
             <b-button
               variant="none"
               class="button_color"
-              @click="openCreateModal()"
+              @click="$router.push('/createshipment')"
             >
               <div class="d-flex justify-content-center">
                 <b-row>
