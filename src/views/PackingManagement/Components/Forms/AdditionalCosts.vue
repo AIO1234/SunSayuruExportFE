@@ -61,21 +61,7 @@
         </b-button>
       </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <div>
-      <b-row>
-        <b-col lg="6">
-          <b-button variant="none" class="backbutton">
-            <span class="back_button_text_styles">Back</span>
-          </b-button>
-        </b-col>
-
-        <b-col lg="6" class="text-right"> </b-col>
-      </b-row>
-    </div>
+  
   </div>
 </template>
 <script>

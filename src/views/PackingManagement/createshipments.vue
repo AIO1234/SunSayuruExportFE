@@ -1,33 +1,35 @@
 <template>
   <div>
     <br />
-    <div class="d-flex justify-content">
-      <div class="completed_dot">
-        <span class="text-center">1 </span>
+    <div>
+      <div class="d-flex justify-content">
+        <div :class="shipmentdetailsdot">
+          <span class="text-center">1 </span>
+        </div>
+
+        <div :class="boxessline"></div>
+
+        <div :class="boxesdot"><span class="text-center">2</span></div>
+
+        <div :class="materialline"></div>
+        <div :class="materialesdot"><span class="text-center">3</span></div>
+
+        <div :class="additionalline"></div>
+        <div :class="additionaldot"><span class="text-center">4</span></div>
       </div>
+      <br />
+      <div class="d-flex justify-content">
+        <span class="heading_colors_active">Shipment details</span>
+        <div class="heading_spaces"></div>
 
-      <div class="step_line"></div>
+        <span class="heading_colors">Boxes & suppliers</span>
+        <div class="heading_spaces"></div>
 
-      <div class="pending_dot"><span class="text-center">2</span></div>
+        <span class="heading_colors">Material cost</span>
+        <div class="heading_spaces_last"></div>
 
-      <div class="step_line"></div>
-      <div class="pending_dot"><span class="text-center">3</span></div>
-
-      <div class="step_line"></div>
-      <div class="pending_dot"><span class="text-center">4</span></div>
-    </div>
-    <br />
-    <div class="d-flex justify-content">
-      <span class="heading_colors_active">Shipment details</span>
-      <div class="heading_spaces"></div>
-
-      <span class="heading_colors">Boxes & suppliers</span>
-      <div class="heading_spaces"></div>
-
-      <span class="heading_colors">Material cost</span>
-      <div class="heading_spaces_last"></div>
-
-      <span class="heading_colors">Additional cost</span>
+        <span class="heading_colors">Additional cost</span>
+      </div>
     </div>
 
     <!-- <div class="pt-5 text-center"></div>
@@ -37,13 +39,54 @@
     <br /> -->
 
     <!-- <div class="pt-5 text-center"></div> -->
-    
-    <br />
 
-    <ShipmentDetailsCreateForm/>
-    <!-- <MaterialCreateForm /> -->
-    <!-- <AdditionalCostsCreateForm /> -->
-    <!-- <PackingCreateForm /> -->
+    <br />
+    <div>
+      <div v-if="currentcomponent === 'ShipmentDetails'">
+        <ShipmentDetailsCreateForm />
+      </div>
+
+      <div v-if="currentcomponent === 'BoxesandSupliers'">
+        <PackingCreateForm />
+      </div>
+
+      <div v-if="currentcomponent === 'MaterialCostForm'">
+        <MaterialCreateForm />
+      </div>
+
+      <div v-if="currentcomponent === 'AdditionalCostForm'">
+        <AdditionalCostsCreateForm />
+      </div>
+
+      <br />
+      <br />
+
+      <br />
+      <div>
+        <b-row>
+          <b-col lg="6">
+            <b-button
+              v-if="currentcomponent !== 'ShipmentDetails'"
+              variant="none"
+              class="backbutton"
+            >
+              <span class="back_button_text_styles">Back</span>
+            </b-button>
+          </b-col>
+
+          <b-col lg="6" class="text-right">
+            <b-button
+              v-if="currentcomponent !== 'AdditionalCostForm'"
+              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+              variant="none"
+              class="form_submit_button"
+            >
+              <span class="button_text_styles" @click="next()">Next</span>
+            </b-button></b-col
+          >
+        </b-row>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -103,8 +146,60 @@ export default {
   },
   data() {
     return {
-      form: {},
+      // dots
+      currentcomponent: "ShipmentDetails",
+      shipmentdetailsdot: "completed_dot",
+      boxesdot: "pending_dot",
+      materialesdot: "pending_dot",
+      additionaldot: "pending_dot",
+
+      // lines
+      boxessline: "step_line",
+      materialline: "step_line",
+      additionalline: "step_line",
     };
+  },
+
+  methods: {
+    next() {
+      if (this.currentcomponent === "ShipmentDetails") {
+        this.currentcomponent = "BoxesandSupliers";
+      } else if (this.currentcomponent === "BoxesandSupliers") {
+        this.currentcomponent = "MaterialCostForm";
+      } else if (this.currentcomponent === "MaterialCostForm") {
+        this.currentcomponent = "AdditionalCostForm";
+      }
+      this.changeDotStatus();
+      this.changeLineStatus();
+    },
+    back() {},
+    changeDotStatus() {
+      if (this.currentcomponent === "BoxesandSupliers") {
+        this.shipmentdetailsdot = "completed_dot";
+        this.boxesdot = "completed_dot";
+      } else if (this.currentcomponent === "MaterialCostForm") {
+        this.shipmentdetailsdot = "completed_dot";
+        this.boxesdot = "completed_dot";
+        this.materialesdot = "completed_dot";
+      } else if (this.currentcomponent === "AdditionalCostForm") {
+        this.shipmentdetailsdot = "completed_dot";
+        this.boxesdot = "completed_dot";
+        this.materialesdot = "completed_dot";
+        this.additionaldot = "completed_dot";
+      }
+    },
+    changeLineStatus() {
+      if (this.currentcomponent === "BoxesandSupliers") {
+        this.boxessline = "step_line_active";
+      } else if (this.currentcomponent === "MaterialCostForm") {
+        this.boxessline = "step_line_active";
+        this.materialline = "step_line_active";
+      } else if (this.currentcomponent === "AdditionalCostForm") {
+        this.boxessline = "step_line_active";
+        this.materialline = "step_line_active";
+        this.additionalline = "step_line_active";
+      }
+    },
   },
 };
 </script>

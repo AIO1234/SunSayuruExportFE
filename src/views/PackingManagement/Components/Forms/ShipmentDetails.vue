@@ -110,16 +110,7 @@
           </b-col>
         </b-row>
         <br />
-        <div class="text-right">
-          <b-button
-            @click="validationPackingCreateForm()"
-            type="submit"
-            variant="none"
-            class="form_submit_button"
-          >
-            <span class="button_text_styles">Next</span>
-          </b-button>
-        </div>
+      
       </b-container>
     </b-card>
   </div>
@@ -153,9 +144,7 @@ export default {
     BFormDatepicker,
     BFormRadio,
     BFormFile,
-
     BForm,
-
     BFormInput,
     ValidationObserver,
     ValidationProvider,
