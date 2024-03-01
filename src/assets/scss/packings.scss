@@ -182,8 +182,16 @@
   color: #003476;
 }
 .backbutton {
-  .back_button_text_styles {
+  background-color: #ffffff;
+  border: 1px solid #003476;
 
-    
+  width: 130px;
+  border-radius: 8px;
+  .back_button_text_styles {
+    font-family: Urbanist;
+    font-size: 16px;
+    font-weight: 300;
+    color: #003476;
+    padding-top: 10px;
   }
 }

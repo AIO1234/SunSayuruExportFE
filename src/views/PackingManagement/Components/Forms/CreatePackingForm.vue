@@ -2,6 +2,8 @@
   <div>
     <div>
       <br />
+      <h2 class="shipment_create_header">Boxes & suppliers</h2>
+      <!-- Add box For Loop -->
       <div v-for="(box, index) in items2" :id="box.id" :key="box.id" ref="row">
         <br />
         <div class="box_background">
@@ -21,6 +23,8 @@
             <br />
 
             <br /><br />
+
+            <!-- Add seafood For Loop -->
             <div
               v-for="(seafood, index) in box.items1"
               :id="seafood.id"
@@ -36,6 +40,7 @@
                   <b-form @submit.prevent>
                     <validation-observer ref="PackingCreateValidation">
                       <b-row>
+                        <!-- seafood type  -->
                         <b-col lg="6" class="pt-1">
                           <b-form-group
                             label="Seafood Type*"
@@ -61,6 +66,8 @@
                           </b-form-group>
                         </b-col>
 
+                        <!-- Quality  -->
+
                         <b-col lg="6" class="pt-1">
                           <b-form-group
                             label="Quality*"
@@ -85,6 +92,8 @@
                             </validation-Provider>
                           </b-form-group>
                         </b-col>
+
+                        <!-- Grading -->
 
                         <b-col lg="6" class="pt-1">
                           <b-form-group
@@ -112,6 +121,8 @@
                         </b-col>
                       </b-row>
 
+                      <!-- Supliers -->
+
                       <div class="background_suplier_box">
                         <b-container class="pl-3 pr-3 pt-2">
                           <div class="d-flex justify-content-between">
@@ -120,6 +131,8 @@
                             </div>
                           </div>
                           <br />
+
+                          <!-- Add Supliers For Loop -->
                           <b-row
                             v-for="(suplier, index) in seafood.items"
                             :id="suplier.id"
@@ -142,7 +155,7 @@
                                     placeholder="Select Date"
                                     style="
                                       background-color: #cde9fc;
-                                    
+
                                       border-color: #0052ba;
                                     "
                                   ></b-form-datepicker>
@@ -220,7 +233,7 @@
                                   placeholder="Enter Price"
                                   style="
                                     background-color: #cde9fc;
-                                
+
                                     border-color: #0052ba;
                                   "
                                 />
@@ -299,6 +312,30 @@
           <span class="button_text_styles">Add Packing box</span>
         </b-button>
       </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>
+      <b-row>
+        <b-col lg="6">
+          <b-button variant="none" class="backbutton">
+            <span class="back_button_text_styles">Back</span>
+          </b-button>
+        </b-col>
+
+        <b-col lg="6" class="text-right">
+          <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            variant="none"
+            class="form_submit_button"
+          >
+            <span class="button_text_styles">Next</span>
+          </b-button></b-col
+        >
+      </b-row>
     </div>
   </div>
 </template>
@@ -421,15 +458,18 @@ export default {
     this.form.totalweight = this.generateTotWeight;
   },
   methods: {
-    async validationPackingCreateForm() {
+    async saveData() {
       if (await this.$refs.PackingCreateValidation.validate()) {
       }
     },
+    // add suplier
     repeateSuplier(seafood) {
       seafood.items.push({
         id: seafood.items.length + 1,
       });
     },
+
+    // add seafood
     repeateSeafood(box) {
       box.items1.push({
         id: box.items1.length + 1,
@@ -440,6 +480,8 @@ export default {
         ],
       });
     },
+
+    // add boxes
     repeateBox() {
       this.items2.push({
         id: this.items2.length + 1,
