@@ -30,10 +30,10 @@
       <span class="heading_colors">Additional cost</span>
     </div>
 
-    <div class="pt-5 text-center"></div>
+    <!-- <div class="pt-5 text-center"></div>
     <h2 class="shipment_create_header">Shipment details</h2>
-    <br />
-    <b-card>
+    <br /> -->
+    <!-- <b-card>
       <b-container>
         <b-row>
           <b-col lg="6">
@@ -48,7 +48,7 @@
               >
                 <b-form-input
                   placeholder="Enter shipment number"
-                  v-model="form.box_number"
+                  v-model="form.shipment_number"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -82,7 +82,7 @@
                 v-slot="{ errors }"
               >
                 <v-select
-                  v-model="selected1"
+                  v-model="selected2"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
                   :options="options1"
@@ -101,7 +101,7 @@
               >
                 <b-form-input
                   placeholder="Enter flight number"
-                  v-model="form.box_number"
+                  v-model="form.flight"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -117,7 +117,7 @@
               >
                 <b-form-datepicker
                   placeholder="Select Date"
-                  v-model="form.box_number"
+                  v-model="form.eta"
                 ></b-form-datepicker>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -133,7 +133,7 @@
               >
                 <b-form-input
                   placeholder="Enter AWB number"
-                  v-model="form.box_number"
+                  v-model="form.awb"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -152,7 +152,18 @@
           </b-button>
         </div>
       </b-container>
-    </b-card>
+    </b-card> -->
+    <!-- <div class="pt-5 text-center"></div>
+    <h2 class="shipment_create_header">Boxes & suppliers</h2>
+    <br /> -->
+
+    <div class="pt-5 text-center"></div>
+    <h2 class="shipment_create_header">Additional cost</h2>
+    <br />
+
+    <!-- <MaterialCreateForm /> -->
+    <AdditionalCostsCreateForm />
+    <!-- <PackingCreateForm /> -->
   </div>
 </template>
 <script>
@@ -177,6 +188,10 @@ import {
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
+
+import AdditionalCostsCreateForm from "@/views/PackingManagement/Components/AdditionalCosts.vue";
+import MaterialCreateForm from "@/views/PackingManagement/Components/CreateMaterialform.vue";
+import PackingCreateForm from "@/views/PackingManagement/Components/CreatePackingForm.vue";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 export default {
   components: {
@@ -184,7 +199,10 @@ export default {
     BFormDatepicker,
     BFormRadio,
     BFormFile,
+    PackingCreateForm,
+    MaterialCreateForm,
     BForm,
+    AdditionalCostsCreateForm,
     BFormInput,
     ValidationObserver,
     ValidationProvider,

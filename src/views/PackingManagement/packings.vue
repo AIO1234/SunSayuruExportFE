@@ -30,7 +30,6 @@
                 <v-select
                   class="select_styles"
                   v-model="type"
-                
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
                   :options="types"
@@ -107,20 +106,18 @@
             <b-button
               variant="none"
               class="button_color"
+              style="width: 200px"
               @click="$router.push('/createshipment')"
             >
-              <div class="d-flex justify-content-center">
-                <b-row>
-                  <b-col lg="2" cols="2">
-                    <b-img
-                      width="20px"
-                      src="@/assets/images/icons/Icons Solid.png"
-                    ></b-img>
-                  </b-col>
-                  <b-col lg="2" cols="2">
-                    <span class="button_text_styles">Create Shipment</span>
-                  </b-col>
-                </b-row>
+              <div class="d-flex justify-content-start">
+                <b-img
+                style="padding-top: 6px;"
+                  width="22px"
+                  height="30px"
+                  src="@/assets/images/icons/Icons Solid.png"
+                ></b-img>
+
+                <span class="button_text_styles pl-1">Create Shipment</span>
               </div>
             </b-button>
           </div>
@@ -177,7 +174,7 @@
 
 <script>
 import ShipmentTable from "@/views/PackingManagement/Components/ShipmentsTable.vue";
-import PackingCreateForm from "@/views/PackingManagement/Components/CreatePackingForm.vue";
+
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import {
@@ -213,7 +210,6 @@ export default {
     ShipmentTable,
     BInputGroup,
     vSelect,
-    PackingCreateForm,
     BCalendar,
     BModal,
     BFormDatepicker,
