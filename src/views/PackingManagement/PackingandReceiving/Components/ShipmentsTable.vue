@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import PackingUpdateForm from "@/views/PackingManagement/Components/UpdatePackingForm.vue";
-import ViewPacking from "@/views/PackingManagement/Components/ViewPacking.vue";
+import PackingUpdateForm from "@/views/PackingManagement/PackingandReceiving/Components/UpdatePackingForm.vue";
+import ViewPacking from "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue";
 
 import {
   BModal,

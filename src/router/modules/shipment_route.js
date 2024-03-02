@@ -17,7 +17,7 @@ export default [
   {
     path: "/createshipment",
     name: "createshipment",
-    component: () => import("@/views/PackingManagement/createshipments.vue"),
+    component: () => import("@/views/PackingManagement/PackingandReceiving/createshipments.vue"),
     meta: {
       pageTitle: "Create Shipment",
       breadcrumb: [

@@ -112,10 +112,10 @@ import {
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
-import ShipmentDetailsCreateForm from "@/views/PackingManagement/Components/Forms/ShipmentDetails.vue";
-import AdditionalCostsCreateForm from "@/views/PackingManagement/Components/Forms/AdditionalCosts.vue";
-import MaterialCreateForm from "@/views/PackingManagement/Components/Forms/CreateMaterialform.vue";
-import PackingCreateForm from "@/views/PackingManagement/Components/Forms/CreatePackingForm.vue";
+import ShipmentDetailsCreateForm from "@/views/PackingManagement/PackingandReceiving/Components/Forms/ShipmentDetails.vue";
+import AdditionalCostsCreateForm from "@/views/PackingManagement/PackingandReceiving/Components/Forms/AdditionalCosts.vue";
+import MaterialCreateForm from "@/views/PackingManagement/PackingandReceiving/Components/Forms/CreateMaterialform.vue";
+import PackingCreateForm from "@/views/PackingManagement/PackingandReceiving/Components/Forms/CreatePackingForm.vue";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 export default {
   components: {

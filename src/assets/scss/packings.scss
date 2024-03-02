@@ -195,3 +195,38 @@
     padding-top: 10px;
   }
 }
+.tab_active_class_styles {
+  font-family: Urbanist;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  background: #fc5e05;
+}
+.custom-tab-item {
+  font-family: Urbanist;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  background-color: #0052ba;
+  border-radius: 8px;
+  width: 200px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  /* Change background color for inactive tab */
+  /* Change text color for inactive tab */
+}
+.margin_class_tab {
+  margin-left: 30px;
+  @media (max-width: 768px) {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+}
+.custom-bg-text {
+  color: white;
+}

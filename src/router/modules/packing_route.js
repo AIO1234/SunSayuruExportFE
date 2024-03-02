@@ -2,7 +2,7 @@ export default [
   {
     path: "/packinglist",
     name: "packinglist",
-    component: () => import("@/views/PackingManagement/packings.vue"),
+    component: () => import("@/views/PackingManagement/index.vue"),
     meta: {
       pageTitle: "Packing & receiving",
       breadcrumb: [
