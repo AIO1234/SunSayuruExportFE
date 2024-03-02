@@ -69,6 +69,7 @@
               v-if="currentcomponent !== 'ShipmentDetails'"
               variant="none"
               class="backbutton"
+              @click="back()"
             >
               <span class="back_button_text_styles">Back</span>
             </b-button>
@@ -172,15 +173,36 @@ export default {
       this.changeDotStatus();
       this.changeLineStatus();
     },
-    back() {},
+    back() {
+      if (this.currentcomponent === "BoxesandSupliers") {
+        this.currentcomponent = "ShipmentDetails";
+      } else if (this.currentcomponent === "MaterialCostForm") {
+        this.currentcomponent = "BoxesandSupliers";
+      } else if (this.currentcomponent === "AdditionalCostForm") {
+        this.currentcomponent = "MaterialCostForm";
+      }
+      this.changeDotStatus();
+      this.changeLineStatus();
+    },
+
+    // change dot color & background in the stepper
     changeDotStatus() {
+      if (this.currentcomponent === "ShipmentDetails") {
+        this.shipmentdetailsdot = "completed_dot";
+        this.boxesdot = "pending_dot";
+        this.materialesdot = "pending_dot";
+        this.additionaldot = "pending_dot";
+      }
       if (this.currentcomponent === "BoxesandSupliers") {
         this.shipmentdetailsdot = "completed_dot";
         this.boxesdot = "completed_dot";
+        this.materialesdot = "pending_dot";
+        this.additionaldot = "pending_dot";
       } else if (this.currentcomponent === "MaterialCostForm") {
         this.shipmentdetailsdot = "completed_dot";
         this.boxesdot = "completed_dot";
         this.materialesdot = "completed_dot";
+        this.additionaldot = "pending_dot";
       } else if (this.currentcomponent === "AdditionalCostForm") {
         this.shipmentdetailsdot = "completed_dot";
         this.boxesdot = "completed_dot";
@@ -188,12 +210,22 @@ export default {
         this.additionaldot = "completed_dot";
       }
     },
+
+    // change line color & background in the stepper
+
     changeLineStatus() {
-      if (this.currentcomponent === "BoxesandSupliers") {
+      if (this.currentcomponent === "ShipmentDetails") {
+        this.boxessline = "step_line";
+        this.materialline = "step_line";
+        this.additionalline = "step_line";
+      } else if (this.currentcomponent === "BoxesandSupliers") {
         this.boxessline = "step_line_active";
+        this.materialline = "step_line";
+        this.additionalline = "step_line";
       } else if (this.currentcomponent === "MaterialCostForm") {
         this.boxessline = "step_line_active";
         this.materialline = "step_line_active";
+        this.additionalline = "step_line";
       } else if (this.currentcomponent === "AdditionalCostForm") {
         this.boxessline = "step_line_active";
         this.materialline = "step_line_active";
