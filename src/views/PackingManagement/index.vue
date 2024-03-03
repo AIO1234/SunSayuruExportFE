@@ -179,19 +179,31 @@
           <b-tab title="Packing list" title-item-class="custom-tab-item ">
             <template #title>
               <span class="custom-bg-text">Packing list</span>
-            </template></b-tab
-          >
+            </template>
+            <br /><br />
+            <PackingListTable
+          /></b-tab>
 
-          <b-tab title="Custom invoice" title-item-class="custom-tab-item margin_class_tab">
+          <b-tab
+            title="Custom invoice"
+            title-item-class="custom-tab-item margin_class_tab"
+          >
             <template #title>
               <span class="custom-bg-text">Custom invoice</span>
             </template>
+            <br /><br />
+            <CustomInvoiceTable />
           </b-tab>
 
-          <b-tab title="Buyer invoice" title-item-class="custom-tab-item margin_class_tab">
+          <b-tab
+            title="Buyer invoice"
+            title-item-class="custom-tab-item margin_class_tab"
+          >
             <template #title>
               <span class="custom-bg-text">Buyer invoice</span>
             </template>
+            <br /><br />
+            <BuyerInvoiceTable />
           </b-tab>
         </b-tabs>
       </div>
@@ -201,7 +213,9 @@
 
 <script>
 import ShipmentTable from "@/views/PackingManagement/PackingandReceiving/Components/ShipmentsTable.vue";
-
+import PackingListTable from "@/views/PackingManagement/Documentaion/PackingList.vue";
+import CustomInvoiceTable from "@/views/PackingManagement/Documentaion/CustomInvoice.vue";
+import BuyerInvoiceTable from "@/views/PackingManagement/Documentaion/BuyerInvoice.vue";
 import Ripple from "vue-ripple-directive";
 import vSelect from "vue-select";
 import {
@@ -236,8 +250,11 @@ export default {
   },
   name: "users",
   components: {
+    CustomInvoiceTable,
     ShipmentTable,
     BInputGroup,
+    BuyerInvoiceTable,
+    PackingListTable,
     BTab,
     BTabs,
     vSelect,
