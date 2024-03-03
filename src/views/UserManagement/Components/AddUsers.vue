@@ -55,6 +55,81 @@
               </b-form-group>
             </b-col>
 
+            <b-col
+            class="mb-1"
+              cols="12"
+              v-if="
+                selected.title === 'Super Admin' ||
+                selected.title === 'Operation Manager' ||
+                selected.title === 'Data Entry Officer'
+              "
+            >
+              <b-form-group
+                label-for="register-password"
+                label="Password*"
+                label-class="form_label_class"
+              >
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Password"
+                  vid="password"
+                  rules="required|min:6"
+                >
+                  <b-input-group
+                    class="input-group-merge"
+                    :class="errors.length > 0 ? 'is-invalid' : null"
+                  >
+                    <b-form-input
+                      id="register-password"
+                      v-model="form.password"
+                      class="form-control-merge"
+                      :type="passwordFieldType"
+                      :state="errors.length > 0 ? false : null"
+                      name="register-password"
+                      placeholder="············"
+                    />
+                    <b-input-group-append is-text>
+                      <feather-icon
+                        :icon="passwordToggleIcon"
+                        class="cursor-pointer"
+                        @click="togglePasswordVisibility"
+                      />
+                    </b-input-group-append>
+                  </b-input-group>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+            <!-- password Confirmation -->
+            <b-col
+            class="mb-1"
+              cols="12"
+              v-if="
+                selected.title === 'Super Admin' ||
+                selected.title === 'Operation Manager' ||
+                selected.title === 'Data Entry Officer'
+              "
+            >
+              <b-form-group
+                label="Confirm Password*"
+                label-class="form_label_class"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  rules="required|confirmed:password"
+                  name="Confirm Password"
+                >
+                  <b-form-input
+                    v-model="form.password_confirmation"
+                    type="password"
+                    :state="errors.length > 0 ? false : null"
+                    placeholder="Repeat Password"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
             <b-col md="12" class="mb-1">
               <b-form-group
                 label="Phone Number*"
@@ -92,6 +167,7 @@
 </template>
 
 <script>
+
 import {
   BCard,
   BFormRadio,
@@ -109,16 +185,18 @@ import {
   BLink,
   BFormInput,
   BContainer,
+  BInputGroupAppend,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
-
+import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 export default {
   name: "AddUser",
   components: {
     BCard,
     BFormRadio,
+    BInputGroupAppend,
     BFormFile,
     BForm,
     BFormInput,
@@ -145,7 +223,7 @@ export default {
         title: "Select Type",
       },
       options: [
-        { title: "Admin" },
+        { title: "Super Admin" },
         { title: "Operation Manager" },
         { title: "Data Entry Officer" },
         { title: "Supplier" },
@@ -153,7 +231,12 @@ export default {
       ],
     };
   },
-
+  computed: {
+    passwordToggleIcon() {
+      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+    },
+  },
+  mixins: [togglePasswordVisibility],
   methods: {
     async validationUserCreateForm() {
       if (await this.$refs.UserCreateValidation.validate()) {

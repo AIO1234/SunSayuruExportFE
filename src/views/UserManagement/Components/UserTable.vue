@@ -2,12 +2,12 @@
   <div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
       <template #cell(action)="data">
-        <b-row>
-          <b-col lg="2">
+        <b-row no-gutters>
+          <b-col lg="4">
             <b-button
               variant="flat-none"
               @click="openUpdateModal(data.item)"
-              class="btn-icon"
+             
             >
               <b-img
                 width="17px"
@@ -15,7 +15,7 @@
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="2">
+          <b-col lg="4">
             <b-button variant="none">
               <b-img
                 width="17px"
@@ -125,7 +125,7 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-
+          thStyle: { width: "15%" },
           // tdClass: "td-style",
         },
       ],

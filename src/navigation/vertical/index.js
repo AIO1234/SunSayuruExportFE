@@ -12,19 +12,16 @@ export default [
     // role: "Admin",
   },
   {
-    title: "Packings",
+    title: "Packing & receiving",
     icon: "PackageIcon",
-    // role: "Admin",
-    children: [
-      {
-        title: "Packing List",
-        route: "packinglist",
-      },
-      {
-        title: "Material Cost",
-        route: "meterialcosts",
-      },
-    ],
+    route: "packinglist",
+    // children: [
+      
+    //   {
+    //     title: "Material Cost",
+    //     route: "meterialcosts",
+    //   },
+    // ],
   },
   {
     title: "Supplier Earnings",

@@ -1,17 +1,6 @@
 <template>
   <div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(supliers)="data">
-        <div><b class="font-weight-bold">Namal</b> - 6kg</div>
-
-        <div><b class="font-weight-bold">Kasun</b> - 6kg</div>
-      </template>
-      <template #cell(materialcost)="data">
-        <div><b class="font-weight-bold">Boxes</b> - 5.00</div>
-
-        <div><b class="font-weight-bold">Ice</b> - 5.00</div>
-      </template>
-
       <template #cell(status)="data">
         <b-badge style="background-color: #cdf59b; color: #67b108">{{
           data.value
@@ -70,8 +59,8 @@
 </template>
 
 <script>
-import PackingUpdateForm from "@/views/PackingManagement/Components/UpdatePackingForm.vue";
-import ViewPacking from "@/views/PackingManagement/Components/ViewPacking.vue";
+import PackingUpdateForm from "@/views/PackingManagement/PackingandReceiving/Components/UpdatePackingForm.vue";
+import ViewPacking from "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue";
 
 import {
   BModal,
@@ -111,59 +100,59 @@ export default {
       selectedPacking: {},
       fields: [
         {
-          key: "box_number",
-          label: "Box Number",
+          key: "shipmentno",
+          label: "Shipment no",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "seafoodtype",
-          label: "SeaFood Type",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-
-        {
-          key: "quality",
-          label: "Quality",
+          key: "flight",
+          label: "Flight",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
 
-        {
-          key: "grading",
-          label: "Grading",
-          sortable: true,
-          thStyle: { width: "10%" },
-          // tdClass: "custom-cell-padding",
-        },
         {
           key: "totalweight",
-          label: "Total Weight",
+          label: "Total weight(Kg)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
+
         {
-          key: "supliers",
-          label: "Supliers",
+          key: "noofboxes",
+          label: "Total no of boxes",
+          sortable: true,
+          thStyle: { width: "15%" },
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "noofsupliers",
+          label: "Total no of suppliers",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
           key: "materialcost",
-          label: "Material Cost",
+          label: "Total Material Cost($)",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
+          key: "addtionalcost",
+          label: "Total Additional Cost($)",
+          sortable: true,
+          thStyle: { width: "20%" },
+          // tdClass: "custom-cell-padding",
+        },
+        {
           key: "status",
-          label: "Status ",
+          label: "Status",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
@@ -178,99 +167,33 @@ export default {
       ],
       items: [
         {
-          box_number: "P001",
-          seafoodtype: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          totalweight: "12",
-          supliers: [
-            {
-              suplier: "Kasun Perera",
-              weight: "6",
-              rate: "100",
-            },
-            {
-              suplier: "Namal Udugama",
-              weight: "6",
-              rate: "100",
-            },
-          ],
-          materialcost: [
-            {
-              description: "Ice Cube",
-              quantity: "6",
-              amount: "100",
-            },
-            {
-              description: "Box",
-              boxtype: "Box Type 1",
-              amount: "100",
-            },
-          ],
+          shipmentno: "S-001",
+          flight: "MH-178",
+          totalweight: "450.00 ",
+          noofboxes: "02",
+          noofsupliers: "03",
+          materialcost: "2000.00",
+          addtionalcost: "2000.00",
           status: "Ongoing",
         },
         {
-          box_number: "P002",
-          seafoodtype: "Sithum Perera",
-          quality: "A+",
-          grading: "50 - 60",
-          totalweight: "12",
-          supliers: [
-            {
-              suplier: "Kasun Perera",
-              weight: "6",
-              rate: "100",
-            },
-            {
-              suplier: "Namal Udugama",
-              weight: "6",
-              rate: "100",
-            },
-          ],
-          materialcost: [
-            {
-              description: "Ice Cube",
-              quantity: "6",
-              amount: "100",
-            },
-            {
-              description: "Box",
-              boxtype: "Box Type 2",
-              amount: "100",
-            },
-          ],
+          shipmentno: "S-001",
+          flight: "MH-178",
+          totalweight: "450.00 ",
+          noofboxes: "02",
+          noofsupliers: "03",
+          materialcost: "2000.00",
+          addtionalcost: "2000.00",
           status: "Ongoing",
         },
         {
-          box_number: "P003",
-          seafoodtype: "Sithum Perera",
-          quality: "A+",
-          grading: "50 - 60",
-          totalweight: "12",
-          supliers: [
-            {
-              suplier: "Kasun Perera",
-              weight: "Kasun Perera",
-              rate: "100",
-            },
-            {
-              suplier: "Namal Udugama",
-              weight: "6",
-              rate: "100",
-            },
-          ],
-          materialcost: [
-            {
-              description: "Ice Cube",
-              quantity: "6",
-              amount: "100",
-            },
-            {
-              description: "Box",
-              boxtype: "Box Type 3",
-              amount: "100",
-            },
-          ],
+          shipmentno: "S-001",
+          flight: "MH-178",
+          totalweight: "450.00 ",
+          noofboxes: "02",
+          noofsupliers: "03",
+          materialcost: "2000.00",
+          addtionalcost: "2000.00",
           status: "Ongoing",
         },
       ],

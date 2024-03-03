@@ -8,15 +8,12 @@
     }"
   >
     <b-link v-bind="linkProps" class="d-flex align-items-center">
-      <div v-if="item.icon !== 'ship'">
-        <feather-icon :icon="item.icon || 'CircleIcon'" />
-        <span class="menu-title text-truncate">{{ t(item.title) }}</span>
-      </div>
-      <div v-else>
-        <i class="fa fa-ship" aria-hidden="true"></i>
-
-        <span class="menu-title text-truncate pl-1">{{ t(item.title) }}</span>
-      </div>
+      <feather-icon
+        v-if="item.icon !== 'ship'"
+        :icon="item.icon || 'CircleIcon'"
+      />
+      <i v-else class="fa fa-ship" aria-hidden="true"></i>
+      <span class="menu-title text-truncate">{{ t(item.title) }}</span>
 
       <b-badge
         v-if="item.tag"
@@ -72,5 +69,4 @@ export default {
 };
 </script>
 <style>
-@import url("https://kit.fontawesome.com/your-code-number.js");
 </style>

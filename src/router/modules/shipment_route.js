@@ -13,4 +13,19 @@ export default [
       ],
     },
   },
+
+  {
+    path: "/createshipment",
+    name: "createshipment",
+    component: () => import("@/views/PackingManagement/PackingandReceiving/createshipments.vue"),
+    meta: {
+      pageTitle: "Create Shipment",
+      breadcrumb: [
+        {
+          text: "Packing & receiving",
+          active: true,
+        },
+      ],
+    },
+  },
 ];

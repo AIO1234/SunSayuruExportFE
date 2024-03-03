@@ -91,7 +91,7 @@
                           />
                         </b-form-group>
                       </b-col>
-
+                      <hr style="width:100%;text-align:left;margin-left:0;background-color: #000;">
                       <!-- Remove Button -->
                     </b-row>
                   </b-form>

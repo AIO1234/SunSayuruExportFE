@@ -25,3 +25,208 @@
   text-align: left;
   color: #5b5b5b;
 }
+.packing_main_button_set {
+  background-color: #003476;
+  border-radius: 8px;
+  padding: 20px 70px 20px 20px;
+  @media (max-width: 768px) {
+    padding: 20px 20px 20px 20px;
+  }
+}
+.select_styles {
+  background-color: white;
+  border-radius: 5px;
+  width: 98%;
+}
+.search_button {
+  background-color: #e76a00;
+}
+.search_text {
+  font-family: Urbanist;
+  font-size: 16px;
+}
+.search_padding {
+  @media (max-width: 768px) {
+    padding-left: 15px;
+  }
+}
+.completed_dot {
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  background-color: #f8a838;
+  border-radius: 50%;
+  color: white;
+  display: inline-block;
+}
+.pending_dot {
+  border: 2px solid #f8a838;
+  background-color: #ffffff;
+  height: 25px;
+  width: 25px;
+  color: #f8a838;
+  font-family: Urbanist;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+}
+.step_line {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 250px;
+  background-color: #afc4c0;
+}
+.step_line_active {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 250px;
+  background-color: #353131;
+}
+.heading_spaces {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 150px;
+  background-color: #ffffff;
+}
+.heading_spaces_last {
+  margin-top: 12px;
+  height: 1.5px;
+  width: 190px;
+  background-color: #ffffff;
+}
+.heading_colors {
+  color: #003f3a;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Urbanist;
+}
+.heading_colors_active {
+  color: #353131;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: Urbanist;
+}
+.shipment_create_header {
+  font-family: Urbanist;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #003476;
+}
+.box_background {
+  background-color: #003476;
+  border-radius: 24px;
+}
+.box_create_header {
+  font-family: Urbanist;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #ffffff;
+}
+.seafood_create_header {
+  font-family: Urbanist;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #9d7d09;
+}
+.box_add_button {
+  background-color: #0052ba;
+  width: 160px;
+  border-radius: 8px;
+}
+.seafood_add_button {
+  background-color: #ffd600;
+  width: 160px;
+  border-radius: 8px;
+}
+.button_text_styles_seafood_type {
+  font-family: Urbanist;
+  font-size: 16px;
+  font-weight: 300;
+  color: #353131;
+  padding-top: 10px;
+}
+.seafood_background {
+  background-color: #edf8ff;
+  border-radius: 24px;
+}
+.form_label_class_seafood {
+  font-family: Urbanist;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #b28b00;
+}
+.background_suplier_box {
+  background-color: #cde9fc;
+  border-radius: 24px;
+}
+.suplier_create_header {
+  font-family: Urbanist;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #003476;
+}
+.backbutton {
+  background-color: #ffffff;
+  border: 1px solid #003476;
+
+  width: 130px;
+  border-radius: 8px;
+  .back_button_text_styles {
+    font-family: Urbanist;
+    font-size: 16px;
+    font-weight: 300;
+    color: #003476;
+    padding-top: 10px;
+  }
+}
+.tab_active_class_styles {
+  font-family: Urbanist;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  background: #fc5e05;
+}
+.custom-tab-item {
+  font-family: Urbanist;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  background-color: #0052ba;
+  border-radius: 8px;
+  width: 200px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  /* Change background color for inactive tab */
+  /* Change text color for inactive tab */
+}
+.margin_class_tab {
+  margin-left: 30px;
+  @media (max-width: 768px) {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+}
+.custom-bg-text {
+  color: white;
+}
