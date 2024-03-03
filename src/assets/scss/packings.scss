@@ -230,3 +230,46 @@
 .custom-bg-text {
   color: white;
 }
+.packing-list-innerview-heading {
+  font-family: Urbanist;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 42px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #0052ba;
+}
+.shipment_number_heading {
+  font-family: Urbanist;
+  font-size: 20px;
+  font-weight: 550;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #e76a00;
+}
+.download_button {
+  background-color: #fc5e05;
+  .download_button_color {
+    font-family: Urbanist;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #ffffff;
+  }
+}
+.sendemail_button {
+  background-color: #0052ba;
+  width: 160px;
+  .sendemail_button_color {
+    font-family: Urbanist;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #ffffff;
+  }
+}

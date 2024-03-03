@@ -2,7 +2,7 @@
   <div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
       <template #cell(action)="data">
-        <b-button variant="none" @click="openDetailsModal(data.item)">
+        <b-button variant="none" @click="$router.push('/packinglistinner')">
           <b-img
             width="17px"
             src="@/assets/images/icons/Group 117855.png"

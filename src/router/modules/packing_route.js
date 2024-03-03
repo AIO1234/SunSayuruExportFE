@@ -15,14 +15,17 @@ export default [
   },
 
   {
-    path: "/meterialcosts",
-    name: "meterialcosts",
-    component: () => import("@/views/MeterialCostManagement/meterialcosts.vue"),
+    path: "/packinglistinner",
+    name: "packinglistinner",
+    component: () =>
+      import(
+        "@/views/PackingManagement/Documentaion/Components/PackingListInnerView.vue"
+      ),
     meta: {
-      pageTitle: "Material Costs",
+      pageTitle: "Packing List",
       breadcrumb: [
         {
-          text: "Material Costs",
+          text: "Packing & receiving",
           active: true,
         },
       ],
