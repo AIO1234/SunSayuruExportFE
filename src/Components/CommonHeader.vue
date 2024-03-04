@@ -17,9 +17,7 @@
       <b-col lg="8" cols="12">
         <div
           class="alligns_header"
-          v-if="
-            modalType !== 'Material Modal' && modalType !== 'Earnings Modal'
-          "
+         
         >
           <b-button variant="none" class="button_color" @click="openModal()">
             <div class="d-flex justify-content-center">
@@ -131,9 +129,6 @@ export default {
     BFormInput,
     BRow,
     BCol,
-  },
-  props: {
-    modalType: String,
   },
   directives: {
     Ripple,
