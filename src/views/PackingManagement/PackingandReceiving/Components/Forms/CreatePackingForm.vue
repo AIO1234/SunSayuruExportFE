@@ -224,7 +224,7 @@
                             </b-col>
 
                             <!-- Rate -->
-                            <b-col lg="3">
+                            <b-col lg="2">
                               <b-form-group
                                 label="Price Rate"
                                 label-class="form_label_class"
@@ -240,10 +240,10 @@
                               </b-form-group>
                             </b-col>
 
-                            <b-col lg="3">
-                              <!-- <b-button>
-                      <b-img src="@/assets/images/minus.png"></b-img>
-                     </b-button> -->
+                            <b-col lg="1" class="minus_button_margin">
+                              <b-button variant="none">
+                                <b-img src="@/assets/images/Group.png"></b-img>
+                              </b-button>
                             </b-col>
                             <!-- Remove Button -->
                           </b-row>
@@ -253,7 +253,7 @@
                               v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                               variant="none"
                               @click="repeateSuplier(seafood)"
-                              class="form_submit_button"
+                              class="suplier_add_button"
                             >
                               <span class="button_text_styles"
                                 >Add Suplier</span
@@ -313,8 +313,6 @@
         </b-button>
       </div>
     </div>
-
-    
   </div>
 </template>
 
@@ -329,6 +327,7 @@ import {
   BForm,
   BTable,
   BBadge,
+  BImg,
   BButton,
   BCol,
   BRow,
@@ -346,6 +345,7 @@ export default {
   name: "CreatePackingForm",
   components: {
     BCard,
+    BImg,
     BFormRadio,
     BFormFile,
     BForm,
@@ -490,6 +490,7 @@ export default {
   background-color: #cde9fc;
   border-color: #0052ba;
 }
-.repeater-form {
+.minus_button_margin {
+  padding-top: 13.5px;
 }
 </style>

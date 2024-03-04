@@ -233,6 +233,42 @@
             </b-form-group>
           </b-col>
         </b-row>
+
+        <b-container class="pl-2 pr-2 pt-2" >
+            <div class="web_only_view">
+              <b-row>
+                <b-col lg="8" cols="8"
+                  ><span class="total ml-1">Total</span></b-col
+                >
+                <b-col lg="2" cols="2"
+                  ><span class="total ml-1"> 20.5</span></b-col
+                >
+                <b-col lg="2" cols="2"
+                  ><span class="total ml-1">385.00</span>
+                </b-col>
+              </b-row>
+            </div>
+            <div class="mobile_only_view">
+              <br />
+              <b-row>
+                <b-col lg="8" cols="8"
+                  ><span class="total ml-1">Total Weight</span></b-col
+                >
+                <b-col lg="2" cols="2"
+                  ><span class="total ml-1"> 20.5(kg)</span></b-col
+                >
+              </b-row>
+              <br />
+              <b-row>
+                <b-col lg="8" cols="8"
+                  ><span class="total ml-1">Total Cost</span></b-col
+                >
+                <b-col lg="2" cols="2"
+                  ><span class="total ml-1">385.00($)</span></b-col
+                >
+              </b-row>
+            </div>
+          </b-container>
       </b-container>
     </div>
 
@@ -246,6 +282,9 @@
         <span class="button_text_styles" @click="saveInvoice()">Save</span>
       </b-button>
     </div>
+
+
+   
   </div>
 </template>
 <script>
