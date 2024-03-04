@@ -7,16 +7,16 @@
         <b-col lg="6"
           ><span class="shipment_number_heading">Shipment Number - S001</span>
         </b-col>
-        <b-col lg="6" class="d-flex justify-content-end">
+        <b-col lg="6" class="d-flex justify-content-end mobile_paddings" >
           <b-row>
-            <b-col lg="7">
+            <b-col lg="7" cols="6">
               <b-button class="sendemail_button" variant="none"
                 ><span class="sendemail_button_color"
                   >Send Email</span
                 ></b-button
               >
             </b-col>
-            <b-col lg="5">
+            <b-col lg="5" cols="6">
               <b-button class="download_button" variant="none"
                 ><span class="download_button_color">Download</span></b-button
               >
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import ViewPrices from "@/views/PriceRateManagement/Components/ViewRates.vue";
 import {
   BModal,
   BCard,

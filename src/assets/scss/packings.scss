@@ -273,3 +273,96 @@
     color: #ffffff;
   }
 }
+.custom_invoice {
+  .invoice_heading {
+    font-family: Urbanist;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 38px;
+    color: #e76a00;
+    letter-spacing: 0em;
+    @media (max-width: 768px) {
+      font-size: 19px;
+    }
+  }
+  .invoice_sub_heading {
+    font-family: Urbanist;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 29px;
+    letter-spacing: 0em;
+    color: #003476;
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+  .invoice_padding {
+    padding-top: 40px;
+  }
+  .invoice_padding_one {
+    padding-top: 10px;
+  }
+  .cost_sheet {
+    font-family: Urbanist;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 38px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #353131;
+    @media (max-width: 768px) {
+      font-size: 20px;
+    }
+  }
+  .shipment_number {
+    font-family: Urbanist;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 42px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #444444;
+  }
+  .inoice_number {
+    font-family: Urbanist;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #003476;
+  }
+  .ivoice_numbr_value {
+    font-family: Urbanist;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+  }
+  .margin_flight {
+    margin-left: 8px;
+  }
+  .margin_awb {
+    margin-left: 8px;
+  }
+  .margin_eta {
+    margin-left: 17px;
+  }
+  .margin-card {
+    margin-left: 50px;
+    @media (max-width: 768px) {
+      margin-left: 0px;
+    }
+  }
+  .total {
+    font-family: Urbanist;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
+  }
+}

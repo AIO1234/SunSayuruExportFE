@@ -4,7 +4,10 @@
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="1">
-            <b-button variant="none" @click="openDetailsModal(data.item)">
+            <b-button
+              variant="none"
+              @click="$router.push('/custominvoiceinner')"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
