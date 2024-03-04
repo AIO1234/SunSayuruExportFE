@@ -139,7 +139,7 @@
   color: #9d7d09;
 }
 .box_add_button {
-  background-color: #0052ba;
+  background-color: #003476;
   width: 160px;
   border-radius: 8px;
 }
@@ -364,5 +364,18 @@
     letter-spacing: 0em;
     text-align: left;
     color: #000000;
+  }
+  .edit_form_header {
+    font-family: Urbanist;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #5b5b5b;
+  }
+  .input_background {
+    background-color: #f3f3f3;
+    border-color: #0071be;
   }
 }

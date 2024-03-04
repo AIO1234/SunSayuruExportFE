@@ -68,7 +68,6 @@ export default {
   name: "PriceRateTable",
   components: {
     BCard,
-    ViewPrices,
     BModal,
     BImg,
     BButton,

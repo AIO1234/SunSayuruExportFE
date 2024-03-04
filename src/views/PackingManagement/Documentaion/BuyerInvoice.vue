@@ -15,7 +15,10 @@
             </b-button>
           </b-col>
           <b-col lg="2">
-            <b-button variant="none" @click="openUpdateModal(data.item)">
+            <b-button
+              variant="none"
+              @click="$router.push('/editbuyerinvoice')"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
