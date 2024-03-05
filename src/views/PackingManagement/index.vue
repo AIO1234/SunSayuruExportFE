@@ -172,7 +172,7 @@
 
     <!-- Documentations -->
     <div class="pt-4"></div>
-    <div>
+    <div v-if="type === 'Documentations'">
       <!-- tab buttons -->
       <div>
         <b-tabs pills active-nav-item-class="bg-warning border-warning">

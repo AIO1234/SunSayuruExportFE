@@ -2,7 +2,7 @@
   <div>
     <br />
     <h2 class="shipment_create_header">Material cost</h2>
-    <div>
+    <div class="pt-3">
       <div>
         <!-- Material  Cost Form -->
         <b-form
@@ -13,6 +13,7 @@
         >
           <!-- Row Loop -->
           <b-row
+            class="pt-2"
             v-for="(item, index) in items1"
             :id="item.id"
             :key="item.id"
@@ -36,7 +37,7 @@
             </b-col>
 
             <!-- Quantity -->
-            <b-col lg="3">
+            <b-col lg="2">
               <b-form-group
                 v-if="item.description === 'Box' || item.description === 'box'"
                 label="Box Type*"
@@ -64,10 +65,11 @@
               >
                 <validation-Provider
                   name="quantity"
-                  rules="required"
+                  rules="required|integer"
                   v-slot="{ errors }"
                 >
                   <b-form-input
+                    type="number"
                     placeholder="Enter quantity"
                     v-model="item.quantity"
                   />
@@ -96,6 +98,11 @@
               </b-form-group>
             </b-col>
 
+            <b-col lg="1" class="minus_button_margin">
+              <b-button variant="none">
+                <b-img src="@/assets/images/Group.png"></b-img>
+              </b-button>
+            </b-col>
             <!-- Remove Button -->
           </b-row>
         </b-form>
@@ -112,8 +119,6 @@
         </b-button>
       </div>
     </div>
-
-    
   </div>
 </template>
 <script>
@@ -130,6 +135,7 @@ import {
   BTable,
   BBadge,
   BButton,
+  BImg,
   BCol,
   BRow,
   BFormFile,
@@ -155,6 +161,7 @@ export default {
   },
   components: {
     BCard,
+    BImg,
     BFormRadio,
     BFormFile,
     BForm,

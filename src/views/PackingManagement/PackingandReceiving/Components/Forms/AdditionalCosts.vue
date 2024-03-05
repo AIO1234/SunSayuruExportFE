@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h2 class="shipment_create_header">Additional cost</h2>
     <br />
+    <h2 class="shipment_create_header">Additional cost</h2>
+    <br /><br />
     <div>
       <div>
         <!-- additional Cost Form -->
@@ -13,6 +14,7 @@
         >
           <!-- Row Loop -->
           <b-row
+            class="pt-2"
             v-for="(item, index) in items1"
             :id="item.id"
             :key="item.id"
@@ -61,7 +63,6 @@
         </b-button>
       </div>
     </div>
-  
   </div>
 </template>
 <script>

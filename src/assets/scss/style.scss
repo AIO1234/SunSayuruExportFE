@@ -17,14 +17,14 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   border-radius: 8px;
 }
 .button_text_styles {
-  font-family: Urbanist;
+  font-family: "Urbanist", sans-serif;
   font-size: 16px;
   font-weight: 300;
   color: #ffffff;
   padding-top: 10px;
 }
 .export_button_text {
-  font-family: Urbanist;
+  font-family: "Urbanist", sans-serif;
   font-size: 16px;
   font-weight: 300;
   color: #0052ba;
@@ -33,7 +33,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 .form_input_styles::placeholder {
   color: #0052ba;
-  font-family: Urbanist;
+  font-family: "Urbanist", sans-serif;
   font-weight: 100;
 }
 .form_input_styles_date {
@@ -54,7 +54,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 .modal_title_color {
   color: #0052ba;
-  font-family: Urbanist;
+  font-family: "Urbanist", sans-serif;
   font-size: 18px;
   font-weight: 600;
   line-height: 25px;
@@ -62,8 +62,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   text-align: left;
 }
 .form_label_class {
-  font-family: Urbanist;
-  font-size: 14px;
+  font-family: "Urbanist", sans-serif;
+  font-size: 16px;
   font-weight: 700;
   line-height: 17px;
   letter-spacing: 0em;
@@ -83,7 +83,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 }
 
 .form_label_class_heading {
-  font-family: Urbanist;
+  font-family: "Urbanist", sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 17px;
@@ -118,7 +118,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   flex-direction: row;
   justify-content: space-between;
   padding: 1em;
-  
+
   .progress {
     position: absolute;
     top: 2em;
@@ -126,12 +126,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     margin: 0;
     box-shadow: none;
     background-color: #cdcdcd;
-    
+
     .progress-bar {
       background-color: #46c0bd;
     }
   }
-  
+
   .step {
     text-align: center;
     z-index: 2;
@@ -141,22 +141,28 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
       padding: 0.5em;
       color: white;
       border-radius: 2em;
-      
+
       background-size: 0% 0%;
       background-position: center;
-      background-image: radial-gradient(circle at center , #b384c7 50%, transparent 50%);
+      background-image: radial-gradient(
+        circle at center,
+        #b384c7 50%,
+        transparent 50%
+      );
       background-repeat: no-repeat;
     }
-    
+
     &.current {
       .step-number {
         background-size: 200% 200%;
-        transition: all .4s .5s;
+        transition: all 0.4s 0.5s;
       }
     }
-    
+
     &.done {
-      .step-number { background-color: #46c0bd; }
+      .step-number {
+        background-color: #46c0bd;
+      }
     }
     .step-label {
       padding-top: 5px;

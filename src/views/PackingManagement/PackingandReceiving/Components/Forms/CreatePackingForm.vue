@@ -44,7 +44,7 @@
                         <b-col lg="6" class="pt-1">
                           <b-form-group
                             label="Seafood Type*"
-                            label-class="form_label_class_seafood a"
+                            label-class="form_label_class_seafood"
                           >
                             <validation-Provider
                               name="quality"
@@ -134,6 +134,7 @@
 
                           <!-- Add Supliers For Loop -->
                           <b-row
+                            class="pt-2"
                             v-for="(suplier, index) in seafood.items"
                             :id="suplier.id"
                             :key="suplier.id"
@@ -482,6 +483,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

@@ -107,10 +107,17 @@ export default {
           // tdClass: "custom-cell-padding",
         },
         {
+          key: "eta",
+          label: "ETA",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+        {
           key: "flight",
           label: "Flight",
           sortable: true,
-          // thStyle: { width: "2%" },
+ 
           // tdClass: "custom-cell-padding",
         },
 
@@ -133,7 +140,7 @@ export default {
           key: "noofsupliers",
           label: "Total no of suppliers",
           sortable: true,
-          thStyle: { width: "15%" },
+          thStyle: { width: "15.6%" },
           // tdClass: "custom-cell-padding",
         },
         {
@@ -168,6 +175,7 @@ export default {
       items: [
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",
@@ -178,6 +186,7 @@ export default {
         },
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",
@@ -188,6 +197,7 @@ export default {
         },
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",
