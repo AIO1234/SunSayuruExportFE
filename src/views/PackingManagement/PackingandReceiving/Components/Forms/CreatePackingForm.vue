@@ -124,7 +124,7 @@
                       <!-- Supliers -->
 
                       <div class="background_suplier_box">
-                        <b-container class="pl-3 pr-3 pt-2">
+                        <b-container class="supliers_padding">
                           <div class="d-flex justify-content-between">
                             <div>
                               <h2 class="suplier_create_header">Suppliers</h2>
@@ -483,14 +483,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.custom-vue-select .vs__dropdown-toggle {
-  border-color: #897d3c;
-}
-.custom-vue-select1 .vs__dropdown-toggle {
-  background-color: #cde9fc;
-  border-color: #0052ba;
-}
-.minus_button_margin {
-  padding-top: 13.5px;
-}
+
 </style>

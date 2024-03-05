@@ -14,28 +14,7 @@
         </b-input-group>
       </b-col>
       <div class="pt-5 mobile_only_view"></div>
-      <b-col lg="8" cols="12">
-        <div
-          class="alligns_header"
-         
-        >
-          <b-button variant="none" class="button_color" @click="openModal()">
-            <div class="d-flex justify-content-center">
-              <b-row>
-                <b-col lg="2" cols="2">
-                  <b-img
-                    width="20px"
-                    src="@/assets/images/icons/Icons Solid.png"
-                  ></b-img>
-                </b-col>
-                <b-col lg="2" cols="2">
-                  <span class="button_text_styles">Create</span>
-                </b-col>
-              </b-row>
-            </div>
-          </b-button>
-        </div>
-      </b-col>
+  
     </b-row>
     <div class="pt-3">
       <b-row>
@@ -64,37 +43,7 @@
           </div>
         </b-col>
       </b-row>
-      <div v-if="modalType === 'Create User'">
-        <b-modal
-          ref="CreateModal"
-          title="Create User"
-          title-class="modal_title_color"
-          hide-footer
-        >
-          <CreateUserForm />
-        </b-modal>
-      </div>
-      <div v-else-if="modalType === 'Create Price List'">
-        <b-modal
-          ref="CreateModal"
-          title="Create Seafood  Price List"
-          title-class="modal_title_color"
-          hide-footer
-        >
-          <CreatePriceList />
-        </b-modal>
-      </div>
-      <div v-else-if="modalType === 'Create Shipment'">
-        <b-modal
-          size="xl"
-          ref="CreateModal"
-          title="Create Shipment"
-          title-class="modal_title_color"
-          hide-footer
-        >
-          <CreateShipment />
-        </b-modal>
-      </div>
+   
     </div>
   </div>
 </template>

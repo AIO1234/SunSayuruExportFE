@@ -1,5 +1,5 @@
 <template>
-  <div class="custom_invoice">
+  <div class="buyer_invoice">
     <h2 class="shipment_number text-right">Shipment no - S001</h2>
 
     <div style="background-color: #fffef8; border-radius: 10px">
@@ -8,12 +8,12 @@
           ><span class="download_button_color">Download</span></b-button
         >
       </div>
-      <CustomInvoice />
+      <BuyerInvoice />
     </div>
   </div>
 </template>
 <script>
-import CustomInvoice from "../Components/Invoices/CustomInvoice.vue";
+import BuyerInvoice from "../Components/Invoices/BuyerInvoice.vue";
 import {
   BModal,
   BCard,
@@ -30,7 +30,7 @@ import {
 } from "bootstrap-vue";
 export default {
   components: {
-    CustomInvoice,
+    BuyerInvoice,
     BModal,
     BCard,
     BTable,

@@ -1,5 +1,5 @@
 <template>
-  <div class="custom_invoice">
+  <div class="buyer_invoice">
     <div class="invoice_padding_one">
       <div class="text-center">
         <h2 class="invoice_heading">SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.</h2>
@@ -34,32 +34,62 @@
                   </b-col>
 
                   <b-col lg="4" class="mobile_paddings">
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number"> A.W.B. </span>
-                        <span class="col ivoice_numbr_value">
-                          232 5443 6351</span
-                        >
+                    <!-- A.W.B -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> A.W.B. </span>
+                          <span class="col ivoice_numbr_value">
+                            232 5443 6351</span
+                          >
+                        </div>
                       </div>
                     </div>
 
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> A.W.B. </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">232 5443 6351</span>
+                    </div>
+
                     <br />
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number"> Flight </span>
-                        <span class="col ivoice_numbr_value margin_flight">
-                          MH 178 // MH 366</span
-                        >
+
+                    <!-- Flight -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> Flight </span>
+                          <span class="col ivoice_numbr_value margin_flight">
+                            MH 178 // MH 366</span
+                          >
+                        </div>
                       </div>
                     </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> Flight </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">MH 178 // MH 366</span>
+                    </div>
+
                     <br />
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number">ETA </span>
-                        <span class="col ivoice_numbr_value margin_eta">
-                          2024.01.08</span
-                        >
+
+                    <!-- ETA -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number">ETA </span>
+                          <span class="col ivoice_numbr_value margin_eta">
+                            2024.01.08</span
+                          >
+                        </div>
                       </div>
+                    </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> ETA </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">2024.01.08</span>
                     </div>
                   </b-col>
                 </b-row>
