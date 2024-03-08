@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import mainRoute from "./modules/home_route";
 import packingRoute from "./modules/packing_route";
 import pricerateRoute from "./modules/pricerate_route";
-import shipmentRoute from "./modules/shipment_route";
 import suplierRoute from "./modules/suplier_route";
 import userRoute from "./modules/user_route";
 
@@ -19,7 +18,6 @@ const router = new VueRouter({
     ...mainRoute,
     ...packingRoute,
     ...pricerateRoute,
-    ...shipmentRoute,
     ...suplierRoute,
     ...userRoute,
   ],

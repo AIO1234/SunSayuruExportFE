@@ -527,3 +527,39 @@
     border-color: #0071be;
   }
 }
+.packing_view {
+  .shipment_summery_heading {
+    font-family: "Urbanist", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .shipment_summry_para {
+    font-family: "Urbanist", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  .section_header {
+    font-family: "Urbanist", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 35px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #003476;
+  }
+  .box_header {
+    font-family: "Urbanist", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #e76a00;
+  }
+}

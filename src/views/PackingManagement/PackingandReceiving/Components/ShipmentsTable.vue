@@ -7,31 +7,31 @@
         }}</b-badge>
       </template>
       <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button variant="none" @click="openDetailsModal(data.item)">
+        <b-row >
+          <b-col lg="6">
+            <b-button variant="none" @click="$router.push('/viewpacking')">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="4">
-            <b-button variant="none" @click="openUpdateModal(data.item)">
+          <b-col lg="6">
+            <b-button variant="none" >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="4">
+          <!-- <b-col lg="4">
             <b-button variant="none">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 59.png"
               ></b-img>
             </b-button>
-          </b-col>
+          </b-col> -->
         </b-row>
       </template>
     </b-table>
@@ -168,7 +168,7 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "15%" },
+      
           // tdClass: "custom-cell-padding",
         },
       ],
