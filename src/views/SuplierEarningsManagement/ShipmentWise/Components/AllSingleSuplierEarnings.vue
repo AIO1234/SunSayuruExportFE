@@ -3,7 +3,7 @@
     <span class="section_header d-flex justify-content-center"
       >View supplier bills</span
     >
-
+    <div class="pt-3"></div>
     <b-row>
       <b-col lg="8">
         <h2 class="shipment_number">Namal’s receiving</h2>
@@ -31,7 +31,8 @@
         </div> -->
       </b-col>
     </b-row>
-    <div class="pt-2"></div>
+
+    <div class="pt-5"></div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
     </b-table>
   </div>
@@ -73,41 +74,80 @@ export default {
     return {
       fields: [
         {
-          key: "suplier",
-          label: "Suplier",
+          key: "reveivedate",
+          label: "Receive date",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
 
+        {
+          key: "seafood",
+          label: "Seafood type",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "quality",
+          label: "Quality",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "grading",
+          label: "Grading (Kg)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "weight",
+          label: "Weight(Kg)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "rate",
+          label: "Price rate",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
         {
           key: "cost",
-          label: "Total Cost ($)",
+          label: "Total cost",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-
-        {
-          key: "action",
-          label: "Action",
-          sortable: true,
-          thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
       ],
       items: [
         {
-          suplier: "Namal",
-          cost: "1350",
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
         },
         {
-          suplier: "Kausn",
-          cost: "1500",
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
         },
         {
-          suplier: "Rangana",
-          cost: "1700",
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
         },
       ],
     };
