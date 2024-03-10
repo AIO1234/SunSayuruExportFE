@@ -48,6 +48,8 @@ Vue.component("v-date-picker", DatePicker);
 require("@/assets/scss/style.scss");
 require("@/assets/scss/users.scss");
 require("@/assets/scss/packings.scss");
+require("@/assets/scss/suplierearnings.scss");
+
 
 Vue.config.productionTip = false;
 

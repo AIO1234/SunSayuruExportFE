@@ -17,6 +17,44 @@ export default [
   },
 
   {
+    path: "/shipmentwiseearnings/supliers",
+    name: "shipmentwisesupliers",
+    component: () =>
+      import(
+        "@/views/SuplierEarningsManagement/ShipmentWise/Components/ViewEarnings.vue"
+      ),
+
+    meta: {
+      pageTitle: "Shipment wise",
+      breadcrumb: [
+        {
+          text: "Suplier Bills",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: "/shipmentwiseearnings/supliers/eranings",
+    name: "shipmentwisesupliereranings",
+    component: () =>
+      import(
+        "@/views/SuplierEarningsManagement/ShipmentWise/Components/AllSingleSuplierEarnings.vue"
+      ),
+
+    meta: {
+      pageTitle: "Shipment wise",
+      breadcrumb: [
+        {
+          text: "Suplier Bills",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
     path: "/suplierwiseearnings",
     name: "suplierwiseearnings",
     component: () =>

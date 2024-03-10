@@ -3,24 +3,36 @@
     <span class="section_header d-flex justify-content-center"
       >View supplier bills</span
     >
-    <h2 class="shipment_number">Shipment no - S001</h2>
-    <div class="pt-2"></div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button
-              variant="none"
-              @click="$router.push('/shipmentwiseearnings/supliers/eranings')"
+
+    <b-row>
+      <b-col lg="8">
+        <h2 class="shipment_number">Namal’s receiving</h2>
+      </b-col>
+      <b-col lg="4" cols="12">
+        <b-row class="margins">
+          <b-col lg="6" cols="6">
+            <b-button class="suplierearnings_download_button" variant="none"
+              ><span class="suplierearnings_download_button_color"
+                >Download</span
+              ></b-button
             >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 117855.png"
-              ></b-img>
-            </b-button>
+          </b-col>
+          <b-col lg="6" cols="6">
+            <b-button class="suplierearnings_sendemail_button" variant="none"
+              ><span class="suplierearnings_sendemail_button_color"
+                >Send Email</span
+              ></b-button
+            >
           </b-col>
         </b-row>
-      </template>
+        <!-- <div class="row d-flex justify-content">
+        
+          
+        </div> -->
+      </b-col>
+    </b-row>
+    <div class="pt-2"></div>
+    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
     </b-table>
   </div>
 </template>

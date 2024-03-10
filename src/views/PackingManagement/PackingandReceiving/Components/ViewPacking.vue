@@ -1,5 +1,6 @@
 <template>
   <div class="packing_view">
+    <div class="pt-2"></div>
     <b-card style="width: 70%">
       <b-row>
         <b-col>
@@ -115,13 +116,12 @@
       </b-row>
     </b-card>
 
-    
-    <br /><br />
+    <div class="pt-2"></div>
     <span class="section_header">Boxes & suppliers</span>
-    <br /><br />
+    <div class="pt-2"></div>
     <b-card>
       <span class="box_header">Box number - 01</span>
-      <br /><br />
+    <div class="pt-2"></div>
       <b-row>
         <b-col>
           <div>
@@ -185,7 +185,7 @@
     <br />
     <b-card>
       <span class="box_header">Box number - 02</span>
-      <br /><br />
+    <div class="pt-2"></div>
       <b-row>
         <b-col>
           <div>
@@ -244,9 +244,10 @@
         </b-col>
       </b-row>
     </b-card>
-    <br /><br />
+  <div class="pt-2"></div>
+
     <span class="section_header">Material cost</span>
-    <br /><br />
+  <div class="pt-2"></div>
     <b-card>
       <b-table
         sticky-header=""
@@ -256,9 +257,9 @@
       >
       </b-table>
     </b-card>
-    <br /><br />
+  <div class="pt-2"></div>
     <span class="section_header">Additional cost</span>
-    <br /><br />
+  <div class="pt-2"></div>
     <b-card>
       <b-table
         sticky-header=""
