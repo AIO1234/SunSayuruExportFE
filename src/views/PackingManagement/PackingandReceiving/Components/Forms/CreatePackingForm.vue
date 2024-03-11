@@ -52,18 +52,18 @@
                             label-class="form_label_class_seafood"
                           >
                             <validation-Provider
-                              name="quality"
+                              name="seafood type"
                               rules="required"
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="selected1"
+                                v-model="seafoodtype"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
                                 label="title"
                                 class="custom-vue-select"
-                                :options="options1"
+                                :options="seafoods"
                               />
 
                               <span class="text-danger">{{ errors[0] }}</span>
@@ -79,17 +79,17 @@
                             label-class="form_label_class_seafood"
                           >
                             <validation-Provider
-                              name="grading"
+                              name="quality"
                               rules="required"
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="selected2"
+                                v-model="quality"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
                                 label="title"
-                                :options="options2"
+                                :options="qualities"
                                 class="custom-vue-select"
                               />
 
@@ -111,12 +111,12 @@
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="selected2"
+                                v-model="grading"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
                                 label="title"
-                                :options="options2"
+                                :options="gradings"
                                 class="custom-vue-select"
                               />
 
@@ -189,8 +189,9 @@
                                         ? 'rtl'
                                         : 'ltr'
                                     "
+                                    v-model="supliername"
                                     label="title"
-                                    :options="options4"
+                                    :options="supliers"
                                     class="custom-vue-select1"
                                   />
 
@@ -379,17 +380,17 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
+      seafoodtype: {
         title: "Select Seafood Type",
       },
-      selected1: {
+      quality: {
         title: "Select Quality",
       },
-      selected2: {
+      grading: {
         title: "Select Grading",
       },
-      selected3: {
-        title: "Select Status",
+      supliername: {
+        title: "Select Suplier",
       },
 
       items2: [
@@ -401,7 +402,7 @@ export default {
               items: [
                 {
                   id: 1,
-                  suplier: "Select Suplier",
+                  suplier: "",
                   weight: "",
                   rate: "",
                   prevHeight: 0,
@@ -413,18 +414,18 @@ export default {
       ],
       nextTodoId: 1,
 
-      options: [
+      seafoods: [
         { title: "Kelawalla" },
         { title: "Thalapath" },
         { title: "Hurulla" },
       ],
-      options1: [{ title: "A+" }, { title: "A-" }, { title: "B+" }],
-      options2: [
+      qualities: [{ title: "A+" }, { title: "A-" }, { title: "B+" }],
+      gradings: [
         { title: "50 - 60" },
         { title: "70 - 80" },
         { title: "90 - 100" },
       ],
-      options3: [
+      supliers: [
         { title: "Kasun Perera" },
         { title: "Sithum Perera" },
         { title: "Namal Udugama" },

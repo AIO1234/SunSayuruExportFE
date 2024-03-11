@@ -33,10 +33,10 @@
                 v-slot="{ errors }"
               >
                 <v-select
-                  v-model="selected1"
+                  v-model="country"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
-                  :options="options1"
+                  :options="countries"
                 />
 
                 <span class="text-danger">{{ errors[0] }}</span>
@@ -52,10 +52,10 @@
                 v-slot="{ errors }"
               >
                 <v-select
-                  v-model="selected2"
+                  v-model="buyer"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
-                  :options="options1"
+                  :options="buyers"
                 />
 
                 <span class="text-danger">{{ errors[0] }}</span>
@@ -111,7 +111,6 @@
           </b-col>
         </b-row>
         <br />
-      
       </b-container>
     </b-card>
   </div>
@@ -166,6 +165,24 @@ export default {
   data() {
     return {
       form: {},
+      country: "Thailand",
+      countries: [
+        {
+          title: "Thailand",
+        },
+        {
+          title: "Thaiwan",
+        },
+      ],
+      buyers: [
+        {
+          title: "A123",
+        },
+        {
+          title: "A525",
+        },
+      ],
+      buyer: "A124",
     };
   },
 };
