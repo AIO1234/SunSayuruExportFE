@@ -222,6 +222,19 @@
   text-align: left;
   color: #003476;
 }
+.additionalcost_submit_button {
+  background-color: #ffd600;
+  width: 160px;
+  .additionalcost_submit_button_text {
+    font-family: "Urbanist", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 29px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #000000;
+  }
+}
 .backbutton {
   background-color: #ffffff;
   border: 1px solid #003476;

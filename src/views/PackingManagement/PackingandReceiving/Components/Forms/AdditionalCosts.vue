@@ -21,7 +21,7 @@
             ref="row"
           >
             <!-- Description -->
-            <b-col lg="6">
+            <b-col lg="5">
               <b-form-group label="Description*" label-class="form_label_class">
                 <validation-Provider
                   name="Description"
@@ -38,7 +38,7 @@
             </b-col>
 
             <!--Amount -->
-            <b-col lg="6">
+            <b-col lg="5">
               <b-form-group label="Amount*" label-class="form_label_class">
                 <b-form-input
                   placeholder="Enter amount"
@@ -47,6 +47,11 @@
               </b-form-group>
             </b-col>
 
+            <b-col lg="2" class="text-right minus_button_margin">
+              <b-button variant="none" @click="removeItem(index)">
+                <b-img src="@/assets/images/Group.png"></b-img>
+              </b-button>
+            </b-col>
             <!-- Remove Button -->
           </b-row>
         </b-form>
@@ -62,6 +67,14 @@
           <span class="button_text_styles">Add cost</span>
         </b-button>
       </div>
+
+      <div class="pt-5 d-flex justify-content-center">
+        <b-button class="additionalcost_submit_button" variant="none"
+          ><span class="additionalcost_submit_button_text"
+            >Submit</span
+          ></b-button
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +89,7 @@ import {
   BInputGroup,
   BFormTextarea,
   BForm,
+  BImg,
   BTable,
   BBadge,
   BButton,
@@ -105,6 +119,7 @@ export default {
   components: {
     BCard,
     BFormRadio,
+    BImg,
     BFormFile,
     BForm,
     BFormInput,
