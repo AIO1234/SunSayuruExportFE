@@ -132,7 +132,7 @@
             </div>
           </b-col>
         </b-row>
-        <div class="pt-3">
+        <!-- <div class="pt-3">
           <b-row>
             <b-col lg="4" cols="12"> </b-col>
             <b-col lg="8" cols="12">
@@ -159,7 +159,7 @@
               </div>
             </b-col>
           </b-row>
-        </div>
+        </div> -->
       </div>
 
       <!-- shipments table  -->
@@ -172,7 +172,7 @@
 
     <!-- Documentations -->
     <div class="pt-4"></div>
-    <div>
+    <div v-if="type === 'Documentations'">
       <!-- tab buttons -->
       <div>
         <b-tabs pills active-nav-item-class="bg-warning border-warning">

@@ -16,7 +16,7 @@ export default [
     icon: "PackageIcon",
     route: "packinglist",
     // children: [
-      
+
     //   {
     //     title: "Material Cost",
     //     route: "meterialcosts",
@@ -24,21 +24,29 @@ export default [
     // ],
   },
   {
-    title: "Supplier Earnings",
+    title: "Supplier Bills",
     icon: "UserIcon",
-    // role: "Admin",
-    route: "suplierearnings",
+    children: [
+      {
+        title: "Shipment wise",
+        route: "shipmentwiseearnings",
+      },
+      {
+        title: "Suplier wise",
+        route: "suplierwiseearnings",
+      },
+    ],
   },
-  {
-    title: "Price Rates",
-    icon: "DollarSignIcon",
-    route: "pricerates",
-    // role: "Admin",
-  },
-  {
-    title: "Shipments",
-    icon: "ship",
-    route: "shipments",
-    // role: "Admin",
-  },
+  // {
+  //   title: "Price Rates",
+  //   icon: "DollarSignIcon",
+  //   route: "pricerates",
+  //   // role: "Admin",
+  // },
+  // {
+  //   title: "Shipments",
+  //   icon: "ship",
+  //   route: "shipments",
+  //   // role: "Admin",
+  // },
 ];

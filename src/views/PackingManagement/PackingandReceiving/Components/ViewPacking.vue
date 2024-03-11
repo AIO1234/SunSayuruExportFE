@@ -1,197 +1,274 @@
 <template>
-  <div>
+  <div class="packing_view">
+    <div class="pt-2"></div>
+    <b-card style="width: 70%">
+      <b-row>
+        <b-col>
+          <div>
+            <b-container>
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Shipment no</span>
+                <span class="col-5 shipment_summry_para">S-001</span>
+              </div>
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Country</span>
+                <span class="col-5 shipment_summry_para">Taiwan</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Buyer</span>
+                <span class="col-5 shipment_summry_para">Lee</span>
+              </div>
+
+              <br />
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Flight</span>
+                <span class="col-5 shipment_summry_para">MH-178</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">ETA</span>
+                <span class="col-5 shipment_summry_para">2024/01/20</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">AWB</span>
+                <span class="col-5 shipment_summry_para">58963214587</span>
+              </div>
+            </b-container>
+          </div>
+        </b-col>
+
+        <b-col>
+          <div>
+            <b-container>
+              <div>
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total Boxes</span
+                  >
+                  <span class="col-5 shipment_summry_para">02</span>
+                </div>
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total weight(Kg)</span
+                  >
+                  <span class="col-5 shipment_summry_para">03</span>
+                </div>
+
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total no of suppliers</span
+                  >
+                  <span class="col-5 shipment_summry_para">Lee</span>
+                </div>
+
+                <br />
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total Seafood cost</span
+                  >
+                  <span class="col-5 shipment_summry_para">678.00</span>
+                </div>
+
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total material cost</span
+                  >
+                  <span class="col-5 shipment_summry_para">15850.00</span>
+                </div>
+
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total additional cost</span
+                  >
+                  <span class="col-5 shipment_summry_para">9390.00</span>
+                </div>
+
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total shipment cost</span
+                  >
+                  <span class="col-5 shipment_summry_para">32020.00</span>
+                </div>
+              </div>
+            </b-container>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card>
+
+    <div class="pt-2"></div>
+    <span class="section_header">Boxes & suppliers</span>
+    <div class="pt-2"></div>
+    <b-card>
+      <span class="box_header">Box number - 01</span>
+    <div class="pt-2"></div>
+      <b-row>
+        <b-col>
+          <div>
+            <b-container>
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Shipment no</span>
+                <span class="col-5 shipment_summry_para">S-001</span>
+              </div>
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Country</span>
+                <span class="col-5 shipment_summry_para">Taiwan</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Buyer</span>
+                <span class="col-5 shipment_summry_para">Lee</span>
+              </div>
+
+              <br />
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Flight</span>
+                <span class="col-5 shipment_summry_para">MH-178</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">ETA</span>
+                <span class="col-5 shipment_summry_para">2024/01/20</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">AWB</span>
+                <span class="col-5 shipment_summry_para">58963214587</span>
+              </div>
+            </b-container>
+          </div>
+        </b-col>
+
+        <b-col>
+          <div>
+            <b-table
+              sticky-header=""
+              responsive="sm"
+              :fields="suplier_feilds"
+              :items="supliers"
+            >
+            </b-table>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card>
+
     <br />
-    <b-row>
-      <b-col lg="6" cols="6">
-        <b-row>
-          <b-col lg="4"
-            ><span class="detailed_modal_heading">Seafood type</span></b-col
-          >
-          <b-col lg="4"
-            ><span class="detailed_modal_content">{{
-              selectedPacking.seafoodtype
-            }}</span></b-col
-          >
-        </b-row>
-        <br />
-        <b-row>
-          <b-col lg="4"
-            ><span class="detailed_modal_heading">Quality</span></b-col
-          >
-          <b-col lg="4"
-            ><span class="detailed_modal_content">{{
-              selectedPacking.quality
-            }}</span></b-col
-          >
-        </b-row>
-        <br />
-        <b-row>
-          <b-col lg="4"
-            ><span class="detailed_modal_heading">Grading</span></b-col
-          >
-          <b-col lg="4"
-            ><span class="detailed_modal_content">{{
-              selectedPacking.grading
-            }}</span></b-col
-          >
-        </b-row>
-        <br />
-        <b-row>
-          <b-col lg="4"
-            ><span class="detailed_modal_heading">Total weight</span></b-col
-          >
-          <b-col lg="4"
-            ><span class="detailed_modal_content">{{
-              selectedPacking.totalweight
-            }}</span></b-col
-          >
-        </b-row>
-        <br />
-      </b-col>
-
-      <b-col lg="6" cols="6">
-        <b-row>
-          <b-col lg="6"
-            ><span class="detailed_modal_heading">Material cost($)</span></b-col
-          >
-          <b-col lg="6"><span class="detailed_modal_content">200</span></b-col>
-        </b-row>
-        <br />
-        <b-row>
-          <b-col lg="6" cols="12"
-            ><span class="detailed_modal_heading"
-              >Suppliers cost($)</span
-            ></b-col
-          >
-          <b-col lg="6"
-            ><span class="detailed_modal_content">1320.00</span></b-col
-          >
-        </b-row>
-        <br />
-        <b-row>
-          <b-col lg="6"
-            ><span class="detailed_modal_heading">Total cost($)</span></b-col
-          >
-          <b-col lg="6"
-            ><span class="detailed_modal_content">1820.00</span></b-col
-          >
-        </b-row>
-        <br />
-
-        <b-row>
-          <b-col lg="6"
-            ><span class="detailed_modal_heading">Status</span></b-col
-          >
-          <b-col lg="6"
-            ><span class="detailed_modal_content">{{
-              selectedPacking.status
-            }}</span></b-col
-          >
-        </b-row>
-      </b-col>
-    </b-row>
-
-    <div class="pt-3"></div>
-    <span class="detailed_modal_heading" style="font-size: 18px"
-      >Suppliers</span
-    >
-
-    <div class="pt-5"></div>
-    <b-container>
+    <br />
+    <b-card>
+      <span class="box_header">Box number - 02</span>
+    <div class="pt-2"></div>
       <b-row>
-        <b-col lg="3" cols="3">
-          <span class="table_headings">Suppliers</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="table_headings">Weight(kg)</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="table_headings">Price rate($)</span>
+        <b-col>
+          <div>
+            <b-container>
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Shipment no</span>
+                <span class="col-5 shipment_summry_para">S-001</span>
+              </div>
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Country</span>
+                <span class="col-5 shipment_summry_para">Taiwan</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Buyer</span>
+                <span class="col-5 shipment_summry_para">Lee</span>
+              </div>
+
+              <br />
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Flight</span>
+                <span class="col-5 shipment_summry_para">MH-178</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">ETA</span>
+                <span class="col-5 shipment_summry_para">2024/01/20</span>
+              </div>
+
+              <br />
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">AWB</span>
+                <span class="col-5 shipment_summry_para">58963214587</span>
+              </div>
+            </b-container>
+          </div>
         </b-col>
 
-        <b-col lg="3" cols="2">
-          <span class="table_headings">Cost($)</span>
+        <b-col>
+          <div>
+            <b-table
+              sticky-header=""
+              responsive="sm"
+              :fields="suplier_feilds"
+              :items="supliers"
+            >
+            </b-table>
+          </div>
         </b-col>
       </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">Namal <br />udugama </span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">6</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">100</span>
-        </b-col>
+    </b-card>
+  <div class="pt-2"></div>
 
-        <b-col lg="3" cols="2">
-          <span class="detailed_modal_content">600</span>
-        </b-col>
-      </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">Namal <br />udugama </span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">6</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">100</span>
-        </b-col>
-
-        <b-col lg="3" cols="2">
-          <span class="detailed_modal_content">600</span>
-        </b-col>
-      </b-row>
-    </b-container>
-
-    <div class="pt-5"></div>
-    <span class="detailed_modal_heading" style="font-size: 18px"
-      >Material Costs</span
-    >
-
-    <div class="pt-5"></div>
-    <b-container>
-      <b-row>
-        <b-col lg="3" cols="4">
-          <span class="table_headings">Description</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="table_headings">Quantity</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="table_headings">Amount</span>
-        </b-col>
-      </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">Box</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">1</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">$300</span>
-        </b-col>
-      </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">Ice Cube</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">6</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">$100</span>
-        </b-col>
-      </b-row>
-    </b-container>
-
-    <br /><br />
+    <span class="section_header">Material cost</span>
+  <div class="pt-2"></div>
+    <b-card>
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :fields="materialcosts_feilds"
+        :items="materialcosts"
+      >
+      </b-table>
+    </b-card>
+  <div class="pt-2"></div>
+    <span class="section_header">Additional cost</span>
+  <div class="pt-2"></div>
+    <b-card>
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :fields="additionalcosts_feilds"
+        :items="additialcosts"
+      >
+      </b-table>
+    </b-card>
   </div>
 </template>
 <script>
@@ -226,6 +303,146 @@ export default {
   },
   props: {
     selectedPacking: Object,
+  },
+  data() {
+    return {
+      suplier_feilds: [
+        {
+          key: "suplier",
+          label: "Suplier",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "weight",
+          label: "Weight(kg)",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "rate",
+          label: "Price rate",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "cost",
+          label: "Cost",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+      ],
+      supliers: [
+        {
+          suplier: "Namal Udugama",
+          weight: "8",
+          rate: "100",
+          cost: "800",
+        },
+        {
+          suplier: "Namal Udugama",
+          weight: "8",
+          rate: "100",
+          cost: "800",
+        },
+        {
+          suplier: "Namal Udugama",
+          weight: "8",
+          rate: "100",
+          cost: "800",
+        },
+      ],
+
+      materialcosts_feilds: [
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "quantity",
+          label: "Quantity",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "unitprice",
+          label: "Unit Price",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "amount",
+          label: "Amount",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+      ],
+      materialcosts: [
+        {
+          description: "Box",
+          quantity: "01",
+          unitprice: "3250.00",
+          amount: "3250.00",
+        },
+        {
+          description: "Box",
+          quantity: "01",
+          unitprice: "3250.00",
+          amount: "3250.00",
+        },
+        {
+          description: "Box",
+          quantity: "01",
+          unitprice: "3250.00",
+          amount: "3250.00",
+        },
+      ],
+
+      additioalcosts_feilds: [
+        {
+          key: "description",
+          label: "Description",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "amount",
+          label: "Amount",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+      ],
+      additialcosts: [
+        {
+          description: "Airport",
+
+          amount: "3250.00",
+        },
+        {
+          description: "Airport",
+
+          amount: "3250.00",
+        },
+        {
+          description: "Airport",
+
+          amount: "3250.00",
+        },
+      ],
+    };
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pt-3">
-      <CommonHeader :modalType="modalType" />
+      <CommonHeader />
     </div>
     <div class="pt-5">
       <b-card>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import EarningTable from "@/views/SuplierEarningsManagement/Components/EarningTable.vue";
+import EarningTable from "@/views/SuplierEarningsManagement/SuplierWise/Components/EarningTable.vue";
 import CommonHeader from "@/Components/CommonHeader.vue";
 import Ripple from "vue-ripple-directive";
 import {

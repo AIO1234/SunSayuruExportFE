@@ -4,18 +4,13 @@
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none" @click="openDetailsModal(data.item)">
+            <b-button
+              variant="none"
+              @click="$router.push('/suplierwiseearnings/supliers/eranings')"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-          <b-col lg="4">
-            <b-button variant="none">
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 59.png"
               ></b-img>
             </b-button>
           </b-col>
@@ -36,7 +31,7 @@
 </template>
 
 <script>
-import ViewEarnings from "@/views/SuplierEarningsManagement/Components/ViewEarnings.vue";
+import ViewEarnings from "@/views/SuplierEarningsManagement/SuplierWise/Components/ViewEarnings.vue";
 import {
   BModal,
   BCard,
@@ -74,38 +69,16 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "suplierid",
-          label: "Supplier ID",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-        {
-          key: "supliername",
-          label: "Supplier name",
+          key: "suplierno",
+          label: "Suplier No",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
 
         {
-          key: "uptodate",
-          label: "Up to date",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-
-        {
-          key: "totalearnings",
-          label: "Total earning($)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-        {
-          key: "totalweight",
-          label: "Total weight(Kg)",
+          key: "totalcost",
+          label: "Total Cost($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
@@ -121,25 +94,16 @@ export default {
       ],
       items: [
         {
-          suplierid: "Sup001",
-          supliername: "Kasun Perera",
-          uptodate: "2024.02.11",
-          totalearnings: "1000",
-          totalweight: "200",
+          suplierno: "Nimal",
+          totalcost: "12000.00",
         },
         {
-          suplierid: "Sup001",
-          supliername: "Kasun Perera",
-          uptodate: "2024.02.11",
-          totalearnings: "1000",
-          totalweight: "200",
+          suplierno: "Nimal",
+          totalcost: "12000.00",
         },
         {
-          suplierid: "Sup001",
-          supliername: "Kasun Perera",
-          uptodate: "2024.02.11",
-          totalearnings: "1000",
-          totalweight: "200",
+          suplierno: "Nimal",
+          totalcost: "12000.00",
         },
       ],
     };

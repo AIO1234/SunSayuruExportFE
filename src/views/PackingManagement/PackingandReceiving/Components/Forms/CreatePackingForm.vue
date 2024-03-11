@@ -4,7 +4,12 @@
       <br />
       <h2 class="shipment_create_header">Boxes & suppliers</h2>
       <!-- Add box For Loop -->
-      <div v-for="(box, index) in items2" :id="box.id" :key="box.id" ref="row">
+      <div
+        v-for="(box, boxindexindex) in items2"
+        :id="box.id"
+        :key="box.id"
+        ref="row"
+      >
         <br />
         <div class="box_background">
           <b-container class="pl-3 pr-3 pt-2">
@@ -26,7 +31,7 @@
 
             <!-- Add seafood For Loop -->
             <div
-              v-for="(seafood, index) in box.items1"
+              v-for="(seafood, seafoodindex) in box.items1"
               :id="seafood.id"
               :key="seafood.id"
               ref="row"
@@ -44,7 +49,7 @@
                         <b-col lg="6" class="pt-1">
                           <b-form-group
                             label="Seafood Type*"
-                            label-class="form_label_class_seafood a"
+                            label-class="form_label_class_seafood"
                           >
                             <validation-Provider
                               name="quality"
@@ -124,7 +129,7 @@
                       <!-- Supliers -->
 
                       <div class="background_suplier_box">
-                        <b-container class="pl-3 pr-3 pt-2">
+                        <b-container class="supliers_padding">
                           <div class="d-flex justify-content-between">
                             <div>
                               <h2 class="suplier_create_header">Suppliers</h2>
@@ -134,7 +139,8 @@
 
                           <!-- Add Supliers For Loop -->
                           <b-row
-                            v-for="(suplier, index) in seafood.items"
+                            class="pt-2"
+                            v-for="(suplier, suplierindex) in seafood.items"
                             :id="suplier.id"
                             :key="suplier.id"
                             ref="row"
@@ -224,7 +230,7 @@
                             </b-col>
 
                             <!-- Rate -->
-                            <b-col lg="3">
+                            <b-col lg="2">
                               <b-form-group
                                 label="Price Rate"
                                 label-class="form_label_class"
@@ -240,10 +246,13 @@
                               </b-form-group>
                             </b-col>
 
-                            <b-col lg="3">
-                              <!-- <b-button>
-                      <b-img src="@/assets/images/minus.png"></b-img>
-                     </b-button> -->
+                            <b-col lg="1" class="minus_button_margin">
+                              <b-button
+                                variant="none"
+                                @click="removeSuplier(seafood, seafoodindex)"
+                              >
+                                <b-img src="@/assets/images/Group.png"></b-img>
+                              </b-button>
                             </b-col>
                             <!-- Remove Button -->
                           </b-row>
@@ -253,7 +262,7 @@
                               v-ripple.400="'rgba(255, 255, 255, 0.15)'"
                               variant="none"
                               @click="repeateSuplier(seafood)"
-                              class="form_submit_button"
+                              class="suplier_add_button"
                             >
                               <span class="button_text_styles"
                                 >Add Suplier</span
@@ -313,8 +322,6 @@
         </b-button>
       </div>
     </div>
-
-    
   </div>
 </template>
 
@@ -329,6 +336,7 @@ import {
   BForm,
   BTable,
   BBadge,
+  BImg,
   BButton,
   BCol,
   BRow,
@@ -346,6 +354,7 @@ export default {
   name: "CreatePackingForm",
   components: {
     BCard,
+    BImg,
     BFormRadio,
     BFormFile,
     BForm,
@@ -447,6 +456,11 @@ export default {
       });
     },
 
+    // remove suplier
+    removeSuplier(seafood, index) {
+      seafood.items.splice(index, 1);
+    },
+
     // add seafood
     repeateSeafood(box) {
       box.items1.push({
@@ -475,21 +489,7 @@ export default {
         ],
       });
     },
-    removeItem(index) {
-      this.items.splice(index, 1);
-      this.trTrimHeight(this.$refs.row[0].offsetHeight);
-    },
   },
 };
 </script>
-<style lang="scss">
-.custom-vue-select .vs__dropdown-toggle {
-  border-color: #897d3c;
-}
-.custom-vue-select1 .vs__dropdown-toggle {
-  background-color: #cde9fc;
-  border-color: #0052ba;
-}
-.repeater-form {
-}
-</style>
+<style lang="scss"></style>

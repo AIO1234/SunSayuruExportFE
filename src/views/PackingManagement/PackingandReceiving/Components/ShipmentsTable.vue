@@ -7,31 +7,31 @@
         }}</b-badge>
       </template>
       <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button variant="none" @click="openDetailsModal(data.item)">
+        <b-row >
+          <b-col lg="6">
+            <b-button variant="none" @click="$router.push('/viewpacking')">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="4">
-            <b-button variant="none" @click="openUpdateModal(data.item)">
+          <b-col lg="6">
+            <b-button variant="none" >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="4">
+          <!-- <b-col lg="4">
             <b-button variant="none">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 59.png"
               ></b-img>
             </b-button>
-          </b-col>
+          </b-col> -->
         </b-row>
       </template>
     </b-table>
@@ -107,10 +107,17 @@ export default {
           // tdClass: "custom-cell-padding",
         },
         {
+          key: "eta",
+          label: "ETA",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+        {
           key: "flight",
           label: "Flight",
           sortable: true,
-          // thStyle: { width: "2%" },
+ 
           // tdClass: "custom-cell-padding",
         },
 
@@ -133,7 +140,7 @@ export default {
           key: "noofsupliers",
           label: "Total no of suppliers",
           sortable: true,
-          thStyle: { width: "15%" },
+          thStyle: { width: "15.6%" },
           // tdClass: "custom-cell-padding",
         },
         {
@@ -161,13 +168,14 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "15%" },
+      
           // tdClass: "custom-cell-padding",
         },
       ],
       items: [
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",
@@ -178,6 +186,7 @@ export default {
         },
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",
@@ -188,6 +197,7 @@ export default {
         },
         {
           shipmentno: "S-001",
+          eta: "2024.01.04",
           flight: "MH-178",
           totalweight: "450.00 ",
           noofboxes: "02",

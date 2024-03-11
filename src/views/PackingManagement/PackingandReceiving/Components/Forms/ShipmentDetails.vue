@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h2 class="shipment_create_header">Shipment details</h2>
     <br />
+    <h2 class="shipment_create_header">Shipment details</h2>
+    <br /><br />
     <b-card>
       <b-container>
         <b-row>
