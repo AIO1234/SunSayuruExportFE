@@ -250,7 +250,7 @@
                             <b-col lg="1" class="minus_button_margin">
                               <b-button
                                 variant="none"
-                                @click="removeSuplier(seafood, seafoodindex)"
+                                @click="removeSuplier(seafood, suplierindex)"
                               >
                                 <b-img src="@/assets/images/Group.png"></b-img>
                               </b-button>
@@ -405,7 +405,7 @@ export default {
                   suplier: "",
                   weight: "",
                   rate: "",
-                  prevHeight: 0,
+              
                 },
               ],
             },
@@ -432,19 +432,19 @@ export default {
       ],
     };
   },
-  computed: {
-    generateTotWeight() {
-      const weight = 0;
-      this.items.forEach((val) => {
-        weight = val.weight + weight;
-      });
+  // computed: {
+  //   generateTotWeight() {
+  //     const weight = 0;
+  //     this.items.forEach((val) => {
+  //       weight = val.weight + weight;
+  //     });
 
-      return weight;
-    },
-  },
-  updated() {
-    this.form.totalweight = this.generateTotWeight;
-  },
+  //     return weight;
+  //   },
+  // },
+  // updated() {
+  //   this.form.totalweight = this.generateTotWeight;
+  // },
   methods: {
     async saveData() {
       if (await this.$refs.PackingCreateValidation.validate()) {
