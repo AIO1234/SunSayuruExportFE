@@ -244,7 +244,7 @@ export default {
       buyers: ["A123", "A234"],
       types: ["Packing & Receivings", "Documentations"],
       country: "Thailand",
-      buyer: "Buyer",
+      buyer: "A123",
       type: "Select Type",
     };
   },
