@@ -99,7 +99,7 @@
             </b-col>
 
             <b-col lg="1" class="minus_button_margin">
-              <b-button variant="none">
+              <b-button variant="none" @click="removeItem(index)">
                 <b-img src="@/assets/images/Group.png"></b-img>
               </b-button>
             </b-col>
@@ -187,6 +187,9 @@ export default {
       this.items1.push({
         id: (this.nextTodoId += this.nextTodoId),
       });
+    },
+    removeItem(index) {
+      this.items1.splice(index, 1);
     },
   },
 };

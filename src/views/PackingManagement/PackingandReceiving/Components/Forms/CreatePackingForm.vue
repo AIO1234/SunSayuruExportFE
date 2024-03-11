@@ -4,7 +4,12 @@
       <br />
       <h2 class="shipment_create_header">Boxes & suppliers</h2>
       <!-- Add box For Loop -->
-      <div v-for="(box, index) in items2" :id="box.id" :key="box.id" ref="row">
+      <div
+        v-for="(box, boxindexindex) in items2"
+        :id="box.id"
+        :key="box.id"
+        ref="row"
+      >
         <br />
         <div class="box_background">
           <b-container class="pl-3 pr-3 pt-2">
@@ -26,7 +31,7 @@
 
             <!-- Add seafood For Loop -->
             <div
-              v-for="(seafood, index) in box.items1"
+              v-for="(seafood, seafoodindex) in box.items1"
               :id="seafood.id"
               :key="seafood.id"
               ref="row"
@@ -135,7 +140,7 @@
                           <!-- Add Supliers For Loop -->
                           <b-row
                             class="pt-2"
-                            v-for="(suplier, index) in seafood.items"
+                            v-for="(suplier, suplierindex) in seafood.items"
                             :id="suplier.id"
                             :key="suplier.id"
                             ref="row"
@@ -242,7 +247,10 @@
                             </b-col>
 
                             <b-col lg="1" class="minus_button_margin">
-                              <b-button variant="none">
+                              <b-button
+                                variant="none"
+                                @click="removeSuplier(seafood, seafoodindex)"
+                              >
                                 <b-img src="@/assets/images/Group.png"></b-img>
                               </b-button>
                             </b-col>
@@ -448,6 +456,11 @@ export default {
       });
     },
 
+    // remove suplier
+    removeSuplier(seafood, index) {
+      seafood.items.splice(index, 1);
+    },
+
     // add seafood
     repeateSeafood(box) {
       box.items1.push({
@@ -475,10 +488,6 @@ export default {
           },
         ],
       });
-    },
-    removeItem(index) {
-      this.items.splice(index, 1);
-      this.trTrimHeight(this.$refs.row[0].offsetHeight);
     },
   },
 };

@@ -130,6 +130,9 @@ export default {
         id: (this.nextTodoId += this.nextTodoId),
       });
     },
+    removeItem(index) {
+      this.items1.splice(index, 1);
+    },
   },
 };
 </script>

@@ -9,7 +9,7 @@
         <h2 class="shipment_number">Namal’s receiving</h2>
       </b-col>
       <b-col lg="4" cols="12">
-        <b-row class="margins">
+        <!-- <b-row class="margins">
           <b-col lg="6" cols="6">
             <b-button class="suplierearnings_download_button" variant="none"
               ><span class="suplierearnings_download_button_color"
@@ -18,23 +18,45 @@
             >
           </b-col>
           <b-col lg="6" cols="6">
-            <b-button class="suplierearnings_sendemail_button" variant="none"
+            <b-button
+              @click="openEmailModal()"
+              class="suplierearnings_sendemail_button"
+              variant="none"
               ><span class="suplierearnings_sendemail_button_color"
                 >Send Email</span
               ></b-button
             >
           </b-col>
-        </b-row>
+        </b-row> -->
         <!-- <div class="row d-flex justify-content">
         
           
         </div> -->
+        <div class="d-flex justify-content-end">
+        <b-row>
+          <b-col lg="5" cols="6">
+            <b-button class="download_button" variant="none"
+              ><span class="download_button_color">Download</span></b-button
+            >
+          </b-col>
+          <b-col lg="7" cols="6">
+            <b-button
+              class="sendemail_button"
+              variant="none"
+              @click="openEmailModal()"
+              ><span class="sendemail_button_color">Send Email</span></b-button
+            >
+          </b-col>
+        </b-row>
+      </div>
       </b-col>
     </b-row>
 
     <div class="pt-5"></div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-    </b-table>
+    <b-card>
+      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      </b-table>
+    </b-card>
     <br />
     <b-container>
       <div class="web_only_view">
@@ -59,6 +81,10 @@
         </b-row>
       </div>
     </b-container>
+
+    <b-modal ref="EmailModal" title-class="modal_title_color"  hide-footer>
+      <EmailModal title="Send Suplier Bill"/>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -76,6 +102,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import EmailModal from "@/Components/EmailModal.vue";
 export default {
   components: {
     BCard,
@@ -89,6 +116,7 @@ export default {
     BRow,
     BContainer,
     BCardText,
+    EmailModal,
     BLink,
   },
   props: {
@@ -175,6 +203,12 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    openEmailModal() {
+      this.$refs.EmailModal.show();
+    },
   },
 };
 </script>

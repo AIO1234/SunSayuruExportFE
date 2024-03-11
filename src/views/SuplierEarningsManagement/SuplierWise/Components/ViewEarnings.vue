@@ -1,99 +1,41 @@
 <template>
-  <div>
+  <div class="suplierearnings">
+    <span class="section_header d-flex justify-content-center"
+      >View supplier bills</span
+    >
+    <div class="pt-3"></div>
+
+    <h2 class="shipment_number">Namal’s receiving</h2>
+
+    <div class="pt-2"></div>
+    <b-card>
+      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      </b-table>
+    </b-card>
     <br />
     <b-container>
-      <b-row>
-        <b-col lg="3" cols="3">
-          <span class="table_headings">Date</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="table_headings">Seafood Type</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="table_headings">Total Weight</span>
-        </b-col>
-        <b-col lg="3" cols="2">
-          <span class="table_headings">Cost($)</span>
-        </b-col>
-      </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">2024.01.2</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">Kelawalla</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">100kg</span>
-        </b-col>
-
-        <b-col lg="3" cols="2">
-          <span class="detailed_modal_content">600</span>
-        </b-col>
-      </b-row>
-      <br />
-      <b-row>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">2024.01.3</span>
-        </b-col>
-        <b-col lg="3" cols="4">
-          <span class="detailed_modal_content">Thalapath</span>
-        </b-col>
-        <b-col lg="3" cols="3">
-          <span class="detailed_modal_content">3000kg</span>
-        </b-col>
-
-        <b-col lg="3" cols="2">
-          <span class="detailed_modal_content">500</span>
-        </b-col>
-      </b-row>
-    </b-container>
-
-    <div class="pt-5 mobile_only_view">
-      <b-row>
-        <div class="pt-5"></div>
-        <b-col lg="6" cols="12" sm="12">
-          <b-button variant="none" style="background-color: #0052ba" block>
-            <span class="button_text_styles"> Genarate Invoice</span></b-button
+      <div class="web_only_view">
+        <b-row>
+          <b-col lg="10" cols="6"
+            ><span class="totaltext ml-1">Total</span></b-col
           >
-        </b-col>
-
-        <div class="pt-5"></div>
-        <b-col lg="6" cols="12" sm="12">
-          <b-button variant="none" style="background-color: #0052ba" block>
-            <span class="button_text_styles">
-              Send Invoice To Suplier</span
-            ></b-button
+          <b-col lg="2" cols="6"
+            ><span class="totaltext ml-4"> 6780.00</span></b-col
           >
-        </b-col>
-      </b-row>
-    </div>
-
-    <div class="pt-5 web_only_view">
-      <div class="pt-3"></div>
-      <b-container>
-        <b-row >
-          <b-col lg="6" cols="12">
-            <b-button variant="none" class="form_submit_button_shipment_view">
-              <span class="button_text_styles">
-                Genarate Invoice</span
-              ></b-button
-            >
-          </b-col>
-
-          <b-col lg="6" cols="12">
-            <b-button variant="none" class="form_submit_button_shipment_view text-end text-end">
-              <span class="button_text_styles">
-                Send Invoice To Suplier</span
-              ></b-button
-            >
-          </b-col>
         </b-row>
-      </b-container>
-    </div>
-    <br /><br />
-    <br /><br />
+      </div>
+      <div class="mobile_only_view">
+        <br />
+        <b-row>
+          <b-col lg="8" cols="8"
+            ><span class="totaltext ml-1">Total</span></b-col
+          >
+          <b-col lg="2" cols="2"
+            ><span class="totaltext ml-1"> 6780.00</span></b-col
+          >
+        </b-row>
+      </div>
+    </b-container>
   </div>
 </template>
 <script>
@@ -128,6 +70,88 @@ export default {
   },
   props: {
     selectedItem: Object,
+  },
+  data() {
+    return {
+      fields: [
+        {
+          key: "reveivedate",
+          label: "Receive date",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "seafood",
+          label: "Seafood type",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "quality",
+          label: "Quality",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "grading",
+          label: "Grading (Kg)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "weight",
+          label: "Weight(Kg)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "rate",
+          label: "Price rate",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "cost",
+          label: "Total cost",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+      ],
+      items: [
+        {
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
+        },
+        {
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
+        },
+        {
+          reveivedate: "2023/02/05",
+          seafood: "Prawns",
+          quality: "A+",
+          grading: "50 - 60",
+          weight: "8",
+          rate: "100.00",
+          cost: "800.00",
+        },
+      ],
+    };
   },
 };
 </script>

@@ -1,34 +1,35 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="1">
-            <b-button
-              variant="none"
-              @click="$router.push('/buyerinvoiceinner')"
-            >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 117855.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-          <b-col lg="2">
-            <b-button
-              variant="none"
-              @click="$router.push('/editbuyerinvoice')"
-            >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 101.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-    </b-table>
-
+    <b-card>
+      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+        <template #cell(action)="data">
+          <b-row no-gutters>
+            <b-col lg="1">
+              <b-button
+                variant="none"
+                @click="$router.push('/buyerinvoiceinner')"
+              >
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 117855.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+            <b-col lg="2">
+              <b-button
+                variant="none"
+                @click="$router.push('/editbuyerinvoice')"
+              >
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 101.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-table>
+    </b-card>
     <!-- <b-modal
           ref="DetailsModal"
           :title="`View ${selectedItem.suplier}'s Price Rates`"

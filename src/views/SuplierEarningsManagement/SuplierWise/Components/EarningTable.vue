@@ -4,7 +4,10 @@
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none" @click="openDetailsModal(data.item)">
+            <b-button
+              variant="none"
+              @click="$router.push('/suplierwiseearnings/supliers/eranings')"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -94,11 +97,11 @@ export default {
           suplierno: "Nimal",
           totalcost: "12000.00",
         },
-       {
+        {
           suplierno: "Nimal",
           totalcost: "12000.00",
         },
-       {
+        {
           suplierno: "Nimal",
           totalcost: "12000.00",
         },

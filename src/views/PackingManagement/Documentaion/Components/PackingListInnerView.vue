@@ -7,18 +7,21 @@
         <b-col lg="6"
           ><span class="shipment_number_heading">Shipment Number - S001</span>
         </b-col>
-        <b-col lg="6" class="d-flex justify-content-end mobile_paddings" >
+        <b-col lg="6" class="d-flex justify-content-end mobile_paddings">
           <b-row>
-            <b-col lg="7" cols="6">
-              <b-button class="sendemail_button" variant="none"
-                ><span class="sendemail_button_color"
-                  >Send Email</span
-                ></b-button
-              >
-            </b-col>
             <b-col lg="5" cols="6">
               <b-button class="download_button" variant="none"
                 ><span class="download_button_color">Download</span></b-button
+              >
+            </b-col>
+            <b-col lg="7" cols="6">
+              <b-button
+                class="sendemail_button"
+                variant="none"
+                @click="openEmailModal()"
+                ><span class="sendemail_button_color"
+                  >Send Email</span
+                ></b-button
               >
             </b-col>
           </b-row>
@@ -37,15 +40,9 @@
         </template>
       </b-table>
     </div>
-    <!-- <b-modal
-        ref="DetailsModal"
-        :title="`View ${selectedItem.suplier}'s Price Rates`"
-        title-class="modal_title_color"
-        hide-footer
-        size="lg"
-      >
-        <ViewPrices :selectedItem="selectedItem" />
-      </b-modal> -->
+    <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
+      <EmailModal title="Send Packing List"/>
+    </b-modal>
   </div>
 </template>
 
@@ -64,9 +61,11 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import EmailModal from "@/Components/EmailModal.vue";
 export default {
   name: "PriceRateTable",
   components: {
+    EmailModal,
     BCard,
     BModal,
     BImg,
@@ -145,9 +144,8 @@ export default {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
-    openDetailsModal(data) {
-      this.$refs.DetailsModal.show();
-      this.selectedItem = data;
+    openEmailModal() {
+      this.$refs.EmailModal.show();
     },
   },
 };

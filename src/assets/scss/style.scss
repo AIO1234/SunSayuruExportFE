@@ -174,3 +174,33 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     padding-top: 30px;
   }
 }
+.email-modal {
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #0052ba;
+}
+.email-modal-shipment {
+  font-family: "Urbanist", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #e76a00;
+}
+.email_modal_submit_button {
+  background-color: #e76a00;
+  .button_text {
+    font-family: "Urbanist", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: white;
+  }
+}

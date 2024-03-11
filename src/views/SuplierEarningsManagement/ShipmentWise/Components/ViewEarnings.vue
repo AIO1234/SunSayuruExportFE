@@ -5,23 +5,25 @@
     >
     <h2 class="shipment_number">Shipment no - S001</h2>
     <div class="pt-2"></div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button
-              variant="none"
-              @click="$router.push('/shipmentwiseearnings/supliers/eranings')"
-            >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 117855.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-    </b-table>
+    <b-card>
+      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+        <template #cell(action)="data">
+          <b-row no-gutters>
+            <b-col lg="4">
+              <b-button
+                variant="none"
+                @click="$router.push('/shipmentwiseearnings/supliers/eranings')"
+              >
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 117855.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-table>
+    </b-card>
   </div>
 </template>
 <script>

@@ -69,4 +69,22 @@ export default [
       ],
     },
   },
+
+  {
+    path: "/suplierwiseearnings/supliers/eranings",
+    name: "suplierwisesupliereranings",
+    component: () =>
+      import(
+        "@/views/SuplierEarningsManagement/SuplierWise/Components/ViewEarnings.vue"
+      ),
+    meta: {
+      pageTitle: "Suplier wise",
+      breadcrumb: [
+        {
+          text: "Suplier Bills",
+          active: true,
+        },
+      ],
+    },
+  },
 ];
