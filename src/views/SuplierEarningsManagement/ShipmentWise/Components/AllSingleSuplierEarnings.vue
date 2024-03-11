@@ -35,6 +35,30 @@
     <div class="pt-5"></div>
     <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
     </b-table>
+    <br />
+    <b-container>
+      <div class="web_only_view">
+        <b-row>
+          <b-col lg="10" cols="6"
+            ><span class="totaltext ml-1">Total</span></b-col
+          >
+          <b-col lg="2" cols="6"
+            ><span class="totaltext ml-4"> 6780.00</span></b-col
+          >
+        </b-row>
+      </div>
+      <div class="mobile_only_view">
+        <br />
+        <b-row>
+          <b-col lg="8" cols="8"
+            ><span class="totaltext ml-1">Total</span></b-col
+          >
+          <b-col lg="2" cols="2"
+            ><span class="totaltext ml-1"> 6780.00</span></b-col
+          >
+        </b-row>
+      </div>
+    </b-container>
   </div>
 </template>
 <script>

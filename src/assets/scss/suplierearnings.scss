@@ -1,6 +1,6 @@
 .suplierearnings {
   .section_header {
-    font-family: "Urbanist", sans-serif;
+    font-family: "  font-family: "Urbanist", sans-serif;", sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 35px;
@@ -9,7 +9,7 @@
     color: #0052ba;
   }
   .shipment_number {
-    font-family: "Urbanist", sans-serif;
+    font-family: "  font-family: "Urbanist", sans-serif;", sans-serif;
     font-size: 20px;
     font-weight: 600;
     line-height: 42px;
@@ -20,7 +20,7 @@
   .suplierearnings_download_button {
     background-color: #fc5e05;
     .suplierearnings_download_button_color {
-      font-family: "Urbanist", sans-serif;
+      font-family: "  font-family: "Urbanist", sans-serif;", sans-serif;
       font-size: 16px;
       font-weight: 600;
       line-height: 22px;
@@ -33,7 +33,7 @@
     background-color: #0052ba;
     width: 160px;
     .suplierearnings_sendemail_button_color {
-      font-family: "Urbanist", sans-serif;
+      font-family: "  font-family: "Urbanist", sans-serif;", sans-serif;
       font-size: 16px;
       font-weight: 600;
       line-height: 22px;
@@ -48,5 +48,14 @@
       margin-left: 0px;
       margin-right: 10px;
     }
+  }
+  .totaltext {
+    font-family: "  font-family: "Urbanist", sans-serif;", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #000000;
   }
 }
