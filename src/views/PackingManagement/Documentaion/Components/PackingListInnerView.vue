@@ -29,7 +29,49 @@
       </b-row>
     </div>
     <div class="pt-4">
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-card>
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Box Number</th>
+              <th scope="col">Seafood type</th>
+              <th scope="col">Quality</th>
+              <th scope="col">Grading</th>
+              <th scope="col">Weight(Kg)</th>
+            </tr>
+          </thead>
+          <tbody v-for="item in items" :key="item.boxnumber">
+            <tr
+              style="height: 50px"
+              v-for="(seafood, seafoodindex) in item.seafood"
+              :key="seafood.seafoodtype"
+            >
+              <th scope="row" v-if="!seafoodindex > 0">{{ item.boxnumber }}</th>
+              <td scope="row" v-if="seafoodindex > 0"></td>
+              <td>{{ seafood.seafoodtype }}</td>
+              <td>{{ seafood.quality }}</td>
+              <td>{{ seafood.grading }}</td>
+              <td>{{ seafood.weight }}</td>
+            </tr>
+
+            <!-- <tr>
+            <th scope="row"></th>
+            <th>Prawns</th>
+            <td>A+</td>
+            <td>50 - 60</td>
+            <td>90kg</td>
+          </tr>
+          <tr>
+            <th scope="row"></th>
+            <th>Prawns</th>
+            <td>A+</td>
+            <td>50 - 60</td>
+            <td>90kg</td>
+          </tr> -->
+          </tbody>
+        </table>
+      </b-card>
+      <!-- <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
         <template #cell(action)="data">
           <b-button variant="none" @click="$router.push('/packinglistinner')">
             <b-img
@@ -38,10 +80,23 @@
             ></b-img>
           </b-button>
         </template>
-      </b-table>
+
+        <template #cell(boxnumber)="data"> {{ data.value }} </template>
+        <template #cell(seafoo)="data"
+          >{{ data.item.seafood[data.item.seafood.length - 1].seafoodtype }}
+        </template>
+        <template #cell(quality)="data"
+          >{{ data.item.seafood[data.item.seafood.length - 1].quality }}
+        </template>
+        <template #cell(grading)="data"> </template>
+        {{ data.item.seafood[data.item.seafood.length - 1].grading }}
+        <template #cell(weight)="data">
+          {{ data.item.seafood[data.item.seafood.length - 1].weight }}
+        </template>
+      </b-table> -->
     </div>
     <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
-      <EmailModal title="Send Packing List"/>
+      <EmailModal title="Send Packing List" />
     </b-modal>
   </div>
 </template>
@@ -83,57 +138,87 @@ export default {
     return {
       show: false,
       selectedItem: {},
-      fields: [
-        {
-          key: "seafoodtype",
-          label: "Seafood type",
-          sortable: true,
+      // fields: [
+      //   {
+      //     key: "boxnumber",
+      //     label: "Box Number",
+      //     sortable: true,
 
-          // tdClass: "custom-cell-padding",
-        },
+      //     // tdClass: "custom-cell-padding",
+      //   },
+      //   {
+      //     key: "seafood",
+      //     label: "Seafood type",
+      //     sortable: true,
 
-        {
-          key: "quality",
-          label: "Quality ",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
+      //     // tdClass: "custom-cell-padding",
+      //   },
 
-        {
-          key: "grading",
-          label: "Grading (Kg)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-        {
-          key: "weight",
-          label: "Weight(Kg)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
-      ],
+      //   {
+      //     key: "quality",
+      //     label: "Quality",
+      //     sortable: true,
+      //     // thStyle: { width: "2%" },
+      //     // tdClass: "custom-cell-padding",
+      //   },
+
+      //   {
+      //     key: "grading",
+      //     label: "Grading (Kg)",
+      //     sortable: true,
+      //     // thStyle: { width: "2%" },
+      //     // tdClass: "custom-cell-padding",
+      //   },
+      //   {
+      //     key: "weight",
+      //     label: "Weight(Kg)",
+      //     sortable: true,
+      //     // thStyle: { width: "2%" },
+      //     // tdClass: "custom-cell-padding",
+      //   },
+      // ],
       items: [
         {
-          seafoodtype: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
+          boxnumber: "01",
+          seafood: [
+            {
+              seafoodtype: "Prawns",
+              quality: "A+",
+              grading: "50 - 60",
+              weight: "8",
+            },
+            {
+              seafoodtype: "Prawns",
+              quality: "A+",
+              grading: "50 - 60",
+              weight: "8",
+            },
+          ],
         },
         {
-          seafoodtype: "Kelawalla",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
+          boxnumber: "02",
+          seafood: [
+            {
+              seafoodtype: "Prawns",
+              quality: "A+",
+              grading: "50 - 60",
+              weight: "8",
+            },
+          ],
         },
-        {
-          seafoodtype: "Thalapatha",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
-        },
+
+        // {
+        //   seafoodtype: "Kelawalla",
+        //   quality: "A+",
+        //   grading: "50 - 60",
+        //   weight: "8",
+        // },
+        // {
+        //   seafoodtype: "Thalapatha",
+        //   quality: "A+",
+        //   grading: "50 - 60",
+        //   weight: "8",
+        // },
       ],
     };
   },
