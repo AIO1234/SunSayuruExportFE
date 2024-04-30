@@ -110,9 +110,34 @@
             </b-form-group>
           </b-col>
         </b-row>
+
         <br />
       </b-container>
     </b-card>
+    <div class="pt-2"></div>
+
+    <b-row>
+      <b-col lg="6">
+        <!-- <b-button
+          v-if="currentcomponent !== 'ShipmentDetails'"
+          variant="none"
+          class="backbutton"
+          @click="back()"
+        >
+          <span class="back_button_text_styles">Back</span>
+        </b-button> -->
+      </b-col>
+
+      <b-col lg="6" class="text-right">
+        <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          variant="none"
+          class="form_submit_button"
+        >
+          <span class="button_text_styles" @click="next()">Next</span>
+        </b-button></b-col
+      >
+    </b-row>
   </div>
 </template>
 <script>
@@ -185,6 +210,12 @@ export default {
       ],
       buyer: "A124",
     };
+  },
+
+  methods: {
+    async next() {
+      this.$emit("sendComponentName", "ShipmentDetails");
+    },
   },
 };
 </script>

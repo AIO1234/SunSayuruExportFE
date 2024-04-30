@@ -76,6 +76,18 @@
         >
       </div>
     </div>
+
+    <div class="pt-5"></div>
+    <div class="pt-3"></div>
+    <b-row>
+      <b-col lg="6">
+        <b-button variant="none" class="backbutton" @click="back()">
+          <span class="back_button_text_styles">Back</span>
+        </b-button>
+      </b-col>
+
+      <b-col lg="6" class="text-right"> </b-col>
+    </b-row>
   </div>
 </template>
 <script>
@@ -140,6 +152,9 @@ export default {
     BLink,
   },
   methods: {
+    back() {
+      this.$emit("DirectBack", "");
+    },
     repeateAgain1() {
       this.items1.push({
         id: (this.nextTodoId += this.nextTodoId),

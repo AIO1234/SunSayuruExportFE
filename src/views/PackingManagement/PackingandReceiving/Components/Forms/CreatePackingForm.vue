@@ -323,6 +323,26 @@
         </b-button>
       </div>
     </div>
+    <div class="pt-5"></div>
+    <div class="pt-3"></div>
+
+    <b-row>
+      <b-col lg="6">
+        <b-button variant="none" class="backbutton" @click="back()">
+          <span class="back_button_text_styles">Back</span>
+        </b-button>
+      </b-col>
+
+      <b-col lg="6" class="text-right">
+        <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          variant="none"
+          class="form_submit_button"
+        >
+          <span class="button_text_styles" @click="next()">Next</span>
+        </b-button></b-col
+      >
+    </b-row>
   </div>
 </template>
 
@@ -405,7 +425,6 @@ export default {
                   suplier: "",
                   weight: "",
                   rate: "",
-              
                 },
               ],
             },
@@ -446,9 +465,11 @@ export default {
   //   this.form.totalweight = this.generateTotWeight;
   // },
   methods: {
-    async saveData() {
-      if (await this.$refs.PackingCreateValidation.validate()) {
-      }
+    async next() {
+      this.$emit("sendComponentName", "BoxesandSupliers");
+    },
+    async back() {
+      this.$emit("DirectBack", "");
     },
     // add suplier
     repeateSuplier(seafood) {
