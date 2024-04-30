@@ -6,6 +6,7 @@
         <b-col lg="8">
           <div class="packing_main_button_set">
             <b-row>
+              <!-- country selection -->
               <b-col lg="3">
                 <v-select
                   class="select_styles"
@@ -17,6 +18,8 @@
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
+
+              <!-- buyer selection -->
               <b-col lg="3">
                 <v-select
                   class="select_styles"
@@ -28,6 +31,8 @@
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
+
+              <!-- view type selection -->
               <b-col lg="5">
                 <v-select
                   class="select_styles"
@@ -233,6 +238,7 @@ import {
   BInputGroup,
   BInputGroupPrepend,
 } from "bootstrap-vue";
+import countryApi from "@/Api/Modules/countries";
 export default {
   name: "Packings",
   data() {
@@ -240,7 +246,7 @@ export default {
       startdate: "16 January 2024",
       enddate: "16 January 2024",
       isCalendarVisible: false,
-      countries: ["Thailand", "Philiphine"],
+      countries: [],
       buyers: ["A123", "A234"],
       types: ["Packing & Receivings", "Documentations"],
       country: "Thailand",
@@ -272,9 +278,17 @@ export default {
   directives: {
     Ripple,
   },
+  async created() {
+    await this.getCountries();
+  },
   methods: {
     openCreateModal() {
       this.$refs.createmodal.show();
+    },
+    async getCountries() {
+      const res = await countryApi.allCountries();
+      this.countries = res.data.data;
+      console.log(this.countries);
     },
   },
 };

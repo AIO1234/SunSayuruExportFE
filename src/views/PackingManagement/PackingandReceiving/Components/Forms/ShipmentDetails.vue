@@ -18,7 +18,7 @@
               >
                 <b-form-input
                   placeholder="Enter shipment number"
-                  v-model="form.shipment_number"
+                  v-model="form.shipment_no"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -116,6 +116,7 @@
   </div>
 </template>
 <script>
+import shipmentApi from "@/Api/Modules/shipments.js";
 import {
   BCard,
   BFormRadio,
