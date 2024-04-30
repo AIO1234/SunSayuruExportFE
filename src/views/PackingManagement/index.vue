@@ -3,17 +3,17 @@
     <!-- upper search section -->
     <div>
       <b-row>
-        <b-col lg="8">
+        <b-col lg="9">
           <div class="packing_main_button_set">
             <b-row>
               <!-- country selection -->
-              <b-col lg="3">
+              <b-col lg="4">
                 <v-select
                   class="select_styles"
                   v-model="country"
                   @input="countryChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  label="title"
+                  label="name"
                   :options="countries"
                 />
               </b-col>
@@ -24,16 +24,15 @@
                 <v-select
                   class="select_styles"
                   v-model="buyer"
-                  @input="buyerChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  label="title"
+                  label="name"
                   :options="buyers"
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- view type selection -->
-              <b-col lg="5">
+              <b-col lg="4">
                 <v-select
                   class="select_styles"
                   v-model="type"
@@ -53,7 +52,7 @@
           </div>
         </b-col>
 
-        <b-col lg="4"> </b-col>
+        <b-col lg="3"> </b-col>
       </b-row>
     </div>
 
@@ -247,10 +246,16 @@ export default {
       enddate: "16 January 2024",
       isCalendarVisible: false,
       countries: [],
-      buyers: ["A123", "A234"],
+      buyers: [],
       types: ["Packing & Receivings", "Documentations"],
-      country: "Thailand",
-      buyer: "A123",
+      country: {
+        name: "Select Country",
+        id: "",
+      },
+      buyer: {
+        name: "Select Buyer",
+        id: "",
+      },
       type: "Select Type",
     };
   },
@@ -279,6 +284,7 @@ export default {
     Ripple,
   },
   async created() {
+    this.type = localStorage.getItem("currentSelectedtype");
     await this.getCountries();
   },
   methods: {
@@ -288,7 +294,14 @@ export default {
     async getCountries() {
       const res = await countryApi.allCountries();
       this.countries = res.data.data;
-      console.log(this.countries);
+    },
+    countryChange() {
+      this.buyers = this.country.buyers;
+      this.buyer.id = this.buyers[0].id;
+      this.buyer.name = this.buyers[0].name;
+    },
+    typesChange() {
+      localStorage.setItem("currentSelectedtype", this.type);
     },
   },
 };
