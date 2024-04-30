@@ -5,128 +5,116 @@
     <br /><br />
     <b-card>
       <b-container>
-        <b-row>
-          <b-col lg="6">
-            <b-form-group
-              label="Shipment number*"
-              label-class="form_label_class"
-            >
-              <validation-Provider
-                name="Shipment number"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter shipment number"
-                  v-model="form.shipment_no"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
+        <validation-observer ref="shipmentValidation">
+          <b-form class="auth-login-form mt-2" @submit.prevent>
+            <b-row>
+              <b-col lg="6">
+                <b-form-group
+                  label="Shipment number*"
+                  label-class="form_label_class"
+                >
+                  <validation-Provider
+                    name="Shipment number"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      placeholder="Enter shipment number"
+                      v-model="form.shipment_no"
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
 
-          <b-col lg="6">
-            <b-form-group label="Country*" label-class="form_label_class">
-              <validation-Provider
-                name="Country"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <v-select
-                  v-model="country"
-                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  label="title"
-                  :options="countries"
-                />
+              <b-col lg="6">
+                <b-form-group label="Country" label-class="form_label_class">
+                  <validation-Provider
+                    name="Country"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      readonly
+                      v-model="country.name"
+                    ></b-form-input>
 
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
 
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="Buyer*" label-class="form_label_class">
-              <validation-Provider
-                name="Buyer"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <v-select
-                  v-model="buyer"
-                  :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  label="title"
-                  :options="buyers"
-                />
+              <b-col lg="6" class="pt-2">
+                <b-form-group label="Buyer" label-class="form_label_class">
+                  <validation-Provider
+                    name="Buyer"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input readonly v-model="buyer.name"></b-form-input>
 
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="Flight*" label-class="form_label_class">
-              <validation-Provider
-                name="Flight"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter flight number"
-                  v-model="form.flight"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
+              <b-col lg="6" class="pt-2">
+                <b-form-group label="Flight*" label-class="form_label_class">
+                  <validation-Provider
+                    name="Flight"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      placeholder="Enter flight number"
+                      v-model="form.flight"
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
 
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="ETA*" label-class="form_label_class">
-              <validation-Provider
-                name="ETA"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-datepicker
-                  placeholder="Select Date"
-                  v-model="form.eta"
-                ></b-form-datepicker>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
+              <b-col lg="6" class="pt-2">
+                <b-form-group label="ETA*" label-class="form_label_class">
+                  <validation-Provider
+                    name="ETA"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-datepicker
+                      placeholder="Select Date"
+                      v-model="form.eta"
+                    ></b-form-datepicker>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
 
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="AWB*" label-class="form_label_class">
-              <validation-Provider
-                name="AWB"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter AWB number"
-                  v-model="form.awb"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-        </b-row>
+              <b-col lg="6" class="pt-2">
+                <b-form-group label="AWB*" label-class="form_label_class">
+                  <validation-Provider
+                    name="AWB"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      placeholder="Enter AWB number"
+                      v-model="form.awb"
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
+            </b-row>
 
-        <br />
+            <br />
+          </b-form>
+        </validation-observer>
       </b-container>
     </b-card>
     <div class="pt-2"></div>
 
     <b-row>
-      <b-col lg="6">
-        <!-- <b-button
-          v-if="currentcomponent !== 'ShipmentDetails'"
-          variant="none"
-          class="backbutton"
-          @click="back()"
-        >
-          <span class="back_button_text_styles">Back</span>
-        </b-button> -->
-      </b-col>
+      <b-col lg="6"> </b-col>
 
       <b-col lg="6" class="text-right">
         <b-button
@@ -164,6 +152,7 @@ import {
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+import countryApi from "@/Api/Modules/countries";
 export default {
   components: {
     BCard,
@@ -191,29 +180,57 @@ export default {
   data() {
     return {
       form: {},
-      country: "Thailand",
-      countries: [
-        {
-          title: "Thailand",
-        },
-        {
-          title: "Thaiwan",
-        },
-      ],
-      buyers: [
-        {
-          title: "A123",
-        },
-        {
-          title: "A525",
-        },
-      ],
-      buyer: "A124",
+      countries: [],
+      buyers: [],
+      country: {},
+
+      buyer: {},
     };
   },
-
+  async created() {
+    await this.getcountry();
+    this.getBuyer();
+  },
   methods: {
+    async getcountry() {
+      this.country.id = parseInt(this.$route.params.country);
+
+      const res = await countryApi.allCountries();
+      this.countries = res.data.data;
+
+      const result = this.countries.find(
+        (option) => option.id === this.country.id
+      );
+
+      this.country = result;
+    },
+
+    getBuyer() {
+      this.buyers = this.country.buyers;
+      this.buyer.id = parseInt(this.$route.params.buyer);
+      const result = this.buyers.find((option) => option.id === this.buyer.id);
+      this.buyer = result;
+    },
     async next() {
+      this.form.country_id = this.country.id;
+      this.form.buyer_id = this.buyer.id;
+      this.form.boxes = [];
+      this.form.materialcosts = [];
+      this.form.additionalcosts = [];
+      if (await this.$refs.shipmentValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+
+        await shipmentApi
+          .addShipment(this.form)
+          .then(({ response }) => {
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
       this.$emit("sendComponentName", "ShipmentDetails");
     },
   },

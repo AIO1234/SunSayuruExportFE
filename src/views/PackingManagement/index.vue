@@ -120,7 +120,9 @@
                 variant="none"
                 class="button_color"
                 style="width: 200px"
-                @click="$router.push('/createshipment')"
+                @click="
+                  $router.push(`/createshipment/${country.id}/${buyer.id}`)
+                "
               >
                 <div class="d-flex justify-content-start">
                   <b-img
@@ -284,7 +286,7 @@ export default {
     Ripple,
   },
   async created() {
-    this.type = localStorage.getItem("currentSelectedtype");
+    this.type = sessionStorage.getItem("currentSelectedtype");
     await this.getCountries();
   },
   methods: {
@@ -301,7 +303,7 @@ export default {
       this.buyer.name = this.buyers[0].name;
     },
     typesChange() {
-      localStorage.setItem("currentSelectedtype", this.type);
+      sessionStorage.setItem("currentSelectedtype", this.type);
     },
   },
 };

@@ -451,19 +451,7 @@ export default {
       ],
     };
   },
-  // computed: {
-  //   generateTotWeight() {
-  //     const weight = 0;
-  //     this.items.forEach((val) => {
-  //       weight = val.weight + weight;
-  //     });
-
-  //     return weight;
-  //   },
-  // },
-  // updated() {
-  //   this.form.totalweight = this.generateTotWeight;
-  // },
+ 
   methods: {
     async next() {
       this.$emit("sendComponentName", "BoxesandSupliers");

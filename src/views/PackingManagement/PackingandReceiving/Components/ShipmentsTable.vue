@@ -7,7 +7,7 @@
         }}</b-badge>
       </template>
       <template #cell(action)="data">
-        <b-row >
+        <b-row>
           <b-col lg="6">
             <b-button variant="none" @click="$router.push('/viewpacking')">
               <b-img
@@ -17,7 +17,7 @@
             </b-button>
           </b-col>
           <b-col lg="6">
-            <b-button variant="none" >
+            <b-button variant="none">
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
@@ -117,7 +117,7 @@ export default {
           key: "flight",
           label: "Flight",
           sortable: true,
- 
+
           // tdClass: "custom-cell-padding",
         },
 
@@ -168,7 +168,7 @@ export default {
           key: "action",
           label: "Action",
           sortable: true,
-      
+
           // tdClass: "custom-cell-padding",
         },
       ],

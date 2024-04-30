@@ -15,7 +15,7 @@ export default [
   },
 
   {
-    path: "/createshipment",
+    path: "/createshipment/:country/:buyer",
     name: "createshipment",
     component: () =>
       import(
