@@ -1,11 +1,11 @@
 <template>
   <div>
-    <br />
-    <h2 class="shipment_create_header">Shipment details</h2>
-    <br /><br />
-    <b-card>
-      <b-container>
-        <validation-observer ref="shipmentValidation">
+    <validation-observer ref="shipmentValidation" #default="{ invalid }">
+      <br />
+      <h2 class="shipment_create_header">Shipment details</h2>
+      <br /><br />
+      <b-card>
+        <b-container>
           <b-form class="auth-login-form mt-2" @submit.prevent>
             <b-row>
               <b-col lg="6">
@@ -108,24 +108,25 @@
 
             <br />
           </b-form>
-        </validation-observer>
-      </b-container>
-    </b-card>
-    <div class="pt-2"></div>
+        </b-container>
+      </b-card>
+      <div class="pt-2"></div>
 
-    <b-row>
-      <b-col lg="6"> </b-col>
+      <b-row>
+        <b-col lg="6"> </b-col>
 
-      <b-col lg="6" class="text-right">
-        <b-button
-          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          variant="none"
-          class="form_submit_button"
+        <b-col lg="6" class="text-right">
+          <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            variant="none"
+            class="form_submit_button"
+            :disabled="invalid"
+          >
+            <span class="button_text_styles" @click="next()">Next</span>
+          </b-button></b-col
         >
-          <span class="button_text_styles" @click="next()">Next</span>
-        </b-button></b-col
-      >
-    </b-row>
+      </b-row>
+    </validation-observer>
   </div>
 </template>
 <script>
@@ -214,7 +215,6 @@ export default {
     async next() {
       this.form.country_id = this.country.id;
       this.form.buyer_id = this.buyer.id;
-      this.form.boxes = [];
       this.form.materialcosts = [];
       this.form.additionalcosts = [];
       if (await this.$refs.shipmentValidation.validate()) {
@@ -224,7 +224,8 @@ export default {
 
         await shipmentApi
           .addShipment(this.form)
-          .then(({ response }) => {
+          .then((response) => {
+            localStorage.setItem("currentShipmentId", response.data.data.id);
             this.$vs.loading.close();
           })
           .catch(() => {

@@ -5,7 +5,7 @@
       <h2 class="shipment_create_header">Boxes & suppliers</h2>
       <!-- Add box For Loop -->
       <div
-        v-for="(box, boxindexindex) in items2"
+        v-for="(box, boxindexindex) in boxes"
         :id="box.id"
         :key="box.id"
         ref="row"
@@ -20,7 +20,7 @@
               <b-col lg="2">
                 <b-form-input
                   placeholder="Enter box number"
-                  v-model="form.box_number"
+                  v-model="box.box_number"
                   style="background-color: #003476; width: 170px; height: 39px"
                 ></b-form-input>
               </b-col>
@@ -31,7 +31,7 @@
 
             <!-- Add seafood For Loop -->
             <div
-              v-for="(seafood, seafoodindex) in box.items1"
+              v-for="(seafood, seafoodindex) in box.seafoods"
               :id="seafood.id"
               :key="seafood.id"
               ref="row"
@@ -57,11 +57,18 @@
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="seafoodtype"
+                                v-model="seafood.seafoodtype"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
-                                label="title"
+                                @input="
+                                  seafoodGrding(
+                                    seafood.seafoodtype.id,
+                                    boxindexindex,
+                                    seafoodindex
+                                  )
+                                "
+                                label="type"
                                 class="custom-vue-select"
                                 :options="seafoods"
                               />
@@ -84,11 +91,11 @@
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="quality"
+                                v-model="seafood.quality"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
-                                label="title"
+                                label="quality"
                                 :options="qualities"
                                 class="custom-vue-select"
                               />
@@ -111,15 +118,57 @@
                               v-slot="{ errors }"
                             >
                               <v-select
-                                v-model="grading"
+                                v-model="seafood.grading"
                                 :dir="
                                   $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
                                 "
-                                label="title"
+                                label="grading"
                                 :options="gradings"
                                 class="custom-vue-select"
                               />
 
+                              <span class="text-danger">{{ errors[0] }}</span>
+                            </validation-Provider>
+                          </b-form-group>
+                        </b-col>
+
+                        <!-- water percentage -->
+
+                        <b-col lg="6" class="pt-1">
+                          <b-form-group
+                            label="Water Percentage*"
+                            label-class="form_label_class_seafood"
+                          >
+                            <validation-Provider
+                              name="water percentage"
+                              rules="required"
+                              v-slot="{ errors }"
+                            >
+                              <b-input-group>
+                                <b-form-input
+                                  type="number"
+                                  step="0.00"
+                                  v-model="seafood.water_percentage"
+                                  placeholder="Water Percentage"
+                                  style="
+                                    border-color: #897d3c;
+                                    background-color: #edf8ff;
+                                  "
+                                />
+                                <b-input-group-append>
+                                  <span
+                                    class="pl-1 pr-1 font-weight-bold"
+                                    style="
+                                      padding-top: 3px;
+                                      font-size: 20px;
+                                      border-color: #897d3c;
+                                      background-color: #cde9fc;
+                                      border-top-right-radius: 6px;
+                                    "
+                                    >%</span
+                                  >
+                                </b-input-group-append>
+                              </b-input-group>
                               <span class="text-danger">{{ errors[0] }}</span>
                             </validation-Provider>
                           </b-form-group>
@@ -140,7 +189,7 @@
                           <!-- Add Supliers For Loop -->
                           <b-row
                             class="pt-2"
-                            v-for="(suplier, suplierindex) in seafood.items"
+                            v-for="(suplier, suplierindex) in seafood.supliers"
                             :id="suplier.id"
                             :key="suplier.id"
                             ref="row"
@@ -164,6 +213,7 @@
 
                                       border-color: #0052ba;
                                     "
+                                    v-model="suplier.recieving_date"
                                   ></b-form-datepicker>
                                   <span class="text-danger">{{
                                     errors[0]
@@ -189,8 +239,8 @@
                                         ? 'rtl'
                                         : 'ltr'
                                     "
-                                    v-model="supliername"
-                                    label="title"
+                                    v-model="suplier.suplier"
+                                    label="name"
                                     :options="supliers"
                                     class="custom-vue-select1"
                                   />
@@ -216,6 +266,7 @@
                                   <b-form-input
                                     type="number"
                                     step="0.00"
+                                    v-model="suplier.weight"
                                     placeholder="Enter Weight"
                                     style="
                                       background-color: #cde9fc;
@@ -238,6 +289,7 @@
                               >
                                 <b-form-input
                                   placeholder="Enter Price"
+                                  v-model="suplier.price_rate"
                                   style="
                                     background-color: #cde9fc;
 
@@ -366,8 +418,14 @@ import {
   BLink,
   BFormInput,
   BContainer,
+  BInputGroupAppend,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
+import seafoodApi from "@/Api/Modules/seafoods";
+import qualityApi from "@/Api/Modules/qualities";
+import gradingApi from "@/Api/Modules/gradings";
+import suplierApi from "@/Api/Modules/supliers";
+import shipmentApi from "@/Api/Modules/shipments.js";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
@@ -376,6 +434,7 @@ export default {
   components: {
     BCard,
     BImg,
+    BInputGroupAppend,
     BFormRadio,
     BFormFile,
     BForm,
@@ -400,29 +459,21 @@ export default {
   data() {
     return {
       form: {},
-      seafoodtype: {
-        title: "Select Seafood Type",
-      },
-      quality: {
-        title: "Select Quality",
-      },
-      grading: {
-        title: "Select Grading",
-      },
-      supliername: {
-        title: "Select Suplier",
-      },
 
-      items2: [
+      boxes: [
         {
           id: 1,
-          items1: [
+          box_number: "",
+          seafoods: [
             {
               id: 1,
-              items: [
+              seafoodtype: "Select Seafood",
+              quality: "Select Quality",
+              grading: "Select Grading",
+              supliers: [
                 {
                   id: 1,
-                  suplier: "",
+                  suplier: "Select Suplier",
                   weight: "",
                   rate: "",
                 },
@@ -433,49 +484,83 @@ export default {
       ],
       nextTodoId: 1,
 
-      seafoods: [
-        { title: "Kelawalla" },
-        { title: "Thalapath" },
-        { title: "Hurulla" },
-      ],
-      qualities: [{ title: "A+" }, { title: "A-" }, { title: "B+" }],
-      gradings: [
-        { title: "50 - 60" },
-        { title: "70 - 80" },
-        { title: "90 - 100" },
-      ],
-      supliers: [
-        { title: "Kasun Perera" },
-        { title: "Sithum Perera" },
-        { title: "Namal Udugama" },
-      ],
+      seafoods: [],
+      qualities: [],
+      gradings: [],
+      supliers: [],
     };
   },
- 
+  async created() {
+    await this.allSeafoods();
+    await this.buyerQualities();
+    await this.allSupliers();
+  },
   methods: {
+    // get all seafoods
+    async allSeafoods() {
+      const res = await seafoodApi.allSeafoods();
+      this.seafoods = res.data.data;
+    },
+
+    // get all qualities reguarding seklected buyer
+    async buyerQualities() {
+      const payload = {
+        buyer_id: parseInt(this.$route.params.buyer),
+      };
+      const res = await qualityApi.buyerQualities(payload);
+      this.qualities = res.data.data;
+    },
+    // get gradings for selecte seafood
+
+    async seafoodGrding(seafoodid, boxindex, seafoodindex) {
+      const payload = {
+        seafood_id: seafoodid,
+      };
+      const res = await gradingApi.seafoodGrading(payload);
+      this.gradings = res.data.data;
+
+      this.boxes[boxindex].seafoods[seafoodindex].grading = this.gradings[0];
+    },
+
+    // all supliers
+
+    async allSupliers() {
+      const res = await suplierApi.allSupliers();
+      this.supliers = res.data.data;
+    },
+    // next button and save
     async next() {
+      this.form.boxes = this.boxes;
+      this.form.shipment_id = localStorage.getItem("currentShipmentId");
+      await shipmentApi.addShipmentBox(this.form);
+
       this.$emit("sendComponentName", "BoxesandSupliers");
     },
+    // back button,
     async back() {
       this.$emit("DirectBack", "");
     },
     // add suplier
     repeateSuplier(seafood) {
-      seafood.items.push({
-        id: seafood.items.length + 1,
+      seafood.supliers.push({
+        id: seafood.supliers.length + 1,
+        suplier: "Select Suplier",
       });
     },
 
     // remove suplier
     removeSuplier(seafood, index) {
-      seafood.items.splice(index, 1);
+      seafood.supliers.splice(index, 1);
     },
 
     // add seafood
     repeateSeafood(box) {
-      box.items1.push({
-        id: box.items1.length + 1,
-        items: [
+      box.seafoods.push({
+        id: box.seafoods.length + 1,
+        seafoodtype: "Select Seafood",
+        quality: "Select Quality",
+        grading: "Select Grading",
+        supliers: [
           {
             id: 1,
           },
@@ -485,12 +570,12 @@ export default {
 
     // add boxes
     repeateBox() {
-      this.items2.push({
-        id: this.items2.length + 1,
-        items1: [
+      this.boxes.push({
+        id: this.boxes.length + 1,
+        seafoods: [
           {
             id: 1,
-            items: [
+            supliers: [
               {
                 id: 1,
               },

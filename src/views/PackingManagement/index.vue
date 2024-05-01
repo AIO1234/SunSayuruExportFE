@@ -286,7 +286,7 @@ export default {
     Ripple,
   },
   async created() {
-    this.type = sessionStorage.getItem("currentSelectedtype");
+    this.type = localStorage.getItem("currentSelectedtype");
     await this.getCountries();
   },
   methods: {
@@ -303,7 +303,7 @@ export default {
       this.buyer.name = this.buyers[0].name;
     },
     typesChange() {
-      sessionStorage.setItem("currentSelectedtype", this.type);
+      localStorage.setItem("currentSelectedtype", this.type);
     },
   },
 };
