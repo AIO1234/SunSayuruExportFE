@@ -175,6 +175,7 @@ export default {
     BLink,
   },
   methods: {
+    // submit data
     async submitData() {
       if (await this.$refs.additionalValidation.validate()) {
         await this.$vs.loading({
@@ -193,16 +194,18 @@ export default {
           });
       }
     },
-
+    // back button
     back() {
       this.$emit("DirectBack", "");
     },
 
+    // repeat button
     repeateAgain1() {
       this.additionalcosts.push({
         id: (this.nextTodoId += this.nextTodoId),
       });
     },
+    // remove item
     removeItem(index) {
       this.additionalcosts.splice(index, 1);
     },

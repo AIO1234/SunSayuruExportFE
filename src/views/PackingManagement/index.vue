@@ -296,6 +296,7 @@ export default {
   },
 
   methods: {
+    // initialize previously selected country and buyer when scren loaded
     initializeParams() {
       if (
         localStorage.currentSelectedtype &&
@@ -321,10 +322,12 @@ export default {
     openCreateModal() {
       this.$refs.createmodal.show();
     },
+    // get all countries
     async getCountries() {
       const res = await countryApi.allCountries();
       this.countries = res.data.data;
     },
+    // trigger  when country change
     countryChange() {
       this.buyers = this.country.buyers;
       localStorage.setItem("currentSelectedCountryid", this.country.id);
@@ -333,13 +336,17 @@ export default {
       this.buyer.name = this.buyers[0].name;
       this.buyerChange();
     },
+    // triger when buyer change
     buyerChange() {
       localStorage.setItem("currentSelectedBuyerid", this.buyer.id);
       localStorage.setItem("currentSelectedBuyername", this.buyer.name);
     },
+    // triger when type change
     async typesChange() {
       localStorage.setItem("currentSelectedtype", this.type);
     },
+
+    // get all shipments acording to selected buyer and country
 
     async getShipmentsForDocuments() {
       if (

@@ -229,6 +229,7 @@ export default {
     BLink,
   },
   methods: {
+    // calculate ampunt
     changeAmount(unitprice, quantity, index) {
       this.materialcosts[index].amount =
         mixin.methods.getPriceWithOutCurrency(unitprice) *
@@ -238,6 +239,7 @@ export default {
         this.materialcosts[index].amount
       );
     },
+    // next button
     async next() {
       if (await this.$refs.materialValidation.validate()) {
         await this.$vs.loading({
@@ -258,14 +260,17 @@ export default {
         this.$emit("sendComponentName", "MaterialCostForm");
       }
     },
+    // backn button
     back() {
       this.$emit("DirectBack", "");
     },
+    // repeat button
     repeateAgain1() {
       this.materialcosts.push({
         id: (this.nextTodoId += this.nextTodoId),
       });
     },
+    // remove item
     removeItem(index) {
       this.materialcosts.splice(index, 1);
     },
