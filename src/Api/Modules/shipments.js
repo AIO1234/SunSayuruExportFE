@@ -9,6 +9,16 @@ export default {
   async addShipmentBox(payload) {
     return await api.post("/addshipmentbox", payload);
   },
+
+  async addShipmentMaterials(payload) {
+    return await api.post("/addshipmentmaterials", payload);
+  },
+
+  async addShipmentAditionalCosts(payload) {
+    return await api.post("/addshipmentadditionalcosts", payload);
+  },
+
+
 };
 
 

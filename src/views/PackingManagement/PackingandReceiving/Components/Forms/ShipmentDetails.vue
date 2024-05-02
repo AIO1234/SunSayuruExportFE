@@ -231,8 +231,9 @@ export default {
           .catch(() => {
             this.$vs.loading.close();
           });
+
+        this.$emit("sendComponentName", "ShipmentDetails");
       }
-      this.$emit("sendComponentName", "ShipmentDetails");
     },
   },
 };

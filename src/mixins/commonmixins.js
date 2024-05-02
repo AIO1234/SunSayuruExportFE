@@ -9,7 +9,10 @@ export default {
       return _.get(response, key);
     },
     getPrice(price) {
-      return `$. ${parseFloat(price).toFixed(2)} `;
+      return `Rs. ${parseFloat(price).toFixed(2)} `;
+    },
+    getPriceWithOutCurrency(price) {
+      return `${parseFloat(price).toFixed(2)}`;
     },
     removeLeadingZeorsFromReferences(reference) {
       // eslint-disable-next-line no-undef

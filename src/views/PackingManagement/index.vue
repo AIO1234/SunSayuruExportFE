@@ -24,6 +24,7 @@
                 <v-select
                   class="select_styles"
                   v-model="buyer"
+                  @input="buyerChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="name"
                   :options="buyers"
@@ -286,21 +287,55 @@ export default {
     Ripple,
   },
   async created() {
-    this.type = localStorage.getItem("currentSelectedtype");
     await this.getCountries();
+    this.initializeParams();
   },
   methods: {
+    initializeParams() {
+      if (
+        localStorage.currentSelectedtype &&
+        localStorage.currentSelectedCountryid &&
+        localStorage.currentSelectedCountryname &&
+        localStorage.currentSelectedBBuyerid &&
+        localStorage.currentSelectedBBuyername
+      ) {
+        this.type = localStorage.getItem("currentSelectedtype");
+        this.country.id = localStorage.getItem("currentSelectedCountryid");
+        this.country.name = localStorage.getItem("currentSelectedCountryname");
+
+        const result = this.countries.find(
+          (option) => option.id === parseInt(this.country.id)
+        );
+
+        this.buyers = result.buyers;
+        console.log(result);
+
+        this.buyer.id = localStorage.getItem("currentSelectedBBuyerid");
+        this.buyer.name = localStorage.getItem("currentSelectedBBuyername");
+      }
+    },
     openCreateModal() {
       this.$refs.createmodal.show();
     },
     async getCountries() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
       const res = await countryApi.allCountries();
       this.countries = res.data.data;
+      this.$vs.loading.close();
     },
     countryChange() {
       this.buyers = this.country.buyers;
+      localStorage.setItem("currentSelectedCountryid", this.country.id);
+      localStorage.setItem("currentSelectedCountryname", this.country.name);
       this.buyer.id = this.buyers[0].id;
       this.buyer.name = this.buyers[0].name;
+      this.buyerChange();
+    },
+    buyerChange() {
+      localStorage.setItem("currentSelectedBBuyerid", this.buyer.id);
+      localStorage.setItem("currentSelectedBBuyername", this.buyer.name);
     },
     typesChange() {
       localStorage.setItem("currentSelectedtype", this.type);
