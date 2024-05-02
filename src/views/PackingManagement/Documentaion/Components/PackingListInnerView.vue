@@ -40,13 +40,14 @@
               <th scope="col">Weight(Kg)</th>
             </tr>
           </thead>
-          <tbody v-for="item in items" :key="item.boxnumber">
+
+          <tbody v-for="item in boxes" :key="item.box_no">
             <tr
               style="height: 50px"
-              v-for="(seafood, seafoodindex) in item.seafood"
+              v-for="(seafood, seafoodindex) in item.seafoods"
               :key="seafood.seafoodtype"
             >
-              <th scope="row" v-if="!seafoodindex > 0">{{ item.boxnumber }}</th>
+              <th scope="row" v-if="!seafoodindex > 0">{{ item.box_no }}</th>
               <td scope="row" v-if="seafoodindex > 0"></td>
               <td>{{ seafood.seafoodtype }}</td>
               <td>{{ seafood.quality }}</td>
@@ -71,7 +72,7 @@
           </tbody>
         </table>
       </b-card>
-      <!-- <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <!-- <b-table sticky-header="" responsive="sm" :boxes="boxes" :fields="fields">
         <template #cell(action)="data">
           <b-button variant="none" @click="$router.push('/packinglistinner')">
             <b-img
@@ -102,6 +103,7 @@
 </template>
 
 <script>
+import reportApi from "@/Api/Modules/reports";
 import {
   BModal,
   BCard,
@@ -138,91 +140,13 @@ export default {
     return {
       show: false,
       selectedItem: {},
-      // fields: [
-      //   {
-      //     key: "boxnumber",
-      //     label: "Box Number",
-      //     sortable: true,
 
-      //     // tdClass: "custom-cell-padding",
-      //   },
-      //   {
-      //     key: "seafood",
-      //     label: "Seafood type",
-      //     sortable: true,
-
-      //     // tdClass: "custom-cell-padding",
-      //   },
-
-      //   {
-      //     key: "quality",
-      //     label: "Quality",
-      //     sortable: true,
-      //     // thStyle: { width: "2%" },
-      //     // tdClass: "custom-cell-padding",
-      //   },
-
-      //   {
-      //     key: "grading",
-      //     label: "Grading (Kg)",
-      //     sortable: true,
-      //     // thStyle: { width: "2%" },
-      //     // tdClass: "custom-cell-padding",
-      //   },
-      //   {
-      //     key: "weight",
-      //     label: "Weight(Kg)",
-      //     sortable: true,
-      //     // thStyle: { width: "2%" },
-      //     // tdClass: "custom-cell-padding",
-      //   },
-      // ],
-      items: [
-        {
-          boxnumber: "01",
-          seafood: [
-            {
-              seafoodtype: "Prawns",
-              quality: "A+",
-              grading: "50 - 60",
-              weight: "8",
-            },
-            {
-              seafoodtype: "Prawns",
-              quality: "A+",
-              grading: "50 - 60",
-              weight: "8",
-            },
-          ],
-        },
-        {
-          boxnumber: "02",
-          seafood: [
-            {
-              seafoodtype: "Prawns",
-              quality: "A+",
-              grading: "50 - 60",
-              weight: "8",
-            },
-          ],
-        },
-
-        // {
-        //   seafoodtype: "Kelawalla",
-        //   quality: "A+",
-        //   grading: "50 - 60",
-        //   weight: "8",
-        // },
-        // {
-        //   seafoodtype: "Thalapatha",
-        //   quality: "A+",
-        //   grading: "50 - 60",
-        //   weight: "8",
-        // },
-      ],
+      boxes: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.getBuyerPackingList();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
@@ -231,6 +155,17 @@ export default {
     },
     openEmailModal() {
       this.$refs.EmailModal.show();
+    },
+    async getBuyerPackingList() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.buyerPackingList(payload);
+      this.boxes = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };

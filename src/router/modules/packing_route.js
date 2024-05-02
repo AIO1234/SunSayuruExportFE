@@ -48,7 +48,7 @@ export default [
   },
 
   {
-    path: "/packinglistinner",
+    path: "/packinglistinner/:shipment_id",
     name: "packinglistinner",
     component: () =>
       import(

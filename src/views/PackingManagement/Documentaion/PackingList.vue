@@ -8,7 +8,10 @@
         :fields="fields"
       >
         <template #cell(action)="data">
-          <b-button variant="none" @click="$router.push('/packinglistinner')">
+          <b-button
+            variant="none"
+            @click="$router.push(`/packinglistinner/${data.item.id}`)"
+          >
             <b-img
               width="17px"
               src="@/assets/images/icons/Group 117855.png"
