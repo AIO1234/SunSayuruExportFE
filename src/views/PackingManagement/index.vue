@@ -179,7 +179,7 @@
 
     <!-- Documentations -->
     <div class="pt-4"></div>
-    <div v-if="type === 'Documentations'">
+    <div v-if="type === 'Documentations' && loaded === true">
       <!-- tab buttons -->
       <div>
         <b-tabs pills active-nav-item-class="bg-warning border-warning">
@@ -188,7 +188,7 @@
               <span class="custom-bg-text">Packing list</span>
             </template>
             <br /><br />
-            <PackingListTable
+            <PackingListTable :shipmentsarray="documentshipments"
           /></b-tab>
 
           <b-tab
@@ -199,7 +199,7 @@
               <span class="custom-bg-text">Custom invoice</span>
             </template>
             <br /><br />
-            <CustomInvoiceTable />
+            <CustomInvoiceTable :shipmentsarray="documentshipments" />
           </b-tab>
 
           <b-tab
@@ -210,7 +210,7 @@
               <span class="custom-bg-text">Buyer invoice</span>
             </template>
             <br /><br />
-            <BuyerInvoiceTable />
+            <BuyerInvoiceTable :shipmentsarray="documentshipments" />
           </b-tab>
         </b-tabs>
       </div>
@@ -241,10 +241,12 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 import countryApi from "@/Api/Modules/countries";
+import reportApi from "@/Api/Modules/reports";
 export default {
   name: "Packings",
   data() {
     return {
+      documentshipments: [],
       startdate: "16 January 2024",
       enddate: "16 January 2024",
       isCalendarVisible: false,
@@ -260,6 +262,7 @@ export default {
         id: "",
       },
       type: "Select Type",
+      loaded: false,
     };
   },
   name: "users",
@@ -287,17 +290,19 @@ export default {
     Ripple,
   },
   async created() {
+    await this.getShipmentsForDocuments();
     await this.getCountries();
     this.initializeParams();
   },
+
   methods: {
     initializeParams() {
       if (
         localStorage.currentSelectedtype &&
         localStorage.currentSelectedCountryid &&
         localStorage.currentSelectedCountryname &&
-        localStorage.currentSelectedBBuyerid &&
-        localStorage.currentSelectedBBuyername
+        localStorage.currentSelectedBuyerid &&
+        localStorage.currentSelectedBuyername
       ) {
         this.type = localStorage.getItem("currentSelectedtype");
         this.country.id = localStorage.getItem("currentSelectedCountryid");
@@ -308,22 +313,17 @@ export default {
         );
 
         this.buyers = result.buyers;
-        console.log(result);
 
-        this.buyer.id = localStorage.getItem("currentSelectedBBuyerid");
-        this.buyer.name = localStorage.getItem("currentSelectedBBuyername");
+        this.buyer.id = localStorage.getItem("currentSelectedBuyerid");
+        this.buyer.name = localStorage.getItem("currentSelectedBuyername");
       }
     },
     openCreateModal() {
       this.$refs.createmodal.show();
     },
     async getCountries() {
-      await this.$vs.loading({
-        scale: 0.8,
-      });
       const res = await countryApi.allCountries();
       this.countries = res.data.data;
-      this.$vs.loading.close();
     },
     countryChange() {
       this.buyers = this.country.buyers;
@@ -334,11 +334,30 @@ export default {
       this.buyerChange();
     },
     buyerChange() {
-      localStorage.setItem("currentSelectedBBuyerid", this.buyer.id);
-      localStorage.setItem("currentSelectedBBuyername", this.buyer.name);
+      localStorage.setItem("currentSelectedBuyerid", this.buyer.id);
+      localStorage.setItem("currentSelectedBuyername", this.buyer.name);
     },
-    typesChange() {
+    async typesChange() {
       localStorage.setItem("currentSelectedtype", this.type);
+    },
+
+    async getShipmentsForDocuments() {
+      if (
+        localStorage.currentSelectedBuyerid &&
+        localStorage.currentSelectedCountryid
+      ) {
+        const payload = {
+          buyer_id: localStorage.currentSelectedBuyerid,
+          country_id: localStorage.currentSelectedCountryid,
+        };
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await reportApi.buyerShipements(payload);
+        this.documentshipments = res.data.data;
+        this.$vs.loading.close();
+        this.loaded = true;
+      }
     },
   },
 };

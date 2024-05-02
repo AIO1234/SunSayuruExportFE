@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card>
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-table sticky-header="" responsive="sm" :items="shipments" :fields="fields">
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="1">
@@ -104,20 +104,16 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-      ],
+      shipments: [],
     };
   },
-  async created() {},
 
+  props: {
+    shipmentsarray: Array,
+  },
+  created() {
+    this.shipments = this.shipmentsarray;
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
