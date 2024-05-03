@@ -5,11 +5,18 @@
     >
     <div class="pt-3"></div>
 
-    <h2 class="shipment_number">Namal’s receiving</h2>
+    <h2 class="shipment_number">
+      {{ $route.params.suplier_name }}’s receiving
+    </h2>
 
     <div class="pt-2"></div>
     <b-card>
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :items="shipmentdetails"
+        :fields="fields"
+      >
       </b-table>
     </b-card>
     <br />
@@ -20,7 +27,9 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="6"
-            ><span class="totaltext ml-4"> 6780.00</span></b-col
+            ><span class="totaltext ml-4">{{
+              getPrice(totalearnings)
+            }}</span></b-col
           >
         </b-row>
       </div>
@@ -31,7 +40,9 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="2"
-            ><span class="totaltext ml-1"> 6780.00</span></b-col
+            ><span class="totaltext ml-1">{{
+              getPrice(totalearnings)
+            }}</span></b-col
           >
         </b-row>
       </div>
@@ -53,6 +64,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import reportApi from "@/Api/Modules/reports";
 export default {
   components: {
     BCard,
@@ -71,11 +83,15 @@ export default {
   props: {
     selectedItem: Object,
   },
+  async created() {
+    await this.suplierViseSuplierInnerDetails();
+  },
   data() {
     return {
+      totalearnings: "",
       fields: [
         {
-          key: "shipmentno",
+          key: "shipment_no",
           label: "Shipment No",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -91,30 +107,28 @@ export default {
         },
 
         {
-          key: "totalcost",
+          key: "total_cost",
           label: "Total Cost($)",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S001",
-          eta: "2023/04/05",
-          totalcost: "12000",
-        },
-        {
-          shipmentno: "S002",
-          eta: "2023/04/05",
-          totalcost: "12000",
-        },
-        {
-          shipmentno: "S003",
-          eta: "2023/04/05",
-          totalcost: "12000",
-        },
-      ],
+      shipmentdetails: [],
     };
+  },
+  methods: {
+    async suplierViseSuplierInnerDetails() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const payload = {
+        suplier_id: this.$route.params.suplier_id,
+      };
+      const res = await reportApi.suplierViseSuplierShipmentEarnings(payload);
+      this.shipmentdetails = res.data.data.result_data;
+      this.totalearnings = res.data.data.result_amount;
+      this.$vs.loading.close();
+    },
   },
 };
 </script>

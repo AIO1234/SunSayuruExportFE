@@ -32,4 +32,12 @@ export default {
   async shipmentiseSupliersDetails(payload) {
     return await api.post("/shipmentvisesupliersinnerdetails", payload);
   },
+
+  async suplierViseSuplierEarnings() {
+    return await api.get("/supliervisesupliersmaindetails");
+  },
+
+  async suplierViseSuplierShipmentEarnings(payload) {
+    return await api.post("/supliervisesupliersinnerdetails", payload);
+  },
 };
