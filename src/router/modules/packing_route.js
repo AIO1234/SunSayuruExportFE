@@ -48,7 +48,7 @@ export default [
   },
 
   {
-    path: "/packinglistinner/:shipment_id",
+    path: "/packinglistinner/:shipment_id/:shipment_no",
     name: "packinglistinner",
     component: () =>
       import(
@@ -84,7 +84,7 @@ export default [
   },
 
   {
-    path: "/buyerinvoiceinner",
+    path: "/buyerinvoiceinner/:shipment_id/:shipment_no",
     name: "buyerinvoiceinner",
     component: () =>
       import(

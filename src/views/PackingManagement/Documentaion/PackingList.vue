@@ -10,7 +10,11 @@
         <template #cell(action)="data">
           <b-button
             variant="none"
-            @click="$router.push(`/packinglistinner/${data.item.id}`)"
+            @click="
+              $router.push(
+                `/packinglistinner/${data.item.id}/${data.item.shipment_no}`
+              )
+            "
           >
             <b-img
               width="17px"

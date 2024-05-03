@@ -8,5 +8,9 @@ export default {
   async buyerPackingList(payload) {
     return await api.post("/buyerpackinglist", payload);
   },
+  
+  async buyerInvoice(payload) {
+    return await api.post("/buyerinvoice", payload);
+  },
  
 };

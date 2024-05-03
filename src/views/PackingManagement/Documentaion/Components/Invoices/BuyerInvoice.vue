@@ -21,15 +21,14 @@
                   <b-col lg="3" cols="12">
                     <span class="inoice_number"> Invoice no </span>
                     <br /><br />
-                    <span class="ivoice_numbr_value">SNS-TWN-551-2023</span>
+                    <span class="ivoice_numbr_value">{{ buyerinvoice.invoice_no }}</span>
                   </b-col>
                   <div></div>
                   <b-col lg="5" cols="8" class="mobile_paddings">
                     <span class="inoice_number"> Consignee </span>
                     <br /><br />
                     <span class="ivoice_numbr_value"
-                      >HONG BENG ENTERPRISE CO. LTD, 6FL NO 56,316 LANE,<br />RUEIGUANG
-                      RD, NEIHU DISTRICT 114, TAIPEI, TAIWAN, ROC.</span
+                      >  {{ buyerinvoice.buyer_name }}</span
                     >
                   </b-col>
 
@@ -40,7 +39,7 @@
                         <div>
                           <span class="col inoice_number"> A.W.B. </span>
                           <span class="col ivoice_numbr_value">
-                            232 5443 6351</span
+                            {{ buyerinvoice.awb }}</span
                           >
                         </div>
                       </div>
@@ -49,7 +48,7 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> A.W.B. </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">232 5443 6351</span>
+                      <span class="ivoice_numbr_value">  {{ buyerinvoice.awb }}</span>
                     </div>
 
                     <br />
@@ -60,7 +59,7 @@
                         <div>
                           <span class="col inoice_number"> Flight </span>
                           <span class="col ivoice_numbr_value margin_flight">
-                            MH 178 // MH 366</span
+                            {{ buyerinvoice.flight }}</span
                           >
                         </div>
                       </div>
@@ -69,7 +68,7 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> Flight </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">MH 178 // MH 366</span>
+                      <span class="ivoice_numbr_value">  {{ buyerinvoice.flight }}</span>
                     </div>
 
                     <br />
@@ -80,7 +79,7 @@
                         <div>
                           <span class="col inoice_number">ETA </span>
                           <span class="col ivoice_numbr_value margin_eta">
-                            2024.01.08</span
+                            {{ buyerinvoice.eta }}</span
                           >
                         </div>
                       </div>
@@ -89,7 +88,7 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> ETA </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">2024.01.08</span>
+                      <span class="ivoice_numbr_value">  {{ buyerinvoice.eta }}</span>
                     </div>
                   </b-col>
                 </b-row>
@@ -160,6 +159,7 @@
   </div>
 </template>
 <script>
+import reportApi from "@/Api/Modules/reports";
 import {
   BModal,
   BCard,
@@ -189,8 +189,12 @@ export default {
     BLink,
     BContainer,
   },
+  async created() {
+    await this.getBuyerInvoice();
+  },
   data() {
     return {
+      buyerinvoice: {},
       fields: [
         {
           key: "seafoodtype",
@@ -265,6 +269,21 @@ export default {
         },
       ],
     };
+  },
+
+  methods: {
+    async getBuyerInvoice() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.buyerInvoice(payload);
+      this.buyerinvoice = res.data.data;
+   
+      this.$vs.loading.close();
+    },
   },
 };
 </script>

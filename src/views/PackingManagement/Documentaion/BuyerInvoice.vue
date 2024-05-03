@@ -12,7 +12,7 @@
             <b-col lg="1">
               <b-button
                 variant="none"
-                @click="$router.push('/buyerinvoiceinner')"
+                @click="$router.push(`/buyerinvoiceinner/${data.item.id}/${data.item.shipment_no}`)"
               >
                 <b-img
                   width="17px"
