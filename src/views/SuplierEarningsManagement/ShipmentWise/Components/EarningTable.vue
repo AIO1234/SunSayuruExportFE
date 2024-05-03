@@ -11,7 +11,9 @@
           <b-col lg="4">
             <b-button
               variant="none"
-              @click="$router.push('/shipmentwiseearnings/supliers')"
+              @click="
+                $router.push(`/shipmentwiseearnings/${data.item.id}/${data.item.shipment_no}/supliers`)
+              "
             >
               <b-img
                 width="17px"

@@ -17,7 +17,7 @@ export default [
   },
 
   {
-    path: "/shipmentwiseearnings/supliers",
+    path: "/shipmentwiseearnings/:shipment_id/:shipment_no/supliers",
     name: "shipmentwisesupliers",
     component: () =>
       import(
