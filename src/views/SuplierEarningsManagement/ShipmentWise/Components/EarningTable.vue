@@ -12,7 +12,9 @@
             <b-button
               variant="none"
               @click="
-                $router.push(`/shipmentwiseearnings/${data.item.id}/${data.item.shipment_no}/supliers`)
+                $router.push(
+                  `/shipmentwiseearnings/${data.item.id}/${data.item.shipment_no}/supliers`
+                )
               "
             >
               <b-img
@@ -25,7 +27,7 @@
       </template>
     </b-table>
 
-    <b-modal
+    <!-- <b-modal
       ref="DetailsModal"
       :title="`View earnings for ${selectedItem.supliername}`"
       title-class="modal_title_color"
@@ -33,7 +35,7 @@
       size="lg"
     >
       <ViewEarnings :selectedItem="selectedItem" />
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 
@@ -113,10 +115,10 @@ export default {
       return "custom-cell-padding";
     },
 
-    openDetailsModal(data) {
-      this.$refs.DetailsModal.show();
-      this.selectedItem = data;
-    },
+    // openDetailsModal(data) {
+    //   this.$refs.DetailsModal.show();
+    //   this.selectedItem = data;
+    // },
     async allShipments() {
       await this.$vs.loading({
         scale: 0.8,

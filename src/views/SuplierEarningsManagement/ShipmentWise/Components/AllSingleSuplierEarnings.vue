@@ -6,7 +6,9 @@
     <div class="pt-3"></div>
     <b-row>
       <b-col lg="8">
-        <h2 class="shipment_number">Namal’s receiving</h2>
+        <h2 class="shipment_number">
+          {{ $route.params.suplier_name }}’s receiving
+        </h2>
       </b-col>
       <b-col lg="4" cols="12">
         <!-- <b-row class="margins">
@@ -33,28 +35,35 @@
           
         </div> -->
         <div class="d-flex justify-content-end">
-        <b-row>
-          <b-col lg="5" cols="6">
-            <b-button class="download_button" variant="none"
-              ><span class="download_button_color">Download</span></b-button
-            >
-          </b-col>
-          <b-col lg="7" cols="6">
-            <b-button
-              class="sendemail_button"
-              variant="none"
-              @click="openEmailModal()"
-              ><span class="sendemail_button_color">Send Email</span></b-button
-            >
-          </b-col>
-        </b-row>
-      </div>
+          <b-row>
+            <b-col lg="5" cols="6">
+              <b-button class="download_button" variant="none"
+                ><span class="download_button_color">Download</span></b-button
+              >
+            </b-col>
+            <b-col lg="7" cols="6">
+              <b-button
+                class="sendemail_button"
+                variant="none"
+                @click="openEmailModal()"
+                ><span class="sendemail_button_color"
+                  >Send Email</span
+                ></b-button
+              >
+            </b-col>
+          </b-row>
+        </div>
       </b-col>
     </b-row>
 
     <div class="pt-5"></div>
     <b-card>
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :items="details"
+        :fields="fields"
+      >
       </b-table>
     </b-card>
     <br />
@@ -65,7 +74,9 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="6"
-            ><span class="totaltext ml-4"> 6780.00</span></b-col
+            ><span class="totaltext ml-4">
+              {{ getPrice(totalearnings) }}</span
+            ></b-col
           >
         </b-row>
       </div>
@@ -76,14 +87,16 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="2"
-            ><span class="totaltext ml-1"> 6780.00</span></b-col
+            ><span class="totaltext ml-1">
+              {{ getPrice(totalearnings) }}</span
+            ></b-col
           >
         </b-row>
       </div>
     </b-container>
 
-    <b-modal ref="EmailModal" title-class="modal_title_color"  hide-footer>
-      <EmailModal title="Send Suplier Bill"/>
+    <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
+      <EmailModal title="Send Suplier Bill" />
     </b-modal>
   </div>
 </template>
@@ -102,6 +115,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import reportApi from "@/Api/Modules/reports";
 import EmailModal from "@/Components/EmailModal.vue";
 export default {
   components: {
@@ -126,7 +140,7 @@ export default {
     return {
       fields: [
         {
-          key: "reveivedate",
+          key: "receiving_date",
           label: "Receive date",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -134,7 +148,7 @@ export default {
         },
 
         {
-          key: "seafood",
+          key: "seafoodtype",
           label: "Seafood type",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -161,53 +175,42 @@ export default {
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "rate",
+          key: "price_rate",
           label: "Price rate",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "cost",
+          key: "amount",
           label: "Total cost",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          reveivedate: "2023/02/05",
-          seafood: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
-          rate: "100.00",
-          cost: "800.00",
-        },
-        {
-          reveivedate: "2023/02/05",
-          seafood: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
-          rate: "100.00",
-          cost: "800.00",
-        },
-        {
-          reveivedate: "2023/02/05",
-          seafood: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          weight: "8",
-          rate: "100.00",
-          cost: "800.00",
-        },
-      ],
+      details: [],
+      totalearnings: "",
     };
   },
-
+  async created() {
+    await this.shipmentViseSuplierDetails();
+  },
   methods: {
     openEmailModal() {
       this.$refs.EmailModal.show();
+    },
+
+    async shipmentViseSuplierDetails() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const payload = {
+        shipment_id: parseInt(this.$route.params.shipment_id),
+        suplier_id: this.$route.params.suplier_id,
+      };
+      const res = await reportApi.shipmentiseSupliersDetails(payload);
+      this.details = res.data.data.results_data;
+      this.totalearnings = res.data.data.total_earning;
+      this.$vs.loading.close();
     },
   },
 };
