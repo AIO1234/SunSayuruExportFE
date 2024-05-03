@@ -66,7 +66,7 @@ export default [
   },
 
   {
-    path: "/custominvoiceinner",
+    path: "/custominvoiceinner/:shipment_id/:shipment_no",
     name: "custominvoiceinner",
     component: () =>
       import(

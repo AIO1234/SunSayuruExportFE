@@ -7,7 +7,7 @@
             <b-col lg="1">
               <b-button
                 variant="none"
-                @click="$router.push('/custominvoiceinner')"
+                @click="$router.push(`/custominvoiceinner/${data.item.id}/${data.item.shipment_no}`)"
               >
                 <b-img
                   width="17px"
@@ -81,7 +81,7 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "shipmentno",
+          key: "shipment_no",
           label: "Shipment no",
           sortable: true,
 

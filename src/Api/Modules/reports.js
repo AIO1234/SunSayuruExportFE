@@ -12,5 +12,9 @@ export default {
   async buyerInvoice(payload) {
     return await api.post("/buyerinvoice", payload);
   },
+
+  async customInvoice(payload) {
+    return await api.post("/custominvoice", payload);
+  },
  
 };

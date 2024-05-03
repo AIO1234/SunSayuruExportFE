@@ -102,20 +102,10 @@
             <b-table
               sticky-header=""
               responsive="sm"
-              :items="items"
+              :items="buyerinvoice.seafoods"
               :fields="fields"
             >
-              <template #cell(action)="data">
-                <b-button
-                  variant="none"
-                  @click="$router.push('/packinglistinner')"
-                >
-                  <b-img
-                    width="17px"
-                    src="@/assets/images/icons/Group 117855.png"
-                  ></b-img>
-                </b-button>
-              </template>
+              
             </b-table>
           </div>
           <b-container>
@@ -125,10 +115,10 @@
                   ><span class="total ml-1">Total</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5</span></b-col
+                  ><span class="total" style="margin-left: 30px;"> {{buyerinvoice.total_weight }}</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00</span>
+                  ><span class="total ml-1">{{ buyerinvoice.total_amount }}</span>
                 </b-col>
               </b-row>
             </div>
@@ -139,7 +129,7 @@
                   ><span class="total ml-1">Total Weight</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5(kg)</span></b-col
+                  ><span class="total ml-1"> {{buyerinvoice.total_weight }}</span></b-col
                 >
               </b-row>
               <br />
@@ -148,7 +138,7 @@
                   ><span class="total ml-1">Total Cost</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00($)</span></b-col
+                  ><span class="total ml-1">{{ buyerinvoice.total_amount }}</span></b-col
                 >
               </b-row>
             </div>
@@ -221,7 +211,7 @@ export default {
         },
 
         {
-          key: "rate",
+          key: "price_rate",
           label: "Rate per Kg ($)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -235,7 +225,7 @@ export default {
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "total",
+          key: "total_amount",
           label: "Total cost ($)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -243,30 +233,7 @@ export default {
         },
       ],
       items: [
-        {
-          seafoodtype: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
-        {
-          seafoodtype: "Kelawalla",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
-        {
-          seafoodtype: "Thalapatha",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
+      
       ],
     };
   },
