@@ -5,7 +5,7 @@
     <div class="pt-4">
       <b-row>
         <b-col lg="6"
-          ><span class="shipment_number_heading">Shipment Number - S001</span>
+          ><span class="shipment_number_heading">Shipment Number - {{ $route.params.shipment_no }}</span>
         </b-col>
         <b-col lg="6" class="d-flex justify-content-end mobile_paddings">
           <b-row>

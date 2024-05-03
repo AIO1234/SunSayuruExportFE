@@ -1,10 +1,18 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+    <b-table
+      sticky-header=""
+      responsive="sm"
+      :items="shipments"
+      :fields="fields"
+    >
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none" @click="$router.push('/shipmentwiseearnings/supliers')">
+            <b-button
+              variant="none"
+              @click="$router.push('/shipmentwiseearnings/supliers')"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -29,6 +37,7 @@
 
 <script>
 import ViewEarnings from "@/views/SuplierEarningsManagement/ShipmentWise/Components/ViewEarnings.vue";
+import reportApi from "@/Api/Modules/reports";
 import {
   BModal,
   BCard,
@@ -66,7 +75,7 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "shipmentno",
+          key: "shipment_no",
           label: "Shipment No",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -89,23 +98,12 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-      ],
+      shipments: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.allShipments();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
@@ -116,6 +114,14 @@ export default {
     openDetailsModal(data) {
       this.$refs.DetailsModal.show();
       this.selectedItem = data;
+    },
+    async allShipments() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.allShipements();
+      this.shipments = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };
