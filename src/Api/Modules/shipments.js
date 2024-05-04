@@ -18,7 +18,11 @@ export default {
     return await api.post("/addshipmentadditionalcosts", payload);
   },
 
+  async updateBuyerInvoice(payload) {
+    return await api.post("/updatebuyerinvoice", payload);
+  },
 
+  async updateCustomInvoice(payload) {
+    return await api.post("/updatecustominvoice", payload);
+  },
 };
-
-

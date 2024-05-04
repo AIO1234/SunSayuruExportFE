@@ -21,14 +21,16 @@
                   <b-col lg="3" cols="12">
                     <span class="inoice_number"> Invoice no </span>
                     <br /><br />
-                    <span class="ivoice_numbr_value">{{ buyerinvoice.invoice_no }}</span>
+                    <span class="ivoice_numbr_value">{{
+                      buyerinvoice.invoice_no
+                    }}</span>
                   </b-col>
                   <div></div>
                   <b-col lg="5" cols="8" class="mobile_paddings">
                     <span class="inoice_number"> Consignee </span>
                     <br /><br />
-                    <span class="ivoice_numbr_value"
-                      >  {{ buyerinvoice.buyer_name }}</span
+                    <span class="ivoice_numbr_value">
+                      {{ buyerinvoice.buyer_name }}</span
                     >
                   </b-col>
 
@@ -48,7 +50,9 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> A.W.B. </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">  {{ buyerinvoice.awb }}</span>
+                      <span class="ivoice_numbr_value">
+                        {{ buyerinvoice.awb }}</span
+                      >
                     </div>
 
                     <br />
@@ -68,7 +72,9 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> Flight </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">  {{ buyerinvoice.flight }}</span>
+                      <span class="ivoice_numbr_value">
+                        {{ buyerinvoice.flight }}</span
+                      >
                     </div>
 
                     <br />
@@ -88,7 +94,9 @@
                     <div class="mobile_only_view">
                       <span class="inoice_number"> ETA </span>
                       <br /><br />
-                      <span class="ivoice_numbr_value">  {{ buyerinvoice.eta }}</span>
+                      <span class="ivoice_numbr_value">
+                        {{ buyerinvoice.eta }}</span
+                      >
                     </div>
                   </b-col>
                 </b-row>
@@ -102,10 +110,9 @@
             <b-table
               sticky-header=""
               responsive="sm"
-              :items="buyerinvoice.seafoods"
+              :items="buyerinvoice.boxes.seafoods"
               :fields="fields"
             >
-              
             </b-table>
           </div>
           <b-container>
@@ -115,10 +122,14 @@
                   ><span class="total ml-1">Total</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total" style="margin-left: 30px;"> {{buyerinvoice.total_weight }}</span></b-col
+                  ><span class="total" style="padding-left: 40px">
+                    {{ buyerinvoice.boxes.total_weight }}</span
+                  ></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">{{ buyerinvoice.total_amount }}</span>
+                  ><span class="total" style="padding-left: 15px">{{
+                    getPriceWithOutCurrency(buyerinvoice.boxes.total_amount)
+                  }}</span>
                 </b-col>
               </b-row>
             </div>
@@ -129,7 +140,9 @@
                   ><span class="total ml-1">Total Weight</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> {{buyerinvoice.total_weight }}</span></b-col
+                  ><span class="total ml-1">
+                    {{ buyerinvoice.total_weight }}</span
+                  ></b-col
                 >
               </b-row>
               <br />
@@ -138,7 +151,9 @@
                   ><span class="total ml-1">Total Cost</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">{{ buyerinvoice.total_amount }}</span></b-col
+                  ><span class="total ml-1">{{
+                    getPriceWithOutCurrency(buyerinvoice.total_amount)
+                  }}</span></b-col
                 >
               </b-row>
             </div>
@@ -232,9 +247,7 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-      
-      ],
+      items: [],
     };
   },
 
@@ -248,7 +261,7 @@ export default {
       });
       const res = await reportApi.buyerInvoice(payload);
       this.buyerinvoice = res.data.data;
-   
+
       this.$vs.loading.close();
     },
   },

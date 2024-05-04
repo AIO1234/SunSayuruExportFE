@@ -87,7 +87,7 @@
 
         <b-row
           class="pl-2 pr-2 pt-2"
-          v-for="seafood in buyerinvoice.seafoods"
+          v-for="seafood in form.boxes.seafoods"
           :key="seafood.seafoodtype"
         >
           <b-col>
@@ -193,7 +193,6 @@
 
     <div class="d-flex justify-content-end pt-3">
       <b-button
-     
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
         variant="none"
         class="form_submit_button"
@@ -207,6 +206,7 @@
 </template>
 <script>
 import reportApi from "@/Api/Modules/reports";
+import shipmentApi from "@/Api/Modules/shipments";
 import { ValidationObserver } from "vee-validate";
 import vSelect from "vue-select";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
@@ -262,6 +262,7 @@ export default {
     await this.getBuyerInvoice();
   },
   methods: {
+    // get buyer invoice
     async getBuyerInvoice() {
       const payload = {
         shipment_id: this.$route.params.shipment_id,
@@ -274,8 +275,22 @@ export default {
       this.form = this.buyerinvoice;
       this.$vs.loading.close();
     },
-    updateBuyerInvoice() {
-      console.log(this.buyerinvoice.seafoods);
+    // update buyer invoice
+    async updateBuyerInvoice() {
+      this.form.shipment_id = this.$route.params.shipment_id;
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      await shipmentApi
+        .updateBuyerInvoice(this.form)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+
+      this.$vs.loading.close();
     },
   },
 };

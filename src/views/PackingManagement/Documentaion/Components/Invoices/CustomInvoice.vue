@@ -110,7 +110,7 @@
             <b-table
               sticky-header=""
               responsive="sm"
-              :items="custominvoice.seafoods"
+              :items="custominvoice.boxes.seafoods"
               :fields="fields"
             >
             </b-table>
@@ -123,12 +123,12 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total" style="margin-left: 30px">
-                    {{ custominvoice.total_weight }}</span
+                    {{ custominvoice.boxes.total_weight }}</span
                   ></b-col
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">{{
-                    custominvoice.total_amount
+                    getPriceWithOutCurrency(custominvoice.boxes.total_amount)
                   }}</span>
                 </b-col>
               </b-row>
@@ -141,7 +141,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">
-                    {{ custominvoice.total_weight }}</span
+                    {{ custominvoice.boxes.total_weight }}</span
                   ></b-col
                 >
               </b-row>
@@ -152,7 +152,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">{{
-                    custominvoice.total_amount
+                    getPriceWithOutCurrency(custominvoice.boxes.total_amount)
                   }}</span></b-col
                 >
               </b-row>

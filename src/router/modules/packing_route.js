@@ -35,7 +35,10 @@ export default [
   {
     path: "/viewpacking",
     name: "viewpacking",
-    component: () => import("@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue"),
+    component: () =>
+      import(
+        "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue"
+      ),
     meta: {
       pageTitle: "Shipment summary",
       breadcrumb: [
@@ -102,7 +105,7 @@ export default [
   },
 
   {
-    path: "/editcustominvoice",
+    path: "/editcustominvoice/:shipment_id/:shipment_no",
     name: "editcustominvoice",
     component: () =>
       import(
