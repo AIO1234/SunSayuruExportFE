@@ -1,60 +1,11 @@
 <template>
   <div class="custom_invoice">
-    <h2 class="shipment_number text-right">Shipment no - S001</h2>
+    <h2 class="shipment_number text-right">
+      Shipment no - {{ $route.params.shipment_no }}
+    </h2>
     <div style="background-color: #fffef8; border-radius: 10px">
       <b-container>
         <b-row class="pl-2 pr-2 pt-3">
-          <b-col lg="6">
-            <b-form-group label="Business name*" label-class="form_label_class">
-              <validation-Provider
-                name="Business name"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Business name"
-                  v-model="form.buisness_name"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col lg="6">
-            <b-form-group
-              label="Business address*"
-              label-class="form_label_class"
-            >
-              <validation-Provider
-                name="Business address"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Business address"
-                  v-model="form.buisness_address"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="Tel no*" label-class="form_label_class">
-              <validation-Provider
-                name="Tel no"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Tel no"
-                  v-model="form.tel_no"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
           <b-col lg="6" class="pt-2">
             <b-form-group label="Invoice no*" label-class="form_label_class">
               <validation-Provider
@@ -64,7 +15,7 @@
               >
                 <b-form-input
                   placeholder="Enter Invoice number"
-                  v-model="form.invoice_number"
+                  v-model="form.invoice_no"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -134,7 +85,11 @@
           <b-col><span class="edit_form_header">Total cost ($)</span></b-col>
         </b-row>
 
-        <b-row class="pl-2 pr-2 pt-2" v-for="n in (1, 2, 3)" :key="n">
+        <b-row
+          class="pl-2 pr-2 pt-2"
+          v-for="seafood in buyerinvoice.seafoods"
+          :key="seafood.seafoodtype"
+        >
           <b-col>
             <b-form-group label-class="form_label_class">
               <validation-Provider
@@ -145,7 +100,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Business name"
-                  v-model="form.buisness_name"
+                  v-model="seafood.seafoodtype"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -160,8 +115,8 @@
               >
                 <b-form-input
                   class="input_background"
-                  placeholder="Enter Business address"
-                  v-model="form.buisness_address"
+                  placeholder="Enter Quality"
+                  v-model="seafood.quality"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -178,7 +133,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Grading"
-                  v-model="form.shipment_number"
+                  v-model="seafood.grading"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -194,7 +149,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Rate"
-                  v-model="form.rate"
+                  v-model="seafood.price_rate"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -210,7 +165,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Weight"
-                  v-model="form.weight"
+                  v-model="seafood.weight"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -226,7 +181,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Total cost"
-                  v-model="form.total_cost"
+                  v-model="seafood.total_amount"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -238,12 +193,14 @@
 
     <div class="d-flex justify-content-end pt-3">
       <b-button
-        v-if="currentcomponent !== 'AdditionalCostForm'"
+     
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
         variant="none"
         class="form_submit_button"
       >
-        <span class="button_text_styles" @click="saveInvoice()">Save</span>
+        <span class="button_text_styles" @click="updateBuyerInvoice()"
+          >Save</span
+        >
       </b-button>
     </div>
   </div>
@@ -301,6 +258,9 @@ export default {
       buyerinvoice: {},
     };
   },
+  async created() {
+    await this.getBuyerInvoice();
+  },
   methods: {
     async getBuyerInvoice() {
       const payload = {
@@ -311,10 +271,12 @@ export default {
       });
       const res = await reportApi.buyerInvoice(payload);
       this.buyerinvoice = res.data.data;
-
+      this.form = this.buyerinvoice;
       this.$vs.loading.close();
+    },
+    updateBuyerInvoice() {
+      console.log(this.buyerinvoice.seafoods);
     },
   },
 };
 </script>
-``

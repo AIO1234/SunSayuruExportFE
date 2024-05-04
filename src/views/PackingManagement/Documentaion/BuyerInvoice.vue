@@ -23,7 +23,7 @@
             <b-col lg="2">
               <b-button
                 variant="none"
-                @click="$router.push(`/editbuyerinvoice1/${data.item.id}/${data.item.shipment_no}`)"
+                @click="$router.push(`/editbuyerinvoice/${data.item.id}/${data.item.shipment_no}`)"
               >
                 <b-img
                   width="17px"
