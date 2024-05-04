@@ -249,6 +249,7 @@
   </div>
 </template>
 <script>
+import reportApi from "@/Api/Modules/reports";
 import { ValidationObserver } from "vee-validate";
 import vSelect from "vue-select";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
@@ -297,7 +298,22 @@ export default {
   data() {
     return {
       form: {},
+      buyerinvoice: {},
     };
+  },
+  methods: {
+    async getBuyerInvoice() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.buyerInvoice(payload);
+      this.buyerinvoice = res.data.data;
+
+      this.$vs.loading.close();
+    },
   },
 };
 </script>

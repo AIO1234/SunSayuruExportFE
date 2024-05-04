@@ -120,7 +120,7 @@ export default [
   },
 
   {
-    path: "/editbuyerinvoice",
+    path: "/editbuyerinvoice/:shipment_id/:shipment_no",
     name: "editbuyerinvoice",
     component: () =>
       import(
