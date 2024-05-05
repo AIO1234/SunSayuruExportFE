@@ -9,7 +9,7 @@
         <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
 
         <div class="invoice_padding">
-          <span class="cost_sheet">COST SHEET</span>
+          <span class="cost_sheet">Invoice</span>
         </div>
       </div>
       <div class="invoice_padding mr-3 ml-4">
