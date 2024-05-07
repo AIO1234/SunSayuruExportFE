@@ -172,7 +172,7 @@
       <!-- shipments table  -->
       <div class="pt-5" v-if="type === 'Packing & Receivings'">
         <b-card>
-          <ShipmentTable />
+          <ShipmentTable :shipments="packingshipments" />
         </b-card>
       </div>
     </div>
@@ -242,10 +242,12 @@ import {
 } from "bootstrap-vue";
 import countryApi from "@/Api/Modules/countries";
 import reportApi from "@/Api/Modules/reports";
+import shipmentApi from "@/Api/Modules/shipments";
 export default {
   name: "Packings",
   data() {
     return {
+      packingshipments: [],
       documentshipments: [],
       startdate: "16 January 2024",
       enddate: "16 January 2024",
@@ -293,6 +295,7 @@ export default {
     await this.getShipmentsForDocuments();
     await this.getCountries();
     this.initializeParams();
+    await this.getAllShipmentsForPackings();
   },
 
   methods: {
@@ -365,6 +368,21 @@ export default {
         this.$vs.loading.close();
         this.loaded = true;
       }
+    },
+
+    // get all shipments for packing & receiving
+
+    async getAllShipmentsForPackings() {
+      const payload = {
+        buyer_id: localStorage.currentSelectedBuyerid,
+        country_id: localStorage.currentSelectedCountryid,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.allShipments(payload);
+      this.packingshipments = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };

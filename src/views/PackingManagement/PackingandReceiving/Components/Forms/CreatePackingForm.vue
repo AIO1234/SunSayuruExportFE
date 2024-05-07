@@ -24,6 +24,7 @@
                     v-model="box.box_number"
                     style="
                       background-color: #003476;
+                      color: white;
                       width: 170px;
                       height: 39px;
                     "

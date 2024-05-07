@@ -182,11 +182,11 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      shipments: [],
     };
   },
-  async created() {
-    await this.getAllShipments();
+
+  props: {
+    shipments: Array,
   },
 
   methods: {
@@ -204,18 +204,7 @@ export default {
       this.selectedPacking = data;
     },
 
-    async getAllShipments() {
-      const payload = {
-        buyer_id: localStorage.currentSelectedBuyerid,
-        country_id: localStorage.currentSelectedCountryid,
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await shipmentApi.allShipments(payload);
-      this.shipments = res.data.data;
-      this.$vs.loading.close();
-    },
+    
   },
 };
 </script>

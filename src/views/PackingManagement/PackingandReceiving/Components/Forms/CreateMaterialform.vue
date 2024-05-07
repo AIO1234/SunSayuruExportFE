@@ -41,7 +41,7 @@
               </b-col>
 
               <!-- Quantity -->
-              <b-col lg="2">
+              <!-- <b-col lg="2">
                 <b-form-group
                   v-if="
                     item.description === 'Box' || item.description === 'box'
@@ -60,15 +60,9 @@
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
-                </b-form-group>
-
-                <b-form-group
-                  v-else-if="
-                    item.description !== 'Box' || item.description !== 'box'
-                  "
-                  label="Quantity*"
-                  label-class="form_label_class"
-                >
+                </b-form-group> -->
+              <b-col>
+                <b-form-group label="Quantity*" label-class="form_label_class">
                   <validation-Provider
                     name="quantity"
                     rules="required|integer"
