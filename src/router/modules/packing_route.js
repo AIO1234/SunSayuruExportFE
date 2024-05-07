@@ -33,7 +33,7 @@ export default [
   },
 
   {
-    path: "/viewpacking",
+    path: "/viewpacking/:shipment_id",
     name: "viewpacking",
     component: () =>
       import(

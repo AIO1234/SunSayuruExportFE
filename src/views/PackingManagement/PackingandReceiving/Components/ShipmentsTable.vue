@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+    <b-table
+      sticky-header=""
+      responsive="sm"
+      :items="shipments"
+      :fields="fields"
+    >
       <template #cell(status)="data">
         <b-badge style="background-color: #cdf59b; color: #67b108">{{
           data.value
@@ -9,7 +14,10 @@
       <template #cell(action)="data">
         <b-row>
           <b-col lg="6">
-            <b-button variant="none" @click="$router.push('/viewpacking')">
+            <b-button
+              variant="none"
+              @click="$router.push(`/viewpacking/${data.item.id}`)"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -33,6 +41,13 @@
             </b-button>
           </b-col> -->
         </b-row>
+      </template>
+
+      <template #cell(total_material_costs)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+      <template #cell(total_additional_costs)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
       </template>
     </b-table>
 
@@ -60,6 +75,7 @@
 
 <script>
 import PackingUpdateForm from "@/views/PackingManagement/PackingandReceiving/Components/UpdatePackingForm.vue";
+import shipmentApi from "@/Api/Modules/shipments.js";
 import ViewPacking from "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue";
 
 import {
@@ -100,17 +116,17 @@ export default {
       selectedPacking: {},
       fields: [
         {
-          key: "shipmentno",
+          key: "shipment_no",
           label: "Shipment no",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
           key: "eta",
           label: "ETA",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "20%" },
           // tdClass: "custom-cell-padding",
         },
         {
@@ -122,7 +138,7 @@ export default {
         },
 
         {
-          key: "totalweight",
+          key: "total_weight",
           label: "Total weight(Kg)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -130,40 +146,34 @@ export default {
         },
 
         {
-          key: "noofboxes",
+          key: "total_boxes",
           label: "Total no of boxes",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "noofsupliers",
+          key: "total_supliers",
           label: "Total no of suppliers",
           sortable: true,
           thStyle: { width: "15.6%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "materialcost",
-          label: "Total Material Cost($)",
+          key: "total_material_costs",
+          label: "Total Material Cost(Rs)",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "addtionalcost",
-          label: "Total Additional Cost($)",
+          key: "total_additional_costs",
+          label: "Total Additional Cost(Rs)",
           sortable: true,
           thStyle: { width: "20%" },
           // tdClass: "custom-cell-padding",
         },
-        {
-          key: "status",
-          label: "Status",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
+
         {
           key: "action",
           label: "Action",
@@ -172,44 +182,12 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
-        },
-      ],
+      shipments: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.getAllShipments();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
@@ -224,6 +202,19 @@ export default {
     openDetailsModal(data) {
       this.$refs.DetailsModal.show();
       this.selectedPacking = data;
+    },
+
+    async getAllShipments() {
+      const payload = {
+        buyer_id: localStorage.currentSelectedBuyerid,
+        country_id: localStorage.currentSelectedCountryid,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.allShipments(payload);
+      this.shipments = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };

@@ -176,13 +176,13 @@ export default {
         },
         {
           key: "price_rate",
-          label: "Price rate",
+          label: "Price rate(Rs)",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
         {
           key: "amount",
-          label: "Total cost",
+          label: "Total cost(Rs)",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },

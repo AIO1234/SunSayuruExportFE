@@ -84,7 +84,7 @@ export default {
 
         {
           key: "total_amount",
-          label: "Total Cost($)",
+          label: "Total Cost(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
