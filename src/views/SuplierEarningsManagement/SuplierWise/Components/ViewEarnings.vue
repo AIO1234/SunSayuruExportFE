@@ -17,6 +17,9 @@
         :items="shipmentdetails"
         :fields="fields"
       >
+        <template #cell(total_cost)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
       </b-table>
     </b-card>
     <br />

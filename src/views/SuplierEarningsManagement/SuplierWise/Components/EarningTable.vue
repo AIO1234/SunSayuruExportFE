@@ -21,6 +21,10 @@
           </b-col>
         </b-row>
       </template>
+
+      <template #cell(total_amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
     </b-table>
 
     <b-modal

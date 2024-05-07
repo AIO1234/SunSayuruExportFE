@@ -113,6 +113,12 @@
               :items="custominvoice.boxes.seafoods"
               :fields="fields"
             >
+              <template #cell(total_amount)="data">
+                {{ getPriceWithOutCurrency(data.value) }}
+              </template>
+              <template #cell(price_rate)="data">
+                {{ getPriceWithOutCurrency(data.value) }}
+              </template>
             </b-table>
           </div>
           <b-container>
