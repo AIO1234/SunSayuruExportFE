@@ -541,6 +541,13 @@
   }
 }
 .packing_view {
+  .shpment_details {
+    width: 70%;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
   .shipment_summery_heading {
     font-family: "Urbanist", sans-serif;
     font-size: 16px;

@@ -1,9 +1,9 @@
 <template>
   <div class="packing_view">
     <div class="pt-2"></div>
-    <b-card style="width: 70%">
+    <b-card class="shpment_details">
       <b-row>
-        <b-col>
+        <b-col cols="12" lg="6">
           <div>
             <b-container>
               <div class="row d-flex justify-content">
@@ -16,18 +16,14 @@
 
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Country</span>
-                <span class="col-5 shipment_summry_para">{{
-                  shipment.shipmentdetails.shipment_no
-                }}</span>
+                <span class="col-5 shipment_summry_para">{{ country }}</span>
               </div>
 
               <br />
 
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Buyer</span>
-                <span class="col-5 shipment_summry_para">{{
-                  shipment.shipmentdetails.shipment_no
-                }}</span>
+                <span class="col-5 shipment_summry_para">{{ buyer }}</span>
               </div>
 
               <br />
@@ -59,7 +55,8 @@
           </div>
         </b-col>
 
-        <b-col>
+        <b-col  cols="12" lg="6">
+          <div class="mobile_only_view pt-2"></div>
           <div>
             <b-container>
               <div>
@@ -282,6 +279,8 @@ export default {
   },
   data() {
     return {
+      country: localStorage.currentSelectedCountryname,
+      buyer: localStorage.currentSelectedBuyername,
       shipment: {},
       suplier_feilds: [
         {
