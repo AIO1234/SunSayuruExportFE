@@ -4,7 +4,7 @@
       <b-table
         sticky-header=""
         responsive="sm"
-        :items="shipments"
+        :items="shipmentsarray"
         :fields="fields"
       >
         <template #cell(action)="data">
@@ -99,13 +99,9 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      shipments: [],
     };
   },
 
-  created() {
-    this.shipments = this.shipmentsarray;
-  },
   props: {
     shipmentsarray: Array,
   },

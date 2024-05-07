@@ -11,33 +11,13 @@
         </h2>
       </b-col>
       <b-col lg="4" cols="12">
-        <!-- <b-row class="margins">
-          <b-col lg="6" cols="6">
-            <b-button class="suplierearnings_download_button" variant="none"
-              ><span class="suplierearnings_download_button_color"
-                >Download</span
-              ></b-button
-            >
-          </b-col>
-          <b-col lg="6" cols="6">
-            <b-button
-              @click="openEmailModal()"
-              class="suplierearnings_sendemail_button"
-              variant="none"
-              ><span class="suplierearnings_sendemail_button_color"
-                >Send Email</span
-              ></b-button
-            >
-          </b-col>
-        </b-row> -->
-        <!-- <div class="row d-flex justify-content">
-        
-          
-        </div> -->
         <div class="d-flex justify-content-end">
           <b-row>
             <b-col lg="5" cols="6">
-              <b-button class="download_button" variant="none"
+              <b-button
+                class="download_button"
+                variant="none"
+                @click="generate()"
                 ><span class="download_button_color">Download</span></b-button
               >
             </b-col>
@@ -74,7 +54,7 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="6"
-            ><span class="totaltext ml-4">
+            ><span class="totaltext ml-0">
               {{ getPrice(totalearnings) }}</span
             ></b-col
           >
@@ -87,7 +67,7 @@
             ><span class="totaltext ml-1">Total</span></b-col
           >
           <b-col lg="2" cols="2"
-            ><span class="totaltext ml-1">
+            ><span class="totaltext ml-0">
               {{ getPrice(totalearnings) }}</span
             ></b-col
           >
@@ -98,9 +78,73 @@
     <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
       <EmailModal title="Send Suplier Bill" />
     </b-modal>
+
+    <div>
+      <vue-html2pdf
+        :show-layout="false"
+        :float-layout="true"
+        :enable-download="true"
+        :preview-modal="true"
+        :paginate-elements-by-height="1400"
+        filename="SuplierInvoice"
+        :pdf-quality="2"
+        :manual-pagination="false"
+        pdf-format="a4"
+        pdf-orientation="landscape"
+        pdf-content-width="1100px"
+        @progress="onProgress($event)"
+        @hasStartedGeneration="hasStartedGeneration()"
+        @hasGenerated="hasGenerated($event)"
+        ref="html2Pdf"
+      >
+        <section slot="pdf-content">
+          <!-- suplier invoice -->
+          <div class="pt-5 suplierearnings">
+            <b-card>
+              <b-table
+                sticky-header=""
+                responsive="sm"
+                :items="details"
+                :fields="fields"
+              >
+              </b-table>
+            </b-card>
+            <br />
+            <b-container>
+              <div class="web_only_view">
+                <b-row>
+                  <b-col lg="10" cols="6"
+                    ><span class="totaltext ml-1">Total</span></b-col
+                  >
+                  <b-col lg="2" cols="6"
+                    ><span class="totaltext ml-0">
+                      {{ getPrice(totalearnings) }}</span
+                    ></b-col
+                  >
+                </b-row>
+              </div>
+              <div class="mobile_only_view">
+                <br />
+                <b-row>
+                  <b-col lg="8" cols="8"
+                    ><span class="totaltext ml-1">Total</span></b-col
+                  >
+                  <b-col lg="2" cols="2"
+                    ><span class="totaltext ml-1">
+                      {{ getPrice(totalearnings) }}</span
+                    ></b-col
+                  >
+                </b-row>
+              </div>
+            </b-container>
+          </div>
+        </section>
+      </vue-html2pdf>
+    </div>
   </div>
 </template>
 <script>
+import VueHtml2pdf from "vue-html2pdf";
 import {
   BModal,
   BCard,
@@ -119,6 +163,7 @@ import reportApi from "@/Api/Modules/reports";
 import EmailModal from "@/Components/EmailModal.vue";
 export default {
   components: {
+    VueHtml2pdf,
     BCard,
     BModal,
     BImg,
@@ -211,6 +256,10 @@ export default {
       this.details = res.data.data.results_data;
       this.totalearnings = res.data.data.total_earning;
       this.$vs.loading.close();
+    },
+
+    generate() {
+      this.$refs.html2Pdf.generatePdf();
     },
   },
 };

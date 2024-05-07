@@ -183,7 +183,7 @@
       <!-- tab buttons -->
       <div>
         <b-tabs pills active-nav-item-class="bg-warning border-warning">
-          <b-tab title="Packing list" title-item-class="custom-tab-item ">
+          <b-tab title="Packing list" title-item-class="custom-tab-item" >
             <template #title>
               <span class="custom-bg-text">Packing list</span>
             </template>
@@ -292,10 +292,16 @@ export default {
     Ripple,
   },
   async created() {
-    await this.getShipmentsForDocuments();
+    if (localStorage.getItem("currentSelectedtype") === "Documentations") {
+      await this.getShipmentsForDocuments();
+    }
     await this.getCountries();
     this.initializeParams();
-    await this.getAllShipmentsForPackings();
+    if (
+      localStorage.getItem("currentSelectedtype") === "Packing & Receivings"
+    ) {
+      await this.getAllShipmentsForPackings();
+    }
   },
 
   methods: {
@@ -327,26 +333,56 @@ export default {
     },
     // get all countries
     async getCountries() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
       const res = await countryApi.allCountries();
       this.countries = res.data.data;
+      this.$vs.loading.close();
     },
     // trigger  when country change
-    countryChange() {
+    async countryChange() {
+      this.buyers = [];
+      console.log(this.country)
       this.buyers = this.country.buyers;
       localStorage.setItem("currentSelectedCountryid", this.country.id);
       localStorage.setItem("currentSelectedCountryname", this.country.name);
       this.buyer.id = this.buyers[0].id;
       this.buyer.name = this.buyers[0].name;
       this.buyerChange();
+      // load documents acording to country and buyer
+      // if (localStorage.getItem("currentSelectedtype") === "Documentations") {
+      //   await this.getShipmentsForDocuments();
+      // } else if (
+      //   // load all shipments acording to country and buyer
+      //   localStorage.getItem("currentSelectedtype") === "Packing & Receivings"
+      // ) {
+      //   await this.getAllShipmentsForPackings();
+      // }
     },
     // triger when buyer change
-    buyerChange() {
+    async buyerChange() {
       localStorage.setItem("currentSelectedBuyerid", this.buyer.id);
       localStorage.setItem("currentSelectedBuyername", this.buyer.name);
+      // load documents acording to country and buyer
+      if (localStorage.getItem("currentSelectedtype") === "Documentations") {
+        await this.getShipmentsForDocuments();
+      } else if (
+        localStorage.getItem("currentSelectedtype") === "Packing & Receivings"
+      ) {
+        await this.getAllShipmentsForPackings();
+      }
     },
     // triger when type change
     async typesChange() {
       localStorage.setItem("currentSelectedtype", this.type);
+      if (localStorage.getItem("currentSelectedtype") === "Documentations") {
+        await this.getShipmentsForDocuments();
+      } else if (
+        localStorage.getItem("currentSelectedtype") === "Packing & Receivings"
+      ) {
+        await this.getAllShipmentsForPackings();
+      }
     },
 
     // get all shipments acording to selected buyer and country

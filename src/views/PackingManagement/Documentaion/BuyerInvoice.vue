@@ -4,7 +4,7 @@
       <b-table
         sticky-header=""
         responsive="sm"
-        :items="shipments"
+        :items="shipmentsarray"
         :fields="fields"
       >
         <template #cell(action)="data">
@@ -12,7 +12,11 @@
             <b-col lg="1">
               <b-button
                 variant="none"
-                @click="$router.push(`/buyerinvoiceinner/${data.item.id}/${data.item.shipment_no}`)"
+                @click="
+                  $router.push(
+                    `/buyerinvoiceinner/${data.item.id}/${data.item.shipment_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"
@@ -23,7 +27,11 @@
             <b-col lg="2">
               <b-button
                 variant="none"
-                @click="$router.push(`/editbuyerinvoice/${data.item.id}/${data.item.shipment_no}`)"
+                @click="
+                  $router.push(
+                    `/editbuyerinvoice/${data.item.id}/${data.item.shipment_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"
@@ -115,9 +123,7 @@ export default {
   props: {
     shipmentsarray: Array,
   },
-  created() {
-    this.shipments = this.shipmentsarray;
-  },
+
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
