@@ -563,12 +563,13 @@ export default {
           .addShipmentBox(this.form)
           .then(() => {
             this.$vs.loading.close();
+            this.$emit("sendComponentName", "BoxesandSupliers");
           })
           .catch(() => {
             this.$vs.loading.close();
           });
 
-        this.$emit("sendComponentName", "BoxesandSupliers");
+       
       }
     },
     // back button,
