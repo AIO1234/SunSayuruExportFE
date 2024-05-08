@@ -147,7 +147,6 @@
                             >
                               <validation-Provider
                                 name="water percentage"
-                                rules="required"
                                 v-slot="{ errors }"
                               >
                                 <b-input-group>
@@ -482,12 +481,14 @@ export default {
               seafoodtype: "Select Seafood",
               quality: "Select Quality",
               grading: "Select Grading",
+              water_percentage: 0,
               supliers: [
                 {
                   id: 1,
                   suplier: "Select Suplier",
-                  weight: "",
-                  rate: "",
+                  weight: "Enter Weight",
+                  rate: "Enter Rate",
+                  recieving_date: "Select Date",
                 },
               ],
             },
@@ -570,6 +571,9 @@ export default {
       seafood.supliers.push({
         id: seafood.supliers.length + 1,
         suplier: "Select Suplier",
+        weight: "Enter Weight",
+        rate: "Enter Rate",
+        recieving_date: "Select Date",
       });
     },
 
@@ -585,9 +589,14 @@ export default {
         seafoodtype: "Select Seafood",
         quality: "Select Quality",
         grading: "Select Grading",
+        water_percentage: 0,
         supliers: [
           {
             id: 1,
+            suplier: "Select Suplier",
+            weight: "Enter Weight",
+            rate: "Enter Rate",
+            recieving_date: "Select Date",
           },
         ],
       });
@@ -600,9 +609,17 @@ export default {
         seafoods: [
           {
             id: 1,
+            seafoodtype: "Select Seafood",
+            quality: "Select Quality",
+            grading: "Select Grading",
+            water_percentage: 0,
             supliers: [
               {
                 id: 1,
+                suplier: "Select Suplier",
+                weight: "Enter Weight",
+                rate: "Enter Rate",
+                recieving_date: "Select Date",
               },
             ],
           },
