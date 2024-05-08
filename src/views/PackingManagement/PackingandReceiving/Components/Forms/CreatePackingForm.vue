@@ -6,7 +6,7 @@
         <h2 class="shipment_create_header">Boxes & suppliers</h2>
         <!-- Add box For Loop -->
         <div
-          v-for="(box, boxindexindex) in boxes"
+          v-for="(box, boxindex) in boxes"
           :id="box.id"
           :key="box.id"
           ref="row"
@@ -70,7 +70,7 @@
                                   @input="
                                     seafoodGrding(
                                       seafood.seafoodtype.id,
-                                      boxindexindex,
+                                      boxindex,
                                       seafoodindex
                                     )
                                   "
@@ -305,7 +305,7 @@
                                   />
                                 </b-form-group>
                               </b-col>
-
+                              <!-- Remove Button -->
                               <b-col lg="1" class="minus_button_margin">
                                 <b-button
                                   variant="none"
@@ -316,9 +316,9 @@
                                   ></b-img>
                                 </b-button>
                               </b-col>
-                              <!-- Remove Button -->
                             </b-row>
                             <br />
+                            <!-- add suplier button -->
                             <div class="text-right">
                               <b-button
                                 v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -337,17 +337,12 @@
                       </validation-observer>
                       <br />
                       <br />
-
-                      <!-- <div class="d-flex justify-content-center">
-                <b-button
-                  @click="validationPackingCreateForm()"
-                  type="submit"
-                  variant="none"
-                  class="form_submit_button"
-                >
-                  <span class="button_text_styles"> Create</span>
-                </b-button>
-              </div> -->
+                      <!-- remove seafood button -->
+                      <b-button
+                        variant="danger"
+                        @click="removeSeafood(box, seafoodindex)"
+                        >Remove Seafood {{ seafood.id }}</b-button
+                      >
                       <br />
                       <br />
                     </b-form>
@@ -356,24 +351,38 @@
               </div>
 
               <br />
-              <div class="text-right">
-                <b-button
-                  @click="repeateSeafood(box)"
-                  type="submit"
-                  variant="none"
-                  class="seafood_add_button"
-                >
-                  <span class="button_text_styles_seafood_type"
-                    >Add seafood type</span
-                  >
-                </b-button>
-              </div>
+              <b-row>
+                <b-col lg="6">
+                  <div>
+                    <!-- remove box button -->
+                    <b-button variant="danger" @click="removeBox(boxindex)"
+                      >Remove Box {{ box.box_number }}</b-button
+                    >
+                  </div>
+                </b-col>
+                <b-col lg="6">
+                  <div class="text-right">
+                    <!-- add seafood button -->
+                    <b-button
+                      @click="repeateSeafood(box)"
+                      type="submit"
+                      variant="none"
+                      class="seafood_add_button"
+                    >
+                      <span class="button_text_styles_seafood_type"
+                        >Add seafood type</span
+                      >
+                    </b-button>
+                  </div>
+                </b-col>
+              </b-row>
               <br />
             </b-container>
           </div>
         </div>
         <br />
         <div class="text-right">
+          <!-- add box button -->
           <b-button
             @click="repeateBox()"
             type="submit"
@@ -580,6 +589,18 @@ export default {
     // remove suplier
     removeSuplier(seafood, index) {
       seafood.supliers.splice(index, 1);
+    },
+
+    // remove seafood type
+
+    removeSeafood(box, index) {
+      box.seafoods.splice(index, 1);
+    },
+
+    // remove box
+
+    removeBox(index) {
+      this.boxes.splice(index, 1);
     },
 
     // add seafood
