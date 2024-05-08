@@ -182,8 +182,18 @@
     <div v-if="type === 'Documentations' && loaded === true">
       <!-- tab buttons -->
       <div>
-        <b-tabs pills active-nav-item-class="bg-warning border-warning">
-          <b-tab title="Packing list" title-item-class="custom-tab-item" >
+        <b-tabs
+          pills
+          active-nav-item-class="bg-warning border-warning"
+          value="1"
+          v-model="currenttab"
+        >
+          <b-tab
+            title="Packing list"
+          
+            title-item-class="custom-tab-item"
+            @click="changeTab()"
+          >
             <template #title>
               <span class="custom-bg-text">Packing list</span>
             </template>
@@ -193,6 +203,8 @@
 
           <b-tab
             title="Custom invoice"
+            @click="changeTab()"
+          
             title-item-class="custom-tab-item margin_class_tab"
           >
             <template #title>
@@ -203,6 +215,8 @@
           </b-tab>
 
           <b-tab
+          
+            @click="changeTab()"
             title="Buyer invoice"
             title-item-class="custom-tab-item margin_class_tab"
           >
@@ -265,6 +279,7 @@ export default {
       },
       type: "Select Type",
       loaded: false,
+      currenttab: "",
     };
   },
   name: "users",
@@ -326,6 +341,10 @@ export default {
 
         this.buyer.id = localStorage.getItem("currentSelectedBuyerid");
         this.buyer.name = localStorage.getItem("currentSelectedBuyername");
+
+        // initialize tabs
+
+        this.currenttab = sessionStorage.getItem("tabindex");
       }
     },
     openCreateModal() {
@@ -343,22 +362,13 @@ export default {
     // trigger  when country change
     async countryChange() {
       this.buyers = [];
-      console.log(this.country)
+      console.log(this.country);
       this.buyers = this.country.buyers;
       localStorage.setItem("currentSelectedCountryid", this.country.id);
       localStorage.setItem("currentSelectedCountryname", this.country.name);
       this.buyer.id = this.buyers[0].id;
       this.buyer.name = this.buyers[0].name;
       this.buyerChange();
-      // load documents acording to country and buyer
-      // if (localStorage.getItem("currentSelectedtype") === "Documentations") {
-      //   await this.getShipmentsForDocuments();
-      // } else if (
-      //   // load all shipments acording to country and buyer
-      //   localStorage.getItem("currentSelectedtype") === "Packing & Receivings"
-      // ) {
-      //   await this.getAllShipmentsForPackings();
-      // }
     },
     // triger when buyer change
     async buyerChange() {
@@ -406,6 +416,9 @@ export default {
       }
     },
 
+    changeTab() {
+      sessionStorage.setItem("tabindex", this.currenttab);
+    },
     // get all shipments for packing & receiving
 
     async getAllShipmentsForPackings() {

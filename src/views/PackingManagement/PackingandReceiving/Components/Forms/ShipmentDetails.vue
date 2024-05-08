@@ -8,25 +8,26 @@
         <b-container>
           <b-form class="auth-login-form mt-2" @submit.prevent>
             <b-row>
+              <!-- Invoice number -->
               <b-col lg="6">
                 <b-form-group
-                  label="Shipment number*"
+                  label="Invoice number*"
                   label-class="form_label_class"
                 >
                   <validation-Provider
-                    name="Shipment number"
+                    name="Invoice number"
                     rules="required"
                     v-slot="{ errors }"
                   >
                     <b-form-input
-                      placeholder="Enter shipment number"
-                      v-model="form.shipment_no"
+                      placeholder="Enter invoice number"
+                      v-model="form.invoice_no"
                     ></b-form-input>
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-
+              <!-- country -->
               <b-col lg="6">
                 <b-form-group label="Country" label-class="form_label_class">
                   <validation-Provider
@@ -43,7 +44,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-
+              <!-- buyer name -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="Buyer" label-class="form_label_class">
                   <validation-Provider
@@ -57,6 +58,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
+              <!-- flight -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="Flight*" label-class="form_label_class">
                   <validation-Provider
@@ -72,7 +74,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-
+              <!-- Eta -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="ETA*" label-class="form_label_class">
                   <validation-Provider
@@ -88,7 +90,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-
+              <!-- awb -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="AWB*" label-class="form_label_class">
                   <validation-Provider
@@ -99,6 +101,44 @@
                     <b-form-input
                       placeholder="Enter AWB number"
                       v-model="form.awb"
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
+
+              <!-- consignee -->
+              <b-col lg="12" class="pt-2">
+                <b-form-group label="Consignee*" label-class="form_label_class">
+                  <validation-Provider
+                    name="Consignee"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-textarea
+                      placeholder="Enter Consignee"
+                      v-model="form.consignee"
+                    ></b-form-textarea>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
+              <!-- Airfreight Cost  -->
+              <b-col lg="12" class="pt-2">
+                <b-form-group
+                  label="Airfreight Cost*"
+                  label-class="form_label_class"
+                >
+                  <validation-Provider
+                    name="Airfreight Cost"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      type="number"
+                      step="0.01"
+                      placeholder="Enter Airfreight Cost"
+                      v-model="form.airfreight_cost"
                     ></b-form-input>
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
@@ -158,6 +198,7 @@ export default {
   components: {
     BCard,
     BFormDatepicker,
+
     BFormRadio,
     BFormFile,
     BForm,
@@ -165,7 +206,7 @@ export default {
     ValidationObserver,
     ValidationProvider,
     BFormTextarea,
-    BFormTextarea,
+
     BFormGroup,
     BInputGroup,
     vSelect,
@@ -227,12 +268,13 @@ export default {
           .then((response) => {
             localStorage.setItem("currentShipmentId", response.data.data.id);
             this.$vs.loading.close();
+            this.$emit("sendComponentName", "ShipmentDetails");
           })
           .catch(() => {
             this.$vs.loading.close();
           });
 
-        this.$emit("sendComponentName", "ShipmentDetails");
+       
       }
     },
   },

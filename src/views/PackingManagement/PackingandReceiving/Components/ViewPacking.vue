@@ -9,7 +9,7 @@
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Shipment no</span>
                 <span class="col-5 shipment_summry_para">{{
-                  shipment.shipmentdetails.shipment_no
+                  shipment.shipmentdetails.invoice_no
                 }}</span>
               </div>
               <br />

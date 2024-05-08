@@ -116,7 +116,7 @@ export default {
       selectedPacking: {},
       fields: [
         {
-          key: "shipment_no",
+          key: "invoice_no",
           label: "Shipment no",
           sortable: true,
           thStyle: { width: "15%" },
