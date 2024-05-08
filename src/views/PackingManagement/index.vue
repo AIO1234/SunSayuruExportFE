@@ -327,7 +327,7 @@ export default {
         localStorage.currentSelectedCountryid &&
         localStorage.currentSelectedCountryname &&
         localStorage.currentSelectedBuyerid &&
-        localStorage.currentSelectedBuyername
+        localStorage.currentSelectedBuyercode
       ) {
         this.type = localStorage.getItem("currentSelectedtype");
         this.country.id = localStorage.getItem("currentSelectedCountryid");

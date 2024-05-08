@@ -52,7 +52,7 @@
                     rules="required"
                     v-slot="{ errors }"
                   >
-                    <b-form-input readonly v-model="buyer.name"></b-form-input>
+                    <b-form-input readonly v-model="buyer.code"></b-form-input>
 
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
@@ -229,30 +229,35 @@ export default {
       buyer: {},
     };
   },
-  async created() {
-    await this.getcountry();
-    this.getBuyer();
+  created() {
+    this.inititalizedata();
   },
   methods: {
-    async getcountry() {
-      this.country.id = parseInt(this.$route.params.country);
-
-      const res = await countryApi.allCountries();
-      this.countries = res.data.data;
-
-      const result = this.countries.find(
-        (option) => option.id === this.country.id
-      );
-
-      this.country = result;
+    inititalizedata() {
+      this.buyer.id = localStorage.currentSelectedBuyerid;
+      this.buyer.code = localStorage.currentSelectedBuyercode;
+      this.country.id = localStorage.currentSelectedCountryid;
+      this.country.name = localStorage.currentSelectedCountryname;
     },
+    // async getcountry() {
+    //   this.country.id = parseInt(this.$route.params.country);
 
-    getBuyer() {
-      this.buyers = this.country.buyers;
-      this.buyer.id = parseInt(this.$route.params.buyer);
-      const result = this.buyers.find((option) => option.id === this.buyer.id);
-      this.buyer = result;
-    },
+    //   const res = await countryApi.allCountries();
+    //   this.countries = res.data.data;
+
+    //   const result = this.countries.find(
+    //     (option) => option.id === this.country.id
+    //   );
+
+    //   this.country = result;
+    // },
+
+    // getBuyer() {
+    //   this.buyers = this.country.buyers;
+    //   this.buyer.id = parseInt(this.$route.params.buyer);
+    //   const result = this.buyers.find((option) => option.id === this.buyer.id);
+    //   this.buyer = result;
+    // },
     async next() {
       this.form.country_id = this.country.id;
       this.form.buyer_id = this.buyer.id;
@@ -273,8 +278,6 @@ export default {
           .catch(() => {
             this.$vs.loading.close();
           });
-
-       
       }
     },
   },
