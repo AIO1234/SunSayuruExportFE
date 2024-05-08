@@ -13,7 +13,7 @@
               variant="none"
               @click="
                 $router.push(
-                  `/shipmentwiseearnings/${data.item.id}/${data.item.shipment_no}/supliers`
+                  `/shipmentwiseearnings/${data.item.id}/${data.item.invoice_no}/supliers`
                 )
               "
             >
@@ -79,7 +79,7 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "shipment_no",
+          key: "invoice_no",
           label: "Shipment No",
           sortable: true,
           // thStyle: { width: "2%" },

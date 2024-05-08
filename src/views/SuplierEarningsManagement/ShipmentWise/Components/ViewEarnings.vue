@@ -4,7 +4,7 @@
       >View supplier bills</span
     >
     <h2 class="shipment_number">
-      Shipment no - {{ $route.params.shipment_no }}
+      Shipment no - {{ $route.params.invoice_no }}
     </h2>
     <div class="pt-2"></div>
     <b-card>

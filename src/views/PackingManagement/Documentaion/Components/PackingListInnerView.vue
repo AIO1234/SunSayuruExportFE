@@ -6,7 +6,7 @@
       <b-row>
         <b-col lg="6"
           ><span class="shipment_number_heading"
-            >Shipment Number - {{ $route.params.shipment_no }}</span
+            >Shipment Number - {{ $route.params.invoice_no }}</span
           >
         </b-col>
         <b-col lg="6" class="d-flex justify-content-end mobile_paddings">

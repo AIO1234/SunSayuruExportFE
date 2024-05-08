@@ -94,7 +94,7 @@ export default {
       totalearnings: "",
       fields: [
         {
-          key: "shipment_no",
+          key: "invoice_no",
           label: "Shipment No",
           sortable: true,
           // thStyle: { width: "2%" },

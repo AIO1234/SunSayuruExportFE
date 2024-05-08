@@ -14,7 +14,7 @@
                 variant="none"
                 @click="
                   $router.push(
-                    `/custominvoiceinner/${data.item.id}/${data.item.shipment_no}`
+                    `/custominvoiceinner/${data.item.id}/${data.item.invoice_no}`
                   )
                 "
               >
@@ -29,7 +29,7 @@
                 variant="none"
                 @click="
                   $router.push(
-                    `/editcustominvoice/${data.item.id}/${data.item.shipment_no}`
+                    `/editcustominvoice/${data.item.id}/${data.item.invoice_no}`
                   )
                 "
               >
@@ -94,7 +94,7 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "shipment_no",
+          key: "invoice_no",
           label: "Shipment no",
           sortable: true,
 

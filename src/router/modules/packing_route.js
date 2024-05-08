@@ -51,7 +51,7 @@ export default [
   },
 
   {
-    path: "/packinglistinner/:shipment_id/:shipment_no",
+    path: "/packinglistinner/:shipment_id/:invoice_no",
     name: "packinglistinner",
     component: () =>
       import(
@@ -69,7 +69,7 @@ export default [
   },
 
   {
-    path: "/custominvoiceinner/:shipment_id/:shipment_no",
+    path: "/custominvoiceinner/:shipment_id/:invoice_no",
     name: "custominvoiceinner",
     component: () =>
       import(
@@ -87,7 +87,7 @@ export default [
   },
 
   {
-    path: "/buyerinvoiceinner/:shipment_id/:shipment_no",
+    path: "/buyerinvoiceinner/:shipment_id/:invoice_no",
     name: "buyerinvoiceinner",
     component: () =>
       import(
@@ -105,7 +105,7 @@ export default [
   },
 
   {
-    path: "/editcustominvoice/:shipment_id/:shipment_no",
+    path: "/editcustominvoice/:shipment_id/:invoice_no",
     name: "editcustominvoice",
     component: () =>
       import(
@@ -123,7 +123,7 @@ export default [
   },
 
   {
-    path: "/editbuyerinvoice/:shipment_id/:shipment_no",
+    path: "/editbuyerinvoice/:shipment_id/:invoice_no",
     name: "editbuyerinvoice",
     component: () =>
       import(
