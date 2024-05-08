@@ -26,7 +26,7 @@
                   v-model="buyer"
                   @input="buyerChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                  label="name"
+                  label="code"
                   :options="buyers"
                 />
               </b-col>
@@ -340,7 +340,7 @@ export default {
         this.buyers = result.buyers;
 
         this.buyer.id = localStorage.getItem("currentSelectedBuyerid");
-        this.buyer.name = localStorage.getItem("currentSelectedBuyername");
+        this.buyer.code = localStorage.getItem("currentSelectedBuyercode");
 
         // initialize tabs
 
@@ -367,13 +367,13 @@ export default {
       localStorage.setItem("currentSelectedCountryid", this.country.id);
       localStorage.setItem("currentSelectedCountryname", this.country.name);
       this.buyer.id = this.buyers[0].id;
-      this.buyer.name = this.buyers[0].name;
+      this.buyer.code = this.buyers[0].code;
       this.buyerChange();
     },
     // triger when buyer change
     async buyerChange() {
       localStorage.setItem("currentSelectedBuyerid", this.buyer.id);
-      localStorage.setItem("currentSelectedBuyername", this.buyer.name);
+      localStorage.setItem("currentSelectedBuyercode", this.buyer.code);
       // load documents acording to country and buyer
       if (localStorage.getItem("currentSelectedtype") === "Documentations") {
         await this.getShipmentsForDocuments();

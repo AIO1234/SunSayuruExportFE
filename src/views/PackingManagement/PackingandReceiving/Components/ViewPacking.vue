@@ -55,7 +55,7 @@
           </div>
         </b-col>
 
-        <b-col  cols="12" lg="6">
+        <b-col cols="12" lg="6">
           <div class="mobile_only_view pt-2"></div>
           <div>
             <b-container>
@@ -119,6 +119,17 @@
                   >
                   <span class="col-5 shipment_summry_para">{{
                     getPrice(shipment.shipmentdetails.total_additional_costs)
+                  }}</span>
+                </div>
+
+                <br />
+
+                <div class="row d-flex justify-content">
+                  <span class="col-7 shipment_summery_heading"
+                    >Total Airfreight Cost</span
+                  >
+                  <span class="col-5 shipment_summry_para">{{
+                    getPrice(shipment.shipmentdetails.airfreight_cost)
                   }}</span>
                 </div>
 
