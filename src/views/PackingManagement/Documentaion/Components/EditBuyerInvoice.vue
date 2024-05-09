@@ -69,6 +69,22 @@
               </validation-Provider>
             </b-form-group>
           </b-col>
+
+          <b-col lg="12" class="pt-2">
+            <b-form-group label="Consignee*" label-class="form_label_class">
+              <validation-Provider
+                name="Consignee"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <b-form-textarea
+                  placeholder="Select Date"
+                  v-model="form.consignee"
+                ></b-form-textarea>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </validation-Provider>
+            </b-form-group>
+          </b-col>
         </b-row>
         <br />
       </b-container>
