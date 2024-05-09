@@ -33,6 +33,24 @@
         </b-col>
       </b-row>
     </div>
+    <div class="pt-4"></div>
+    <div class="buyer_invoice">
+      <div class="invoice_padding_one">
+        <div class="text-center">
+          <h2 class="invoice_heading">
+            SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.
+          </h2>
+          <h5 class="invoice_sub_heading">
+            NO.1068/3, ALUTHKURUWA, PITIPANA, NEGOMBO, SRI LANKA.
+          </h5>
+          <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
+
+          <div class="invoice_padding">
+            <span class="cost_sheet">Packing List</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="pt-4">
       <b-card>
         <table class="table table-sm">
@@ -88,6 +106,23 @@
         <section slot="pdf-content">
           <!-- packing invoice -->
           <div class="pt-4">
+            <div class="buyer_invoice">
+              <div class="invoice_padding_one">
+                <div class="text-center">
+                  <h2 class="invoice_heading">
+                    SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.
+                  </h2>
+                  <h5 class="invoice_sub_heading">
+                    NO.1068/3, ALUTHKURUWA, PITIPANA, NEGOMBO, SRI LANKA.
+                  </h5>
+                  <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
+
+                  <div class="invoice_padding">
+                    <span class="cost_sheet">Packing List</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <b-card>
               <table class="table table-sm">
                 <thead>
