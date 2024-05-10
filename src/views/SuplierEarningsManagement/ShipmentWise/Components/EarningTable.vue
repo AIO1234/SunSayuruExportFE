@@ -102,13 +102,12 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      shipments: [],
     };
   },
-  async created() {
-    await this.allShipments();
-  },
 
+  props: {
+    shipments: Array,
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
@@ -119,14 +118,6 @@ export default {
     //   this.$refs.DetailsModal.show();
     //   this.selectedItem = data;
     // },
-    async allShipments() {
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await reportApi.allShipements();
-      this.shipments = res.data.data;
-      this.$vs.loading.close();
-    },
   },
 };
 </script>

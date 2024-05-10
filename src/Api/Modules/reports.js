@@ -1,8 +1,8 @@
 import { api } from "../index";
 
 export default {
-  async allShipements() {
-    return await api.get("/allshipments");
+  async allShipements(payload) {
+    return await api.post("/allsupliershipments" , payload);
   },
 
   async buyerShipements(payload) {
