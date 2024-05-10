@@ -3,9 +3,17 @@
     <h2 class="email-modal text-center">{{ title }}</h2>
 
     <div class="pt-3"></div>
-    <span class="email-modal-shipment">Shipment Number - S001</span>
+    <span class="email-modal-shipment"
+      >Invoice Number - {{ invoice.invoice_no }}</span
+    >
 
     <div class="pt-3"></div>
+
+    <b-form-group label="Enter Email*" label-class="form_label_class">
+      <br />
+      <b-form-input placeholder="Enter Email" v-model="email"></b-form-input>
+    </b-form-group>
+    <br />
 
     <b-form-group label="Upload a file*" label-class="form_label_class">
       <br />
@@ -57,6 +65,7 @@ export default {
   },
   props: {
     title: String,
+    invoice: Object,
   },
 };
 </script>

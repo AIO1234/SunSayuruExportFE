@@ -2,7 +2,6 @@ import { api } from "../index";
 import notification from "@/ApiConstance/toast";
 
 export default {
-
   async allShipments(payload) {
     return await api.post("/allshipments", payload);
   },
@@ -33,5 +32,8 @@ export default {
 
   async updateCustomInvoice(payload) {
     return await api.post("/updatecustominvoice", payload);
+  },
+  async sendEmailInvoice(payload) {
+    return await api.post("/sendemailinvoice", payload);
   },
 };

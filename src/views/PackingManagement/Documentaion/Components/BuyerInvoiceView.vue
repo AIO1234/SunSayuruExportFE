@@ -38,11 +38,11 @@
         <!-- buyer invoice -->
 
         <div class="pt-3">
-          <BuyerInvoice />
+          <BuyerInvoice :buyerinvoice="buyerinvoice" />
         </div>
 
         <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
-          <EmailModal title="Send Buyer Invoice" />
+          <EmailModal title="Send Buyer Invoice" :invoice="buyerinvoice" />
         </b-modal>
       </div>
     </div>
@@ -68,7 +68,7 @@
         ref="html2Pdf"
       >
         <section slot="pdf-content">
-          <BuyerInvoice />
+          <BuyerInvoice :buyerinvoice="buyerinvoice" />
         </section>
       </vue-html2pdf>
     </div>
@@ -92,6 +92,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import reportApi from "@/Api/Modules/reports";
 export default {
   components: {
     BuyerInvoice,
@@ -111,7 +112,12 @@ export default {
     BContainer,
   },
   data() {
-    return {};
+    return {
+      buyerinvoice: {},
+    };
+  },
+  async created() {
+    await this.getBuyerInvoice();
   },
   methods: {
     openEmailModal() {
@@ -119,6 +125,19 @@ export default {
     },
     generate() {
       this.$refs.html2Pdf.generatePdf();
+    },
+
+    async getBuyerInvoice() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.buyerInvoice(payload);
+      this.buyerinvoice = res.data.data;
+
+      this.$vs.loading.close();
     },
   },
 };

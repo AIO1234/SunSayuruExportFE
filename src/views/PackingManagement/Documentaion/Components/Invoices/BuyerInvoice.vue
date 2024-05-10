@@ -170,7 +170,7 @@
   </div>
 </template>
 <script>
-import reportApi from "@/Api/Modules/reports";
+
 import {
   BModal,
   BCard,
@@ -205,7 +205,6 @@ export default {
   },
   data() {
     return {
-      buyerinvoice: {},
       fields: [
         {
           key: "seafoodtype",
@@ -257,19 +256,8 @@ export default {
     };
   },
 
-  methods: {
-    async getBuyerInvoice() {
-      const payload = {
-        shipment_id: this.$route.params.shipment_id,
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await reportApi.buyerInvoice(payload);
-      this.buyerinvoice = res.data.data;
-
-      this.$vs.loading.close();
-    },
+  props: {
+    buyerinvoice: Object,
   },
 };
 </script>
