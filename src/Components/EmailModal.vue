@@ -17,12 +17,12 @@
 
     <b-form-group label="Upload a file*" label-class="form_label_class">
       <br />
-      <b-form-file></b-form-file>
+      <b-form-file v-model="file"></b-form-file>
     </b-form-group>
 
     <div class="pt-2 d-flex justify-content-center">
       <b-button
-        @click="validationPriceRateUpdateForm()"
+        @click="sendInvoice()"
         type="submit"
         variant="none"
         class="email_modal_submit_button"
@@ -47,6 +47,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import shipmentApi from "@/Api/Modules/shipments";
 export default {
   components: {
     BModal,
@@ -63,9 +64,35 @@ export default {
     BLink,
     BContainer,
   },
+  data() {
+    return {
+      file: null,
+    };
+  },
   props: {
     title: String,
     invoice: Object,
+  },
+  methods: {
+    async sendInvoice() {
+      let formdata = new FormData();
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      formdata.append("documenttype", this.title);
+      formdata.append("invoice_no", this.invoice.invoice_no);
+      formdata.append("email", this.email);
+      formdata.append("file", this.file);
+
+      await shipmentApi
+        .sendEmailInvoice(formdata)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+    },
   },
 };
 </script>
