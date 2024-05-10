@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="pt-3">
-      <CommonHeader />
-    </div>
+   
     <div class="pt-5">
       <b-card>
         <EarningTable />
