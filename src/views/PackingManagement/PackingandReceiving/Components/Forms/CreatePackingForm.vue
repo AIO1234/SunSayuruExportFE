@@ -93,7 +93,7 @@
                             >
                               <validation-Provider
                                 name="quality"
-                                rules="required"
+                              
                                 v-slot="{ errors }"
                               >
                                 <v-select
@@ -321,7 +321,7 @@
                             <!-- add suplier button -->
                             <div class="text-right">
                               <b-button
-                                v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                  
                                 variant="none"
                                 @click="repeateSuplier(seafood)"
                                 class="suplier_add_button"
@@ -405,7 +405,6 @@
 
         <b-col lg="6" class="text-right">
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="none"
             class="form_submit_button"
             :disabled="invalid"
@@ -513,11 +512,27 @@ export default {
     };
   },
   async created() {
+    await this.showBoxes();
     await this.allSeafoods();
     await this.buyerQualities();
     await this.allSupliers();
   },
   methods: {
+    //  show current saves boxes
+
+    async showBoxes() {
+      const payload = {
+        shipment_id: localStorage.currentShipmentId,
+        show: "box_details",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.showShipment(payload);
+       this.boxes = res.data.data.boxes;
+      this.$vs.loading.close();
+    },
+
     // get all seafoods
     async allSeafoods() {
       const res = await seafoodApi.allSeafoods();
@@ -568,8 +583,6 @@ export default {
           .catch(() => {
             this.$vs.loading.close();
           });
-
-       
       }
     },
     // back button,

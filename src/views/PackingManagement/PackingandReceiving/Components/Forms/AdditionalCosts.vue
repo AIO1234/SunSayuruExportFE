@@ -97,12 +97,7 @@
       <div class="pt-3"></div>
       <b-row>
         <b-col lg="6">
-          <b-button
-            variant="none"
-            class="backbutton"
-            @click="back()"
-            :disabled="invalid"
-          >
+          <b-button variant="none" class="backbutton" @click="back()">
             <span class="back_button_text_styles">Back</span>
           </b-button>
         </b-col>
@@ -140,11 +135,11 @@ export default {
   data() {
     return {
       form: {},
+      nextTodoId: 1,
       additionalcosts: [
         {
           id: 1,
           description: "",
-          quantity: "",
           amount: "",
           prevHeight: 0,
         },
@@ -174,7 +169,25 @@ export default {
     BCardText,
     BLink,
   },
+  async created() {
+    await this.showAdditionalCosts();
+  },
   methods: {
+    //  show current saves additional costs
+
+    async showAdditionalCosts() {
+      const payload = {
+        shipment_id: localStorage.currentShipmentId,
+        show: "additional_costs",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.showShipment(payload);
+      this.additionalcosts = res.data.data.additional_costs;
+      this.$vs.loading.close();
+    },
+
     // submit data
     async submitData() {
       if (await this.$refs.additionalValidation.validate()) {
@@ -203,6 +216,8 @@ export default {
     repeateAgain1() {
       this.additionalcosts.push({
         id: (this.nextTodoId += this.nextTodoId),
+        description: "",
+        amount: "",
       });
     },
     // remove item

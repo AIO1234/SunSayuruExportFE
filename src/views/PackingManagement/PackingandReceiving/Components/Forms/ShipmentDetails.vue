@@ -157,7 +157,6 @@
 
         <b-col lg="6" class="text-right">
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="none"
             class="form_submit_button"
             :disabled="invalid"
@@ -225,39 +224,41 @@ export default {
       countries: [],
       buyers: [],
       country: {},
-
+      shipment: {},
       buyer: {},
+      invoice_no: "",
     };
   },
-  created() {
-    this.inititalizedata();
+  async created() {
+    await this.inititalizedata();
   },
   methods: {
-    inititalizedata() {
+    async inititalizedata() {
       this.buyer.id = localStorage.currentSelectedBuyerid;
       this.buyer.code = localStorage.currentSelectedBuyercode;
       this.country.id = localStorage.currentSelectedCountryid;
       this.country.name = localStorage.currentSelectedCountryname;
+      await this.showShipment();
     },
-    // async getcountry() {
-    //   this.country.id = parseInt(this.$route.params.country);
 
-    //   const res = await countryApi.allCountries();
-    //   this.countries = res.data.data;
+    //  show current saves shipment
 
-    //   const result = this.countries.find(
-    //     (option) => option.id === this.country.id
-    //   );
+    async showShipment() {
+      const payload = {
+        shipment_id: localStorage.currentShipmentId,
+        show: "shipment_details",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.showShipment(payload);
+      this.shipment = res.data.data;
+      this.form = this.shipment.shipmentdetails;
+      this.invoice_no = this.shipment.shipmentdetails.invoice_no;
+      this.$vs.loading.close();
+    },
 
-    //   this.country = result;
-    // },
-
-    // getBuyer() {
-    //   this.buyers = this.country.buyers;
-    //   this.buyer.id = parseInt(this.$route.params.buyer);
-    //   const result = this.buyers.find((option) => option.id === this.buyer.id);
-    //   this.buyer = result;
-    // },
+    // next button
     async next() {
       this.form.country_id = this.country.id;
       this.form.buyer_id = this.buyer.id;
@@ -268,16 +269,33 @@ export default {
           scale: 0.8,
         });
 
-        await shipmentApi
-          .addShipment(this.form)
-          .then((response) => {
-            localStorage.setItem("currentShipmentId", response.data.data.id);
-            this.$vs.loading.close();
-            this.$emit("sendComponentName", "ShipmentDetails");
-          })
-          .catch(() => {
-            this.$vs.loading.close();
-          });
+        if (this.form.invoice_no === this.invoice_no) {
+          this.form.exist = true;
+          this.form.shipment_id = localStorage.currentShipmentId;
+
+          await shipmentApi
+            .addShipment(this.form)
+            .then(() => {
+              this.$vs.loading.close();
+              this.$emit("sendComponentName", "ShipmentDetails");
+            })
+            .catch(() => {
+              this.$vs.loading.close();
+            });
+        } else {
+          this.form.exist = false;
+          this.form.shipment_id = "";
+          await shipmentApi
+            .addShipment(this.form)
+            .then((response) => {
+              localStorage.setItem("currentShipmentId", response.data.data.id);
+              this.$vs.loading.close();
+              this.$emit("sendComponentName", "ShipmentDetails");
+            })
+            .catch(() => {
+              this.$vs.loading.close();
+            });
+        }
       }
     },
   },

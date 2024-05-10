@@ -8,7 +8,6 @@
           <!-- Material  Cost Form -->
           <b-form
             ref="form"
-            :style="{ height: trHeight }"
             class="repeater-form"
             @submit.prevent="repeateAgain"
           >
@@ -40,27 +39,6 @@
                 </b-form-group>
               </b-col>
 
-              <!-- Quantity -->
-              <!-- <b-col lg="2">
-                <b-form-group
-                  v-if="
-                    item.description === 'Box' || item.description === 'box'
-                  "
-                  label="Box Type*"
-                  label-class="form_label_class"
-                >
-                  <validation-Provider
-                    name="Box Type"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <b-form-input
-                      placeholder="Enter box type"
-                      v-model="item.boxtype"
-                    />
-                    <span class="text-danger">{{ errors[0] }}</span>
-                  </validation-Provider>
-                </b-form-group> -->
               <b-col>
                 <b-form-group label="Quantity*" label-class="form_label_class">
                   <validation-Provider
@@ -93,9 +71,6 @@
                       v-model="item.unitprice"
                       type="number"
                       step="0.00"
-                      @input="
-                        changeAmount(item.unitprice, item.quantity, index)
-                      "
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
@@ -127,7 +102,6 @@
         <br />
         <div class="text-right">
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="none"
             @click="repeateAgain1()"
             class="form_submit_button"
@@ -147,7 +121,6 @@
 
         <b-col lg="6" class="text-right">
           <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="none"
             class="form_submit_button"
             :disabled="invalid"
@@ -187,6 +160,7 @@ import mixin from "@/mixins/commonmixins";
 export default {
   data() {
     return {
+      nextTodoId: 1,
       form: {},
       materialcosts: [
         {
@@ -194,7 +168,6 @@ export default {
           description: "",
           quantity: "",
           amount: "",
-          prevHeight: 0,
         },
       ],
     };
@@ -222,7 +195,25 @@ export default {
     BCardText,
     BLink,
   },
+  async created() {
+    await this.showMaterialCosts();
+  },
   methods: {
+    //  show current saves shipment
+
+    async showMaterialCosts() {
+      const payload = {
+        shipment_id: localStorage.currentShipmentId,
+        show: "material_costs",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.showShipment(payload);
+      this.materialcosts = res.data.data.material_costs;
+      this.$vs.loading.close();
+    },
+
     // calculate ampunt
     changeAmount(unitprice, quantity, index) {
       this.materialcosts[index].amount =
@@ -262,6 +253,10 @@ export default {
     repeateAgain1() {
       this.materialcosts.push({
         id: (this.nextTodoId += this.nextTodoId),
+        description: "",
+        quantity: "",
+        amount: "",
+        unitprice: "",
       });
     },
     // remove item

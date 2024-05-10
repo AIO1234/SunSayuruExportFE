@@ -153,8 +153,8 @@
     <div class="pt-2"></div>
     <span class="section_header">Boxes & suppliers</span>
     <div class="pt-2"></div>
-    <b-card v-for="box in shipment.boxes" :key="box.box_no">
-      <span class="box_header">Box number - {{ box.box_no }}</span>
+    <b-card v-for="box in shipment.boxes" :key="box.box_number">
+      <span class="box_header">Box number - {{ box.box_number }}</span>
       <div class="pt-2"></div>
       <b-row v-for="seafood in box.seafoods" :key="seafood.seafood">
         <b-col>
@@ -163,7 +163,7 @@
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Seafood Type</span>
                 <span class="col-5 shipment_summry_para">{{
-                  seafood.seafood
+                  seafood.seafoodtype.type
                 }}</span>
               </div>
               <br />
@@ -171,7 +171,7 @@
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Quality</span>
                 <span class="col-5 shipment_summry_para">{{
-                  seafood.quality
+                  seafood.quality.quality
                 }}</span>
               </div>
 
@@ -180,7 +180,7 @@
               <div class="row d-flex justify-content">
                 <span class="col-5 shipment_summery_heading">Grading</span>
                 <span class="col-5 shipment_summry_para">{{
-                  seafood.grading
+                  seafood.grading.grading
                 }}</span>
               </div>
 
@@ -218,6 +218,9 @@
               :fields="suplier_feilds"
               :items="seafood.supliers"
             >
+              <template #cell(suplier)="data">
+                {{ data.value.name }}
+              </template>
             </b-table>
           </div>
         </b-col>
@@ -291,7 +294,7 @@ export default {
   data() {
     return {
       country: localStorage.currentSelectedCountryname,
-      buyer: localStorage.currentSelectedBuyername,
+      buyer: localStorage.currentSelectedBuyercode,
       shipment: {},
       suplier_feilds: [
         {
@@ -383,6 +386,7 @@ export default {
     async showShipment() {
       const payload = {
         shipment_id: this.$route.params.shipment_id,
+        show: "",
       };
       await this.$vs.loading({
         scale: 0.8,
