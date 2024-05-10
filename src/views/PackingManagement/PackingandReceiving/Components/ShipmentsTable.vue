@@ -25,7 +25,10 @@
             </b-button>
           </b-col>
           <b-col lg="6">
-            <b-button variant="none">
+            <b-button
+              variant="none"
+              @click="$router.push(`/updateshipment/${data.item.id}`)"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
@@ -203,8 +206,6 @@ export default {
       this.$refs.DetailsModal.show();
       this.selectedPacking = data;
     },
-
-    
   },
 };
 </script>

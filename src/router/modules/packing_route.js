@@ -33,6 +33,24 @@ export default [
   },
 
   {
+    path: "/updateshipment/:shipment_id",
+    name: "updateshipment",
+    component: () =>
+      import(
+        "@/views/PackingManagement/PackingandReceiving/updateshipments.vue"
+      ),
+    meta: {
+      pageTitle: "Update Shipment",
+      breadcrumb: [
+        {
+          text: "Packing & receiving",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
     path: "/viewpacking/:shipment_id",
     name: "viewpacking",
     component: () =>

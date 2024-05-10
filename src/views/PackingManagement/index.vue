@@ -60,7 +60,7 @@
     <!-- Packing & Receivings section -->
     <div>
       <!-- search feidls -->
-      <div class="pt-3" v-if="type === 'Packing & Receivings'">
+      <div class="pt-3" >
         <b-row>
           <b-col lg="3" cols="6">
             <b-input-group class="input-group-merge form_input_styles_group">
@@ -139,34 +139,7 @@
             </div>
           </b-col>
         </b-row>
-        <!-- <div class="pt-3">
-          <b-row>
-            <b-col lg="4" cols="12"> </b-col>
-            <b-col lg="8" cols="12">
-              <div class="text-right">
-                <b-button
-                  variant="outline-primary"
-                  class="export_button"
-                  v-ripple.400="'rgba(113, 102, 240, 0.15)'"
-                >
-                  <div class="d-flex justify-content-center">
-                    <b-row>
-                      <b-col lg="2" cols="2">
-                        <b-img
-                          width="10px"
-                          src="@/assets/images/icons/Vector.png"
-                        ></b-img>
-                      </b-col>
-                      <b-col lg="2" cols="2">
-                        <span class="export_button_text">Export</span>
-                      </b-col>
-                    </b-row>
-                  </div>
-                </b-button>
-              </div>
-            </b-col>
-          </b-row>
-        </div> -->
+      
       </div>
 
       <!-- shipments table  -->
