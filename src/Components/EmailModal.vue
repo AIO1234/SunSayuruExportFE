@@ -82,6 +82,7 @@ export default {
       formdata.append("documenttype", this.title);
       formdata.append("invoice_no", this.invoice.invoice_no);
       formdata.append("email", this.email);
+      formdata.append("buyer_name", this.invoice.buyer_name);
       formdata.append("file", this.file);
 
       await shipmentApi
