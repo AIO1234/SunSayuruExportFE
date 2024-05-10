@@ -120,7 +120,7 @@ export default {
       fields: [
         {
           key: "invoice_no",
-          label: "Shipment no",
+          label: "Invoice No",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",

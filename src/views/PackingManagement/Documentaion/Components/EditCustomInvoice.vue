@@ -1,7 +1,7 @@
 <template>
   <div class="custom_invoice">
     <h2 class="shipment_number text-right">
-      Shipment no - {{ $route.params.invoice_no }}
+      Invoice No - {{ $route.params.invoice_no }}
     </h2>
     <div style="background-color: #fffef8; border-radius: 10px">
       <b-container>

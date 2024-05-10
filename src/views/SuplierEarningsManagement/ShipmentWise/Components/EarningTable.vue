@@ -80,7 +80,7 @@ export default {
       fields: [
         {
           key: "invoice_no",
-          label: "Shipment No",
+          label: "Invoice No",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",

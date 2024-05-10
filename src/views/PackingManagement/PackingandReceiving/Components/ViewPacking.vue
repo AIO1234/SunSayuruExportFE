@@ -7,7 +7,7 @@
           <div>
             <b-container>
               <div class="row d-flex justify-content">
-                <span class="col-5 shipment_summery_heading">Shipment no</span>
+                <span class="col-5 shipment_summery_heading">Invoice No</span>
                 <span class="col-5 shipment_summry_para">{{
                   shipment.shipmentdetails.invoice_no
                 }}</span>
