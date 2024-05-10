@@ -53,16 +53,36 @@
           </div>
         </b-col>
 
-        <b-col lg="3"> </b-col>
+        <b-col lg="3" cols="12" class="mt-1">
+          <div class="text-right">
+            <b-button
+              variant="none"
+              class="button_color"
+              style="width: 200px"
+              @click="$router.push(`/createshipment/${country.id}/${buyer.id}`)"
+            >
+              <div class="d-flex justify-content-start">
+                <b-img
+                  style="padding-top: 6px"
+                  width="22px"
+                  height="30px"
+                  src="@/assets/images/icons/Icons Solid.png"
+                ></b-img>
+
+                <span class="button_text_styles pl-1">Create Shipment</span>
+              </div>
+            </b-button>
+          </div>
+        </b-col>
       </b-row>
     </div>
 
     <!-- Packing & Receivings section -->
     <div>
       <!-- search feidls -->
-      <div class="pt-3" >
+      <div class="pt-3">
         <b-row>
-          <b-col lg="3" cols="6">
+          <b-col lg="3" cols="6" v-if="type === 'Packing & Receivings'">
             <b-input-group class="input-group-merge form_input_styles_group">
               <b-input-group-prepend is-text>
                 <feather-icon class="search_icon_color" icon="SearchIcon" />
@@ -70,7 +90,8 @@
               <b-form-input
                 type="search"
                 class="form_input_styles"
-                placeholder="Type here...."
+                v-model="searchParams.awb"
+                placeholder="Type AWB...."
               ></b-form-input>
             </b-input-group>
           </b-col>
@@ -115,31 +136,26 @@
             </v-date-picker>
           </b-col>
           <div class="pt-5 mobile_only_view"></div>
-          <b-col lg="5" cols="6">
-            <div class="text-right">
-              <b-button
-                variant="none"
-                class="button_color"
-                style="width: 200px"
-                @click="
-                  $router.push(`/createshipment/${country.id}/${buyer.id}`)
-                "
-              >
-                <div class="d-flex justify-content-start">
-                  <b-img
-                    style="padding-top: 6px"
-                    width="22px"
-                    height="30px"
-                    src="@/assets/images/icons/Icons Solid.png"
-                  ></b-img>
+          <b-col lg="3" cols="6">
+            <b-button
+              class="search_button"
+              variant="none"
+              block
+              @click="searchDate(type)"
+              ><span class="text-white search_text">Search</span></b-button
+            >
+          </b-col>
 
-                  <span class="button_text_styles pl-1">Create Shipment</span>
-                </div>
-              </b-button>
-            </div>
+          <b-col lg="2" cols="6">
+            <b-button
+              class="search_button"
+              variant="danger"
+              block
+              @click="clearSearch(type)"
+              ><span class="text-white search_text">Clear</span></b-button
+            >
           </b-col>
         </b-row>
-      
       </div>
 
       <!-- shipments table  -->
@@ -163,7 +179,6 @@
         >
           <b-tab
             title="Packing list"
-          
             title-item-class="custom-tab-item"
             @click="changeTab()"
           >
@@ -177,7 +192,6 @@
           <b-tab
             title="Custom invoice"
             @click="changeTab()"
-          
             title-item-class="custom-tab-item margin_class_tab"
           >
             <template #title>
@@ -188,7 +202,6 @@
           </b-tab>
 
           <b-tab
-          
             @click="changeTab()"
             title="Buyer invoice"
             title-item-class="custom-tab-item margin_class_tab"
@@ -236,8 +249,8 @@ export default {
     return {
       packingshipments: [],
       documentshipments: [],
-      startdate: "16 January 2024",
-      enddate: "16 January 2024",
+      startdate: "",
+      enddate: "",
       isCalendarVisible: false,
       countries: [],
       buyers: [],
@@ -253,6 +266,7 @@ export default {
       type: "Select Type",
       loaded: false,
       currenttab: "",
+      searchParams: {},
     };
   },
   name: "users",
@@ -323,6 +337,7 @@ export default {
     openCreateModal() {
       this.$refs.createmodal.show();
     },
+
     // get all countries
     async getCountries() {
       await this.$vs.loading({
@@ -370,15 +385,27 @@ export default {
 
     // get all shipments acording to selected buyer and country
 
-    async getShipmentsForDocuments() {
+    async getShipmentsForDocuments(reset = false) {
       if (
         localStorage.currentSelectedBuyerid &&
         localStorage.currentSelectedCountryid
       ) {
-        const payload = {
-          buyer_id: localStorage.currentSelectedBuyerid,
-          country_id: localStorage.currentSelectedCountryid,
-        };
+        let payload = {};
+        if (reset === false) {
+          payload = {
+            buyer_id: localStorage.currentSelectedBuyerid,
+            country_id: localStorage.currentSelectedCountryid,
+            start_date: "",
+            end_date: "",
+          };
+        } else if (reset === true) {
+          payload = {
+            buyer_id: localStorage.currentSelectedBuyerid,
+            country_id: localStorage.currentSelectedCountryid,
+            start_date: this.startdate,
+            end_date: this.enddate,
+          };
+        }
         await this.$vs.loading({
           scale: 0.8,
         });
@@ -394,17 +421,53 @@ export default {
     },
     // get all shipments for packing & receiving
 
-    async getAllShipmentsForPackings() {
-      const payload = {
-        buyer_id: localStorage.currentSelectedBuyerid,
-        country_id: localStorage.currentSelectedCountryid,
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await shipmentApi.allShipments(payload);
-      this.packingshipments = res.data.data;
-      this.$vs.loading.close();
+    async getAllShipmentsForPackings(reset = false) {
+      if (
+        localStorage.currentSelectedBuyerid &&
+        localStorage.currentSelectedCountryid
+      ) {
+        let payload = {};
+        if (reset === false) {
+          payload = {
+            buyer_id: localStorage.currentSelectedBuyerid,
+            country_id: localStorage.currentSelectedCountryid,
+            awb: "",
+            start_date: "",
+            end_date: "",
+          };
+        } else if (reset === true) {
+          payload = {
+            buyer_id: localStorage.currentSelectedBuyerid,
+            country_id: localStorage.currentSelectedCountryid,
+            awb: this.searchParams.awb,
+            start_date: this.startdate,
+            end_date: this.enddate,
+          };
+        }
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await shipmentApi.allShipments(payload);
+        this.packingshipments = res.data.data;
+        this.$vs.loading.close();
+      }
+    },
+
+    async searchDate(type) {
+      if (type === "Packing & Receivings") {
+        await this.getAllShipmentsForPackings(true);
+      } else if (type === "Documentations") {
+        await this.getShipmentsForDocuments(true);
+      }
+    },
+
+    async clearSearch(type) {
+      if (type === "Packing & Receivings") {
+        await this.getAllShipmentsForPackings(false);
+        this.searchParams.awb = "";
+      } else if (type === "Documentations") {
+        await this.getShipmentsForDocuments(false);
+      }
     },
   },
 };
