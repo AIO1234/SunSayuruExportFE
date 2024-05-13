@@ -1,31 +1,44 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button
-              variant="flat-none"
-              @click="openUpdateModal(data.item)"
-             
-            >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 101.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-          <b-col lg="4">
-            <b-button variant="none">
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 59.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-    </b-table>
+    <b-row>
+      <b-col lg="4" cols="12">
+        <b-input-group class="input-group-merge form_input_styles_group">
+          <b-input-group-prepend is-text>
+            <feather-icon class="search_icon_color" icon="SearchIcon" />
+          </b-input-group-prepend>
+          <b-form-input
+            type="search"
+            class="form_input_styles"
+            placeholder="Type here...."
+          ></b-form-input>
+        </b-input-group>
+      </b-col>
+      <div class="pt-5 mobile_only_view"></div>
+    </b-row>
+    <b-card class="mt-5">
+      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+        <template #cell(action)="data">
+          <b-row no-gutters>
+            <b-col lg="4">
+              <b-button variant="flat-none" @click="openUpdateModal(data.item)">
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 101.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+            <b-col lg="4">
+              <b-button variant="none">
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 59.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+          </b-row>
+        </template>
+      </b-table>
+    </b-card>
 
     <b-modal
       ref="UpdateModal"
@@ -45,6 +58,9 @@ import {
   BCard,
   BTable,
   BBadge,
+  BInputGroup,
+  BInputGroupPrepend,
+  BFormInput,
   BButton,
   BCol,
   BRow,
@@ -58,6 +74,7 @@ export default {
   name: "UserTable",
   components: {
     UserUpdateForm,
+    BFormInput,
     BCard,
     BModal,
     BImg,
@@ -70,6 +87,8 @@ export default {
     BContainer,
     BCardText,
     BLink,
+    BInputGroup,
+    BInputGroupPrepend,
   },
   data() {
     return {
@@ -106,7 +125,7 @@ export default {
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
-      
+
         {
           key: "mobile",
           label: "Mobile",

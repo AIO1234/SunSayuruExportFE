@@ -2,12 +2,6 @@ import { api } from "../index";
 import notification from "@/ApiConstance/toast";
 
 export default {
-  async register(payload) {
-    return await api.post("/register", payload).then(() => {
-      notification.toast("SuccessFully Registered", "success");
-      window.location.href = "/login";
-    });
-  },
   async login(payload) {
     return await api.post("/login", payload).then((res) => {
       notification.toast("SuccessFully Logged In", "success");
@@ -25,7 +19,6 @@ export default {
   async logout() {
     return await api.get("/logout").then((res) => {
       notification.toast("SuccessFully Log Out", "success");
-   
     });
   },
 };

@@ -28,10 +28,10 @@
                   v-slot="{ errors }"
                 >
                   <v-select
-                    v-model="selected"
+                    v-model="role"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    label="title"
-                    :options="options"
+                    label="name"
+                    :options="roles"
                   />
 
                   <span class="text-danger">{{ errors[0] }}</span>
@@ -56,7 +56,7 @@
             </b-col>
 
             <b-col
-            class="mb-1"
+              class="mb-1"
               cols="12"
               v-if="
                 selected.title === 'Super Admin' ||
@@ -102,7 +102,7 @@
             </b-col>
             <!-- password Confirmation -->
             <b-col
-            class="mb-1"
+              class="mb-1"
               cols="12"
               v-if="
                 selected.title === 'Super Admin' ||
@@ -167,7 +167,6 @@
 </template>
 
 <script>
-
 import {
   BCard,
   BFormRadio,
@@ -189,6 +188,7 @@ import {
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
+import userApi from "@/Api/Modules/users";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 export default {
@@ -219,17 +219,12 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
-        title: "Select Type",
-      },
-      options: [
-        { title: "Super Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-      ],
+      role: {},
+      roles: [],
     };
+  },
+  async created() {
+    await this.getRoles();
   },
   computed: {
     passwordToggleIcon() {
@@ -238,8 +233,14 @@ export default {
   },
   mixins: [togglePasswordVisibility],
   methods: {
+    async getRoles() {
+      const res = await userApi.getRoles();
+      this.roles = res.data.data;
+    },
+
     async validationUserCreateForm() {
       if (await this.$refs.UserCreateValidation.validate()) {
+        await userApi.addUser(this.form);
       }
     },
   },

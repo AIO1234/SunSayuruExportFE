@@ -1,12 +1,31 @@
 <template>
   <div>
-    <div class="pt-3">
-      <CommonHeader :modalType="modalType" />
-    </div>
-    <div class="pt-5">
-      <b-card>
-        <UserTable />
-      </b-card>
+    <b-row>
+      <b-col>
+        <div class="text-right">
+          <b-button
+            variant="none"
+            class="button_color"
+            style="width: 200px"
+            @click="$router.push(`/createshipment/${country.id}/${buyer.id}`)"
+          >
+            <div class="d-flex justify-content-start">
+              <b-img
+                style="padding-top: 6px"
+                width="22px"
+                height="30px"
+                src="@/assets/images/icons/Icons Solid.png"
+              ></b-img>
+
+              <span class="button_text_styles pl-1">Create User</span>
+            </div>
+          </b-button>
+        </div>
+      </b-col>
+    </b-row>
+
+    <div class="mt-5">
+      <UserTable />
     </div>
   </div>
 </template>
