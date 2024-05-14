@@ -97,7 +97,12 @@
               </b-form-group>
 
               <!-- submit buttons -->
-              <b-button variant="none" style="background-color: #0052ba" block @click="$router.push('/dashboard')">
+              <b-button
+                variant="none"
+                style="background-color: #0052ba"
+                block
+                @click="validationForm()"
+              >
                 <span class="button_text_styles" style="">
                   Sign In</span
                 ></b-button
@@ -132,6 +137,7 @@ import {
 import { required, email } from "@validations";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import store from "@/store/index";
+import authApi from "@/Api/Modules/auth";
 
 export default {
   components: {
@@ -174,18 +180,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["login"]),
     async validationForm() {
       if (await this.$refs.loginValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });
 
-        await this.login(this.form)
-          .then(({ response }) => {
+        await authApi.login(this.form)
+          .then(() => {
             this.$vs.loading.close();
           })
-          .catch(({ response }) => {
+          .catch(() => {
             this.$vs.loading.close();
           });
       }

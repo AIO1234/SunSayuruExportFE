@@ -38,7 +38,7 @@
                 </validation-Provider>
               </b-form-group>
             </b-col>
-
+            <!-- email -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Email*" label-class="form_label_class">
                 <validation-Provider
@@ -55,15 +55,8 @@
               </b-form-group>
             </b-col>
 
-            <b-col
-              class="mb-1"
-              cols="12"
-              v-if="
-                selected.title === 'Super Admin' ||
-                selected.title === 'Operation Manager' ||
-                selected.title === 'Data Entry Officer'
-              "
-            >
+            <!-- password -->
+            <b-col class="mb-1" cols="12">
               <b-form-group
                 label-for="register-password"
                 label="Password*"
@@ -101,15 +94,7 @@
               </b-form-group>
             </b-col>
             <!-- password Confirmation -->
-            <b-col
-              class="mb-1"
-              cols="12"
-              v-if="
-                selected.title === 'Super Admin' ||
-                selected.title === 'Operation Manager' ||
-                selected.title === 'Data Entry Officer'
-              "
-            >
+            <b-col class="mb-1" cols="12">
               <b-form-group
                 label="Confirm Password*"
                 label-class="form_label_class"
@@ -130,6 +115,7 @@
               </b-form-group>
             </b-col>
 
+            <!--phone  number -->
             <b-col md="12" class="mb-1">
               <b-form-group
                 label="Phone Number*"
@@ -142,8 +128,20 @@
                 >
                   <b-form-input
                     placeholder="Enter Phone Number"
-                    v-model="form.mobile"
+                    v-model="form.phone"
                   ></b-form-input>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </validation-Provider>
+              </b-form-group>
+            </b-col>
+            <!-- address -->
+            <b-col md="12" class="mb-1">
+              <b-form-group label="Address*" label-class="form_label_class">
+                <validation-Provider name="Address" v-slot="{ errors }">
+                  <b-form-textarea
+                    placeholder="Enter Email"
+                    v-model="form.address"
+                  ></b-form-textarea>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -219,7 +217,9 @@ export default {
   data() {
     return {
       form: {},
-      role: {},
+      role: {
+        name: "",
+      },
       roles: [],
     };
   },
@@ -234,13 +234,29 @@ export default {
   mixins: [togglePasswordVisibility],
   methods: {
     async getRoles() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
       const res = await userApi.getRoles();
       this.roles = res.data.data;
+      this.role.name = this.roles[2].name;
+      this.$vs.loading.close();
     },
 
     async validationUserCreateForm() {
       if (await this.$refs.UserCreateValidation.validate()) {
-        await userApi.addUser(this.form);
+        this.form.user_type = this.role.name;
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await userApi
+          .addUser(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

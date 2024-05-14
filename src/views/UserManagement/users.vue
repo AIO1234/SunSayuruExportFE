@@ -7,7 +7,7 @@
             variant="none"
             class="button_color"
             style="width: 200px"
-            @click="$router.push(`/createshipment/${country.id}/${buyer.id}`)"
+            @click="opencreatemodal()"
           >
             <div class="d-flex justify-content-start">
               <b-img
@@ -27,15 +27,28 @@
     <div class="mt-5">
       <UserTable />
     </div>
+
+    <!--user  create modal -->
+
+    <b-modal
+      ref="createmodal"
+      hide-footer
+      scrollable
+      title="Add User"
+      title-class="modal_title_color"
+    >
+      <CreateUser />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import UserTable from "@/views/UserManagement/Components/UserTable.vue";
-import CommonHeader from "@/Components/CommonHeader.vue";
+import CreateUser from "@/views/UserManagement/Components/AddUsers.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
+  BModal,
   BRow,
   BCard,
   BImg,
@@ -49,14 +62,16 @@ export default {
   data() {
     return {
       modalType: "",
+      openmodal: false,
     };
   },
   created() {
     this.modalType = "Create User";
   },
   components: {
+    CreateUser,
+    BModal,
     BInputGroup,
-    CommonHeader,
     BImg,
     BCard,
     BButton,
@@ -68,6 +83,11 @@ export default {
   },
   directives: {
     Ripple,
+  },
+  methods: {
+    opencreatemodal() {
+      this.$refs.createmodal.show();
+    },
   },
 };
 </script>

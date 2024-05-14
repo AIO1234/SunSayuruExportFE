@@ -7,7 +7,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   function (config) {
-    if (localStorage.token) {
+    if (localStorage.sunsayuruauthtoken) {
       config.headers.Authorization = `Bearer ${localStorage.token}`;
     }
 

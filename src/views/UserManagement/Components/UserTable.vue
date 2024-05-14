@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <!-- <b-row>
       <b-col lg="4" cols="12">
         <b-input-group class="input-group-merge form_input_styles_group">
           <b-input-group-prepend is-text>
@@ -14,9 +14,9 @@
         </b-input-group>
       </b-col>
       <div class="pt-5 mobile_only_view"></div>
-    </b-row>
+    </b-row> -->
     <b-card class="mt-5">
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-table sticky-header="" responsive="sm" :items="users" :fields="fields">
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -28,12 +28,12 @@
               </b-button>
             </b-col>
             <b-col lg="4">
-              <b-button variant="none">
+              <!-- <b-button variant="none" @click="deletUser(data.item.id)">
                 <b-img
                   width="17px"
                   src="@/assets/images/icons/Group 59.png"
                 ></b-img>
-              </b-button>
+              </b-button> -->
             </b-col>
           </b-row>
         </template>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import userApi from "@/Api/Modules/users";
 import UserUpdateForm from "@/views/UserManagement/Components/UpdateUser.vue";
 import {
   BModal,
@@ -96,13 +97,6 @@ export default {
       selectedUser: {},
       fields: [
         {
-          key: "referenceid",
-          label: "User Id",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
-        {
           key: "name",
           label: "User Name",
           sortable: true,
@@ -111,7 +105,7 @@ export default {
         },
 
         {
-          key: "type",
+          key: "role_name",
           label: "User Type",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -127,19 +121,13 @@ export default {
         },
 
         {
-          key: "mobile",
+          key: "phone",
           label: "Mobile",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
-        // {
-        //   key: "country",
-        //   label: "Country",
-        //   sortable: true,
-        //   // thStyle: { width: "2%" },
-        //   // tdClass: "td-style",
-        // },
+
         {
           key: "action",
           label: "Action",
@@ -148,35 +136,12 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      items: [
-        {
-          referenceid: "U001",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-        {
-          referenceid: "U002",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-        {
-          referenceid: "U003",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-      ],
+      users: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.allUsers();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
@@ -186,6 +151,28 @@ export default {
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
       this.selectedUser = data;
+    },
+    async allUsers() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await userApi.allUsers();
+      this.users = res.data.data;
+      this.$vs.loading.close();
+    },
+    async deletUser(id) {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      await userApi
+        .deleteUser(id)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
   },
 };
