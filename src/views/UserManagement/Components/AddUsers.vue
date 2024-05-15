@@ -43,7 +43,7 @@
               <b-form-group label="Email*" label-class="form_label_class">
                 <validation-Provider
                   name="Email"
-                  rules="required"
+                  rules="required|email"
                   v-slot="{ errors }"
                 >
                   <b-form-input
