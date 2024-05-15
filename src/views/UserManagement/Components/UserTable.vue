@@ -1,20 +1,6 @@
 <template>
   <div>
-    <!-- <b-row>
-      <b-col lg="4" cols="12">
-        <b-input-group class="input-group-merge form_input_styles_group">
-          <b-input-group-prepend is-text>
-            <feather-icon class="search_icon_color" icon="SearchIcon" />
-          </b-input-group-prepend>
-          <b-form-input
-            type="search"
-            class="form_input_styles"
-            placeholder="Type here...."
-          ></b-form-input>
-        </b-input-group>
-      </b-col>
-      <div class="pt-5 mobile_only_view"></div>
-    </b-row> -->
+    <!-- user table -->
     <b-card class="mt-5">
       <b-table sticky-header="" responsive="sm" :items="users" :fields="fields">
         <template #cell(action)="data">
@@ -27,14 +13,7 @@
                 ></b-img>
               </b-button>
             </b-col>
-            <b-col lg="4">
-              <!-- <b-button variant="none" @click="deletUser(data.item.id)">
-                <b-img
-                  width="17px"
-                  src="@/assets/images/icons/Group 59.png"
-                ></b-img>
-              </b-button> -->
-            </b-col>
+            <b-col lg="4"> </b-col>
           </b-row>
         </template>
       </b-table>
@@ -46,7 +25,10 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <UserUpdateForm :selectedItem="selectedUser" />
+      <UserUpdateForm
+        :selectedItem="selectedUser"
+        @closemodal="closeUpdateModal"
+      />
     </b-modal>
   </div>
 </template>
@@ -148,10 +130,16 @@ export default {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+    // open update modal
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
       this.selectedUser = data;
     },
+    async closeUpdateModal() {
+      this.$refs.UpdateModal.hide();
+      await this.allUsers();
+    },
+    // all users
     async allUsers() {
       await this.$vs.loading({
         scale: 0.8,
@@ -160,6 +148,7 @@ export default {
       this.users = res.data.data;
       this.$vs.loading.close();
     },
+    // delete users
     async deletUser(id) {
       await this.$vs.loading({
         scale: 0.8,

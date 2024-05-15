@@ -123,7 +123,7 @@
               >
                 <validation-Provider
                   name="Phone Number"
-                  rules="required"
+                  rules="required|min:10|max:12"
                   v-slot="{ errors }"
                 >
                   <b-form-input
@@ -189,6 +189,20 @@ import { ValidationObserver } from "vee-validate";
 import userApi from "@/Api/Modules/users";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import {
+  required,
+  email,
+  confirmed,
+  url,
+  between,
+  alpha,
+  integer,
+  password,
+  min,
+  digits,
+  alphaDash,
+  length,
+} from "@validations";
 export default {
   name: "AddUser",
   components: {
@@ -221,6 +235,21 @@ export default {
         name: "",
       },
       roles: [],
+
+      // validations
+
+      required,
+      email,
+      confirmed,
+      url,
+      between,
+      alpha,
+      integer,
+      password,
+      min,
+      digits,
+      alphaDash,
+      length,
     };
   },
   async created() {
@@ -253,6 +282,7 @@ export default {
           .addUser(this.form)
           .then(() => {
             this.$vs.loading.close();
+            window.location.href = "/users";
           })
           .catch(() => {
             this.$vs.loading.close();
