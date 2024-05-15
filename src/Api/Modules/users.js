@@ -3,21 +3,21 @@ import notification from "@/ApiConstance/toast";
 
 export default {
   async addUser(payload) {
-    return await api.post("/adduser", payload);
+    return await api.post("/user/adduser", payload);
   },
 
   async getRoles() {
-    return await api.get("/roles");
+    return await api.get("/user/roles");
   },
 
   async allUsers() {
-    return await api.get("/allusers");
+    return await api.get("/user/allusers");
   },
   async updateUser(id, payload) {
-    return await api.put(`/updateuser/${id}`, payload);
+    return await api.put(`/user/updateuser/${id}`, payload);
   },
 
   async deleteUser(id) {
-    return await api.delete(`/deleteuser/${id}`);
+    return await api.delete(`/user/deleteuser/${id}`);
   },
 };

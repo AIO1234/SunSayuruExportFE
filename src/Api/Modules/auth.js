@@ -6,7 +6,6 @@ export default {
     return await api.post("/login", payload).then((res) => {
       const token = res.data.data.token;
       const role = res.data.data.roles[0].name;
-      console.log("hbgvfd");
       localStorage.setItem("sunsayuruauthrole", role);
       localStorage.setItem("sunsayuruauthtoken", token);
       window.location.href = "/dashboard";

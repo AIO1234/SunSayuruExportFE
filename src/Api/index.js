@@ -8,7 +8,7 @@ export const api = axios.create({
 api.interceptors.request.use(
   function (config) {
     if (localStorage.sunsayuruauthtoken) {
-      config.headers.Authorization = `Bearer ${localStorage.token}`;
+      config.headers.Authorization = `Bearer ${localStorage.sunsayuruauthtoken}`;
     }
 
     // console.log(config.headers.Authorization);
