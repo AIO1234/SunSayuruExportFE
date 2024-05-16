@@ -24,6 +24,7 @@
           </b-col>
         </b-row>
       </div>
+      <!-- pdf -->
       <vue-html2pdf
         :show-layout="false"
         :float-layout="true"
@@ -42,15 +43,22 @@
         ref="html2Pdf"
       >
         <section slot="pdf-content">
-          <CustomInvoice />
+          <CustomInvoice :custominvoice="custominvoice" />
         </section>
       </vue-html2pdf>
+
+      <!-- invoice -->
       <div class="pt-3">
-        <CustomInvoice />
+        <CustomInvoice :custominvoice="custominvoice" />
       </div>
+      <!-- email modal -->
 
       <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
-        <EmailModal title="Send Custom Invoice" />
+        <EmailModal
+          title="Send Custom Invoice"
+          :invoice="custominvoice"
+          @closemodal="closeEmailModal"
+        />
       </b-modal>
     </div>
   </div>
@@ -59,6 +67,7 @@
 import VueHtml2pdf from "vue-html2pdf";
 import CustomInvoice from "../Components/Invoices/CustomInvoice.vue";
 import EmailModal from "@/Components/EmailModal.vue";
+import reportApi from "@/Api/Modules/reports";
 import {
   BModal,
   BCard,
@@ -91,12 +100,36 @@ export default {
     BLink,
     BContainer,
   },
+  data() {
+    return {
+      custominvoice: {},
+    };
+  },
+  async created() {
+    await this.getCustomInvoice();
+  },
   methods: {
     openEmailModal() {
       this.$refs.EmailModal.show();
     },
+    closeEmailModal() {
+      this.$refs.EmailModal.hide();
+    },
     generate() {
       this.$refs.html2Pdf.generatePdf();
+    },
+
+    async getCustomInvoice() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.customInvoice(payload);
+      this.custominvoice = res.data.data;
+
+      this.$vs.loading.close();
     },
   },
 };

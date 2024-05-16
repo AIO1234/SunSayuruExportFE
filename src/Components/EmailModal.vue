@@ -89,6 +89,7 @@ export default {
         .sendEmailInvoice(formdata)
         .then(() => {
           this.$vs.loading.close();
+          this.$emit("closemodal", false);
         })
         .catch(() => {
           this.$vs.loading.close();

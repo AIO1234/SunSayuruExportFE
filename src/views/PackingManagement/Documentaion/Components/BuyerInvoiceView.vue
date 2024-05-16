@@ -42,7 +42,11 @@
         </div>
 
         <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
-          <EmailModal title="Send Buyer Invoice" :invoice="buyerinvoice" />
+          <EmailModal
+            title="Send Buyer Invoice"
+            :invoice="buyerinvoice"
+            @closemodal="closeEmailModal"
+          />
         </b-modal>
       </div>
     </div>
@@ -122,6 +126,9 @@ export default {
   methods: {
     openEmailModal() {
       this.$refs.EmailModal.show();
+    },
+    closeEmailModal() {
+      this.$refs.EmailModal.hide();
     },
     generate() {
       this.$refs.html2Pdf.generatePdf();

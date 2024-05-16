@@ -200,9 +200,7 @@ export default {
     BLink,
     BContainer,
   },
-  async created() {
-    await this.getBuyerInvoice();
-  },
+
   data() {
     return {
       fields: [

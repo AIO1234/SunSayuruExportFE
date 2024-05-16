@@ -170,7 +170,7 @@
   </div>
 </template>
 <script>
-import reportApi from "@/Api/Modules/reports";
+
 import {
   BModal,
   BCard,
@@ -200,12 +200,12 @@ export default {
     BLink,
     BContainer,
   },
-  async created() {
-    await this.getCustomInvoice();
+
+  props: {
+    custominvoice: Object,
   },
   data() {
     return {
-      custominvoice: {},
       fields: [
         {
           key: "seafoodtype",
@@ -257,19 +257,6 @@ export default {
     };
   },
 
-  methods: {
-    async getCustomInvoice() {
-      const payload = {
-        shipment_id: this.$route.params.shipment_id,
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await reportApi.customInvoice(payload);
-      this.custominvoice = res.data.data;
-
-      this.$vs.loading.close();
-    },
-  },
+ 
 };
 </script>
