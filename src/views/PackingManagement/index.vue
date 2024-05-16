@@ -175,12 +175,12 @@
           pills
           active-nav-item-class="bg-warning border-warning"
           value="1"
-          v-model="currenttab"
         >
           <b-tab
+            :active="activepackinglist"
             title="Packing list"
             title-item-class="custom-tab-item"
-            @click="changeTab()"
+            @click="changeTab1()"
           >
             <template #title>
               <span class="custom-bg-text">Packing list</span>
@@ -190,8 +190,9 @@
           /></b-tab>
 
           <b-tab
+            :active="activecustominvoice"
             title="Custom invoice"
-            @click="changeTab()"
+            @click="changeTab2()"
             title-item-class="custom-tab-item margin_class_tab"
           >
             <template #title>
@@ -202,7 +203,8 @@
           </b-tab>
 
           <b-tab
-            @click="changeTab()"
+            :active="activebuyerinvoice"
+            @click="changeTab3()"
             title="Buyer invoice"
             title-item-class="custom-tab-item margin_class_tab"
           >
@@ -248,6 +250,9 @@ export default {
   name: "Packings",
   data() {
     return {
+      activepackinglist: true,
+      activecustominvoice: false,
+      activebuyerinvoice: false,
       packingshipments: [],
       documentshipments: [],
       startdate: "",
@@ -331,8 +336,13 @@ export default {
         this.buyer.code = localStorage.getItem("currentSelectedBuyercode");
 
         // initialize tabs
-
-        this.currenttab = sessionStorage.getItem("tabindex");
+        if (sessionStorage.getItem("documenttype") === "PackingList") {
+          this.activepackinglist = true;
+        } else if (sessionStorage.getItem("documenttype") === "CustomInvoice") {
+          this.activecustominvoice = true;
+        } else if (sessionStorage.getItem("documenttype") === "BuyerInvoice") {
+          this.activebuyerinvoice = true;
+        }
       }
     },
     openCreateModal() {
@@ -430,8 +440,15 @@ export default {
       }
     },
 
-    changeTab() {
-      sessionStorage.setItem("tabindex", this.currenttab);
+    // changes document content
+    changeTab1() {
+      sessionStorage.setItem("documenttype", "PackingList");
+    },
+    changeTab2() {
+      sessionStorage.setItem("documenttype", "CustomInvoice");
+    },
+    changeTab3() {
+      sessionStorage.setItem("documenttype", "BuyerInvoice");
     },
     // get all shipments for packing & receiving
 

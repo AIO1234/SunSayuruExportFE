@@ -9,7 +9,7 @@
       >
         <template #cell(action)="data">
           <b-row no-gutters>
-            <b-col lg="1">
+            <b-col lg="2">
               <b-button
                 variant="none"
                 @click="
