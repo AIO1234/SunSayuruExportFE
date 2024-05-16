@@ -7,6 +7,7 @@ export default [
 
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -27,6 +28,7 @@ export default [
 
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -47,6 +49,7 @@ export default [
 
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -64,6 +67,7 @@ export default [
       import("@/views/SuplierEarningsManagement/SuplierWise/index.vue"),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
@@ -83,6 +87,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Suplier wise",
       breadcrumb: [
         {

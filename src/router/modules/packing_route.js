@@ -5,6 +5,7 @@ export default [
     component: () => import("@/views/PackingManagement/index.vue"),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Packing & receiving",
       breadcrumb: [
         {
@@ -24,6 +25,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Create Shipment",
       breadcrumb: [
         {
@@ -43,6 +45,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Update Shipment",
       breadcrumb: [
         {
@@ -62,6 +65,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment summary",
       breadcrumb: [
         {
@@ -81,6 +85,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Packing List",
       breadcrumb: [
         {
@@ -100,6 +105,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Custom Invoice",
       breadcrumb: [
         {
@@ -119,6 +125,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Buyer Invoice",
       breadcrumb: [
         {
@@ -138,6 +145,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Edit Custom Invoice",
       breadcrumb: [
         {
@@ -157,6 +165,7 @@ export default [
       ),
     meta: {
       authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Edit Buyer Invoice",
       breadcrumb: [
         {

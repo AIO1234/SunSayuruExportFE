@@ -8,7 +8,11 @@ export default {
       const { isLogedIn } = store.getters;
       const { getRole } = store.getters;
       console.log(isLogedIn);
-      if (to.meta.authReuire && isLogedIn) {
+      if (
+        to.meta.authReuire &&
+        isLogedIn &&
+        to.meta.role.includes(getRole) === true
+      ) {
         next();
       } else if (to.meta.authReuire && isLogedIn && to.meta.role !== getRole) {
         toast("You Dont Have Permissions To Access This", "error");

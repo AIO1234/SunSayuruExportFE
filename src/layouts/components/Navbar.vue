@@ -122,8 +122,6 @@ export default {
     ...mapActions(["logout"]),
     async localLogout() {
       await this.logout();
-      localstorage.clear();
-
     },
   },
 };
