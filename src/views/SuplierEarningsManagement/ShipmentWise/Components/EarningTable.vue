@@ -5,6 +5,8 @@
       responsive="sm"
       :items="shipments"
       :fields="fields"
+      per-page="20"
+      :current-page="currentPage"
     >
       <template #cell(action)="data">
         <b-row no-gutters>
@@ -27,15 +29,22 @@
       </template>
     </b-table>
 
-    <!-- <b-modal
-      ref="DetailsModal"
-      :title="`View earnings for ${selectedItem.supliername}`"
-      title-class="modal_title_color"
-      hide-footer
-      size="lg"
-    >
-      <ViewEarnings :selectedItem="selectedItem" />
-    </b-modal> -->
+    <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="shipments.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -55,6 +64,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination,
 } from "bootstrap-vue";
 export default {
   name: "EarningTable",
@@ -72,9 +82,11 @@ export default {
     BContainer,
     BCardText,
     BLink,
+    BPagination,
   },
   data() {
     return {
+      currentPage: 1,
       show: false,
       selectedItem: {},
       fields: [

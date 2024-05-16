@@ -5,6 +5,8 @@
       responsive="sm"
       :items="shipments"
       :fields="fields"
+      per-page="20"
+      :current-page="currentPage"
     >
       <template #cell(status)="data">
         <b-badge style="background-color: #cdf59b; color: #67b108">{{
@@ -35,14 +37,6 @@
               ></b-img>
             </b-button>
           </b-col>
-          <!-- <b-col lg="4">
-            <b-button variant="none">
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 59.png"
-              ></b-img>
-            </b-button>
-          </b-col> -->
         </b-row>
       </template>
 
@@ -53,7 +47,22 @@
         {{ getPriceWithOutCurrency(data.value) }}
       </template>
     </b-table>
-
+    <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="shipments.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
     <b-modal
       ref="UpdateModal"
       title="Edit Packing"
@@ -94,6 +103,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination,
 } from "bootstrap-vue";
 export default {
   name: "PackingTable",
@@ -111,11 +121,13 @@ export default {
     BRow,
     BContainer,
     BCardText,
+    BPagination,
     BLink,
   },
   data() {
     return {
       show: false,
+      currentPage: 1,
       selectedPacking: {},
       fields: [
         {

@@ -81,11 +81,30 @@
         responsive="sm"
         :items="shipmentdetails"
         :fields="fields"
+        per-page="20"
+        :current-page="currentPage"
       >
         <template #cell(total_cost)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
       </b-table>
+
+      <b-row>
+        <b-col lg="4"></b-col>
+        <b-col lg="8">
+          <div class="mt-1">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="shipmentdetails.length"
+              per-page="20"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+            ></b-pagination>
+          </div>
+        </b-col>
+      </b-row>
     </b-card>
     <br />
     <b-container>
@@ -134,6 +153,7 @@ import {
   BInputGroupPrepend,
   BContainer,
   BFormInput,
+  BPagination,
 } from "bootstrap-vue";
 import reportApi from "@/Api/Modules/reports";
 import CommonHeaderNew from "@/Components/CommonHeaderNew.vue";
@@ -155,6 +175,7 @@ export default {
     BFormInput,
     BInputGroup,
     BInputGroupPrepend,
+    BPagination,
   },
   props: {
     selectedItem: Object,
@@ -164,6 +185,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       startdate: "",
       enddate: "",
       totalearnings: "",

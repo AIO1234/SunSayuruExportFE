@@ -43,10 +43,29 @@
         responsive="sm"
         :items="details"
         :fields="fields"
+        per-page="20"
+        :current-page="currentPage"
       >
       </b-table>
+      <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="details.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
     </b-card>
     <br />
+   
     <b-container>
       <div class="web_only_view">
         <b-row>
@@ -158,6 +177,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination,
 } from "bootstrap-vue";
 import reportApi from "@/Api/Modules/reports";
 import EmailModal from "@/Components/EmailModal.vue";
@@ -177,12 +197,14 @@ export default {
     BCardText,
     EmailModal,
     BLink,
+    BPagination,
   },
   props: {
     selectedItem: Object,
   },
   data() {
     return {
+      currentPage: 1,
       fields: [
         {
           key: "receiving_date",
