@@ -4,6 +4,7 @@ export default [
     name: "packinglist",
     component: () => import("@/views/PackingManagement/index.vue"),
     meta: {
+      authReuire: true,
       pageTitle: "Packing & receiving",
       breadcrumb: [
         {
@@ -22,6 +23,7 @@ export default [
         "@/views/PackingManagement/PackingandReceiving/createshipments.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Create Shipment",
       breadcrumb: [
         {
@@ -40,6 +42,7 @@ export default [
         "@/views/PackingManagement/PackingandReceiving/updateshipments.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Update Shipment",
       breadcrumb: [
         {
@@ -58,6 +61,7 @@ export default [
         "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Shipment summary",
       breadcrumb: [
         {
@@ -76,6 +80,7 @@ export default [
         "@/views/PackingManagement/Documentaion/Components/PackingListInnerView.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Packing List",
       breadcrumb: [
         {
@@ -94,6 +99,7 @@ export default [
         "@/views/PackingManagement/Documentaion/Components/CustomInvoiceView.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Custom Invoice",
       breadcrumb: [
         {
@@ -112,6 +118,7 @@ export default [
         "@/views/PackingManagement/Documentaion/Components/BuyerInvoiceView.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Buyer Invoice",
       breadcrumb: [
         {
@@ -130,6 +137,7 @@ export default [
         "@/views/PackingManagement/Documentaion/Components/EditCustomInvoice.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Edit Custom Invoice",
       breadcrumb: [
         {
@@ -148,6 +156,7 @@ export default [
         "@/views/PackingManagement/Documentaion/Components/EditBuyerInvoice.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Edit Buyer Invoice",
       breadcrumb: [
         {

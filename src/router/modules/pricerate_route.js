@@ -4,6 +4,7 @@ export default [
       name: "pricerates",
       component: () => import("@/views/PriceRateManagement/pricerates.vue"),
       meta: {
+        
         pageTitle: "Price Ratings",
         breadcrumb: [
           {

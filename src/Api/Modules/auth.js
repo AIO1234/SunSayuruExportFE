@@ -1,5 +1,6 @@
 import { api } from "../index";
 import notification from "@/ApiConstance/toast";
+import store from "@/store";
 
 export default {
   async login(payload) {
@@ -8,6 +9,9 @@ export default {
       const role = res.data.data.roles[0].name;
       localStorage.setItem("sunsayuruauthrole", role);
       localStorage.setItem("sunsayuruauthtoken", token);
+      localStorage.setItem("sunsayurucacheuser", res.data.data.data.name);
+      store.commit("SET_CURRENT_USER_NAME", res.data.data.data.name);
+      store.commit("SET_LOGGED_ROLE", role);
       window.location.href = "/dashboard";
     });
   },

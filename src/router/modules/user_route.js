@@ -4,6 +4,7 @@ export default [
       name: "users",
       component: () => import("@/views/UserManagement/users.vue"),
       meta: {
+        authReuire: true,
         pageTitle: "User Management",
         breadcrumb: [
           {

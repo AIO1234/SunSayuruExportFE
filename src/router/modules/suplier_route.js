@@ -6,6 +6,7 @@ export default [
       import("@/views/SuplierEarningsManagement/ShipmentWise/index.vue"),
 
     meta: {
+      authReuire: true,
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -25,6 +26,7 @@ export default [
       ),
 
     meta: {
+      authReuire: true,
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -44,6 +46,7 @@ export default [
       ),
 
     meta: {
+      authReuire: true,
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
@@ -60,6 +63,7 @@ export default [
     component: () =>
       import("@/views/SuplierEarningsManagement/SuplierWise/index.vue"),
     meta: {
+      authReuire: true,
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
@@ -78,6 +82,7 @@ export default [
         "@/views/SuplierEarningsManagement/SuplierWise/Components/ViewEarnings.vue"
       ),
     meta: {
+      authReuire: true,
       pageTitle: "Suplier wise",
       breadcrumb: [
         {

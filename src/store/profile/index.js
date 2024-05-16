@@ -2,20 +2,40 @@ import profile from "@/Api/Modules/auth";
 
 export default {
   state: {
+    current_user_profile: null,
     current_user_data: null,
+    current_user_name: null,
     current_user_permission: null,
+    logged_role: null,
   },
   mutations: {
     CLEAR_CURRENT_USER: (state) => {
       state.current_user_data = undefined;
       state.current_user_permission = undefined;
-      localStorage.clear();
+      state.logged_role = undefined;
+      localStorage.removeItem("sunsayuruauthtoken");
+      localStorage.removeItem("sunsayuruauthrole");
+      localStorage.removeItem("sunsayurucacheuser");
     },
+
     SET_CURRENT_USER_PERMISSION: (state, value) => {
       state.current_user_permission = value;
     },
+
+    SET_LOGGED_ROLE: (state, value) => {
+      state.logged_role = value;
+    },
+
     SET_CURRENT_USER: (state, value) => {
       state.current_user_data = value;
+    },
+
+    SET_CURRENT_USER_NAME: (state, value) => {
+      state.current_user_name = value;
+    },
+
+    SET_CURRENT_USER_PROFILE: (state, value) => {
+      state.current_user_profile = value;
     },
     UPDATE_USER_INFO: (state, { displayName, photoURL }) => {
       state.current_user_data.user.name = displayName;
@@ -24,7 +44,11 @@ export default {
   },
   getters: {
     isLogedIn: (state) =>
-      state.current_user_data !== undefined && state.current_user_data !== null,
+      state.logged_role !== null && state.current_user_name !== null,
+
+    getRole: (state) => state.logged_role,
+
+    getUserName: (state) => state.current_user_name,
     // currentUser: state => state.current_user_data,
     // permissions: state => state.current_user_permission
   },
@@ -38,30 +62,35 @@ export default {
         router.replace("/");
       }
     },
-    async autoLogin({ commit }) {
+    // async profile({ commit }) {
+    //   const profileData = (await profile.profile()).data.data;
+    //   commit("SET_CURRENT_USER_PROFILE", profileData);
+    //   return profileData;
+    //   // await this.dispatch('afterLogin')
+    // },
+    async autoLogin({ commit, getters }) {
       try {
-        const cacheUserToken = localStorage.getItem("token");
-        if (!this.getters.isLogedIn && cacheUserToken) {
-          const cacheUserData = (await profile.profile()).data.data;
-          commit("SET_CURRENT_USER", {
-            user: cacheUserData,
-            access_token: cacheUserToken,
-          });
-          // commit('UPDATE_USER_INFO', {
-          //   displayName: cacheUserData.name,
-          // })
-          // await this.dispatch("afterLogin", true);
+        const cacheUserToken = localStorage.getItem("sunsayuruauthtoken");
+        const cacheUserRole = localStorage.getItem("sunsayuruauthrole");
+        const cacheUser = localStorage.getItem("sunsayurucacheuser");
+
+        if (cacheUserToken && cacheUserRole && cacheUser) {
+          if (!getters.getRole && !getters.getUserName) {
+            commit("SET_CURRENT_USER_NAME", cacheUser);
+            commit("SET_LOGGED_ROLE", cacheUserRole);
+          } else if (
+            getters.getRole !== cacheUserRole ||
+            getters.getUserName !== cacheUser
+          ) {
+            await this.dispatch("logout");
+          }
         }
       } catch (e) {
         // console.log(e)
         await this.dispatch("logout");
       }
     },
-    async login({ commit }, payload) {
-      const loginData = (await profile.login(payload)).data.data;
-      commit("SET_CURRENT_USER", loginData);
-      // await this.dispatch('afterLogin')
-    },
+   
     async logout({ commit }) {
       try {
         await profile.logout();
