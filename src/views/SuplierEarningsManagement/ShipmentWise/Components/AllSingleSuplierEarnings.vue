@@ -48,24 +48,24 @@
       >
       </b-table>
       <b-row>
-      <b-col lg="4"></b-col>
-      <b-col lg="8">
-        <div class="mt-1">
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="details.length"
-            per-page="20"
-            first-text="First"
-            prev-text="Prev"
-            next-text="Next"
-            last-text="Last"
-          ></b-pagination>
-        </div>
-      </b-col>
-    </b-row>
+        <b-col lg="4"></b-col>
+        <b-col lg="8">
+          <div class="mt-1">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="details.length"
+              per-page="20"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+            ></b-pagination>
+          </div>
+        </b-col>
+      </b-row>
     </b-card>
     <br />
-   
+
     <b-container>
       <div class="web_only_view">
         <b-row>
@@ -118,6 +118,23 @@
       >
         <section slot="pdf-content">
           <!-- suplier invoice -->
+          <div class="buyer_invoice">
+            <div class="invoice_padding_one">
+              <div class="text-center">
+                <h2 class="invoice_heading">
+                  SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.
+                </h2>
+                <h5 class="invoice_sub_heading">
+                  NO.1068/3, ALUTHKURUWA, PITIPANA, NEGOMBO, SRI LANKA.
+                </h5>
+                <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
+
+                <div class="invoice_padding">
+                  <span class="cost_sheet">Invoice</span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="pt-5 suplierearnings">
             <b-card>
               <b-table
