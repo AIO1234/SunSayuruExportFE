@@ -13,7 +13,7 @@
       </template>
       <template #cell(action)="data">
         <b-row>
-          <b-col lg="6">
+          <b-col lg="7">
             <b-button
               variant="none"
               @click="$router.push(`/viewpacking/${data.item.id}`)"
@@ -24,7 +24,7 @@
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="6">
+          <b-col lg="5">
             <b-button
               variant="none"
               @click="$router.push(`/updateshipment/${data.item.id}`)"

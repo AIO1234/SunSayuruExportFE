@@ -244,18 +244,20 @@ export default {
     //  show current saves shipment
 
     async showShipment() {
-      const payload = {
-        shipment_id: localStorage.currentShipmentId,
-        show: "shipment_details",
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await shipmentApi.showShipment(payload);
-      this.shipment = res.data.data;
-      this.form = this.shipment.shipmentdetails;
-      this.invoice_no = this.shipment.shipmentdetails.invoice_no;
-      this.$vs.loading.close();
+      if (localStorage.currentShipmentId) {
+        const payload = {
+          shipment_id: localStorage.currentShipmentId,
+          show: "shipment_details",
+        };
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await shipmentApi.showShipment(payload);
+        this.shipment = res.data.data;
+        this.form = this.shipment.shipmentdetails;
+        this.invoice_no = this.shipment.shipmentdetails.invoice_no;
+        this.$vs.loading.close();
+      }
     },
 
     // next button
