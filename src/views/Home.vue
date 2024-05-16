@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <div>
+    <b-card>
+      <h2 class="text-center text-danger">Welcome To Sun Sayuru Export management</h2>
+    </b-card>
+  </div>
 </template>
 
 <script>

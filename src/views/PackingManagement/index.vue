@@ -241,6 +241,7 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 import countryApi from "@/Api/Modules/countries";
+import buyerApi from "@/Api/Modules/buyers";
 import reportApi from "@/Api/Modules/reports";
 import shipmentApi from "@/Api/Modules/shipments";
 export default {
@@ -347,11 +348,24 @@ export default {
       this.countries = res.data.data;
       this.$vs.loading.close();
     },
+
+    async getBuyers(id) {
+      const payload = {
+        country_id: id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await buyerApi.buyers(payload);
+      this.$vs.loading.close();
+      return res;
+    },
     // trigger  when country change
     async countryChange() {
       this.buyers = [];
-      console.log(this.country);
-      this.buyers = this.country.buyers;
+
+      const res = await this.getBuyers(this.country.id);
+      this.buyers = res.data.data;
       localStorage.setItem("currentSelectedCountryid", this.country.id);
       localStorage.setItem("currentSelectedCountryname", this.country.name);
       this.buyer.id = this.buyers[0].id;
