@@ -386,6 +386,7 @@ export default {
     async buyerChange() {
       localStorage.setItem("currentSelectedBuyerid", this.buyer.id);
       localStorage.setItem("currentSelectedBuyercode", this.buyer.code);
+      localStorage.removeItem("currentShipmentId");
       // load documents acording to country and buyer
       if (localStorage.getItem("currentSelectedtype") === "Documentations") {
         await this.getShipmentsForDocuments();

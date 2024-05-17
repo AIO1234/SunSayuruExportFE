@@ -1,4 +1,4 @@
-import { toast } from "@/ApiConstance/toast";
+import notification from "@/ApiConstance/toast";
 
 export default {
   init(router, store) {
@@ -7,30 +7,44 @@ export default {
 
       const { isLogedIn } = store.getters;
       const { getRole } = store.getters;
-      console.log(isLogedIn);
+      // if autentication alive
       if (
         to.meta.authReuire &&
         isLogedIn &&
         to.meta.role.includes(getRole) === true
       ) {
         next();
-      } else if (to.meta.authReuire && isLogedIn && to.meta.role !== getRole) {
-        toast("You Dont Have Permissions To Access This", "error");
-      } else if (to.meta.authReuire && !isLogedIn) {
+        return next();
+      }
+      // if roles are mismatch
+      else if (
+        to.meta.authReuire &&
+        isLogedIn &&
+        to.meta.role.includes(getRole) === false
+      ) {
+        notification.toast("You Dont Have Permissions To Access This", "error");
+        return next(false);
+      }
+      // if not logged in
+      else if (to.meta.authReuire && !isLogedIn) {
         next({
           path: "/",
           replace: true,
         });
-      } else if (!to.meta.authReuire && isLogedIn) {
+        return next();
+      }
+      //if logged in but auth required
+      else if (!to.meta.authReuire && isLogedIn) {
         next({
           path: "/dashboard",
           replace: true,
         });
-      } else {
-        next();
+        return next();
       }
-
-      return next();
+      // if not authenticated
+      else {
+        return next();
+      }
     });
   },
 };

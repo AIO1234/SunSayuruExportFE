@@ -80,8 +80,8 @@
           <b-col><span class="edit_form_header">Seafood type</span></b-col>
           <b-col><span class="edit_form_header">Quality</span></b-col>
           <b-col><span class="edit_form_header">Grading (Kg)</span></b-col>
-          <b-col><span class="edit_form_header">Rate per Kg ($)</span></b-col>
           <b-col><span class="edit_form_header">Weight (Kg)</span></b-col>
+          <b-col><span class="edit_form_header">Rate per Kg ($)</span></b-col>
           <b-col><span class="edit_form_header">Total cost ($)</span></b-col>
         </b-row>
 
@@ -142,22 +142,6 @@
           <b-col>
             <b-form-group label-class="form_label_class">
               <validation-Provider
-                name="Rate per Kg ($)"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  class="input_background"
-                  placeholder="Enter Rate"
-                  v-model="seafood.price_rate"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group label-class="form_label_class">
-              <validation-Provider
                 name="Weight (Kg)"
                 rules="required"
                 v-slot="{ errors }"
@@ -171,6 +155,26 @@
               </validation-Provider>
             </b-form-group>
           </b-col>
+          <b-col>
+            <b-form-group label-class="form_label_class">
+              <validation-Provider
+                name="Rate per Kg ($)"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  class="input_background"
+                  placeholder="Enter Rate"
+                  v-model="seafood.price_rate"
+                  @input="
+                    changeAmount(seafood.price_rate, seafood.weight, index)
+                  "
+                ></b-form-input>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </validation-Provider>
+            </b-form-group>
+          </b-col>
+
           <b-col>
             <b-form-group label-class="form_label_class">
               <validation-Provider
@@ -274,6 +278,11 @@ export default {
       this.custominvoice = res.data.data;
       this.form = this.custominvoice;
       this.$vs.loading.close();
+    },
+    //update amount
+
+    changeAmount(price_rate, weight, index) {
+      this.form.boxes.seafoods[index].total_amount = price_rate * weight;
     },
     // update custom invoice
     async updateCustomInvoice() {

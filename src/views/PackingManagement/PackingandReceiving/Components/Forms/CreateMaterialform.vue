@@ -71,6 +71,7 @@
                       v-model="item.unitprice"
                       type="number"
                       step="0.00"
+                      @input="changeAmount(item.unitprice,item.quantity, index)"
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
@@ -86,6 +87,7 @@
                     type="number"
                     step="0.00"
                     v-model="item.amount"
+                   
                   />
                 </b-form-group>
               </b-col>

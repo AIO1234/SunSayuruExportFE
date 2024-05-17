@@ -46,6 +46,12 @@
         per-page="20"
         :current-page="currentPage"
       >
+      <template #cell(price_rate)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
+        <template #cell(amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
       </b-table>
       <b-row>
         <b-col lg="4"></b-col>
