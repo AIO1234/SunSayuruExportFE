@@ -63,7 +63,7 @@
                 <b-form-group label="Flight*" label-class="form_label_class">
                   <validation-Provider
                     name="Flight"
-                    rules="required"
+                 
                     v-slot="{ errors }"
                   >
                     <b-form-input
@@ -79,7 +79,7 @@
                 <b-form-group label="ETA*" label-class="form_label_class">
                   <validation-Provider
                     name="ETA"
-                    rules="required"
+                  
                     v-slot="{ errors }"
                   >
                     <b-form-datepicker
@@ -95,7 +95,7 @@
                 <b-form-group label="AWB*" label-class="form_label_class">
                   <validation-Provider
                     name="AWB"
-                    rules="required"
+                 
                     v-slot="{ errors }"
                   >
                     <b-form-input
@@ -112,7 +112,7 @@
                 <b-form-group label="Consignee*" label-class="form_label_class">
                   <validation-Provider
                     name="Consignee"
-                    rules="required"
+                
                     v-slot="{ errors }"
                   >
                     <b-form-textarea
@@ -123,27 +123,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-              <!-- Airfreight Cost  -->
-              <b-col lg="12" class="pt-2">
-                <b-form-group
-                  label="Airfreight Cost*"
-                  label-class="form_label_class"
-                >
-                  <validation-Provider
-                    name="Airfreight Cost"
-                    rules="required"
-                    v-slot="{ errors }"
-                  >
-                    <b-form-input
-                      type="number"
-                      step="0.01"
-                      placeholder="Enter Airfreight Cost"
-                      v-model="form.airfreight_cost"
-                    ></b-form-input>
-                    <span class="text-danger">{{ errors[0] }}</span>
-                  </validation-Provider>
-                </b-form-group>
-              </b-col>
+         
             </b-row>
 
             <br />

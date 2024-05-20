@@ -19,16 +19,23 @@
                   ><h2 class="box_create_header">Box number</h2></b-col
                 >
                 <b-col lg="2">
-                  <b-form-input
-                    placeholder="Enter box number"
-                    v-model="box.box_number"
-                    style="
-                      background-color: #003476;
-                      color: white;
-                      width: 170px;
-                      height: 39px;
-                    "
-                  ></b-form-input>
+                  <validation-Provider
+                    name="Box number"
+                    rules="required"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      placeholder="Enter box number"
+                      v-model="box.box_number"
+                      style="
+                        background-color: #003476;
+                        color: white;
+                        width: 170px;
+                        height: 39px;
+                      "
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
                 </b-col>
               </b-row>
               <br />

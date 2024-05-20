@@ -2,6 +2,21 @@
   <div>
     <validation-observer ref="additionalValidation" #default="{ invalid }">
       <br />
+      <h2 class="shipment_create_header">Airfreight Cost</h2>
+
+      <b-form-group label="Airfreight Cost*" label-class="form_label_class">
+        <validation-Provider name="Airfreight Cost" v-slot="{ errors }">
+          <b-form-input
+            type="number"
+            step="0.01"
+            placeholder="Enter Airfreight Cost"
+            v-model="form.airfreight_cost"
+          ></b-form-input>
+          <span class="text-danger">{{ errors[0] }}</span>
+ 
+        </validation-Provider>
+      </b-form-group>
+      <br /><br />
       <h2 class="shipment_create_header">Additional cost</h2>
       <br /><br />
       <div>
@@ -185,6 +200,7 @@ export default {
       });
       const res = await shipmentApi.showShipment(payload);
       this.additionalcosts = res.data.data.additional_costs;
+      this.form.airfreight_cost =  res.data.data.airfreid_cost
       this.$vs.loading.close();
     },
 
