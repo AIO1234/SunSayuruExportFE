@@ -314,7 +314,7 @@ export default {
 
   methods: {
     // initialize previously selected country and buyer when scren loaded
-    initializeParams() {
+    async initializeParams() {
       if (
         localStorage.currentSelectedtype &&
         localStorage.currentSelectedCountryid &&
@@ -326,12 +326,9 @@ export default {
         this.country.id = localStorage.getItem("currentSelectedCountryid");
         this.country.name = localStorage.getItem("currentSelectedCountryname");
 
-        const result = this.countries.find(
-          (option) => option.id === parseInt(this.country.id)
-        );
-
-        this.buyers = result.buyers;
-
+        const res = await this.getBuyers(this.country.id);
+        this.buyers = res.data.data;
+       
         this.buyer.id = localStorage.getItem("currentSelectedBuyerid");
         this.buyer.code = localStorage.getItem("currentSelectedBuyercode");
 
