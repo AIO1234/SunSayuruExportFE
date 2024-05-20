@@ -82,7 +82,7 @@
       </b-card>
     </div>
     <b-modal ref="EmailModal" title-class="modal_title_color" hide-footer>
-      <EmailModal title="Send Packing List" />
+      <EmailModal title="Send Packing List" :invoice="invoice" />
     </b-modal>
 
     <div>
@@ -200,7 +200,7 @@ export default {
     return {
       show: false,
       selectedItem: {},
-
+      invoice: {},
       boxes: [],
     };
   },
@@ -217,6 +217,8 @@ export default {
       this.$refs.EmailModal.show();
     },
     async getBuyerPackingList() {
+      this.invoice.invoice_no = this.$route.params.invoice_no;
+      this.invoice.buyer_name = localStorage.currentSelectedBuyercode;
       const payload = {
         shipment_id: this.$route.params.shipment_id,
       };

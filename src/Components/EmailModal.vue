@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       file: null,
+      email: "",
     };
   },
   props: {

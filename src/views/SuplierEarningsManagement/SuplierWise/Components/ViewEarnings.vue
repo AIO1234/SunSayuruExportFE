@@ -20,7 +20,7 @@
                     class="bg-white border px-2 py-1 rounded form_input_styles_date"
                     :value="inputValue"
                     v-on="inputEvents"
-                    placeholder="16 Feb 2024 "
+                    placeholder="Start Eta"
                   ></b-form-input>
                 </b-input-group>
               </template>
@@ -40,7 +40,7 @@
                     class="bg-white border px-2 py-1 rounded form_input_styles_date"
                     :value="inputValue"
                     v-on="inputEvents"
-                    placeholder="16 Feb 2024 "
+                    placeholder="End Eta"
                   ></b-form-input>
                 </b-input-group>
               </template>
