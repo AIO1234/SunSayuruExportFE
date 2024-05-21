@@ -268,7 +268,7 @@
                               <!-- Weight -->
                               <b-col lg="3">
                                 <b-form-group
-                                  label="Weight(g)*"
+                                  label="Weight(kg)*"
                                   label-class="form_label_class"
                                 >
                                   <validation-Provider
@@ -297,7 +297,7 @@
                               <!-- Rate -->
                               <b-col lg="2">
                                 <b-form-group
-                                  label="Price Rate"
+                                  label="Price Rate*"
                                   label-class="form_label_class"
                                 >
                                   <b-form-input

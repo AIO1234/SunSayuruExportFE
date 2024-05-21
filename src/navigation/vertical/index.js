@@ -32,7 +32,7 @@ export default [
         route: "shipmentwiseearnings",
       },
       {
-        title: "Suplier wise",
+        title: "Supplier wise",
         route: "suplierwiseearnings",
       },
     ],

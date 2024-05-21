@@ -11,7 +11,7 @@ export default [
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -32,7 +32,7 @@ export default [
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -53,7 +53,7 @@ export default [
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -71,7 +71,7 @@ export default [
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -91,7 +91,7 @@ export default [
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
