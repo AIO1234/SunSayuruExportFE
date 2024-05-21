@@ -28,22 +28,22 @@
                   v-slot="{ errors }"
                 >
                   <v-select
-                    v-model="selected"
+                    v-model="role"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    label="title"
-                    :options="options"
+                    label="name"
+                    :options="roles"
                   />
 
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
             </b-col>
-
+            <!-- email -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Email*" label-class="form_label_class">
                 <validation-Provider
                   name="Email"
-                  rules="required"
+                  rules="required|email"
                   v-slot="{ errors }"
                 >
                   <b-form-input
@@ -55,15 +55,8 @@
               </b-form-group>
             </b-col>
 
-            <b-col
-            class="mb-1"
-              cols="12"
-              v-if="
-                selected.title === 'Super Admin' ||
-                selected.title === 'Operation Manager' ||
-                selected.title === 'Data Entry Officer'
-              "
-            >
+            <!-- password -->
+            <b-col class="mb-1" cols="12">
               <b-form-group
                 label-for="register-password"
                 label="Password*"
@@ -101,15 +94,7 @@
               </b-form-group>
             </b-col>
             <!-- password Confirmation -->
-            <b-col
-            class="mb-1"
-              cols="12"
-              v-if="
-                selected.title === 'Super Admin' ||
-                selected.title === 'Operation Manager' ||
-                selected.title === 'Data Entry Officer'
-              "
-            >
+            <b-col class="mb-1" cols="12">
               <b-form-group
                 label="Confirm Password*"
                 label-class="form_label_class"
@@ -130,6 +115,7 @@
               </b-form-group>
             </b-col>
 
+            <!--phone  number -->
             <b-col md="12" class="mb-1">
               <b-form-group
                 label="Phone Number*"
@@ -137,13 +123,25 @@
               >
                 <validation-Provider
                   name="Phone Number"
-                  rules="required"
+                  rules="required|min:10|max:12"
                   v-slot="{ errors }"
                 >
                   <b-form-input
                     placeholder="Enter Phone Number"
-                    v-model="form.mobile"
+                    v-model="form.phone"
                   ></b-form-input>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </validation-Provider>
+              </b-form-group>
+            </b-col>
+            <!-- address -->
+            <b-col md="12" class="mb-1">
+              <b-form-group label="Address*" label-class="form_label_class">
+                <validation-Provider name="Address" v-slot="{ errors }">
+                  <b-form-textarea
+                    placeholder="Enter Email"
+                    v-model="form.address"
+                  ></b-form-textarea>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -167,7 +165,6 @@
 </template>
 
 <script>
-
 import {
   BCard,
   BFormRadio,
@@ -189,8 +186,23 @@ import {
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
+import userApi from "@/Api/Modules/users";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import {
+  required,
+  email,
+  confirmed,
+  url,
+  between,
+  alpha,
+  integer,
+  password,
+  min,
+  digits,
+  alphaDash,
+  length,
+} from "@validations";
 export default {
   name: "AddUser",
   components: {
@@ -219,17 +231,29 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
-        title: "Select Type",
+      role: {
+        name: "",
       },
-      options: [
-        { title: "Super Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-      ],
+      roles: [],
+
+      // validations
+
+      required,
+      email,
+      confirmed,
+      url,
+      between,
+      alpha,
+      integer,
+      password,
+      min,
+      digits,
+      alphaDash,
+      length,
     };
+  },
+  async created() {
+    await this.getRoles();
   },
   computed: {
     passwordToggleIcon() {
@@ -238,8 +262,31 @@ export default {
   },
   mixins: [togglePasswordVisibility],
   methods: {
+    async getRoles() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await userApi.getRoles();
+      this.roles = res.data.data;
+      this.role.name = this.roles[2].name;
+      this.$vs.loading.close();
+    },
+
     async validationUserCreateForm() {
       if (await this.$refs.UserCreateValidation.validate()) {
+        this.form.user_type = this.role.name;
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await userApi
+          .addUser(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            window.location.href = "/users";
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

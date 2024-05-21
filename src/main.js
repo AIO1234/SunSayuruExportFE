@@ -2,6 +2,7 @@ import Vue from "vue";
 import PortalVue from "portal-vue";
 import { ToastPlugin, ModalPlugin } from "bootstrap-vue";
 import { VBTogglePlugin } from "bootstrap-vue";
+import auth_controller from "./router/auth_controller";
 
 import VueCompositionAPI from "@vue/composition-api";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -50,7 +51,7 @@ require("@/assets/scss/users.scss");
 require("@/assets/scss/packings.scss");
 require("@/assets/scss/suplierearnings.scss");
 
-
+auth_controller.init(router, store);
 Vue.config.productionTip = false;
 
 new Vue({

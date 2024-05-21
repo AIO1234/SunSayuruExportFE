@@ -43,50 +43,25 @@
     <br />
     <div>
       <div v-if="currentcomponent === 'ShipmentDetails'">
-        <ShipmentDetailsCreateForm />
+        <ShipmentDetailsCreateForm @sendComponentName="next" />
       </div>
 
       <div v-if="currentcomponent === 'BoxesandSupliers'">
-        <PackingCreateForm />
+        <PackingCreateForm @sendComponentName="next" @DirectBack="back" />
       </div>
 
       <div v-if="currentcomponent === 'MaterialCostForm'">
-        <MaterialCreateForm />
+        <MaterialCreateForm @sendComponentName="next" @DirectBack="back" />
       </div>
 
       <div v-if="currentcomponent === 'AdditionalCostForm'">
-        <AdditionalCostsCreateForm />
+        <AdditionalCostsCreateForm @DirectBack="back" />
       </div>
 
       <br />
       <br />
 
       <br />
-      <div>
-        <b-row>
-          <b-col lg="6">
-            <b-button
-              v-if="currentcomponent !== 'ShipmentDetails'"
-              variant="none"
-              class="backbutton"
-              @click="back()"
-            >
-              <span class="back_button_text_styles">Back</span>
-            </b-button>
-          </b-col>
-
-          <b-col lg="6" class="text-right">
-            <b-button
-              v-if="currentcomponent !== 'AdditionalCostForm'"
-              v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-              variant="none"
-              class="form_submit_button"
-            >
-              <span class="button_text_styles" @click="next()">Next</span>
-            </b-button></b-col
-          >
-        </b-row>
-      </div>
     </div>
   </div>
 </template>
@@ -162,12 +137,12 @@ export default {
   },
 
   methods: {
-    next() {
-      if (this.currentcomponent === "ShipmentDetails") {
+    next(value) {
+      if (value === "ShipmentDetails") {
         this.currentcomponent = "BoxesandSupliers";
-      } else if (this.currentcomponent === "BoxesandSupliers") {
+      } else if (value === "BoxesandSupliers") {
         this.currentcomponent = "MaterialCostForm";
-      } else if (this.currentcomponent === "MaterialCostForm") {
+      } else if (value === "MaterialCostForm") {
         this.currentcomponent = "AdditionalCostForm";
       }
       this.changeDotStatus();

@@ -24,8 +24,8 @@
       >
         <template #button-content>
           <div class="d-sm-flex d-none user-nav">
-            <p class="user-name font-weight-bolder mb-0">Prasad Madusanka</p>
-            <span class="user-status">Admin</span>
+            <p class="user-name font-weight-bolder mb-0">{{ user }}</p>
+            <span class="user-status">{{ role }}</span>
           </div>
           <b-avatar
             size="40"
@@ -36,44 +36,6 @@
             badge-variant="success"
           />
         </template>
-
-        <!-- <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="UserIcon"
-            class="mr-50"
-          />
-          <span>Profile</span>
-        </b-dropdown-item>
-
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MailIcon"
-            class="mr-50"
-          />
-          <span>Inbox</span>
-        </b-dropdown-item>
-
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="CheckSquareIcon"
-            class="mr-50"
-          />
-          <span>Task</span>
-        </b-dropdown-item>
-
-        <b-dropdown-item link-class="d-flex align-items-center">
-          <feather-icon
-            size="16"
-            icon="MessageSquareIcon"
-            class="mr-50"
-          />
-          <span>Chat</span>
-        </b-dropdown-item>
-
-        <b-dropdown-divider /> -->
 
         <b-dropdown-item
           link-class="d-flex align-items-center"
@@ -112,18 +74,26 @@ export default {
     // Navbar Components
     DarkToggler,
   },
+  data() {
+    return {
+      role: "",
+      user: "",
+    };
+  },
   props: {
     toggleVerticalMenuActive: {
       type: Function,
       default: () => {},
     },
   },
+  async created() {
+    this.role = localStorage.getItem("sunsayuruauthrole");
+    this.user = localStorage.getItem("sunsayurucacheuser");
+  },
   methods: {
     ...mapActions(["logout"]),
     async localLogout() {
       await this.logout();
-      localstorage.clear();
-
     },
   },
 };

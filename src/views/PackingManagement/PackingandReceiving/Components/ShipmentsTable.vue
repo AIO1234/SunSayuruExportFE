@@ -1,41 +1,68 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+    <b-table
+      sticky-header=""
+      responsive="sm"
+      :items="shipments"
+      :fields="fields"
+      per-page="20"
+      :current-page="currentPage"
+    >
       <template #cell(status)="data">
         <b-badge style="background-color: #cdf59b; color: #67b108">{{
           data.value
         }}</b-badge>
       </template>
       <template #cell(action)="data">
-        <b-row >
-          <b-col lg="6">
-            <b-button variant="none" @click="$router.push('/viewpacking')">
+        <b-row>
+          <b-col lg="7">
+            <b-button
+              variant="none"
+              @click="$router.push(`/viewpacking/${data.item.id}`)"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="6">
-            <b-button variant="none" >
+          <b-col lg="5">
+            <b-button
+              variant="none"
+              @click="$router.push(`/updateshipment/${data.item.id}`)"
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 101.png"
               ></b-img>
             </b-button>
           </b-col>
-          <!-- <b-col lg="4">
-            <b-button variant="none">
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 59.png"
-              ></b-img>
-            </b-button>
-          </b-col> -->
         </b-row>
       </template>
-    </b-table>
 
+      <template #cell(total_material_costs)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+      <template #cell(total_additional_costs)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+    </b-table>
+    <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="shipments.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
     <b-modal
       ref="UpdateModal"
       title="Edit Packing"
@@ -60,6 +87,7 @@
 
 <script>
 import PackingUpdateForm from "@/views/PackingManagement/PackingandReceiving/Components/UpdatePackingForm.vue";
+import shipmentApi from "@/Api/Modules/shipments.js";
 import ViewPacking from "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue";
 
 import {
@@ -75,6 +103,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination,
 } from "bootstrap-vue";
 export default {
   name: "PackingTable",
@@ -92,37 +121,39 @@ export default {
     BRow,
     BContainer,
     BCardText,
+    BPagination,
     BLink,
   },
   data() {
     return {
       show: false,
+      currentPage: 1,
       selectedPacking: {},
       fields: [
         {
-          key: "shipmentno",
-          label: "Shipment no",
+          key: "invoice_no",
+          label: "Invoice No",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
           key: "eta",
           label: "ETA",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "20%" },
           // tdClass: "custom-cell-padding",
         },
         {
           key: "flight",
           label: "Flight",
           sortable: true,
- 
+
           // tdClass: "custom-cell-padding",
         },
 
         {
-          key: "totalweight",
+          key: "total_weight",
           label: "Total weight(Kg)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -130,86 +161,48 @@ export default {
         },
 
         {
-          key: "noofboxes",
+          key: "total_boxes",
           label: "Total no of boxes",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "noofsupliers",
+          key: "total_supliers",
           label: "Total no of suppliers",
           sortable: true,
           thStyle: { width: "15.6%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "materialcost",
-          label: "Total Material Cost($)",
+          key: "total_material_costs",
+          label: "Total Material Cost(Rs)",
           sortable: true,
           thStyle: { width: "15%" },
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "addtionalcost",
-          label: "Total Additional Cost($)",
+          key: "total_additional_costs",
+          label: "Total Additional Cost(Rs)",
           sortable: true,
           thStyle: { width: "20%" },
           // tdClass: "custom-cell-padding",
         },
-        {
-          key: "status",
-          label: "Status",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "custom-cell-padding",
-        },
+
         {
           key: "action",
           label: "Action",
           sortable: true,
-      
+
           // tdClass: "custom-cell-padding",
-        },
-      ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024.01.04",
-          flight: "MH-178",
-          totalweight: "450.00 ",
-          noofboxes: "02",
-          noofsupliers: "03",
-          materialcost: "2000.00",
-          addtionalcost: "2000.00",
-          status: "Ongoing",
         },
       ],
     };
   },
-  async created() {},
+
+  props: {
+    shipments: Array,
+  },
 
   methods: {
     setCellPadding(value, key, item) {

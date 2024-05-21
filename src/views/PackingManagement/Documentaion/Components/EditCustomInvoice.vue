@@ -1,60 +1,11 @@
 <template>
   <div class="custom_invoice">
-    <h2 class="shipment_number text-right">Shipment no - S001</h2>
+    <h2 class="shipment_number text-right">
+      Invoice No - {{ $route.params.invoice_no }}
+    </h2>
     <div style="background-color: #fffef8; border-radius: 10px">
       <b-container>
         <b-row class="pl-2 pr-2 pt-3">
-          <b-col lg="6">
-            <b-form-group label="Business name*" label-class="form_label_class">
-              <validation-Provider
-                name="Business name"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Business name"
-                  v-model="form.buisness_name"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col lg="6">
-            <b-form-group
-              label="Business address*"
-              label-class="form_label_class"
-            >
-              <validation-Provider
-                name="Business address"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Business address"
-                  v-model="form.buisness_address"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
-          <b-col lg="6" class="pt-2">
-            <b-form-group label="Tel no*" label-class="form_label_class">
-              <validation-Provider
-                name="Tel no"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  placeholder="Enter Tel no"
-                  v-model="form.tel_no"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-
           <b-col lg="6" class="pt-2">
             <b-form-group label="Invoice no*" label-class="form_label_class">
               <validation-Provider
@@ -64,7 +15,7 @@
               >
                 <b-form-input
                   placeholder="Enter Invoice number"
-                  v-model="form.invoice_number"
+                  v-model="form.invoice_no"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -129,12 +80,16 @@
           <b-col><span class="edit_form_header">Seafood type</span></b-col>
           <b-col><span class="edit_form_header">Quality</span></b-col>
           <b-col><span class="edit_form_header">Grading (Kg)</span></b-col>
-          <b-col><span class="edit_form_header">Rate per Kg ($)</span></b-col>
           <b-col><span class="edit_form_header">Weight (Kg)</span></b-col>
+          <b-col><span class="edit_form_header">Rate per Kg ($)</span></b-col>
           <b-col><span class="edit_form_header">Total cost ($)</span></b-col>
         </b-row>
 
-        <b-row class="pl-2 pr-2 pt-2" v-for="n in (1, 2, 3)" :key="n">
+        <b-row
+          class="pl-2 pr-2 pt-2"
+          v-for="seafood in form.boxes.seafoods"
+          :key="seafood.seafoodtype"
+        >
           <b-col>
             <b-form-group label-class="form_label_class">
               <validation-Provider
@@ -145,7 +100,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Business name"
-                  v-model="form.buisness_name"
+                  v-model="seafood.seafoodtype"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -160,8 +115,8 @@
               >
                 <b-form-input
                   class="input_background"
-                  placeholder="Enter Business address"
-                  v-model="form.buisness_address"
+                  placeholder="Enter Quality"
+                  v-model="seafood.quality"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -178,23 +133,7 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Grading"
-                  v-model="form.shipment_number"
-                ></b-form-input>
-                <span class="text-danger">{{ errors[0] }}</span>
-              </validation-Provider>
-            </b-form-group>
-          </b-col>
-          <b-col>
-            <b-form-group label-class="form_label_class">
-              <validation-Provider
-                name="Rate per Kg ($)"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <b-form-input
-                  class="input_background"
-                  placeholder="Enter Rate"
-                  v-model="form.rate"
+                  v-model="seafood.grading"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -210,12 +149,32 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Weight"
-                  v-model="form.weight"
+                  v-model="seafood.weight"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
             </b-form-group>
           </b-col>
+          <b-col>
+            <b-form-group label-class="form_label_class">
+              <validation-Provider
+                name="Rate per Kg ($)"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  class="input_background"
+                  placeholder="Enter Rate"
+                  v-model="seafood.price_rate"
+                  @input="
+                    changeAmount(seafood.price_rate, seafood.weight, index)
+                  "
+                ></b-form-input>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </validation-Provider>
+            </b-form-group>
+          </b-col>
+
           <b-col>
             <b-form-group label-class="form_label_class">
               <validation-Provider
@@ -226,68 +185,32 @@
                 <b-form-input
                   class="input_background"
                   placeholder="Enter Total cost"
-                  v-model="form.total_cost"
+                  v-model="seafood.total_amount"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
             </b-form-group>
           </b-col>
         </b-row>
-
-        <b-container class="pl-2 pr-2 pt-2" >
-            <div class="web_only_view">
-              <b-row>
-                <b-col lg="8" cols="8"
-                  ><span class="total ml-1">Total</span></b-col
-                >
-                <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5</span></b-col
-                >
-                <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00</span>
-                </b-col>
-              </b-row>
-            </div>
-            <div class="mobile_only_view">
-              <br />
-              <b-row>
-                <b-col lg="8" cols="8"
-                  ><span class="total ml-1">Total Weight</span></b-col
-                >
-                <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5(kg)</span></b-col
-                >
-              </b-row>
-              <br />
-              <b-row>
-                <b-col lg="8" cols="8"
-                  ><span class="total ml-1">Total Cost</span></b-col
-                >
-                <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00($)</span></b-col
-                >
-              </b-row>
-            </div>
-          </b-container>
       </b-container>
     </div>
 
     <div class="d-flex justify-content-end pt-3">
       <b-button
-        v-if="currentcomponent !== 'AdditionalCostForm'"
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
         variant="none"
         class="form_submit_button"
       >
-        <span class="button_text_styles" @click="saveInvoice()">Save</span>
+        <span class="button_text_styles" @click="updateCustomInvoice()"
+          >Save</span
+        >
       </b-button>
     </div>
-
-
-   
   </div>
 </template>
 <script>
+import reportApi from "@/Api/Modules/reports";
+import shipmentApi from "@/Api/Modules/shipments";
 import { ValidationObserver } from "vee-validate";
 import vSelect from "vue-select";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
@@ -336,8 +259,48 @@ export default {
   data() {
     return {
       form: {},
+      custominvoice: {},
     };
+  },
+  async created() {
+    await this.getCustomInvoice();
+  },
+  methods: {
+    // get custom invoice
+    async getCustomInvoice() {
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.customInvoice(payload);
+      this.custominvoice = res.data.data;
+      this.form = this.custominvoice;
+      this.$vs.loading.close();
+    },
+    //update amount
+
+    changeAmount(price_rate, weight, index) {
+      this.form.boxes.seafoods[index].total_amount = price_rate * weight;
+    },
+    // update custom invoice
+    async updateCustomInvoice() {
+      this.form.shipment_id = this.$route.params.shipment_id;
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      await shipmentApi
+        .updateCustomInvoice(this.form)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+
+      this.$vs.loading.close();
+    },
   },
 };
 </script>
-``

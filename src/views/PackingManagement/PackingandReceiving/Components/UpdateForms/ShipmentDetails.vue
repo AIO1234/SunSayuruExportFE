@@ -61,7 +61,11 @@
               <!-- flight -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="Flight*" label-class="form_label_class">
-                  <validation-Provider name="Flight" v-slot="{ errors }">
+                  <validation-Provider
+                    name="Flight"
+                 
+                    v-slot="{ errors }"
+                  >
                     <b-form-input
                       placeholder="Enter flight number"
                       v-model="form.flight"
@@ -73,7 +77,11 @@
               <!-- Eta -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="ETA*" label-class="form_label_class">
-                  <validation-Provider name="ETA" v-slot="{ errors }">
+                  <validation-Provider
+                    name="ETA"
+                  
+                    v-slot="{ errors }"
+                  >
                     <b-form-datepicker
                       placeholder="Select Date"
                       v-model="form.eta"
@@ -85,7 +93,11 @@
               <!-- awb -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="AWB*" label-class="form_label_class">
-                  <validation-Provider name="AWB" v-slot="{ errors }">
+                  <validation-Provider
+                    name="AWB"
+                 
+                    v-slot="{ errors }"
+                  >
                     <b-form-input
                       placeholder="Enter AWB number"
                       v-model="form.awb"
@@ -98,7 +110,11 @@
               <!-- consignee -->
               <b-col lg="12" class="pt-2">
                 <b-form-group label="Consignee*" label-class="form_label_class">
-                  <validation-Provider name="Consignee" v-slot="{ errors }">
+                  <validation-Provider
+                    name="Consignee"
+                
+                    v-slot="{ errors }"
+                  >
                     <b-form-textarea
                       placeholder="Enter Consignee"
                       v-model="form.consignee"
@@ -107,8 +123,7 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-              <!-- Airfreight Cost  -->
-             
+         
             </b-row>
 
             <br />
@@ -185,12 +200,7 @@ export default {
   },
   data() {
     return {
-      form: {
-        eta: new Date(),
-        awb: "",
-        consignee: "",
-        flight: "",
-      },
+      form: {},
       countries: [],
       buyers: [],
       country: {},
@@ -214,20 +224,18 @@ export default {
     //  show current saves shipment
 
     async showShipment() {
-      if (localStorage.currentShipmentId) {
-        const payload = {
-          shipment_id: localStorage.currentShipmentId,
-          show: "shipment_details",
-        };
-        await this.$vs.loading({
-          scale: 0.8,
-        });
-        const res = await shipmentApi.showShipment(payload);
-        this.shipment = res.data.data;
-        this.form = this.shipment.shipmentdetails;
-        this.invoice_no = this.shipment.shipmentdetails.invoice_no;
-        this.$vs.loading.close();
-      }
+      const payload = {
+        shipment_id: this.$route.params.shipment_id,
+        show: "shipment_details",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await shipmentApi.showShipment(payload);
+      this.shipment = res.data.data;
+      this.form = this.shipment.shipmentdetails;
+      this.invoice_no = this.shipment.shipmentdetails.invoice_no;
+      this.$vs.loading.close();
     },
 
     // next button
@@ -241,33 +249,17 @@ export default {
           scale: 0.8,
         });
 
-        if (this.form.invoice_no === this.invoice_no) {
-          this.form.exist = true;
-          this.form.shipment_id = localStorage.currentShipmentId;
-
-          await shipmentApi
-            .addShipment(this.form)
-            .then(() => {
-              this.$vs.loading.close();
-              this.$emit("sendComponentName", "ShipmentDetails");
-            })
-            .catch(() => {
-              this.$vs.loading.close();
-            });
-        } else {
-          this.form.exist = false;
-          this.form.shipment_id = "";
-          await shipmentApi
-            .addShipment(this.form)
-            .then((response) => {
-              localStorage.setItem("currentShipmentId", response.data.data.id);
-              this.$vs.loading.close();
-              this.$emit("sendComponentName", "ShipmentDetails");
-            })
-            .catch(() => {
-              this.$vs.loading.close();
-            });
-        }
+        this.form.exist = true;
+        this.form.shipment_id = this.$route.params.shipment_id;
+        await shipmentApi
+          .addShipment(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("sendComponentName", "ShipmentDetails");
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

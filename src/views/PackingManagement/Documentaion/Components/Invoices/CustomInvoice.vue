@@ -1,5 +1,5 @@
 <template>
-  <div class="custom_invoice">
+  <div class="buyer_invoice">
     <div class="invoice_padding_one">
       <div class="text-center">
         <h2 class="invoice_heading">SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.</h2>
@@ -9,7 +9,7 @@
         <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
 
         <div class="invoice_padding">
-          <span class="cost_sheet">COST SHEET</span>
+          <span class="cost_sheet">Invoice</span>
         </div>
       </div>
       <div class="invoice_padding mr-3 ml-4">
@@ -21,45 +21,82 @@
                   <b-col lg="3" cols="12">
                     <span class="inoice_number"> Invoice no </span>
                     <br /><br />
-                    <span class="ivoice_numbr_value">SNS-TWN-551-2023</span>
+                    <span class="ivoice_numbr_value">{{
+                      custominvoice.invoice_no
+                    }}</span>
                   </b-col>
                   <div></div>
                   <b-col lg="5" cols="8" class="mobile_paddings">
                     <span class="inoice_number"> Consignee </span>
                     <br /><br />
-                    <span class="ivoice_numbr_value"
-                      >HONG BENG ENTERPRISE CO. LTD, 6FL NO 56,316 LANE,<br />RUEIGUANG
-                      RD, NEIHU DISTRICT 114, TAIPEI, TAIWAN, ROC.</span
+                    <span class="ivoice_numbr_value">
+                      {{ custominvoice.buyer_name }}</span
                     >
                   </b-col>
 
                   <b-col lg="4" class="mobile_paddings">
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number"> A.W.B. </span>
-                        <span class="col ivoice_numbr_value">
-                          232 5443 6351</span
-                        >
+                    <!-- A.W.B -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> A.W.B. </span>
+                          <span class="col ivoice_numbr_value">
+                            {{ custominvoice.awb }}</span
+                          >
+                        </div>
                       </div>
                     </div>
 
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> A.W.B. </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ custominvoice.awb }}</span
+                      >
+                    </div>
+
                     <br />
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number"> Flight </span>
-                        <span class="col ivoice_numbr_value margin_flight">
-                          MH 178 // MH 366</span
-                        >
+
+                    <!-- Flight -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> Flight </span>
+                          <span class="col ivoice_numbr_value margin_flight">
+                            {{ custominvoice.flight }}</span
+                          >
+                        </div>
                       </div>
                     </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> Flight </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ custominvoice.flight }}</span
+                      >
+                    </div>
+
                     <br />
-                    <div class="row d-flex justify-content">
-                      <div>
-                        <span class="col inoice_number">ETA </span>
-                        <span class="col ivoice_numbr_value margin_eta">
-                          2024.01.08</span
-                        >
+
+                    <!-- ETA -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number">ETA </span>
+                          <span class="col ivoice_numbr_value margin_eta">
+                            {{ custominvoice.eta }}</span
+                          >
+                        </div>
                       </div>
+                    </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> ETA </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ custominvoice.eta }}</span
+                      >
                     </div>
                   </b-col>
                 </b-row>
@@ -73,19 +110,14 @@
             <b-table
               sticky-header=""
               responsive="sm"
-              :items="items"
+              :items="custominvoice.boxes.seafoods"
               :fields="fields"
             >
-              <template #cell(action)="data">
-                <b-button
-                  variant="none"
-                  @click="$router.push('/packinglistinner')"
-                >
-                  <b-img
-                    width="17px"
-                    src="@/assets/images/icons/Group 117855.png"
-                  ></b-img>
-                </b-button>
+              <template #cell(total_amount)="data">
+                {{ getPriceWithOutCurrency(data.value) }}
+              </template>
+              <template #cell(price_rate)="data">
+                {{ getPriceWithOutCurrency(data.value) }}
               </template>
             </b-table>
           </div>
@@ -96,10 +128,14 @@
                   ><span class="total ml-1">Total</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5</span></b-col
+                  ><span class="total" style="margin-left: 30px">
+                    {{ custominvoice.boxes.total_weight }}</span
+                  ></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00</span>
+                  ><span class="total ml-1">{{
+                    getPriceWithOutCurrency(custominvoice.boxes.total_amount)
+                  }}</span>
                 </b-col>
               </b-row>
             </div>
@@ -110,7 +146,9 @@
                   ><span class="total ml-1">Total Weight</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1"> 20.5(kg)</span></b-col
+                  ><span class="total ml-1">
+                    {{ custominvoice.boxes.total_weight }}</span
+                  ></b-col
                 >
               </b-row>
               <br />
@@ -119,7 +157,9 @@
                   ><span class="total ml-1">Total Cost</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">385.00($)</span></b-col
+                  ><span class="total ml-1">{{
+                    getPriceWithOutCurrency(custominvoice.boxes.total_amount)
+                  }}</span></b-col
                 >
               </b-row>
             </div>
@@ -130,6 +170,7 @@
   </div>
 </template>
 <script>
+
 import {
   BModal,
   BCard,
@@ -159,6 +200,10 @@ export default {
     BLink,
     BContainer,
   },
+
+  props: {
+    custominvoice: Object,
+  },
   data() {
     return {
       fields: [
@@ -187,7 +232,7 @@ export default {
         },
 
         {
-          key: "rate",
+          key: "price_rate",
           label: "Rate per Kg ($)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -201,40 +246,17 @@ export default {
           // tdClass: "custom-cell-padding",
         },
         {
-          key: "total",
+          key: "total_amount",
           label: "Total cost ($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          seafoodtype: "Prawns",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
-        {
-          seafoodtype: "Kelawalla",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
-        {
-          seafoodtype: "Thalapatha",
-          quality: "A+",
-          grading: "50 - 60",
-          rate: "16.5",
-          total: "198.00",
-          weight: "8",
-        },
-      ],
+      items: [],
     };
   },
+
+ 
 };
 </script>

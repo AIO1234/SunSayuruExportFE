@@ -7,8 +7,8 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   function (config) {
-    if (localStorage.token) {
-      config.headers.Authorization = `Bearer ${localStorage.token}`;
+    if (localStorage.sunsayuruauthtoken) {
+      config.headers.Authorization = `Bearer ${localStorage.sunsayuruauthtoken}`;
     }
 
     // console.log(config.headers.Authorization);
@@ -22,11 +22,18 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   function (response) {
+    if (
+      response.status === 200 &&
+      response.config.method != "get" &&
+      response.data.message
+    ) {
+      notification.toast(response.data.message, "success");
+    }
+
     return response;
   },
 
   function (error) {
-   
     if (typeof error.response !== "undefined") {
       //Setup Generic Response Messages
 
@@ -50,8 +57,7 @@ api.interceptors.response.use(
         notification.toast(error.response.data.message, "error");
       }
       if (error.response.status === 500) {
-          notification.toast(error.response.statusText, "error");
-        
+        notification.toast(error.response.statusText, "error");
       }
     }
     return Promise.reject(error);

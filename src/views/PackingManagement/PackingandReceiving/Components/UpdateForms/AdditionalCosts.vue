@@ -1,26 +1,43 @@
 <template>
   <div>
-    <validation-observer ref="materialValidation" #default="{ invalid }">
+    <validation-observer ref="additionalValidation" #default="{ invalid }">
       <br />
-      <h2 class="shipment_create_header">Material cost</h2>
-      <div class="pt-3">
+      <h2 class="shipment_create_header">Airfreight Cost</h2>
+
+      <b-form-group label="Airfreight Cost*" label-class="form_label_class">
+        <validation-Provider name="Airfreight Cost" v-slot="{ errors }">
+          <b-form-input
+            type="number"
+            step="0.01"
+            placeholder="Enter Airfreight Cost"
+            v-model="form.airfreight_cost"
+          ></b-form-input>
+          <span class="text-danger">{{ errors[0] }}</span>
+ 
+        </validation-Provider>
+      </b-form-group>
+      <br /><br />
+      <h2 class="shipment_create_header">Additional cost</h2>
+      <br /><br />
+      <div>
         <div>
-          <!-- Material  Cost Form -->
+          <!-- additional Cost Form -->
           <b-form
             ref="form"
+            :style="{ height: trHeight }"
             class="repeater-form"
             @submit.prevent="repeateAgain"
           >
             <!-- Row Loop -->
             <b-row
               class="pt-2"
-              v-for="(item, index) in materialcosts"
+              v-for="(item, index) in additionalcosts"
               :id="item.id"
               :key="item.id"
               ref="row"
             >
               <!-- Description -->
-              <b-col lg="3">
+              <b-col lg="5">
                 <b-form-group
                   label="Description*"
                   label-class="form_label_class"
@@ -39,60 +56,26 @@
                 </b-form-group>
               </b-col>
 
-              <b-col>
-                <b-form-group label="Quantity*" label-class="form_label_class">
+              <!--Amount -->
+              <b-col lg="5">
+                <b-form-group label="Amount*" label-class="form_label_class">
                   <validation-Provider
-                    name="quantity"
-                    rules="required|integer"
+                    name="Description"
+                    rules="required"
                     v-slot="{ errors }"
                   >
                     <b-form-input
-                      type="number"
-                      placeholder="Enter quantity"
-                      v-model="item.quantity"
-                    />
-                    <span class="text-danger">{{ errors[0] }}</span>
-                  </validation-Provider>
-                </b-form-group>
-              </b-col>
-
-              <b-col lg="3">
-                <b-form-group
-                  label="Unit Price*"
-                  label-class="form_label_class"
-                >
-                  <validation-Provider
-                    name="unit price"
-                    rules="required|integer"
-                    v-slot="{ errors }"
-                  >
-                    <b-form-input
-                      placeholder="Enter Unit Price"
-                      v-model="item.unitprice"
+                      placeholder="Enter amount"
+                      v-model="item.amount"
                       type="number"
                       step="0.00"
-                      @input="changeAmount(item.unitprice,item.quantity, index)"
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
                 </b-form-group>
               </b-col>
 
-              <!--Amount -->
-              <b-col lg="3">
-                <b-form-group label="Amount*" label-class="form_label_class">
-                  <b-form-input
-                    readonly
-                    placeholder="Enter amount"
-                    type="number"
-                    step="0.00"
-                    v-model="item.amount"
-                   
-                  />
-                </b-form-group>
-              </b-col>
-
-              <b-col lg="1" class="minus_button_margin">
+              <b-col lg="2" class="text-right minus_button_margin">
                 <b-button variant="none" @click="removeItem(index)">
                   <b-img src="@/assets/images/Group.png"></b-img>
                 </b-button>
@@ -104,6 +87,7 @@
         <br />
         <div class="text-right">
           <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
             variant="none"
             @click="repeateAgain1()"
             class="form_submit_button"
@@ -111,7 +95,19 @@
             <span class="button_text_styles">Add cost</span>
           </b-button>
         </div>
+
+        <div class="pt-5 d-flex justify-content-center">
+          <b-button
+            class="additionalcost_submit_button"
+            variant="none"
+            @click="submitData()"
+            ><span class="additionalcost_submit_button_text"
+              >Submit</span
+            ></b-button
+          >
+        </div>
       </div>
+
       <div class="pt-5"></div>
       <div class="pt-3"></div>
       <b-row>
@@ -121,15 +117,7 @@
           </b-button>
         </b-col>
 
-        <b-col lg="6" class="text-right">
-          <b-button
-            variant="none"
-            class="form_submit_button"
-            :disabled="invalid"
-          >
-            <span class="button_text_styles" @click="next()">Next</span>
-          </b-button></b-col
-        >
+        <b-col lg="6" class="text-right"> </b-col>
       </b-row>
     </validation-observer>
   </div>
@@ -146,10 +134,10 @@ import {
   BInputGroup,
   BFormTextarea,
   BForm,
+  BImg,
   BTable,
   BBadge,
   BButton,
-  BImg,
   BCol,
   BRow,
   BFormFile,
@@ -158,26 +146,25 @@ import {
   BFormInput,
   BContainer,
 } from "bootstrap-vue";
-import mixin from "@/mixins/commonmixins";
 export default {
   data() {
     return {
-      nextTodoId: 1,
       form: {},
-      materialcosts: [
+      nextTodoId: 1,
+      additionalcosts: [
         {
           id: 1,
           description: "",
-          quantity: "",
           amount: "",
+          prevHeight: 0,
         },
       ],
     };
   },
   components: {
     BCard,
-    BImg,
     BFormRadio,
+    BImg,
     BFormFile,
     BForm,
     BFormInput,
@@ -198,72 +185,60 @@ export default {
     BLink,
   },
   async created() {
-    await this.showMaterialCosts();
+    await this.showAdditionalCosts();
   },
   methods: {
-    //  show current saves shipment
+    //  show current saves additional costs
 
-    async showMaterialCosts() {
+    async showAdditionalCosts() {
       const payload = {
-        shipment_id: localStorage.currentShipmentId,
-        show: "material_costs",
+        shipment_id: this.$route.params.shipment_id,
+        show: "additional_costs",
       };
       await this.$vs.loading({
         scale: 0.8,
       });
       const res = await shipmentApi.showShipment(payload);
-      this.materialcosts = res.data.data.material_costs;
+      this.additionalcosts = res.data.data.additional_costs;
+      this.form.airfreight_cost =  res.data.data.airfreid_cost
       this.$vs.loading.close();
     },
 
-    // calculate ampunt
-    changeAmount(unitprice, quantity, index) {
-      this.materialcosts[index].amount =
-        mixin.methods.getPriceWithOutCurrency(unitprice) *
-        mixin.methods.getPriceWithOutCurrency(quantity);
-
-      this.materialcosts[index].amount = mixin.methods.getPriceWithOutCurrency(
-        this.materialcosts[index].amount
-      );
-    },
-    // next button
-    async next() {
-      if (await this.$refs.materialValidation.validate()) {
+    // submit data
+    async submitData() {
+      if (await this.$refs.additionalValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });
 
-        this.form.materialcosts = this.materialcosts;
-        this.form.shipment_id = localStorage.getItem("currentShipmentId");
+        this.form.additionalcosts = this.additionalcosts;
+        this.form.shipment_id = this.$route.params.shipment_id;
         await shipmentApi
-          .addShipmentMaterials(this.form)
+          .addShipmentAditionalCosts(this.form)
           .then(() => {
             this.$vs.loading.close();
           })
           .catch(() => {
             this.$vs.loading.close();
           });
-
-        this.$emit("sendComponentName", "MaterialCostForm");
       }
     },
-    // backn button
+    // back button
     back() {
       this.$emit("DirectBack", "");
     },
+
     // repeat button
     repeateAgain1() {
-      this.materialcosts.push({
+      this.additionalcosts.push({
         id: (this.nextTodoId += this.nextTodoId),
         description: "",
-        quantity: "",
         amount: "",
-        unitprice: "",
       });
     },
     // remove item
     removeItem(index) {
-      this.materialcosts.splice(index, 1);
+      this.additionalcosts.splice(index, 1);
     },
   },
 };

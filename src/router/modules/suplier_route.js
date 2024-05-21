@@ -6,10 +6,12 @@ export default [
       import("@/views/SuplierEarningsManagement/ShipmentWise/index.vue"),
 
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -17,7 +19,7 @@ export default [
   },
 
   {
-    path: "/shipmentwiseearnings/supliers",
+    path: "/shipmentwiseearnings/:shipment_id/:invoice_no/supliers",
     name: "shipmentwisesupliers",
     component: () =>
       import(
@@ -25,10 +27,12 @@ export default [
       ),
 
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -36,7 +40,7 @@ export default [
   },
 
   {
-    path: "/shipmentwiseearnings/supliers/eranings",
+    path: "/shipmentwiseearnings/:shipment_id/supliers/:suplier_id/:suplier_name/eranings",
     name: "shipmentwisesupliereranings",
     component: () =>
       import(
@@ -44,10 +48,12 @@ export default [
       ),
 
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -60,10 +66,12 @@ export default [
     component: () =>
       import("@/views/SuplierEarningsManagement/SuplierWise/index.vue"),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],
@@ -71,17 +79,19 @@ export default [
   },
 
   {
-    path: "/suplierwiseearnings/supliers/eranings",
+    path: "/suplierwiseearnings/supliers/:suplier_id/:suplier_name/earnings",
     name: "suplierwisesupliereranings",
     component: () =>
       import(
         "@/views/SuplierEarningsManagement/SuplierWise/Components/ViewEarnings.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Suplier wise",
       breadcrumb: [
         {
-          text: "Suplier Bills",
+          text: "Supplier Bills",
           active: true,
         },
       ],

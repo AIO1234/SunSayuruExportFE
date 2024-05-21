@@ -1,12 +1,17 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+    <b-table
+      sticky-header=""
+      responsive="sm"
+      :items="suplierearnings"
+      :fields="fields"
+    >
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
             <b-button
               variant="none"
-              @click="$router.push('/suplierwiseearnings/supliers/eranings')"
+              @click="$router.push(`/suplierwiseearnings/supliers/${data.item.id}/${data.item.name}/earnings`)"
             >
               <b-img
                 width="17px"
@@ -16,6 +21,10 @@
           </b-col>
         </b-row>
       </template>
+
+      <template #cell(total_amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
     </b-table>
 
     <b-modal
@@ -31,6 +40,7 @@
 </template>
 
 <script>
+import reportApi from "@/Api/Modules/reports";
 import ViewEarnings from "@/views/SuplierEarningsManagement/SuplierWise/Components/ViewEarnings.vue";
 import {
   BModal,
@@ -69,16 +79,16 @@ export default {
       selectedItem: {},
       fields: [
         {
-          key: "suplierno",
-          label: "Suplier No",
+          key: "name",
+          label: "Suplier",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
         },
 
         {
-          key: "totalcost",
-          label: "Total Cost($)",
+          key: "total_amount",
+          label: "Total Cost(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
@@ -92,23 +102,12 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          suplierno: "Nimal",
-          totalcost: "12000.00",
-        },
-        {
-          suplierno: "Nimal",
-          totalcost: "12000.00",
-        },
-        {
-          suplierno: "Nimal",
-          totalcost: "12000.00",
-        },
-      ],
+      suplierearnings: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.suplierViseSupliers();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
@@ -119,6 +118,15 @@ export default {
     openDetailsModal(data) {
       this.$refs.DetailsModal.show();
       this.selectedItem = data;
+    },
+
+    async suplierViseSupliers() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.suplierViseSuplierEarnings();
+      this.suplierearnings = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };

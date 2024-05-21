@@ -4,6 +4,7 @@
       <b-form @submit.prevent>
         <validation-observer ref="UserUpdateValidation">
           <b-row>
+            <!-- user name -->
             <b-col md="12" class="mb-1">
               <b-form-group label="User name*" label-class="form_label_class">
                 <validation-Provider
@@ -19,31 +20,12 @@
                 </validation-Provider>
               </b-form-group>
             </b-col>
-
-            <b-col md="12" class="mb-1">
-              <b-form-group label="User Type*" label-class="form_label_class">
-                <validation-Provider
-                  name="User Type"
-                  rules="required"
-                  v-slot="{ errors }"
-                >
-                  <v-select
-                    v-model="selected"
-                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    label="title"
-                    :options="options"
-                  />
-
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </validation-Provider>
-              </b-form-group>
-            </b-col>
-
+            <!-- email -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Email*" label-class="form_label_class">
                 <validation-Provider
                   name="Email"
-                  rules="required"
+                  rules="required|email"
                   v-slot="{ errors }"
                 >
                   <b-form-input
@@ -55,6 +37,7 @@
               </b-form-group>
             </b-col>
 
+            <!--phone  number -->
             <b-col md="12" class="mb-1">
               <b-form-group
                 label="Phone Number*"
@@ -62,13 +45,25 @@
               >
                 <validation-Provider
                   name="Phone Number"
-                  rules="required"
+                  rules="required|min:10|max:12"
                   v-slot="{ errors }"
                 >
                   <b-form-input
                     placeholder="Enter Phone Number"
-                    v-model="form.mobile"
+                    v-model="form.phone"
                   ></b-form-input>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </validation-Provider>
+              </b-form-group>
+            </b-col>
+            <!-- address -->
+            <b-col md="12" class="mb-1">
+              <b-form-group label="Address*" label-class="form_label_class">
+                <validation-Provider name="Address" v-slot="{ errors }">
+                  <b-form-textarea
+                    placeholder="Enter Email"
+                    v-model="form.address"
+                  ></b-form-textarea>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -81,7 +76,7 @@
                 variant="none"
                 class="form_submit_button"
               >
-                <span class="button_text_styles">Edit</span>
+                <span class="button_text_styles">Update</span>
               </b-button>
             </b-col>
           </b-row>
@@ -109,16 +104,32 @@ import {
   BLink,
   BFormInput,
   BContainer,
+  BInputGroupAppend,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
+import userApi from "@/Api/Modules/users";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
-
+import {
+  required,
+  email,
+  confirmed,
+  url,
+  between,
+  alpha,
+  integer,
+  password,
+  min,
+  digits,
+  alphaDash,
+  length,
+} from "@validations";
 export default {
   name: "AddUser",
   components: {
     BCard,
     BFormRadio,
+    BInputGroupAppend,
     BFormFile,
     BForm,
     BFormInput,
@@ -141,28 +152,49 @@ export default {
   data() {
     return {
       form: {},
-      selected: {
-        title: "Select Type",
+      role: {
+        name: "",
       },
-      options: [
-        { title: "Admin" },
-        { title: "Operation Manager" },
-        { title: "Data Entry Officer" },
-        { title: "Supplier" },
-        { title: "Consignee" },
-      ],
+      roles: [],
+
+      // validations
+
+      required,
+      email,
+      confirmed,
+      url,
+      between,
+      alpha,
+      integer,
+      password,
+      min,
+      digits,
+      alphaDash,
+      length,
     };
+  },
+  async created() {
+    this.form = this.selectedItem;
+    this.role.name = this.form.role_name;
   },
   props: {
     selectedItem: Object,
   },
-  created() {
-    this.form = this.selectedItem;
-    this.selected.title = this.form.type;
-  },
   methods: {
     async validationUserUpdateForm() {
       if (await this.$refs.UserUpdateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await userApi
+          .updateUser(this.form.id, this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("closemodal", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

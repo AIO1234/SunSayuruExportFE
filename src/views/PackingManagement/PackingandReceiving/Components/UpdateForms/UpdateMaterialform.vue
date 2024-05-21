@@ -69,9 +69,9 @@
                     <b-form-input
                       placeholder="Enter Unit Price"
                       v-model="item.unitprice"
+                      @input="changeAmount(item.unitprice, item.quantity, index)"
                       type="number"
                       step="0.00"
-                      @input="changeAmount(item.unitprice,item.quantity, index)"
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
@@ -87,7 +87,6 @@
                     type="number"
                     step="0.00"
                     v-model="item.amount"
-                   
                   />
                 </b-form-group>
               </b-col>
@@ -205,7 +204,7 @@ export default {
 
     async showMaterialCosts() {
       const payload = {
-        shipment_id: localStorage.currentShipmentId,
+        shipment_id: this.$route.params.shipment_id,
         show: "material_costs",
       };
       await this.$vs.loading({
@@ -234,7 +233,7 @@ export default {
         });
 
         this.form.materialcosts = this.materialcosts;
-        this.form.shipment_id = localStorage.getItem("currentShipmentId");
+        this.form.shipment_id = this.$route.params.shipment_id;
         await shipmentApi
           .addShipmentMaterials(this.form)
           .then(() => {

@@ -528,7 +528,7 @@ export default {
 
     async showBoxes() {
       const payload = {
-        shipment_id: localStorage.currentShipmentId,
+        shipment_id: this.$route.params.shipment_id,
         show: "box_details",
       };
       await this.$vs.loading({
@@ -548,11 +548,12 @@ export default {
     // get all qualities reguarding seklected buyer
     async buyerQualities() {
       const payload = {
-        buyer_id: parseInt(this.$route.params.buyer),
+        buyer_id: parseInt(localStorage.currentSelectedBuyerid),
       };
       const res = await qualityApi.buyerQualities(payload);
       this.qualities = res.data.data;
     },
+
     // get gradings for selecte seafood
 
     async seafoodGrding(seafoodid, boxindex, seafoodindex) {
@@ -575,7 +576,7 @@ export default {
     // next button and save
     async next() {
       this.form.boxes = this.boxes;
-      this.form.shipment_id = localStorage.getItem("currentShipmentId");
+      this.form.shipment_id = this.$route.params.shipment_id;
       if (await this.$refs.packingValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,

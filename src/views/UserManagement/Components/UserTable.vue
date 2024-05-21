@@ -1,31 +1,23 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
-      <template #cell(action)="data">
-        <b-row no-gutters>
-          <b-col lg="4">
-            <b-button
-              variant="flat-none"
-              @click="openUpdateModal(data.item)"
-             
-            >
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 101.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-          <b-col lg="4">
-            <b-button variant="none">
-              <b-img
-                width="17px"
-                src="@/assets/images/icons/Group 59.png"
-              ></b-img>
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-    </b-table>
+    <!-- user table -->
+    <b-card class="mt-5">
+      <b-table sticky-header="" responsive="sm" :items="users" :fields="fields">
+        <template #cell(action)="data">
+          <b-row no-gutters>
+            <b-col lg="4">
+              <b-button variant="flat-none" @click="openUpdateModal(data.item)">
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 101.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+            <b-col lg="4"> </b-col>
+          </b-row>
+        </template>
+      </b-table>
+    </b-card>
 
     <b-modal
       ref="UpdateModal"
@@ -33,18 +25,25 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <UserUpdateForm :selectedItem="selectedUser" />
+      <UserUpdateForm
+        :selectedItem="selectedUser"
+        @closemodal="closeUpdateModal"
+      />
     </b-modal>
   </div>
 </template>
 
 <script>
+import userApi from "@/Api/Modules/users";
 import UserUpdateForm from "@/views/UserManagement/Components/UpdateUser.vue";
 import {
   BModal,
   BCard,
   BTable,
   BBadge,
+  BInputGroup,
+  BInputGroupPrepend,
+  BFormInput,
   BButton,
   BCol,
   BRow,
@@ -58,6 +57,7 @@ export default {
   name: "UserTable",
   components: {
     UserUpdateForm,
+    BFormInput,
     BCard,
     BModal,
     BImg,
@@ -70,19 +70,14 @@ export default {
     BContainer,
     BCardText,
     BLink,
+    BInputGroup,
+    BInputGroupPrepend,
   },
   data() {
     return {
       show: false,
       selectedUser: {},
       fields: [
-        {
-          key: "referenceid",
-          label: "User Id",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
         {
           key: "name",
           label: "User Name",
@@ -92,7 +87,7 @@ export default {
         },
 
         {
-          key: "type",
+          key: "role_name",
           label: "User Type",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -106,21 +101,15 @@ export default {
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
-      
+
         {
-          key: "mobile",
+          key: "phone",
           label: "Mobile",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
-        // {
-        //   key: "country",
-        //   label: "Country",
-        //   sortable: true,
-        //   // thStyle: { width: "2%" },
-        //   // tdClass: "td-style",
-        // },
+
         {
           key: "action",
           label: "Action",
@@ -129,44 +118,50 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      items: [
-        {
-          referenceid: "U001",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-        {
-          referenceid: "U002",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-        {
-          referenceid: "U003",
-          name: "Sithum Perera",
-          type: "Supplier",
-          email: "sithum@gmail.com",
-          mobile: "+94768559632",
-          country: "Sri Lanka",
-        },
-      ],
+      users: [],
     };
   },
-  async created() {},
+  async created() {
+    await this.allUsers();
+  },
 
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+    // open update modal
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
       this.selectedUser = data;
+    },
+    async closeUpdateModal() {
+      this.$refs.UpdateModal.hide();
+      await this.allUsers();
+    },
+    // all users
+    async allUsers() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await userApi.allUsers();
+      this.users = res.data.data;
+      this.$vs.loading.close();
+    },
+    // delete users
+    async deletUser(id) {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      await userApi
+        .deleteUser(id)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
   },
 };

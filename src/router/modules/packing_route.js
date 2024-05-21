@@ -4,6 +4,8 @@ export default [
     name: "packinglist",
     component: () => import("@/views/PackingManagement/index.vue"),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Packing & receiving",
       breadcrumb: [
         {
@@ -15,13 +17,15 @@ export default [
   },
 
   {
-    path: "/createshipment",
+    path: "/createshipment/:country/:buyer",
     name: "createshipment",
     component: () =>
       import(
         "@/views/PackingManagement/PackingandReceiving/createshipments.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Create Shipment",
       breadcrumb: [
         {
@@ -33,10 +37,35 @@ export default [
   },
 
   {
-    path: "/viewpacking",
-    name: "viewpacking",
-    component: () => import("@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue"),
+    path: "/updateshipment/:shipment_id",
+    name: "updateshipment",
+    component: () =>
+      import(
+        "@/views/PackingManagement/PackingandReceiving/updateshipments.vue"
+      ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
+      pageTitle: "Update Shipment",
+      breadcrumb: [
+        {
+          text: "Packing & receiving",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: "/viewpacking/:shipment_id",
+    name: "viewpacking",
+    component: () =>
+      import(
+        "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Shipment summary",
       breadcrumb: [
         {
@@ -48,13 +77,15 @@ export default [
   },
 
   {
-    path: "/packinglistinner",
+    path: "/packinglistinner/:shipment_id/:invoice_no",
     name: "packinglistinner",
     component: () =>
       import(
         "@/views/PackingManagement/Documentaion/Components/PackingListInnerView.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Packing List",
       breadcrumb: [
         {
@@ -66,13 +97,15 @@ export default [
   },
 
   {
-    path: "/custominvoiceinner",
+    path: "/custominvoiceinner/:shipment_id/:invoice_no",
     name: "custominvoiceinner",
     component: () =>
       import(
         "@/views/PackingManagement/Documentaion/Components/CustomInvoiceView.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Custom Invoice",
       breadcrumb: [
         {
@@ -84,13 +117,15 @@ export default [
   },
 
   {
-    path: "/buyerinvoiceinner",
+    path: "/buyerinvoiceinner/:shipment_id/:invoice_no",
     name: "buyerinvoiceinner",
     component: () =>
       import(
         "@/views/PackingManagement/Documentaion/Components/BuyerInvoiceView.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Buyer Invoice",
       breadcrumb: [
         {
@@ -102,13 +137,15 @@ export default [
   },
 
   {
-    path: "/editcustominvoice",
+    path: "/editcustominvoice/:shipment_id/:invoice_no",
     name: "editcustominvoice",
     component: () =>
       import(
         "@/views/PackingManagement/Documentaion/Components/EditCustomInvoice.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Edit Custom Invoice",
       breadcrumb: [
         {
@@ -120,13 +157,15 @@ export default [
   },
 
   {
-    path: "/editbuyerinvoice",
+    path: "/editbuyerinvoice/:shipment_id/:invoice_no",
     name: "editbuyerinvoice",
     component: () =>
       import(
         "@/views/PackingManagement/Documentaion/Components/EditBuyerInvoice.vue"
       ),
     meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
       pageTitle: "Edit Buyer Invoice",
       breadcrumb: [
         {

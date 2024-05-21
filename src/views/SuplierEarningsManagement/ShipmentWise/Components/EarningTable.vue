@@ -1,10 +1,24 @@
 <template>
   <div>
-    <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+    <b-table
+      sticky-header=""
+      responsive="sm"
+      :items="shipments"
+      :fields="fields"
+      per-page="20"
+      :current-page="currentPage"
+    >
       <template #cell(action)="data">
         <b-row no-gutters>
           <b-col lg="4">
-            <b-button variant="none" @click="$router.push('/shipmentwiseearnings/supliers')">
+            <b-button
+              variant="none"
+              @click="
+                $router.push(
+                  `/shipmentwiseearnings/${data.item.id}/${data.item.invoice_no}/supliers`
+                )
+              "
+            >
               <b-img
                 width="17px"
                 src="@/assets/images/icons/Group 117855.png"
@@ -15,20 +29,28 @@
       </template>
     </b-table>
 
-    <b-modal
-      ref="DetailsModal"
-      :title="`View earnings for ${selectedItem.supliername}`"
-      title-class="modal_title_color"
-      hide-footer
-      size="lg"
-    >
-      <ViewEarnings :selectedItem="selectedItem" />
-    </b-modal>
+    <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="shipments.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 import ViewEarnings from "@/views/SuplierEarningsManagement/ShipmentWise/Components/ViewEarnings.vue";
+import reportApi from "@/Api/Modules/reports";
 import {
   BModal,
   BCard,
@@ -42,6 +64,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination,
 } from "bootstrap-vue";
 export default {
   name: "EarningTable",
@@ -59,15 +82,17 @@ export default {
     BContainer,
     BCardText,
     BLink,
+    BPagination,
   },
   data() {
     return {
+      currentPage: 1,
       show: false,
       selectedItem: {},
       fields: [
         {
-          key: "shipmentno",
-          label: "Shipment No",
+          key: "invoice_no",
+          label: "Invoice No",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",
@@ -89,34 +114,22 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-      ],
     };
   },
-  async created() {},
 
+  props: {
+    shipments: Array,
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
 
-    openDetailsModal(data) {
-      this.$refs.DetailsModal.show();
-      this.selectedItem = data;
-    },
+    // openDetailsModal(data) {
+    //   this.$refs.DetailsModal.show();
+    //   this.selectedItem = data;
+    // },
   },
 };
 </script>

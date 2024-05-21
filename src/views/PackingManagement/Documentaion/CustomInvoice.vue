@@ -1,13 +1,24 @@
 <template>
   <div>
     <b-card>
-      <b-table sticky-header="" responsive="sm" :items="items" :fields="fields">
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :items="shipmentsarray"
+        :fields="fields"
+        per-page="20"
+        :current-page="currentPage"
+      >
         <template #cell(action)="data">
           <b-row no-gutters>
-            <b-col lg="1">
+            <b-col lg="2">
               <b-button
                 variant="none"
-                @click="$router.push('/custominvoiceinner')"
+                @click="
+                  $router.push(
+                    `/custominvoiceinner/${data.item.id}/${data.item.invoice_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"
@@ -18,7 +29,11 @@
             <b-col lg="2">
               <b-button
                 variant="none"
-                @click="$router.push('/editcustominvoice')"
+                @click="
+                  $router.push(
+                    `/editcustominvoice/${data.item.id}/${data.item.invoice_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"
@@ -30,15 +45,22 @@
         </template>
       </b-table>
     </b-card>
-    <!-- <b-modal
-        ref="DetailsModal"
-        :title="`View ${selectedItem.suplier}'s Price Rates`"
-        title-class="modal_title_color"
-        hide-footer
-        size="lg"
-      >
-        <ViewPrices :selectedItem="selectedItem" />
-      </b-modal> -->
+    <b-row>
+      <b-col lg="4"></b-col>
+      <b-col lg="8">
+        <div class="mt-1">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="shipmentsarray.length"
+            per-page="20"
+            first-text="First"
+            prev-text="Prev"
+            next-text="Next"
+            last-text="Last"
+          ></b-pagination>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -57,6 +79,7 @@ import {
   BAvatar,
   BLink,
   BContainer,
+  BPagination
 } from "bootstrap-vue";
 export default {
   name: "PriceRateTable",
@@ -74,15 +97,17 @@ export default {
     BContainer,
     BCardText,
     BLink,
+    BPagination
   },
   data() {
     return {
+      currentPage:1,
       show: false,
       selectedItem: {},
       fields: [
         {
-          key: "shipmentno",
-          label: "Shipment no",
+          key: "invoice_no",
+          label: "Invoice No",
           sortable: true,
 
           // tdClass: "custom-cell-padding",
@@ -104,19 +129,13 @@ export default {
           // tdClass: "custom-cell-padding",
         },
       ],
-      items: [
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-        {
-          shipmentno: "S-001",
-          eta: "2024/01/20",
-        },
-      ],
+      shipments: [],
     };
   },
-  async created() {},
+
+  props: {
+    shipmentsarray: Array,
+  },
 
   methods: {
     setCellPadding(value, key, item) {

@@ -1,5 +1,9 @@
 <template>
-  <div></div>
+  <div>
+    <b-card>
+      <h2 class="text-center font-weight-bold">Welcome <span class="text-danger">{{ name }}</span> !</h2>
+    </b-card>
+  </div>
 </template>
 
 <script>
@@ -25,6 +29,7 @@ export default {
   },
   data() {
     return {
+      name:localStorage.sunsayurucacheuser,
       fields: [
         {
           key: "reference",

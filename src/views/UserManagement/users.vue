@@ -1,22 +1,54 @@
 <template>
   <div>
-    <div class="pt-3">
-      <CommonHeader :modalType="modalType" />
+    <b-row>
+      <b-col>
+        <div class="text-right">
+          <b-button
+            variant="none"
+            class="button_color"
+            style="width: 200px"
+            @click="opencreatemodal()"
+          >
+            <div class="d-flex justify-content-start">
+              <b-img
+                style="padding-top: 6px"
+                width="22px"
+                height="30px"
+                src="@/assets/images/icons/Icons Solid.png"
+              ></b-img>
+
+              <span class="button_text_styles pl-1">Create User</span>
+            </div>
+          </b-button>
+        </div>
+      </b-col>
+    </b-row>
+
+    <div class="mt-5">
+      <UserTable />
     </div>
-    <div class="pt-5">
-      <b-card>
-        <UserTable />
-      </b-card>
-    </div>
+
+    <!--user  create modal -->
+
+    <b-modal
+      ref="createmodal"
+      hide-footer
+      scrollable
+      title="Add User"
+      title-class="modal_title_color"
+    >
+      <CreateUser />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import UserTable from "@/views/UserManagement/Components/UserTable.vue";
-import CommonHeader from "@/Components/CommonHeader.vue";
+import CreateUser from "@/views/UserManagement/Components/AddUsers.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
+  BModal,
   BRow,
   BCard,
   BImg,
@@ -30,14 +62,16 @@ export default {
   data() {
     return {
       modalType: "",
+      openmodal: false,
     };
   },
   created() {
     this.modalType = "Create User";
   },
   components: {
+    CreateUser,
+    BModal,
     BInputGroup,
-    CommonHeader,
     BImg,
     BCard,
     BButton,
@@ -49,6 +83,11 @@ export default {
   },
   directives: {
     Ripple,
+  },
+  methods: {
+    opencreatemodal() {
+      this.$refs.createmodal.show();
+    },
   },
 };
 </script>
