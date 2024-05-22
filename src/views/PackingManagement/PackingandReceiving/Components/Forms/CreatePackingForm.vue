@@ -236,7 +236,7 @@
                               </b-col>
 
                               <!-- Suplier Name -->
-                              <b-col lg="3">
+                              <b-col lg="4">
                                 <b-form-group
                                   label="Suplier*"
                                   label-class="form_label_class"
@@ -253,6 +253,7 @@
                                           : 'ltr'
                                       "
                                       v-model="suplier.suplier"
+                                      label="name"
                                       :options="supliers"
                                       class="custom-vue-select1"
                                     >
@@ -289,7 +290,7 @@
                               </b-col>
 
                               <!-- Weight -->
-                              <b-col lg="3">
+                              <b-col lg="2">
                                 <b-form-group
                                   label="Weight(kg)*"
                                   label-class="form_label_class"

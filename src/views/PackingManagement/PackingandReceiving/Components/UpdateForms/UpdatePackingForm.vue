@@ -236,7 +236,7 @@
                               </b-col>
 
                               <!-- Suplier Name -->
-                              <b-col lg="3">
+                              <b-col lg="4">
                                 <b-form-group
                                   label="Suplier*"
                                   label-class="form_label_class"
@@ -256,7 +256,32 @@
                                       label="name"
                                       :options="supliers"
                                       class="custom-vue-select1"
-                                    />
+                                    >
+                                      <template #option="option">
+                                        <div
+                                          style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                          "
+                                        >
+                                          <span>{{ option.name }}</span>
+                                          <span>{{ option.address }}</span>
+                                        </div>
+                                      </template>
+                                      <template #selected-option="option">
+                                        <div
+                                          v-if="
+                                            suplier.suplier === 'Select Suplier'
+                                          "
+                                        >
+                                          {{ suplier.suplier }}
+                                        </div>
+                                        <div v-else>
+                                          {{ suplier.suplier.name }} -
+                                          <b> {{ suplier.suplier.address }}</b>
+                                        </div>
+                                      </template>
+                                    </v-select>
 
                                     <span class="text-danger">{{
                                       errors[0]
@@ -266,7 +291,7 @@
                               </b-col>
 
                               <!-- Weight -->
-                              <b-col lg="3">
+                              <b-col lg="2">
                                 <b-form-group
                                   label="Weight(kg)*"
                                   label-class="form_label_class"
