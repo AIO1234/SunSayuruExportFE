@@ -54,7 +54,7 @@ api.interceptors.response.use(
         notification.toast(error.response.data.message, "warning");
       }
       if (error.response.status === 422) {
-        notification.toast(error.response.data.message, "error");
+        notification.toast(error.response.data.message, "error" , 800000);
       }
       if (error.response.status === 500) {
         notification.toast(error.response.statusText, "error");

@@ -253,11 +253,34 @@
                                           : 'ltr'
                                       "
                                       v-model="suplier.suplier"
-                                      label="name"
                                       :options="supliers"
                                       class="custom-vue-select1"
-                                    />
-
+                                    >
+                                      <template #option="option">
+                                        <div
+                                          style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                          "
+                                        >
+                                          <span>{{ option.name }}</span>
+                                          <span>{{ option.address }}</span>
+                                        </div>
+                                      </template>
+                                      <template #selected-option="option">
+                                        <div
+                                          v-if="
+                                            suplier.suplier === 'Select Suplier'
+                                          "
+                                        >
+                                          {{ suplier.suplier }}
+                                        </div>
+                                        <div v-else>
+                                          {{ suplier.suplier.name }} -
+                                          <b> {{ suplier.suplier.address }}</b>
+                                        </div>
+                                      </template>
+                                    </v-select>
                                     <span class="text-danger">{{
                                       errors[0]
                                     }}</span>
@@ -524,6 +547,10 @@ export default {
     await this.allSupliers();
   },
   methods: {
+    // get label
+    getOptionLabel(option) {
+      return `${option.name} - ${option.address}`;
+    },
     //  show current saves boxes
 
     async showBoxes() {
