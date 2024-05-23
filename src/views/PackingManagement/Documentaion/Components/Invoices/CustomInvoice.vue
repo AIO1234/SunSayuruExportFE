@@ -110,7 +110,6 @@
             <b-table
               sort-by="seafoodtype"
               sort-desc="true"
-              sticky-header=""
               responsive="sm"
               :items="custominvoice.boxes.seafoods"
               :fields="fields"

@@ -30,7 +30,7 @@
         :float-layout="true"
         :enable-download="true"
         :preview-modal="true"
-        :paginate-elements-by-height="1400"
+        :paginate-elements-by-height="50000"
         filename="Invoice"
         :pdf-quality="2"
         :manual-pagination="false"
