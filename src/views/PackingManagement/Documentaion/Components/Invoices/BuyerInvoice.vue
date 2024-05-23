@@ -108,6 +108,8 @@
         <div>
           <div class="pt-4">
             <b-table
+              sort-by="seafoodtype"
+              sort-desc="true"
               sticky-header=""
               responsive="sm"
               :items="buyerinvoice.boxes.seafoods"
@@ -170,7 +172,6 @@
   </div>
 </template>
 <script>
-
 import {
   BModal,
   BCard,
