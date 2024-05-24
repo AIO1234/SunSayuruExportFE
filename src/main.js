@@ -44,7 +44,7 @@ setupCalendar({
     L: "DD/MM/YYYY",
   },
 });
-document.addEventListener("contextmenu", (event) => event.preventDefault());
+// document.addEventListener("contextmenu", (event) => event.preventDefault());
 
 Vue.component("v-date-picker", DatePicker);
 // import assets styles
