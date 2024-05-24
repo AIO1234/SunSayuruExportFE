@@ -39,6 +39,8 @@
     <div class="pt-5"></div>
     <b-card>
       <b-table
+        sort-by="receiving_date"
+        sort-asc="true"
         sticky-header=""
         responsive="sm"
         :items="details"
@@ -46,7 +48,7 @@
         per-page="20"
         :current-page="currentPage"
       >
-      <template #cell(price_rate)="data">
+        <template #cell(price_rate)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
         <template #cell(amount)="data">
@@ -110,7 +112,7 @@
         :float-layout="true"
         :enable-download="true"
         :preview-modal="true"
-        :paginate-elements-by-height="1400"
+        :paginate-elements-by-height="50000"
         filename="SuplierInvoice"
         :pdf-quality="2"
         :manual-pagination="false"
@@ -144,7 +146,8 @@
           <div class="pt-5 suplierearnings">
             <b-card>
               <b-table
-                sticky-header=""
+                sort-by="receiving_date"
+                sort-asc="true"
                 responsive="sm"
                 :items="details"
                 :fields="fields"
