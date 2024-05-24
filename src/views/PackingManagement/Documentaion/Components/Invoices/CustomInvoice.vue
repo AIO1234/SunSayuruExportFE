@@ -30,7 +30,7 @@
                     <span class="inoice_number"> Consignee </span>
                     <br /><br />
                     <span class="ivoice_numbr_value">
-                      {{ custominvoice.buyer_name }}</span
+                      {{ custominvoice.consignee }}</span
                     >
                   </b-col>
 
