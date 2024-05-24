@@ -46,6 +46,9 @@
       <template #cell(total_additional_costs)="data">
         {{ getPriceWithOutCurrency(data.value) }}
       </template>
+      <template #cell(total_weight)="data">
+        {{ getWeight(data.value) }}
+      </template>
     </b-table>
     <b-row>
       <b-col lg="4"></b-col>

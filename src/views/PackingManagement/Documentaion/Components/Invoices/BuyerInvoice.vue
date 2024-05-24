@@ -148,7 +148,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">
-                    {{ buyerinvoice.total_weight }}</span
+                    {{ buyerinvoice.boxes.total_weight }}</span
                   ></b-col
                 >
               </b-row>
@@ -159,7 +159,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">{{
-                    getPriceWithOutCurrency(buyerinvoice.total_amount)
+                    getPriceWithOutCurrency(buyerinvoice.boxes.total_amount)
                   }}</span></b-col
                 >
               </b-row>

@@ -75,7 +75,7 @@
                     >Total weight(Kg)</span
                   >
                   <span class="col-5 shipment_summry_para">{{
-                    shipment.shipmentdetails.total_weight
+                    getWeight(shipment.shipmentdetails.total_weight)
                   }}</span>
                 </div>
 
