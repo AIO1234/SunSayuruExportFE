@@ -120,6 +120,9 @@
               <template #cell(price_rate)="data">
                 {{ getPriceWithOutCurrency(data.value) }}
               </template>
+              <template #cell(weight)="data">
+                {{ getWeight(data.value) }}
+              </template>
             </b-table>
           </div>
           <b-container>
@@ -130,7 +133,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total" style="margin-left: 30px">
-                    {{ custominvoice.boxes.total_weight }}</span
+                    {{getWeight(custominvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
                 <b-col lg="2" cols="2"
@@ -148,7 +151,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">
-                    {{ custominvoice.boxes.total_weight }}</span
+                    {{ getWeight(custominvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
               </b-row>

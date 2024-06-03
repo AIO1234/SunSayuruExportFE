@@ -15,7 +15,7 @@ export default {
       return `${parseFloat(price).toFixed(2)}`;
     },
     getWeight(weight) {
-      return `${parseFloat(weight).toFixed(1)}`;
+      return `${parseFloat(weight).toFixed(2)}`;
     },
     removeLeadingZeorsFromReferences(reference) {
       // eslint-disable-next-line no-undef

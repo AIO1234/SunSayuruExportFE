@@ -190,7 +190,7 @@
                   >Total Weight(Kg)</span
                 >
                 <span class="col-5 shipment_summry_para">{{
-                  seafood.total_weight
+                  getWeight(seafood.total_weight)
                 }}</span>
               </div>
 
@@ -220,6 +220,19 @@
             >
               <template #cell(suplier)="data">
                 {{ data.value.name }}
+              </template>
+
+              <template #cell(weight)="data">
+                {{ getWeight(data.value) }}
+              </template>
+              <template #cell(deducted_weight)="data">
+                {{ getWeight(data.value) }}
+              </template>
+              <template #cell(finalized_weight)="data">
+                {{ getWeight(data.value) }}
+              </template>
+              <template #cell(amount)="data">
+                {{ getPriceWithOutCurrency(data.value) }}
               </template>
             </b-table>
           </div>
@@ -306,7 +319,21 @@ export default {
         },
         {
           key: "weight",
-          label: "Weight(kg)",
+          label: "Original Weight(kg)",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "deducted_weight",
+          label: "Deducted Weight(kg)",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "finalized_weight",
+          label: "Finalized Weight(kg)",
           sortable: true,
 
           // tdClass: "custom-cell-padding",

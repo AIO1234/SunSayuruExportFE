@@ -187,7 +187,7 @@
         :enable-download="true"
         :preview-modal="true"
         :paginate-elements-by-height="1400"
-        filename="PackingList"
+        :filename="$route.params.invoice_no + '' + ' PackingList'"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"

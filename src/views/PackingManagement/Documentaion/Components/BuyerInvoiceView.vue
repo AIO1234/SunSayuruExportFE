@@ -60,7 +60,7 @@
         :enable-download="true"
         :preview-modal="true"
         :paginate-elements-by-height="50000"
-        filename="Invoice"
+        :filename="$route.params.invoice_no + '' + ' Invoice'"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"

@@ -163,36 +163,36 @@
 
     <div class="pt-5 web_only_view">
       <b-container>
-      <b-row>
-        <div class="pt-3">
-        <b-col lg="4" cols="12">
-          <b-button variant="none" class="form_submit_button_shipment_view">
-            <span class="button_text_styles">
-              Genarate Fake Invoice</span
-            ></b-button
-          >
-        </b-col>
-</div>
-        <div class="pt-3">
-          <b-col lg="4" cols="12">
-            <b-button variant="none" class="form_submit_button_shipment_view">
-              <span class="button_text_styles">
-                Genarate Real Invoice</span
-              ></b-button
-            >
-          </b-col>
-        </div>
+        <b-row>
+          <div class="pt-3">
+            <b-col lg="4" cols="12">
+              <b-button variant="none" class="form_submit_button_shipment_view">
+                <span class="button_text_styles">
+                  Genarate Fake Invoice</span
+                ></b-button
+              >
+            </b-col>
+          </div>
+          <div class="pt-3">
+            <b-col lg="4" cols="12">
+              <b-button variant="none" class="form_submit_button_shipment_view">
+                <span class="button_text_styles">
+                  Genarate Real Invoice</span
+                ></b-button
+              >
+            </b-col>
+          </div>
 
-        <div class="pt-3">
-          <b-col lg="4" cols="12">
-            <b-button variant="none" class="form_submit_button_shipment_view">
-              <span class="button_text_styles">
-                Send Invoice To Consignee</span
-              ></b-button
-            >
-          </b-col>
-        </div>
-      </b-row>
+          <div class="pt-3">
+            <b-col lg="4" cols="12">
+              <b-button variant="none" class="form_submit_button_shipment_view">
+                <span class="button_text_styles">
+                  Send Invoice To Consignee</span
+                ></b-button
+              >
+            </b-col>
+          </div>
+        </b-row>
       </b-container>
     </div>
     <br /><br />

@@ -35,7 +35,7 @@
         </div>
       </b-col>
     </b-row>
-
+    <!-- table -->
     <div class="pt-5"></div>
     <b-card>
       <b-table
@@ -54,7 +54,11 @@
         <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
+        <template #cell(weight)="data">
+          {{ getWeight(data.value) }}
+        </template>
       </b-table>
+      <!-- pagination -->
       <b-row>
         <b-col lg="4"></b-col>
         <b-col lg="8">
@@ -74,6 +78,7 @@
     </b-card>
     <br />
 
+    <!-- totals -->
     <b-container>
       <div class="web_only_view">
         <b-row>
@@ -106,6 +111,7 @@
       <EmailModal title="Send Suplier Bill" />
     </b-modal>
 
+    <!-- invoice pdf -->
     <div>
       <vue-html2pdf
         :show-layout="false"
@@ -152,6 +158,15 @@
                 :items="details"
                 :fields="fields"
               >
+                <template #cell(price_rate)="data">
+                  {{ getPriceWithOutCurrency(data.value) }}
+                </template>
+                <template #cell(amount)="data">
+                  {{ getPriceWithOutCurrency(data.value) }}
+                </template>
+                <template #cell(weight)="data">
+                  {{ getWeight(data.value) }}
+                </template>
               </b-table>
             </b-card>
             <br />
