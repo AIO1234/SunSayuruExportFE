@@ -5,6 +5,7 @@ import packingRoute from "./modules/packing_route";
 import pricerateRoute from "./modules/pricerate_route";
 import suplierRoute from "./modules/suplier_route";
 import userRoute from "./modules/user_route";
+import countryRoute from "./modules/country_route";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ const router = new VueRouter({
     ...pricerateRoute,
     ...suplierRoute,
     ...userRoute,
+    ...countryRoute,
   ],
 });
 

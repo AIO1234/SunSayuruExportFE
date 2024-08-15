@@ -15,13 +15,6 @@ export default [
     title: "Packing & receiving",
     icon: "PackageIcon",
     route: "packinglist",
-    // children: [
-
-    //   {
-    //     title: "Material Cost",
-    //     route: "meterialcosts",
-    //   },
-    // ],
   },
   {
     title: "Supplier Bills",
@@ -37,16 +30,38 @@ export default [
       },
     ],
   },
-  // {
-  //   title: "Price Rates",
-  //   icon: "DollarSignIcon",
-  //   route: "pricerates",
-  //   // role: "Admin",
-  // },
-  // {
-  //   title: "Shipments",
-  //   icon: "ship",
-  //   route: "shipments",
-  //   // role: "Admin",
-  // },
+  {
+    title: "Master Data",
+    icon: "DatabaseIcon",
+    children: [
+      {
+        title: "Manage Countries",
+        route: "countries",
+      },
+      {
+        title: "Manage Buyers",
+        route: "",
+      },
+      {
+        title: "Manage Qualities",
+        route: "",
+      },
+      {
+        title: "Manage Seafoods",
+        route: "",
+      },
+      {
+        title: "Manage Gradings",
+        route: "",
+      },
+      {
+        title: "Manage Suppliers",
+        route: "",
+      },
+      {
+        title: "Manage Arifreids",
+        route: "",
+      },
+    ],
+  },
 ];

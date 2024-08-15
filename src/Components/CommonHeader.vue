@@ -49,7 +49,6 @@
 </template>
 <script>
 import CreateUserForm from "@/views/UserManagement/Components/AddUsers.vue";
-import CreatePriceList from "@/views/PriceRateManagement/Components/CreatePricelist.vue";
 import CreateShipment from "@/views/ShipmentManagement/Components/CreateShipment.vue";
 import Ripple from "vue-ripple-directive";
 import {
@@ -70,7 +69,6 @@ export default {
     CreateShipment,
     BModal,
     CreateUserForm,
-    CreatePriceList,
     BImg,
     BCard,
     BButton,
