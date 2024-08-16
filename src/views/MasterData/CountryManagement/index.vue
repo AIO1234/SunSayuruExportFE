@@ -54,7 +54,7 @@ import {
   BInputGroupPrepend,
 } from "bootstrap-vue";
 export default {
-  name: "users",
+  name: "countries",
   data() {
     return {
       openmodal: false,

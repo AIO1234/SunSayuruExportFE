@@ -40,11 +40,11 @@ export default [
       },
       {
         title: "Manage Buyers",
-        route: "",
+        route: "buyers",
       },
       {
         title: "Manage Qualities",
-        route: "",
+        route: "qualities",
       },
       {
         title: "Manage Seafoods",

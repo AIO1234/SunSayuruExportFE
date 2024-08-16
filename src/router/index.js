@@ -6,6 +6,8 @@ import pricerateRoute from "./modules/pricerate_route";
 import suplierRoute from "./modules/suplier_route";
 import userRoute from "./modules/user_route";
 import countryRoute from "./modules/country_route";
+import buyerRoute from "./modules/buyer_route";
+import qualityRoute from "./modules/quality_route";
 
 Vue.use(VueRouter);
 
@@ -22,6 +24,8 @@ const router = new VueRouter({
     ...suplierRoute,
     ...userRoute,
     ...countryRoute,
+    ...buyerRoute,
+    ...qualityRoute,
   ],
 });
 

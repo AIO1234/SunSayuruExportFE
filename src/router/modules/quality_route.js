@@ -1,15 +1,15 @@
 export default [
   {
-    path: "/countries",
-    name: "countries",
-    component: () => import("@/views/MasterData/CountryManagement/index.vue"),
+    path: "/qualities",
+    name: "qualities",
+    component: () => import("@/views/MasterData/Qualitymnagement/index.vue"),
     meta: {
       authReuire: true,
       role: ["Super Admin", "Admin", "Staff"],
-      pageTitle: "Manage Countries",
+      pageTitle: "Manage Qualities",
       breadcrumb: [
         {
-          text: "Countries",
+          text: "Qualities",
           active: true,
         },
       ],
