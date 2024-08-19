@@ -2,8 +2,9 @@
   <div>
     <div>
       <b-form @submit.prevent>
-        <validation-observer ref="QualityCreateValidation">
+        <validation-observer ref="QualityUpdateValidation">
           <b-row>
+            <!-- quality -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Quality*" label-class="form_label_class">
                 <validation-Provider
@@ -21,12 +22,12 @@
             </b-col>
             <b-col md="12" class="mb-1 text-center">
               <b-button
-                @click="validationQualityCreateForm()"
+                @click="validationCountryUpdateForm()"
                 type="submit"
                 variant="none"
                 class="form_submit_button"
               >
-                <span class="button_text_styles"> Create</span>
+                <span class="button_text_styles">Update</span>
               </b-button>
             </b-col>
           </b-row>
@@ -75,7 +76,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "AddCountry",
+  name: "EditQuality",
   components: {
     BCard,
     BFormRadio,
@@ -125,8 +126,8 @@ export default {
     selectedItem: Object,
   },
   methods: {
-    async validationCountryCreateForm() {
-      if (await this.$refs.CountryCreateValidation.validate()) {
+    async validationCountryUpdateForm() {
+      if (await this.$refs.QualityUpdateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });

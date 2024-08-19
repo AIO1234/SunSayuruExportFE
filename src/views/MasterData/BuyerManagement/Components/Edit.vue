@@ -2,7 +2,7 @@
   <div>
     <div class="mt-2">
       <b-form @submit.prevent>
-        <validation-observer ref="BuyerCreateValidation">
+        <validation-observer ref="BuyerUpdateValidation">
           <b-row>
             <!-- buyer code -->
             <b-col lg="12" class="mb-1">
@@ -40,7 +40,7 @@
 
             <!-- qualites -->
             <b-col lg="12" class="mb-1">
-              <b-form-group label="Qualities*" label-class="form_label_class">
+              <b-form-group label="Assign Qualities*" label-class="form_label_class">
                 <validation-Provider
                   name="Qualities"
                   rules="required"
@@ -82,12 +82,12 @@
             <b-col md="12" class="mb-1 text-center">
               <br />
               <b-button
-                @click="validationBuyerCreateForm()"
+                @click="validationBuyerUpdateForm()"
                 type="submit"
                 variant="none"
                 class="form_submit_button"
               >
-                <span class="button_text_styles"> Create</span>
+                <span class="button_text_styles">Update</span>
               </b-button>
             </b-col>
           </b-row>
@@ -101,9 +101,11 @@
       ref="qualitymodal"
       hide-footer
       scrollable
-      title="Add Quality"
+      title="Create Quality"
       title-class="modal_title_color"
     >
+      <!-- quality create form(trigger if quality is not there to select ) -->
+
       <!-- qualiity input -->
       <b-col lg="12" class="mb-1">
         <b-form-group label="Quality*" label-class="form_label_class">
@@ -121,12 +123,12 @@
       <b-col md="12" class="mb-1 text-center">
         <br />
         <b-button
-          @click="validationBuyerCreateForm()"
+          @click="validationQualityCreateForm()"
           type="submit"
           variant="none"
           class="form_submit_button"
         >
-          <span class="button_text_styles"> Create</span>
+          <span class="button_text_styles">Create</span>
         </b-button>
       </b-col>
     </b-modal>
@@ -172,7 +174,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "AddBuyer",
+  name: "UpdateBuyer",
   components: {
     BCard,
     BFormRadio,

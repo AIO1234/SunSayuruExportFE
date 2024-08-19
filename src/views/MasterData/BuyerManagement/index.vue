@@ -30,7 +30,6 @@
     <b-modal
       ref="createmodal"
       hide-footer
-      scrollable
       title="Add Buyer"
       title-class="modal_title_color"
     >

@@ -48,15 +48,15 @@ export default [
       },
       {
         title: "Manage Seafoods",
-        route: "",
+        route: "seafoods",
       },
       {
         title: "Manage Gradings",
-        route: "",
+        route: "gradings",
       },
       {
         title: "Manage Suppliers",
-        route: "",
+        route: "allsupliers",
       },
       {
         title: "Manage Arifreids",

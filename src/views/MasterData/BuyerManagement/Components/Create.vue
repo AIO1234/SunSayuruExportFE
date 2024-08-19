@@ -38,26 +38,6 @@
               </b-form-group>
             </b-col>
 
-            <!-- qualites -->
-            <b-col lg="12" class="mb-1">
-              <b-form-group label="Qualities*" label-class="form_label_class">
-                <validation-Provider
-                  name="Qualities"
-                  rules="required"
-                  v-slot="{ errors }"
-                >
-                  <v-select
-                    v-model="quality"
-                    @input="openqualitymodel(quality)"
-                    multiple
-                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                    label="quality"
-                    :options="qualities"
-                  />
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </validation-Provider>
-              </b-form-group>
-            </b-col>
             <!-- country -->
             <b-col lg="12" class="mb-1">
               <b-form-group label="Country*" label-class="form_label_class">
@@ -77,6 +57,30 @@
               </b-form-group>
             </b-col>
 
+            <!-- qualites -->
+            <b-col lg="12" class="mb-1">
+              <b-form-group
+                label="Assign Qualities*"
+                label-class="form_label_class"
+              >
+                <validation-Provider
+                  name="Qualities"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
+                  <v-select
+                    v-model="quality"
+                    @input="openqualitymodel(quality)"
+                    multiple
+                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                    label="quality"
+                    :options="qualities"
+                  >
+                  </v-select>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </validation-Provider>
+              </b-form-group>
+            </b-col>
             <!-- button -->
 
             <b-col md="12" class="mb-1 text-center">
@@ -91,7 +95,6 @@
               </b-button>
             </b-col>
           </b-row>
-          <br /><br />
         </validation-observer>
       </b-form>
     </div>
@@ -104,6 +107,7 @@
       title="Add Quality"
       title-class="modal_title_color"
     >
+      <!-- quality create form(trigger if quality is not there to select ) -->
       <!-- qualiity input -->
       <b-col lg="12" class="mb-1">
         <b-form-group label="Quality*" label-class="form_label_class">
@@ -201,6 +205,9 @@ export default {
       form: {},
       qualities: [
         {
+          quality: "Add New",
+        },
+        {
           quality: "A",
         },
 
@@ -213,13 +220,12 @@ export default {
         {
           quality: "A++",
         },
+      ],
+      quality: [
         {
-          quality: "Add New",
+          quality: "A+",
         },
       ],
-      quality: {
-        quality: "A",
-      },
       countries: [],
       country: {
         name: "ALEX",
@@ -240,6 +246,12 @@ export default {
       length,
     };
   },
+
+  created() {
+    if (this.quality[this.quality.length - 1].quality === "Add New") {
+      this.quality.pop();
+    }
+  },
   methods: {
     async validationBuyerCreateForm() {
       if (await this.$refs.BuyerCreateValidation.validate()) {
@@ -248,7 +260,7 @@ export default {
         });
       }
     },
-
+    //
     openqualitymodel(quality) {
       if (quality[quality.length - 1].quality === "Add New") {
         this.$refs.qualitymodal.show();

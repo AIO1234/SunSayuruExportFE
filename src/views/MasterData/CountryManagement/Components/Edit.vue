@@ -2,8 +2,9 @@
   <div>
     <div>
       <b-form @submit.prevent>
-        <validation-observer ref="CountryCreateValidation">
+        <validation-observer ref="CountryUpdateValidation">
           <b-row>
+            <!-- country -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Country*" label-class="form_label_class">
                 <validation-Provider
@@ -19,9 +20,10 @@
                 </validation-Provider>
               </b-form-group>
             </b-col>
+            <!-- button -->
             <b-col md="12" class="mb-1 text-center">
               <b-button
-                @click="validationCountryCreateForm()"
+                @click="validationCountryUpdateForm()"
                 type="submit"
                 variant="none"
                 class="form_submit_button"
@@ -75,7 +77,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "AddCountry",
+  name: "UpdateCountry",
   components: {
     BCard,
     BFormRadio,
@@ -125,8 +127,8 @@ export default {
     selectedItem: Object,
   },
   methods: {
-    async validationCountryCreateForm() {
-      if (await this.$refs.CountryCreateValidation.validate()) {
+    async validationCountryUpdateForm() {
+      if (await this.$refs.CountryUpdateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });

@@ -4,6 +4,7 @@
       <b-form @submit.prevent>
         <validation-observer ref="QualityCreateValidation">
           <b-row>
+            <!-- quality -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Quality*" label-class="form_label_class">
                 <validation-Provider
@@ -19,6 +20,7 @@
                 </validation-Provider>
               </b-form-group>
             </b-col>
+            <!-- button -->
             <b-col md="12" class="mb-1 text-center">
               <b-button
                 @click="validationQualityCreateForm()"

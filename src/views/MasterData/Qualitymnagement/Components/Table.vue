@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- country table -->
+    <!-- quality table -->
     <b-card class="mt-5">
       <b-table
         sticky-header=""
@@ -55,7 +55,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "CountryTable",
+  name: "QualityTable",
   components: {
     BFormInput,
     QualityEdit,

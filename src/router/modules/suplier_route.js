@@ -1,5 +1,24 @@
 export default [
   {
+    path: "/allsupliers",
+    name: "allsupliers",
+    component: () =>
+      import("@/views/MasterData/SupplierManagement/index.vue"),
+
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin", "Staff"],
+      pageTitle: "Manage Supliers",
+      breadcrumb: [
+        {
+          text: "Supliers",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
     path: "/shipmentwiseearnings",
     name: "shipmentwiseearnings",
     component: () =>

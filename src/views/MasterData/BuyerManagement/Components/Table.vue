@@ -8,6 +8,7 @@
         :items="buyers"
         :fields="fields"
       >
+        <!-- action commumn -->
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -15,6 +16,20 @@
                 <b-img
                   width="17px"
                   src="@/assets/images/icons/Group 101.png"
+                ></b-img>
+              </b-button>
+            </b-col>
+            <b-col lg="4"> </b-col>
+          </b-row>
+        </template>
+        <!-- qualities collumn -->
+        <template #cell(qualities)="data">
+          <b-row no-gutters>
+            <b-col lg="4">
+              <b-button variant="none">
+                <b-img
+                  width="17px"
+                  src="@/assets/images/icons/Group 117855.png"
                 ></b-img>
               </b-button>
             </b-col>
@@ -55,7 +70,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "CountryTable",
+  name: "BuyerTable",
   components: {
     BFormInput,
     BuyerEdit,
@@ -89,6 +104,13 @@ export default {
         {
           key: "name",
           label: "Name",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+        {
+          key: "qualities",
+          label: "Assigned Qualities",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

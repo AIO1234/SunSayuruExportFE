@@ -8,6 +8,8 @@ import userRoute from "./modules/user_route";
 import countryRoute from "./modules/country_route";
 import buyerRoute from "./modules/buyer_route";
 import qualityRoute from "./modules/quality_route";
+import gradingRoute from "./modules/gradings_route";
+import seafoodRoute from "./modules/seafood_route";
 
 Vue.use(VueRouter);
 
@@ -26,6 +28,8 @@ const router = new VueRouter({
     ...countryRoute,
     ...buyerRoute,
     ...qualityRoute,
+    ...gradingRoute,
+    ...seafoodRoute,
   ],
 });
 
