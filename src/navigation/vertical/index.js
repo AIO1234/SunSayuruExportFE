@@ -60,7 +60,7 @@ export default [
       },
       {
         title: "Manage Arifreids",
-        route: "",
+        route: "airfreights",
       },
     ],
   },

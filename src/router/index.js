@@ -10,6 +10,7 @@ import buyerRoute from "./modules/buyer_route";
 import qualityRoute from "./modules/quality_route";
 import gradingRoute from "./modules/gradings_route";
 import seafoodRoute from "./modules/seafood_route";
+import airfreightsRoute from "./modules/airfreights_route";
 
 Vue.use(VueRouter);
 
@@ -30,6 +31,7 @@ const router = new VueRouter({
     ...qualityRoute,
     ...gradingRoute,
     ...seafoodRoute,
+    ...airfreightsRoute,
   ],
 });
 

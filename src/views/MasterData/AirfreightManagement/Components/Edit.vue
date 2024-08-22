@@ -2,70 +2,31 @@
   <div>
     <div>
       <b-form @submit.prevent>
-        <validation-observer ref="SuplierUpdateValidation">
+        <validation-observer ref="AirfreightUpdateValidation">
           <b-row>
-            <!-- suplier name -->
+            <!-- Airfreight name -->
             <b-col md="12" class="mb-1">
               <b-form-group
-                label="Suplier Name*"
+                label="Airfreight Name*"
                 label-class="form_label_class"
               >
                 <validation-Provider
-                  name="Suplier Name"
+                  name="Airfreight Name"
                   rules="required"
                   v-slot="{ errors }"
                 >
                   <b-form-input
-                    placeholder="Enter Suplier Name"
+                    placeholder="Enter Airfreight Name"
                     v-model="form.name"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
             </b-col>
-
-            <!-- suplier address -->
-            <b-col md="12" class="mb-1">
-              <b-form-group
-                label="Suplier Address*"
-                label-class="form_label_class"
-              >
-                <validation-Provider
-                  name="Suplier Address"
-                  rules="required"
-                  v-slot="{ errors }"
-                >
-                  <b-form-input
-                    placeholder="Enter Suplier"
-                    v-model="form.address"
-                  ></b-form-input>
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </validation-Provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- suplier address -->
-            <b-col md="12" class="mb-1">
-              <b-form-group
-                label="Suplier Mobile*"
-                label-class="form_label_class"
-              >
-                <validation-Provider
-                  name="Suplier Mobile"
-                  rules="required"
-                  v-slot="{ errors }"
-                >
-                  <b-form-input
-                    placeholder="Enter Mobile Number"
-                    v-model="form.mobile"
-                  ></b-form-input>
-                  <span class="text-danger">{{ errors[0] }}</span>
-                </validation-Provider>
-              </b-form-group>
-            </b-col>
+            <!-- button -->
             <b-col md="12" class="mb-1 text-center">
               <b-button
-                @click="validationSuplierUpdateForm()"
+                @click="validationAirfreightUpdateForm()"
                 type="submit"
                 variant="none"
                 class="form_submit_button"
@@ -119,7 +80,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "UpdateSuplier",
+  name: "UpdateAirfreight",
   components: {
     BCard,
     BFormRadio,
@@ -169,8 +130,8 @@ export default {
     selectedItem: Object,
   },
   methods: {
-    async validationSuplierUpdateForm() {
-      if (await this.$refs.SuplierUpdateValidation.validate()) {
+    async validationAirfreightUpdateForm() {
+      if (await this.$refs.AirfreightUpdateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });
