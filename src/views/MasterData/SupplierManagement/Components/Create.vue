@@ -17,7 +17,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Suplier Name"
-                    v-model="form.Suplier"
+                    v-model="form.name"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -57,7 +57,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Mobile Number"
-                    v-model="form.mobile"
+                    v-model="form.mobile_number"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -104,6 +104,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import suplierApi from "@/Api/Modules/supliers";
 import {
   required,
   email,
@@ -168,6 +169,15 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
+        await suplierApi
+          .storeSuplier(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

@@ -14,7 +14,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Buyer Code"
-                    v-model="form.name"
+                    v-model="form.code"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>

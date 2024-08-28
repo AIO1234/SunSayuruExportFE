@@ -57,7 +57,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Mobile Number"
-                    v-model="form.mobile"
+                    v-model="form.mobile_number"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -118,6 +118,7 @@ import {
   alphaDash,
   length,
 } from "@validations";
+import suplierApi from "@/Api/Modules/supliers";
 export default {
   name: "UpdateSuplier",
   components: {
@@ -174,6 +175,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
+
+        await suplierApi
+          .updateSuplier(this.form.id, this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

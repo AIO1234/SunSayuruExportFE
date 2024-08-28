@@ -30,12 +30,13 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <SuplierEdit :selectedItem="selectedSuplier" />
+      <SuplierEdit :selectedItem="selectedSuplier" @close="closeModal" />
     </b-modal>
   </div>
 </template>
 
 <script>
+import suplierApi from "@/Api/Modules/supliers";
 import SuplierEdit from "./Edit.vue";
 import {
   BModal,
@@ -94,7 +95,7 @@ export default {
           // tdClass: "td-style",
         },
         {
-          key: "mobile",
+          key: "mobile_number",
           label: "Suplier Mobile",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -108,39 +109,40 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      supliers: [
-        {
-          name: "Sumith",
-          address: "tangalle",
-          mobile: "0123445555",
-        },
-        {
-          name: "Sumith",
-          address: "tangalle",
-          mobile: "0123445555",
-        },
-        {
-          name: "Sumith",
-          address: "tangalle",
-          mobile: "0123445555",
-        },
-        {
-          name: "Sumith",
-          address: "tangalle",
-          mobile: "0123445555",
-        },
-      ],
+      supliers: [],
     };
   },
-
+  async created() {
+    await this.getAllSupliers();
+  },
   methods: {
+    // get all supliers
+
+    async getAllSupliers() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await suplierApi.allSupliers();
+      this.supliers = res.data.data;
+      this.$vs.loading.close();
+    },
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+
+    // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
       this.selectedSuplier = item;
+    },
+    // close edit modal
+
+    // close modal
+
+    async closeModal() {
+      this.$refs.UpdateModal.hide();
+      await this.getAllSupliers();
     },
   },
 };
