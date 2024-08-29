@@ -30,7 +30,7 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <AirfreightEdit :selectedItem="selectedAirfreight" />
+      <AirfreightEdit :selectedItem="selectedAirfreight" @close="closeModal" />
     </b-modal>
   </div>
 </template>
@@ -54,6 +54,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import airfreightsApi from "@/Api/Modules/airefreights";
 export default {
   name: "AirfreightTable",
   components: {
@@ -80,7 +81,7 @@ export default {
       show: false,
       fields: [
         {
-          key: "name",
+          key: "company_name",
           label: "Airfreight Company",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -95,28 +96,39 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      airfreights: [
-        {
-          name: "Peri Logistics",
-        },
-        {
-          name: "helman worldwide",
-        },
-        {
-          name: "scanwell logistics",
-        },
-      ],
+      airfreights: [],
     };
   },
-
+  async created() {
+    await this.getAllAirfreights();
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+
+    // get all airfreights
+
+    async getAllAirfreights() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await airfreightsApi.allAirfreids();
+      this.airfreights = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
       this.selectedAirfreight = item;
+    },
+
+    // close edit modal
+    async closeModal() {
+      this.$refs.UpdateModal.hide();
+      await this.getAllAirfreights();
     },
   },
 };

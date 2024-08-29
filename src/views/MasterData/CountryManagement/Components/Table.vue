@@ -6,8 +6,9 @@
         sticky-header=""
         responsive="sm"
         :items="countries"
-        :fields="fields"
+        :fields="countryfields"
       >
+        <!-- buttons -->
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -21,16 +22,48 @@
             <b-col lg="4"> </b-col>
           </b-row>
         </template>
+        <!-- buyers -->
+        <template #cell(buyers)="data">
+          <b-button
+            variant="flat-none"
+            @click="showBuyerModal(data.item.buyers)"
+          >
+            <b-img
+              width="17px"
+              src="@/assets/images/icons/Group 117855.png"
+            ></b-img>
+          </b-button>
+        </template>
       </b-table>
     </b-card>
 
+    <!-- modals -->
+
+    <!-- update modal -->
     <b-modal
       ref="UpdateModal"
       title="Edit Country"
       title-class="modal_title_color"
       hide-footer
     >
-      <CountryEdit :selectedItem="selectedCountry" />
+      <CountryEdit :selectedItem="selectedCountry" @close="closeModal" />
+    </b-modal>
+
+    <!-- buyers modal -->
+
+    <b-modal
+      ref="showBuyers"
+      title="Assigned Buyers"
+      title-class="modal_title_color"
+      hide-footer
+    >
+      <b-table
+        sticky-header=""
+        responsive="sm"
+        :items="buyers"
+        :fields="buyerfields"
+      >
+      </b-table>
     </b-modal>
   </div>
 </template>
@@ -54,6 +87,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import countryApi from "@/Api/Modules/countries";
 export default {
   name: "CountryTable",
   components: {
@@ -78,10 +112,19 @@ export default {
     return {
       selectedCountry: {},
       show: false,
-      fields: [
+      showBuyers: false,
+      countryfields: [
         {
           key: "name",
           label: "Name",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+
+        {
+          key: "buyers",
+          label: "Assigned Buyers",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -94,28 +137,64 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      countries: [
+      buyerfields: [
         {
-          name: "HongKong",
+          key: "code",
+          label: "Code",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
         },
+
         {
-          name: "HongKong",
-        },
-        {
-          name: "China",
+          key: "name",
+          label: "Buyer Name",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
         },
       ],
+      countries: [],
+
+      buyers: [],
     };
   },
-
+  async created() {
+    await this.getAllCountries();
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+
+    // get all airfreights
+
+    async getAllCountries() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await countryApi.allCountriesWitBuyers();
+      this.countries = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
       this.selectedCountry = item;
+    },
+
+    // close edit modal
+    async closeModal() {
+      this.$refs.UpdateModal.hide();
+      await this.getAllCountries();
+    },
+
+    // open buyers modal
+    showBuyerModal(item) {
+      this.$refs.showBuyers.show();
+      this.buyers = item;
     },
   },
 };

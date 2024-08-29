@@ -15,32 +15,32 @@
             src="@/assets/images/icons/Icons Solid.png"
           ></b-img>
 
-          <span class="button_text_styles pl-1">Create Suplier</span>
+          <span class="button_text_styles pl-1">Create Quality</span>
         </div>
       </b-button>
     </div>
 
     <!-- table -->
     <div class="mt-5">
-      <SuplierTable />
+      <QualityTable />
     </div>
 
-    <!--suplier create modal -->
+    <!--Quality create modal -->
 
     <b-modal
       ref="createmodal"
       hide-footer
       scrollable
-      title="Add Suplier"
+      title="Add Quality"
       title-class="modal_title_color"
     >
-      <AddSuplier @close="closeModal" />
+      <AddQuality @close="closeModal" />
     </b-modal>
   </div>
 </template>
 <script>
-import AddSuplier from "./Components/Create.vue";
-import SuplierTable from "./Components/Table.vue";
+import AddQuality from "./Components/Create.vue";
+import QualityTable from "./Components/Table.vue";
 import Ripple from "vue-ripple-directive";
 import {
   BFormInput,
@@ -61,8 +61,8 @@ export default {
     };
   },
   components: {
-    AddSuplier,
-    SuplierTable,
+    AddQuality,
+    QualityTable,
     BModal,
     BInputGroup,
     BImg,
@@ -83,7 +83,6 @@ export default {
     },
 
     // close modal
-
     closeModal() {
       this.$refs.createmodal.hide();
     },

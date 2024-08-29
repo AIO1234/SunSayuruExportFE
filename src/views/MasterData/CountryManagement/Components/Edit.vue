@@ -62,6 +62,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import countryApi from "@/Api/Modules/countries";
 import {
   required,
   email,
@@ -132,6 +133,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
+
+        await countryApi
+          .updateCountry(this.form.id, this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

@@ -17,7 +17,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Airfreight Name"
-                    v-model="form.name"
+                    v-model="form.company_name"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -66,6 +66,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import airfreightsApi from "@/Api/Modules/airefreights";
 import {
   required,
   email,
@@ -130,6 +131,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
+
+        await airfreightsApi
+          .storeAirefreid(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
   },

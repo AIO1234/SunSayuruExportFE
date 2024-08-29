@@ -34,7 +34,7 @@
       title="Add Quality"
       title-class="modal_title_color"
     >
-      <AddQuality />
+      <AddQuality @close="closeModal" />
     </b-modal>
   </div>
 </template>
@@ -77,8 +77,14 @@ export default {
     Ripple,
   },
   methods: {
+    // open create modal
     opencreatemodal() {
       this.$refs.createmodal.show();
+    },
+    // close create modal
+
+    closeModal() {
+      this.$refs.createmodal.hide();
     },
   },
 };

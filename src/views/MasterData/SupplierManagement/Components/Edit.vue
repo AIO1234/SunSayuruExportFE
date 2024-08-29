@@ -175,7 +175,6 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-
         await suplierApi
           .updateSuplier(this.form.id, this.form)
           .then(() => {

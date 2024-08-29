@@ -6,18 +6,20 @@ export default {
   },
 
   async allQualities() {
-    return await api.get("/grading/allqualities");
+    return await api.get("/quality/allqualities");
   },
 
   async storeQuality(payload) {
-    return await api.post("/grading/storequality", payload);
+    return await api.post("/quality/storequality", payload).then(() => {
+      window.location.href = "/qualities";
+    });
   },
 
   async updateQuality(id, payload) {
-    return await api.put(`/grading/updatequality/${id}`, payload);
+    return await api.put(`/quality/updatequality/${id}`, payload);
   },
 
   async deleteQuality(id) {
-    return await api.delete(`/grading/deletequality/${id}`);
+    return await api.delete(`/quality/deletequality/${id}`);
   },
 };

@@ -30,12 +30,13 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <QualityEdit :selectedItem="selectedQuality" />
+      <QualityEdit :selectedItem="selectedQuality" @close="closeModal" />
     </b-modal>
   </div>
 </template>
 
 <script>
+import qualityApi from "@/Api/Modules/qualities";
 import QualityEdit from "./Edit.vue";
 import {
   BModal,
@@ -94,31 +95,40 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      qualities: [
-        {
-          quality: "A+",
-        },
-        {
-          quality: "A++",
-        },
-        {
-          quality: "",
-        },
-        {
-          quality: "B",
-        },
-      ],
+      qualities: [],
     };
   },
-
+  async created() {
+    await this.getAllQualities();
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+
+    // get all qualities
+
+    async getAllQualities() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await qualityApi.allQualities();
+      this.qualities = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // open updte modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
       this.selectedQuality = item;
+    },
+
+    // close modal
+
+    async closeModal() {
+      this.$refs.UpdateModal.hide();
+      await this.getAllQualities();
     },
   },
 };

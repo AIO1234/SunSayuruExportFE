@@ -10,7 +10,9 @@ export default {
   },
 
   async storeGrading(payload) {
-    return await api.post("/grading/storegrading", payload);
+    return await api.post("/grading/storegrading", payload).then(() => {
+      window.location.href = "/gradings";
+    });
   },
 
   async updateGrading(id, payload) {

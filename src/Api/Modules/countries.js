@@ -10,7 +10,9 @@ export default {
   },
 
   async storeCountry(payload) {
-    return await api.post("/country/storecountry", payload);
+    return await api.post("/country/storecountry", payload).then(() => {
+      window.location.href = "/countries";
+    });
   },
 
   async updateCountry(id, payload) {
