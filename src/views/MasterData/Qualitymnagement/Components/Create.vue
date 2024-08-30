@@ -121,6 +121,9 @@ export default {
       length,
     };
   },
+  props: {
+    loadingStatus: Boolean,
+  },
   methods: {
     async validationQualityCreateForm() {
       if (await this.$refs.QualityCreateValidation.validate()) {
@@ -128,7 +131,7 @@ export default {
           scale: 0.8,
         });
         await qualityApi
-          .storeQuality(this.form)
+          .storeQuality(this.form, this.loadingStatus)
           .then(() => {
             this.$vs.loading.close();
             this.$emit("close", false);

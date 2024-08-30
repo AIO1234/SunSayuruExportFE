@@ -33,6 +33,7 @@
       scrollable
       title="Add Country"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
       <AddCountry @close="closeModal" />
     </b-modal>

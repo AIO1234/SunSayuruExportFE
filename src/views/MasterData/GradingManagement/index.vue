@@ -33,6 +33,7 @@
       scrollable
       title="Add Grading"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
       <AddGrading  @close="closeModal" />
     </b-modal>

@@ -29,6 +29,7 @@
       title="Edit Airfreight"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <AirfreightEdit :selectedItem="selectedAirfreight" @close="closeModal" />
     </b-modal>

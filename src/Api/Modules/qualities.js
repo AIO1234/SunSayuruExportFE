@@ -9,10 +9,14 @@ export default {
     return await api.get("/quality/allqualities");
   },
 
-  async storeQuality(payload) {
-    return await api.post("/quality/storequality", payload).then(() => {
-      window.location.href = "/qualities";
-    });
+  async storeQuality(payload, status) {
+    if (status === true) {
+      return await api.post("/quality/storequality", payload).then(() => {
+        window.location.href = "/qualities";
+      });
+    } else {
+      return await api.post("/quality/storequality", payload);
+    }
   },
 
   async updateQuality(id, payload) {

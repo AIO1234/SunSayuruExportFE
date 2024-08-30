@@ -22,7 +22,7 @@
 
     <!-- table -->
     <div class="mt-5">
-      <BuyerTable />
+      <BuyerTable :propsCountries="countries" :propsQualities="qualities" />
     </div>
 
     <!--buyer create modal -->
@@ -32,8 +32,14 @@
       hide-footer
       title="Add Buyer"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
-      <AddBuyer />
+      <AddBuyer
+        :propsCountries="countries"
+        :propsQualities="qualities"
+        @callQualities="callQualities"
+        @close="closeModal"
+      />
     </b-modal>
   </div>
 </template>
@@ -41,6 +47,8 @@
 import AddBuyer from "./Components/Create.vue";
 import BuyerTable from "./Components/Table.vue";
 import Ripple from "vue-ripple-directive";
+import countryApi from "@/Api/Modules/countries";
+import qualityApi from "@/Api/Modules/qualities";
 import {
   BFormInput,
   BModal,
@@ -57,6 +65,8 @@ export default {
   data() {
     return {
       openmodal: false,
+      qualities: [],
+      countries: [],
     };
   },
   components: {
@@ -75,9 +85,48 @@ export default {
   directives: {
     Ripple,
   },
+  async created() {
+    await this.getAllCountries();
+    await this.getAllQualities();
+  },
   methods: {
+    // open modal
     opencreatemodal() {
       this.$refs.createmodal.show();
+    },
+
+    // close modal
+    closeModal() {
+      this.$refs.createmodal.hide();
+    },
+
+    // get all countries
+
+    async getAllCountries() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await countryApi.allCountriesWitBuyers();
+      this.countries = res.data.data;
+
+      this.$vs.loading.close();
+    },
+
+    // get all qualities
+
+    async getAllQualities() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await qualityApi.allQualities();
+      this.qualities = res.data.data;
+      this.qualities.push({ quality: "Add New" });
+      this.qulities = this.qualities.reverse();
+      this.$vs.loading.close();
+    },
+    // call all qulities again
+    async callQualities() {
+      await this.getAllQualities();
     },
   },
 };

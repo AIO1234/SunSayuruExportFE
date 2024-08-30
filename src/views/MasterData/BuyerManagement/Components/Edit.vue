@@ -40,7 +40,10 @@
 
             <!-- qualites -->
             <b-col lg="12" class="mb-1">
-              <b-form-group label="Assign Qualities*" label-class="form_label_class">
+              <b-form-group
+                label="Assign Qualities*"
+                label-class="form_label_class"
+              >
                 <validation-Provider
                   name="Qualities"
                   rules="required"
@@ -52,7 +55,7 @@
                     multiple
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                     label="quality"
-                    :options="qualities"
+                    :options="propsQualities"
                   />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -70,7 +73,7 @@
                     v-model="country"
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                     label="name"
-                    :options="countries"
+                    :options="propsCountries"
                   />
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -123,12 +126,12 @@
       <b-col md="12" class="mb-1 text-center">
         <br />
         <b-button
-          @click="validationQualityCreateForm()"
+          @click="validationBuyerUpdateForm()"
           type="submit"
           variant="none"
           class="form_submit_button"
         >
-          <span class="button_text_styles">Create</span>
+          <span class="button_text_styles">Update</span>
         </b-button>
       </b-col>
     </b-modal>
@@ -159,6 +162,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
+import buyerApi from "@/Api/Modules/buyers";
 import {
   required,
   email,
@@ -201,32 +205,8 @@ export default {
   data() {
     return {
       form: {},
-      qualities: [
-        {
-          quality: "A",
-        },
-
-        {
-          quality: "",
-        },
-        {
-          quality: "A+",
-        },
-        {
-          quality: "A++",
-        },
-        {
-          quality: "Add New",
-        },
-      ],
-      quality: {
-        quality: "A",
-      },
-      countries: [],
-      country: {
-        name: "ALEX",
-      },
-
+      country: {},
+      quality: [],
       // validations
       required,
       email,
@@ -244,24 +224,55 @@ export default {
   },
   props: {
     selectedItem: Object,
+    propsCountries: Array,
+    propsQualities: Array,
   },
+
   created() {
     this.form = this.selectedItem;
+    this.form.id = parseInt(this.selectedItem.id);
+    this.quality = this.selectedItem.qualities;
+    this.country = this.selectedItem.country;
+    if (this.quality[this.quality.length - 1].quality === "Add New") {
+      this.quality.pop();
+    }
   },
   methods: {
-    async validationBuyerCreateForm() {
-      if (await this.$refs.BuyerCreateValidation.validate()) {
+    async validationBuyerUpdateForm() {
+      // assign country id to payload
+      this.form.country_id = this.country.id;
+
+      // assign quality to payload
+      this.form.qualities = this.quality;
+
+      if (await this.$refs.BuyerUpdateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });
+        await buyerApi
+          .updateBuyer(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 
+    //create modal
     openqualitymodel(quality) {
       if (quality[quality.length - 1].quality === "Add New") {
         this.$refs.qualitymodal.show();
         quality.pop();
       }
+    },
+
+    // close quality modal
+    closeModal() {
+      this.$refs.qualitymodal.hide();
+      this.$emit("callQualities", true);
     },
   },
 };

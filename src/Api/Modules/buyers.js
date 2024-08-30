@@ -10,7 +10,9 @@ export default {
   },
 
   async storeBuyer(payload) {
-    return await api.post("/buyer/storebuyer", payload);
+    return await api.post("/buyer/storebuyer", payload).then(() => {
+      window.location.href = "/buyers";
+    });
   },
 
   async updateBuyer(payload) {

@@ -24,17 +24,12 @@
         </template>
         <!-- qualities collumn -->
         <template #cell(qualities)="data">
-          <b-row no-gutters>
-            <b-col lg="4">
-              <b-button variant="none">
-                <b-img
-                  width="17px"
-                  src="@/assets/images/icons/Group 117855.png"
-                ></b-img>
-              </b-button>
-            </b-col>
-            <b-col lg="4"> </b-col>
-          </b-row>
+          <div v-for="item in data.value" :key="item">{{ item.quality }}</div>
+        </template>
+
+        <!-- country collumn -->
+        <template #cell(country)="data">
+          {{ data.value.name }}
         </template>
       </b-table>
     </b-card>
@@ -45,13 +40,19 @@
       title-class="modal_title_color"
       hide-footer
     >
-      <BuyerEdit :selectedItem="selectedBuyer" />
+      <BuyerEdit
+        :selectedItem="selectedBuyer"
+        :propsCountries="propsCountries"
+        :propsQualities="propsQualities"
+        @close="closeModal"
+      />
     </b-modal>
   </div>
 </template>
 
 <script>
 import BuyerEdit from "./Edit.vue";
+import buyerApi from "@/Api/Modules/buyers";
 import {
   BModal,
   BCard,
@@ -109,6 +110,13 @@ export default {
           // tdClass: "td-style",
         },
         {
+          key: "country",
+          label: "Country",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+        {
           key: "qualities",
           label: "Assigned Qualities",
           sortable: true,
@@ -123,35 +131,43 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      buyers: [
-        {
-          name: "ALEX",
-          code: "PSP",
-        },
-        {
-          name: "TSENG",
-          code: "TW",
-        },
-        {
-          name: "RANDY",
-          code: "PSP",
-        },
-        {
-          name: "ICE",
-          code: "CS",
-        },
-      ],
+      buyers: [],
     };
   },
-
+  props: {
+    propsCountries: Array,
+    propsQualities: Array,
+  },
+  async created() {
+    await this.getAllBuyers();
+  },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+
+    // get all buyers
+
+    async getAllBuyers() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await buyerApi.buyerswithqualities();
+      this.buyers = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
       this.selectedBuyer = item;
+    },
+
+    // close edit modal
+    async closeModal() {
+      this.$refs.UpdateModal.hide();
+      await this.getAllBuyers();
     },
   },
 };

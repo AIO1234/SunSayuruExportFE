@@ -29,6 +29,7 @@
       title="Edit Grading"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <GradingEdit :selectedItem="selectedGrading" @close="closeModal" />
     </b-modal>

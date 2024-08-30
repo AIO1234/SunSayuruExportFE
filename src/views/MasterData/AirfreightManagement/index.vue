@@ -33,6 +33,7 @@
       scrollable
       title="Add Airfreight"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
       <AddAirfreight @close="closeModal" />
     </b-modal>

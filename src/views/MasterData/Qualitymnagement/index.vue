@@ -33,8 +33,9 @@
       scrollable
       title="Add Quality"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
-      <AddQuality @close="closeModal" />
+      <AddQuality @close="closeModal" :loadingStatus="load" />
     </b-modal>
   </div>
 </template>
@@ -58,6 +59,7 @@ export default {
   data() {
     return {
       openmodal: false,
+      load: true,
     };
   },
   components: {

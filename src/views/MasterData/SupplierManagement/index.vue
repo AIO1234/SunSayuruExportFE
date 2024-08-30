@@ -33,6 +33,7 @@
       scrollable
       title="Add Quality"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
       <AddQuality @close="closeModal" />
     </b-modal>

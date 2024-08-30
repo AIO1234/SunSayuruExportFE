@@ -45,6 +45,7 @@
       title="Edit Country"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <CountryEdit :selectedItem="selectedCountry" @close="closeModal" />
     </b-modal>
@@ -56,6 +57,7 @@
       title="Assigned Buyers"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <b-table
         sticky-header=""
@@ -168,7 +170,7 @@ export default {
       return "custom-cell-padding";
     },
 
-    // get all airfreights
+    // get all countries
 
     async getAllCountries() {
       await this.$vs.loading({

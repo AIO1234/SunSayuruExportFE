@@ -29,6 +29,7 @@
       title="Edit Quality"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <QualityEdit :selectedItem="selectedQuality" @close="closeModal" />
     </b-modal>

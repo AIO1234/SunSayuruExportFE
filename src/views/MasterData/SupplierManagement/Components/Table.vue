@@ -29,6 +29,7 @@
       title="Edit Suplier"
       title-class="modal_title_color"
       hide-footer
+      no-close-on-backdrop
     >
       <SuplierEdit :selectedItem="selectedSuplier" @close="closeModal" />
     </b-modal>
