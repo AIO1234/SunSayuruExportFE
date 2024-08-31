@@ -139,6 +139,7 @@ export default {
       });
       const res = await gradingApi.allGradings();
       this.gradings = res.data.data;
+      this.gradings = this.gradings.reverse();
       this.$vs.loading.close();
     },
 

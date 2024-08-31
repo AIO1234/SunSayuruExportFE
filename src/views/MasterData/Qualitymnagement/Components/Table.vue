@@ -116,6 +116,7 @@ export default {
       });
       const res = await qualityApi.allQualities();
       this.qualities = res.data.data;
+      this.qualities = this.qualities.reverse();
       this.$vs.loading.close();
     },
 

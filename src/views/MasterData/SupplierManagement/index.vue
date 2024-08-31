@@ -15,7 +15,7 @@
             src="@/assets/images/icons/Icons Solid.png"
           ></b-img>
 
-          <span class="button_text_styles pl-1">Create Quality</span>
+          <span class="button_text_styles pl-1">Create Suplier</span>
         </div>
       </b-button>
     </div>

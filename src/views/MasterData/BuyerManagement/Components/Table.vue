@@ -36,7 +36,7 @@
 
     <b-modal
       ref="UpdateModal"
-      title="Edit Country"
+      title="Edit Buyer"
       title-class="modal_title_color"
       hide-footer
     >
