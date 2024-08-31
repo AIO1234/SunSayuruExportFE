@@ -35,7 +35,7 @@
       title-class="modal_title_color"
       no-close-on-backdrop
     >
-      <AddGrading  @close="closeModal" />
+      <AddGrading @close="closeModal" :loadingStatus="load" />
     </b-modal>
   </div>
 </template>
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       openmodal: false,
+      load: true,
     };
   },
   components: {

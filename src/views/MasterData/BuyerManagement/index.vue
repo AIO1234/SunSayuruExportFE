@@ -22,7 +22,11 @@
 
     <!-- table -->
     <div class="mt-5">
-      <BuyerTable :propsCountries="countries" :propsQualities="qualities" />
+      <BuyerTable
+        :propsCountries="countries"
+        :propsQualities="qualities"
+        @callQualities="callQualities"
+      />
     </div>
 
     <!--buyer create modal -->

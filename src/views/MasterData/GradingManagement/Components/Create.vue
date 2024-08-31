@@ -121,6 +121,9 @@ export default {
       length,
     };
   },
+  props: {
+    loadingStatus: Boolean,
+  },
   methods: {
     async validationGradingCreateForm() {
       if (await this.$refs.GradingCreateValidation.validate()) {
@@ -128,7 +131,7 @@ export default {
           scale: 0.8,
         });
         await gradingApi
-          .storeGrading(this.form)
+          .storeGrading(this.form, this.loadingStatus)
           .then(() => {
             this.$vs.loading.close();
             this.$emit("close", false);

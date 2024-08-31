@@ -44,6 +44,7 @@
         :selectedItem="selectedBuyer"
         :propsCountries="propsCountries"
         :propsQualities="propsQualities"
+        @callQualities="callQualities"
         @close="closeModal"
       />
     </b-modal>
@@ -168,6 +169,10 @@ export default {
     async closeModal() {
       this.$refs.UpdateModal.hide();
       await this.getAllBuyers();
+    },
+
+    callQualities() {
+      this.$emit("callQualities", true);
     },
   },
 };

@@ -10,7 +10,9 @@ export default {
   },
 
   async storeSeafood(payload) {
-    return await api.post("/seafood/storeseafood", payload);
+    return await api.post("/seafood/storeseafood", payload).then(() => {
+      window.location.href = "/seafoods";
+    });
   },
 
   async updateSeafood(payload) {

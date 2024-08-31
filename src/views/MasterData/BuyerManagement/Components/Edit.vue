@@ -56,7 +56,15 @@
                     :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                     label="quality"
                     :options="propsQualities"
-                  />
+                  >
+                    <template slot="option" slot-scope="option">
+                      <div class="d-center" v-if="option.quality === 'Add New'">
+                        <span class="text-danger font-weight-bold">{{
+                          option.quality
+                        }}</span>
+                      </div>
+                    </template>
+                  </v-select>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -104,41 +112,18 @@
       ref="qualitymodal"
       hide-footer
       scrollable
-      title="Create Quality"
+      title="Add Quality"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
       <!-- quality create form(trigger if quality is not there to select ) -->
-
-      <!-- qualiity input -->
-      <b-col lg="12" class="mb-1">
-        <b-form-group label="Quality*" label-class="form_label_class">
-          <validation-Provider
-            name="Quality"
-            rules="required"
-            v-slot="{ errors }"
-          >
-            <b-form-input placeholder="Enter Quality"></b-form-input>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </validation-Provider>
-        </b-form-group>
-      </b-col>
-      <!-- button -->
-      <b-col md="12" class="mb-1 text-center">
-        <br />
-        <b-button
-          @click="validationBuyerUpdateForm()"
-          type="submit"
-          variant="none"
-          class="form_submit_button"
-        >
-          <span class="button_text_styles">Update</span>
-        </b-button>
-      </b-col>
+      <AddQuality @close="closeModal" :loadingStatus="load" />
     </b-modal>
   </div>
 </template>
 
 <script>
+import AddQuality from "@/views/MasterData/Qualitymnagement/Components/Create.vue";
 import {
   BCard,
   BFormRadio,
@@ -180,6 +165,7 @@ import {
 export default {
   name: "UpdateBuyer",
   components: {
+    AddQuality,
     BCard,
     BFormRadio,
     BInputGroupAppend,
@@ -207,6 +193,7 @@ export default {
       form: {},
       country: {},
       quality: [],
+      load: false,
       // validations
       required,
       email,

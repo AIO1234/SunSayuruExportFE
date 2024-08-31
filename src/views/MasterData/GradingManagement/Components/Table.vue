@@ -7,6 +7,8 @@
         responsive="sm"
         :items="gradings"
         :fields="fields"
+        per-page="20"
+        :current-page="currentPage"
       >
         <template #cell(action)="data">
           <b-row no-gutters>
@@ -22,6 +24,23 @@
           </b-row>
         </template>
       </b-table>
+      <!-- paginationn -->
+      <b-row class="pt-2">
+        <b-col lg="4"></b-col>
+        <b-col lg="8">
+          <div class="mt-1">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="gradings.length"
+              per-page="20"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+            ></b-pagination>
+          </div>
+        </b-col>
+      </b-row>
     </b-card>
 
     <b-modal
@@ -39,6 +58,7 @@
 <script>
 import GradingEdit from "./Edit.vue";
 import {
+  BPagination,
   BModal,
   BCard,
   BTable,
@@ -59,6 +79,7 @@ import gradingApi from "@/Api/Modules/gradings";
 export default {
   name: "GradingTable",
   components: {
+    BPagination,
     BFormInput,
     GradingEdit,
     BCard,
@@ -78,6 +99,7 @@ export default {
   },
   data() {
     return {
+      currentPage: "",
       selectedGrading: {},
       show: false,
       fields: [

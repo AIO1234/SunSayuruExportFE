@@ -9,10 +9,14 @@ export default {
     return await api.get("/grading/allgradings");
   },
 
-  async storeGrading(payload) {
-    return await api.post("/grading/storegrading", payload).then(() => {
-      window.location.href = "/gradings";
-    });
+  async storeGrading(payload, status) {
+    if (status === true) {
+      return await api.post("/grading/storegrading", payload).then(() => {
+        window.location.href = "/gradings";
+      });
+    } else {
+      return await api.post("/grading/storegrading", payload);
+    }
   },
 
   async updateGrading(id, payload) {

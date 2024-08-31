@@ -37,12 +37,19 @@
                 >
                   <v-select
                     v-model="grading"
-                    @input="openGradingmodel(grading)"
+                    @input="opengradingmodel(grading)"
                     multiple
-                    :dir="dir"
                     label="grading"
-                    :options="gradings"
-                  />
+                    :options="propGradings"
+                  >
+                    <template slot="option" slot-scope="option">
+                      <div class="d-center" v-if="option.grading === 'Add New'">
+                        <span class="text-danger font-weight-bold">{{
+                          option.grading
+                        }}</span>
+                      </div>
+                    </template>
+                  </v-select>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -63,44 +70,24 @@
       </b-form>
     </div>
     <!-- Seafood model -->
+    <!-- grading model -->
     <b-modal
-      ref="Gradingmodal"
+      ref="gradingmodal"
       hide-footer
       scrollable
       title="Add Grading"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
-      <!-- Grading create form(trigger if Seafood is not there to select ) -->
-      <!--grading input -->
-      <b-col lg="12" class="mb-1">
-        <b-form-group label="Grading*" label-class="form_label_class">
-          <validation-Provider
-            name="Grading"
-            rules="required"
-            v-slot="{ errors }"
-          >
-            <b-form-input placeholder="Enter Grading"></b-form-input>
-            <span class="text-danger">{{ errors[0] }}</span>
-          </validation-Provider>
-        </b-form-group>
-      </b-col>
-      <!-- button -->
-      <b-col md="12" class="mb-1 text-center">
-        <br />
-        <b-button
-          @click="submitGrading()"
-          type="submit"
-          variant="none"
-          class="form_submit_button"
-        >
-          <span class="button_text_styles">Create</span>
-        </b-button>
-      </b-col>
+      <!-- grading create form(trigger if grading is not there to select ) -->
+      <AddGrading @close="closeModal" :loadingStatus="load" />
     </b-modal>
   </div>
 </template>
 
 <script>
+import AddGrading from "@/views/MasterData/GradingManagement/Components/Create.vue";
+import seafoodsApi from "@/Api/Modules/seafoods";
 import {
   BCard,
   BFormRadio,
@@ -141,6 +128,7 @@ import {
 export default {
   name: "UpdateSeafood",
   components: {
+    AddGrading,
     BCard,
     BFormRadio,
     BInputGroupAppend,
@@ -167,7 +155,7 @@ export default {
     return {
       form: {},
       // validations
-
+      load: false,
       required,
       email,
       confirmed,
@@ -182,64 +170,52 @@ export default {
       length,
 
       // gradings
-      gradings: [
-        {
-          grading: "Add New",
-        },
-        {
-          grading: "50g - 70g",
-        },
-
-        {
-          grading: "100g - 500g",
-        },
-        {
-          grading: "100g - 600g",
-        },
-
-        {
-          grading: "100g - 500g",
-        },
-        {
-          grading: "100g - 600g",
-        },
-
-        {
-          grading: "100g - 500g",
-        },
-        {
-          grading: "100g - 600g",
-        },
-
-        {
-          grading: "100g - 500g",
-        },
-        {
-          grading: "100g - 600g",
-        },
-      ],
-      grading: [
-        {
-          grading: "50g - 70g",
-        },
-      ],
+      gradings: [],
+      grading: [],
     };
   },
   async created() {
     this.form = this.selectedItem;
+    this.grading = this.selectedItem.gradings;
+    this.form.id = parseInt(this.selectedItem.id);
   },
   props: {
     selectedItem: Object,
+    propGradings: Array,
   },
   methods: {
     async validationSeafoodUpdateForm() {
+      // assign grading to payload
+      this.form.gradings = this.grading;
       if (await this.$refs.SeafoodUpdateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
         });
+        await seafoodsApi
+          .updateSeafood(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", false);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
-    submitGrading() {},
+
+    opengradingmodel(grading) {
+      if (grading[grading.length - 1].grading === "Add New") {
+        this.$refs.gradingmodal.show();
+        grading.pop();
+      }
+    },
+
+    // close grading modal
+    closeModal() {
+      this.$refs.gradingmodal.hide();
+      // emit the getallgrading to table
+      this.$emit("callGradings", true);
+    },
   },
 };
 </script>

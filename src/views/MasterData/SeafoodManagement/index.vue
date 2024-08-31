@@ -22,7 +22,11 @@
 
     <!-- table -->
     <div class="mt-5">
-      <SeafoodTable />
+      <SeafoodTable
+        :propGradings="gradings"
+        @close="closeModal"
+        @callGradings="callGradings"
+      />
     </div>
 
     <!--seafood create modal -->
@@ -32,8 +36,13 @@
       hide-footer
       title="Add Seafood"
       title-class="modal_title_color"
+      no-close-on-backdrop
     >
-      <AddSeafood />
+      <AddSeafood
+        :propGradings="gradings"
+        @close="closeModal"
+        @callGradings="callGradings"
+      />
     </b-modal>
   </div>
 </template>
@@ -41,6 +50,7 @@
 import AddSeafood from "./Components/Create.vue";
 import SeafoodTable from "./Components/Table.vue";
 import Ripple from "vue-ripple-directive";
+import gradingApi from "@/Api/Modules/gradings";
 import {
   BFormInput,
   BModal,
@@ -57,6 +67,7 @@ export default {
   data() {
     return {
       openmodal: false,
+      gradings: [],
     };
   },
   components: {
@@ -75,9 +86,37 @@ export default {
   directives: {
     Ripple,
   },
+  async created() {
+    await this.getAllGradings();
+  },
   methods: {
+    // create modal
     opencreatemodal() {
       this.$refs.createmodal.show();
+    },
+
+    // close modal
+    closeModal() {
+      this.$refs.createmodal.hide();
+    },
+
+    // get all gradings
+
+    async getAllGradings() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await gradingApi.allGradings();
+      this.gradings = res.data.data;
+      this.gradings.push({ grading: "Add New" });
+      this.gradings = this.gradings.reverse();
+      this.$vs.loading.close();
+    },
+
+    // call all gradings
+
+    async callGradings() {
+      await this.getAllGradings();
     },
   },
 };
