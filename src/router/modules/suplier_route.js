@@ -7,7 +7,7 @@ export default [
 
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin", "Staff"],
+      role: ["Super Admin", "Admin"],
       pageTitle: "Manage Supliers",
       breadcrumb: [
         {

@@ -3,22 +3,26 @@ export default [
     title: "Dashboard",
     route: "dashboard",
     icon: "HomeIcon",
-    // role: "Admin",
+    role: ["Super Admin", "Admin", "Staff"],
+
   },
   {
     title: "Users",
     icon: "UsersIcon",
     route: "users",
-    // role: "Admin",
+    role: ["Super Admin", "Admin"],
+
   },
   {
     title: "Packing & receiving",
     icon: "PackageIcon",
     route: "packinglist",
+    role: ["Super Admin", "Admin", "Staff"],
   },
   {
     title: "Supplier Bills",
     icon: "UserIcon",
+    role: ["Super Admin", "Admin", "Staff"],
     children: [
       {
         title: "Shipment wise",
@@ -33,6 +37,7 @@ export default [
   {
     title: "Master Data",
     icon: "DatabaseIcon",
+    role: ["Super Admin", "Admin"],
     children: [
       {
         title: "Manage Countries",

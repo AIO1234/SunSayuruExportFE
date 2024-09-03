@@ -5,7 +5,7 @@ export default [
     component: () => import("@/views/MasterData/Qualitymnagement/index.vue"),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin", "Staff"],
+      role: ["Super Admin", "Admin"],
       pageTitle: "Manage Qualities",
       breadcrumb: [
         {

@@ -27,7 +27,7 @@
             <!-- Grading assign -->
             <b-col lg="12" class="mb-1">
               <b-form-group
-                label="Assign Seafoods*"
+                label="Assign Gradings*"
                 label-class="form_label_class"
               >
                 <validation-Provider

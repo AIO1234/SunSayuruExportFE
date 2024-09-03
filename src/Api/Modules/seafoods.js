@@ -19,7 +19,7 @@ export default {
     return await api.post("/seafood/updateseafood", payload);
   },
 
-  async allSeafoods(id) {
+  async deleteSeafoods(id) {
     return await api.delete(`/seafood/deleteseafood/${id}`);
   },
 };
