@@ -14,6 +14,9 @@ export default {
     getPriceWithOutCurrency(price) {
       return `${parseFloat(price).toFixed(2)}`;
     },
+    getWeight(weight) {
+      return `${parseFloat(weight).toFixed(2)}`;
+    },
     removeLeadingZeorsFromReferences(reference) {
       // eslint-disable-next-line no-undef
       const split_ref = _.split(reference, "-");

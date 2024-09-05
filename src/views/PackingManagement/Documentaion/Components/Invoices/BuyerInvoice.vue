@@ -108,7 +108,8 @@
         <div>
           <div class="pt-4">
             <b-table
-              sticky-header=""
+              sort-by="seafoodtype"
+              sort-desc="true"
               responsive="sm"
               :items="buyerinvoice.boxes.seafoods"
               :fields="fields"
@@ -118,6 +119,9 @@
               </template>
               <template #cell(price_rate)="data">
                 {{ getPriceWithOutCurrency(data.value) }}
+              </template>
+              <template #cell(weight)="data">
+                {{ getWeight(data.value) }}
               </template>
             </b-table>
           </div>
@@ -129,7 +133,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total" style="padding-left: 40px">
-                    {{ buyerinvoice.boxes.total_weight }}</span
+                    {{getWeight(buyerinvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
                 <b-col lg="2" cols="2"
@@ -147,7 +151,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">
-                    {{ buyerinvoice.total_weight }}</span
+                    {{ getWeight(buyerinvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
               </b-row>
@@ -158,7 +162,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">{{
-                    getPriceWithOutCurrency(buyerinvoice.total_amount)
+                    getPriceWithOutCurrency(buyerinvoice.boxes.total_amount)
                   }}</span></b-col
                 >
               </b-row>
@@ -170,7 +174,6 @@
   </div>
 </template>
 <script>
-
 import {
   BModal,
   BCard,

@@ -35,10 +35,12 @@
         </div>
       </b-col>
     </b-row>
-
+    <!-- table -->
     <div class="pt-5"></div>
     <b-card>
       <b-table
+        sort-by="receiving_date"
+        sort-asc="true"
         sticky-header=""
         responsive="sm"
         :items="details"
@@ -46,13 +48,17 @@
         per-page="20"
         :current-page="currentPage"
       >
-      <template #cell(price_rate)="data">
+        <template #cell(price_rate)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
         <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
+        <template #cell(weight)="data">
+          {{ getWeight(data.value) }}
+        </template>
       </b-table>
+      <!-- pagination -->
       <b-row>
         <b-col lg="4"></b-col>
         <b-col lg="8">
@@ -72,6 +78,7 @@
     </b-card>
     <br />
 
+    <!-- totals -->
     <b-container>
       <div class="web_only_view">
         <b-row>
@@ -104,13 +111,14 @@
       <EmailModal title="Send Suplier Bill" />
     </b-modal>
 
+    <!-- invoice pdf -->
     <div>
       <vue-html2pdf
         :show-layout="false"
         :float-layout="true"
         :enable-download="true"
         :preview-modal="true"
-        :paginate-elements-by-height="1400"
+        :paginate-elements-by-height="50000"
         filename="SuplierInvoice"
         :pdf-quality="2"
         :manual-pagination="false"
@@ -144,11 +152,21 @@
           <div class="pt-5 suplierearnings">
             <b-card>
               <b-table
-                sticky-header=""
+                sort-by="receiving_date"
+                sort-asc="true"
                 responsive="sm"
                 :items="details"
                 :fields="fields"
               >
+                <template #cell(price_rate)="data">
+                  {{ getPriceWithOutCurrency(data.value) }}
+                </template>
+                <template #cell(amount)="data">
+                  {{ getPriceWithOutCurrency(data.value) }}
+                </template>
+                <template #cell(weight)="data">
+                  {{ getWeight(data.value) }}
+                </template>
               </b-table>
             </b-card>
             <br />

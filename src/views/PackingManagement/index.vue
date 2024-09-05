@@ -328,7 +328,7 @@ export default {
 
         const res = await this.getBuyers(this.country.id);
         this.buyers = res.data.data;
-       
+
         this.buyer.id = localStorage.getItem("currentSelectedBuyerid");
         this.buyer.code = localStorage.getItem("currentSelectedBuyercode");
 
@@ -482,6 +482,7 @@ export default {
       }
     },
 
+    // search date
     async searchDate(type) {
       if (type === "Packing & Receivings") {
         await this.getAllShipmentsForPackings(true);
@@ -490,6 +491,7 @@ export default {
       }
     },
 
+    // clear search
     async clearSearch(type) {
       if (type === "Packing & Receivings") {
         await this.getAllShipmentsForPackings(false);

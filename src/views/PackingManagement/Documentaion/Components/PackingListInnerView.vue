@@ -51,6 +51,101 @@
         </div>
       </div>
     </div>
+    <div class="buyer_invoice">
+      <div class="invoice_padding">
+        <b-container>
+          <b-card style="border-radius: 12px; box-shadow: 30">
+            <b-container class="margin-card">
+              <div>
+                <b-row>
+                  <b-col lg="3" cols="12">
+                    <span class="inoice_number"> Invoice no </span>
+                    <br /><br />
+                    <span class="ivoice_numbr_value">{{
+                      shipmentdetails.invoice_no
+                    }}</span>
+                  </b-col>
+                  <div></div>
+                  <b-col lg="5" cols="8" class="mobile_paddings">
+                    <span class="inoice_number"> Consignee </span>
+                    <br /><br />
+                    <span class="ivoice_numbr_value">
+                      {{ shipmentdetails.consignee }}</span
+                    >
+                  </b-col>
+
+                  <b-col lg="4" class="mobile_paddings">
+                    <!-- A.W.B -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> A.W.B. </span>
+                          <span class="col ivoice_numbr_value">
+                            {{ shipmentdetails.awb }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> A.W.B. </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ shipmentdetails.awb }}</span
+                      >
+                    </div>
+
+                    <br />
+
+                    <!-- Flight -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number"> Flight </span>
+                          <span class="col ivoice_numbr_value margin_flight">
+                            {{ shipmentdetails.flight }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> Flight </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ shipmentdetails.flight }}</span
+                      >
+                    </div>
+
+                    <br />
+
+                    <!-- ETA -->
+                    <div class="web_only_view">
+                      <div class="row d-flex justify-content">
+                        <div>
+                          <span class="col inoice_number">ETA </span>
+                          <span class="col ivoice_numbr_value margin_eta">
+                            {{ shipmentdetails.eta }}</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mobile_only_view">
+                      <span class="inoice_number"> ETA </span>
+                      <br /><br />
+                      <span class="ivoice_numbr_value">
+                        {{ shipmentdetails.eta }}</span
+                      >
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
+            </b-container>
+          </b-card>
+        </b-container>
+      </div>
+    </div>
     <div class="pt-4">
       <b-card>
         <table class="table table-sm">
@@ -92,7 +187,7 @@
         :enable-download="true"
         :preview-modal="true"
         :paginate-elements-by-height="1400"
-        filename="PackingList"
+        :filename="$route.params.invoice_no + '' + ' PackingList'"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"
@@ -202,6 +297,7 @@ export default {
       selectedItem: {},
       invoice: {},
       boxes: [],
+      shipmentdetails: {},
     };
   },
   async created() {
@@ -226,7 +322,8 @@ export default {
         scale: 0.8,
       });
       const res = await reportApi.buyerPackingList(payload);
-      this.boxes = res.data.data;
+      this.boxes = res.data.data.boxes;
+      this.shipmentdetails = res.data.data.shhipment_details;
       this.$vs.loading.close();
     },
     generate() {

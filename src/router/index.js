@@ -5,6 +5,12 @@ import packingRoute from "./modules/packing_route";
 import pricerateRoute from "./modules/pricerate_route";
 import suplierRoute from "./modules/suplier_route";
 import userRoute from "./modules/user_route";
+import countryRoute from "./modules/country_route";
+import buyerRoute from "./modules/buyer_route";
+import qualityRoute from "./modules/quality_route";
+import gradingRoute from "./modules/gradings_route";
+import seafoodRoute from "./modules/seafood_route";
+import airfreightsRoute from "./modules/airfreights_route";
 
 Vue.use(VueRouter);
 
@@ -20,6 +26,12 @@ const router = new VueRouter({
     ...pricerateRoute,
     ...suplierRoute,
     ...userRoute,
+    ...countryRoute,
+    ...buyerRoute,
+    ...qualityRoute,
+    ...gradingRoute,
+    ...seafoodRoute,
+    ...airfreightsRoute,
   ],
 });
 

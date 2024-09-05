@@ -70,7 +70,7 @@
       "
     >
       <vertical-nav-menu-items
-        :items="navMenuItems"
+        :items="menuItems"
         class="navigation navigation-main"
       />
     </vue-perfect-scrollbar>
@@ -87,7 +87,7 @@ import useAppConfig from "@core/app-config/useAppConfig";
 import { $themeConfig } from "@themeConfig";
 import VerticalNavMenuItems from "./components/vertical-nav-menu-items/VerticalNavMenuItems.vue";
 import useVerticalNavMenu from "./useVerticalNavMenu";
-
+import store from "@/store";
 export default {
   data() {
     return {
@@ -110,16 +110,18 @@ export default {
       required: true,
     },
   },
-  // computed: {
-  //   menuItems() {
-  //     navMenuItems.forEach((value) => {
-  //       if (localStorage.role && value.role === localStorage.role) {
-  //         this.nevItemsArray.push(value);
-  //       }
-  //     });
-  //     return this.nevItemsArray;
-  //   },
-  // },
+  computed: {
+    menuItems() {
+      const { isLogedIn } = store.getters;
+      const { getRole } = store.getters;
+      navMenuItems.forEach((value) => {
+        if (isLogedIn && value.role.includes(getRole) === true) {
+          this.nevItemsArray.push(value);
+        }
+      });
+      return this.nevItemsArray;
+    },
+  },
   setup(props) {
     const {
       isMouseHovered,

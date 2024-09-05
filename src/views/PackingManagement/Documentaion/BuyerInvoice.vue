@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import ViewPrices from "@/views/PriceRateManagement/Components/ViewRates.vue";
 import {
   BModal,
   BCard,
@@ -85,7 +84,6 @@ export default {
   name: "PriceRateTable",
   components: {
     BCard,
-    ViewPrices,
     BModal,
     BImg,
     BButton,

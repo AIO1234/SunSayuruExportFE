@@ -30,7 +30,7 @@
                     <span class="inoice_number"> Consignee </span>
                     <br /><br />
                     <span class="ivoice_numbr_value">
-                      {{ custominvoice.buyer_name }}</span
+                      {{ custominvoice.consignee }}</span
                     >
                   </b-col>
 
@@ -108,7 +108,8 @@
         <div>
           <div class="pt-4">
             <b-table
-              sticky-header=""
+              sort-by="seafoodtype"
+              sort-desc="true"
               responsive="sm"
               :items="custominvoice.boxes.seafoods"
               :fields="fields"
@@ -118,6 +119,9 @@
               </template>
               <template #cell(price_rate)="data">
                 {{ getPriceWithOutCurrency(data.value) }}
+              </template>
+              <template #cell(weight)="data">
+                {{ getWeight(data.value) }}
               </template>
             </b-table>
           </div>
@@ -129,7 +133,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total" style="margin-left: 30px">
-                    {{ custominvoice.boxes.total_weight }}</span
+                    {{getWeight(custominvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
                 <b-col lg="2" cols="2"
@@ -147,7 +151,7 @@
                 >
                 <b-col lg="2" cols="2"
                   ><span class="total ml-1">
-                    {{ custominvoice.boxes.total_weight }}</span
+                    {{ getWeight(custominvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
               </b-row>
@@ -170,7 +174,6 @@
   </div>
 </template>
 <script>
-
 import {
   BModal,
   BCard,
@@ -256,7 +259,5 @@ export default {
       items: [],
     };
   },
-
- 
 };
 </script>

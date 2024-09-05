@@ -236,7 +236,7 @@
                               </b-col>
 
                               <!-- Suplier Name -->
-                              <b-col lg="3">
+                              <b-col lg="4">
                                 <b-form-group
                                   label="Suplier*"
                                   label-class="form_label_class"
@@ -256,8 +256,32 @@
                                       label="name"
                                       :options="supliers"
                                       class="custom-vue-select1"
-                                    />
-
+                                    >
+                                      <template #option="option">
+                                        <div
+                                          style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                          "
+                                        >
+                                          <span>{{ option.name }}</span>
+                                          <span>{{ option.address }}</span>
+                                        </div>
+                                      </template>
+                                      <template #selected-option="option">
+                                        <div
+                                          v-if="
+                                            suplier.suplier === 'Select Suplier'
+                                          "
+                                        >
+                                          {{ suplier.suplier }}
+                                        </div>
+                                        <div v-else>
+                                          {{ suplier.suplier.name }} -
+                                          <b> {{ suplier.suplier.address }}</b>
+                                        </div>
+                                      </template>
+                                    </v-select>
                                     <span class="text-danger">{{
                                       errors[0]
                                     }}</span>
@@ -266,7 +290,7 @@
                               </b-col>
 
                               <!-- Weight -->
-                              <b-col lg="3">
+                              <b-col lg="2">
                                 <b-form-group
                                   label="Weight(kg)*"
                                   label-class="form_label_class"
@@ -501,7 +525,7 @@ export default {
                   id: 1,
                   suplier: "Select Suplier",
                   weight: "Enter Weight",
-                  rate: "Enter Rate",
+                  price_rate: "",
                   recieving_date: "Select Date",
                 },
               ],
@@ -524,6 +548,10 @@ export default {
     await this.allSupliers();
   },
   methods: {
+    // get label
+    getOptionLabel(option) {
+      return `${option.name} - ${option.address}`;
+    },
     //  show current saves boxes
 
     async showBoxes() {
@@ -602,7 +630,7 @@ export default {
         id: seafood.supliers.length + 1,
         suplier: "Select Suplier",
         weight: "Enter Weight",
-        rate: "Enter Rate",
+        price_rate: "",
         recieving_date: "Select Date",
       });
     },
@@ -637,7 +665,7 @@ export default {
             id: 1,
             suplier: "Select Suplier",
             weight: "Enter Weight",
-            rate: "Enter Rate",
+            price_rate: "",
             recieving_date: "Select Date",
           },
         ],
@@ -660,7 +688,7 @@ export default {
                 id: 1,
                 suplier: "Select Suplier",
                 weight: "Enter Weight",
-                rate: "Enter Rate",
+                price_rate: "",
                 recieving_date: "Select Date",
               },
             ],
