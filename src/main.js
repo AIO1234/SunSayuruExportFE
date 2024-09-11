@@ -52,6 +52,7 @@ Vue.component("v-date-picker", DatePicker);
 require("@/assets/scss/style.scss");
 require("@/assets/scss/users.scss");
 require("@/assets/scss/packings.scss");
+require("@/assets/scss/airfreightbills.scss");
 require("@/assets/scss/suplierearnings.scss");
 
 auth_controller.init(router, store);

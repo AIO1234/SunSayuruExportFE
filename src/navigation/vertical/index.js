@@ -4,14 +4,12 @@ export default [
     route: "dashboard",
     icon: "HomeIcon",
     role: ["Super Admin", "Admin", "Staff"],
-
   },
   {
     title: "Users",
     icon: "UsersIcon",
     route: "users",
     role: ["Super Admin", "Admin"],
-
   },
   {
     title: "Packing & receiving",
@@ -68,5 +66,12 @@ export default [
         route: "airfreights",
       },
     ],
+  },
+
+  {
+    title: "Airfreight Bills",
+    route: "airfreightbill",
+    icon: "FileTextIcon",
+    role: ["Super Admin"],
   },
 ];
