@@ -7,7 +7,7 @@
           <b-button
             variant="none"
             class="button_color button_width"
-            @click="$router.push('/suplier_payments_add')"
+            @click="$router.push('/addtional_payments_add')"
           >
             <div class="d-flex justify-content-start">
               <b-img

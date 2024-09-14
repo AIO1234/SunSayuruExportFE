@@ -48,7 +48,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "AirfreightTable",
+  name: "SuplierPaymentsTable",
   components: {
     BFormInput,
     BCard,

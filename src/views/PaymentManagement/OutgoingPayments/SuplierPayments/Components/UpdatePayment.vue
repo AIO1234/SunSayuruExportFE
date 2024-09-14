@@ -15,7 +15,7 @@
             >
           </center>
           <div class="mt-3"></div>
-          <b-form @submit.prevent class="Add_Form">
+          <b-form @submit.prevent class="Edit_Form">
             <validation-observer ref="PaymentCreateValidation">
               <b-row>
                 <!-- Payment ID / Payment No -->
@@ -307,7 +307,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-import SuplierCheckCreate from "./CheckBook/Components/Create.vue";
+import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
 
 import {
   required,
@@ -324,7 +324,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "AddQuality",
+  name: "UpdateSuplierPayment",
   components: {
     BImg,
     BCard,

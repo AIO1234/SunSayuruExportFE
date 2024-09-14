@@ -75,4 +75,65 @@ export default [
       ],
     },
   },
+
+  {
+    path: "/airfreight_payments_edit",
+    name: "airfreight_payments_edit",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/OutgoingPayments/AirfreightPayments/Components/UpdatePayment.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "OutGoing Payments",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: "/addtional_payments_add",
+    name: "addtional_payments_add",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/OutgoingPayments/AdditionalPayments/Components/AddPayment.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "OutGoing Payments",
+          active: true,
+        },
+      ],
+    },
+  },
+
+
+  {
+    path: "/addtional_payments_edit",
+    name: "addtional_payments_edit",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/OutgoingPayments/AdditionalPayments/Components/UpdatePayment.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "OutGoing Payments",
+          active: true,
+        },
+      ],
+    },
+  },
 ];

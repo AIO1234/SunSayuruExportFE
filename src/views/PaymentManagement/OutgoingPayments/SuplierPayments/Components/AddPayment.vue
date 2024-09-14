@@ -247,7 +247,7 @@
                         >
                           <b-form-input
                             placeholder="Enter Amount"
-                            v-model="bill.amount"
+                            v-model="bill.paidamount"
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -318,7 +318,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-import SuplierCheckCreate from "./CheckBook/Components/Create.vue";
+import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
 
 import {
   required,
@@ -336,7 +336,7 @@ import {
 } from "@validations";
 import notification from "@/ApiConstance/toast";
 export default {
-  name: "AddQuality",
+  name: "AddSuplierPayment",
   components: {
     BImg,
     BCard,
@@ -372,7 +372,7 @@ export default {
         {
           billnumber: "Select Invoice",
           status: "Select Status",
-          amount: "",
+          paidamount: "",
         },
       ],
       // bill numbers
@@ -463,6 +463,7 @@ export default {
 
     opencheckmodel() {
       if (this.checknumber.check_no === "Add New") {
+        this.form.check_type = "Supplier_Check";
         this.$refs.createcheckmodal.show();
         this.suplierchecks.push({
           check_no: "A23444",
@@ -485,28 +486,36 @@ export default {
       this.bills.splice(index, 1);
     },
 
-    // automatialyy fills the bill
+    // automatialyy fills the bill paid amount
     fillAmount(index, status, billtotal) {
+      // if status done , amount will be sameas bill value
       if (status.title === "Done") {
-        this.bills[index].amount = billtotal;
-      } else if (status.title === "Continue") {
+        this.bills[index].paidamount = billtotal;
+      }
+      // if status if continue
+      else if (status.title === "Continue") {
         let totamount = 0;
+        // if current index is not 0
         if (index !== 0) {
+          // add all paid amounts until the current index
           for (let i = 0; i < index; i++) {
-            totamount = totamount + this.bills[i].amount;
+            totamount = totamount + this.bills[i].paidamount;
           }
+          // if all paid amounts until the current index is lower  than billvalue
           if (this.form.amount - totamount < billtotal) {
-            this.bills[index].amount = this.form.amount - totamount;
-          } else {
-            notification.toast(
-              "You Have Enough Remining Balance To FullFill This Bill!",
-              "error"
-            );
-            this.bills[index].amount = "";
+            this.bills[index].paidamount = this.form.amount - totamount;
           }
-        } else {
-          this.bills[index].amount = "";
+          // if all paid amounts until the current index is higher  than billvalue else {
+          notification.toast(
+            "You Have Enough Remining Balance To FullFill This Bill!",
+            "error"
+          );
+          this.bills[index].paidamount = "";
         }
+      }
+      // if curent index is not 0
+      else {
+        this.bills[index].paidamount = "";
       }
     },
   },

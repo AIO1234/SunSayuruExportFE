@@ -79,10 +79,10 @@
                   </b-form-group>
                 </b-col>
 
-                <!-- payment method -->
+                <!-- payment currncy -->
                 <b-col lg="12" class="mb-1">
                   <b-form-group
-                    label="Payment Method*"
+                    label="Payment Currency*"
                     label-class="form_label_class"
                   >
                     <validation-Provider
@@ -91,10 +91,10 @@
                       v-slot="{ errors }"
                     >
                       <v-select
-                        v-model="paymentmethod"
+                        v-model="paymentcurrency"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        :options="paymentMethods"
+                        :options="paymentCurrencies"
                       >
                       </v-select>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -106,7 +106,7 @@
                 <b-col
                   lg="12"
                   class="mb-1"
-                  v-if="paymentmethod.title === 'Check'"
+                  v-if="paymentcurrency.title === 'LKR'"
                 >
                   <b-form-group
                     label="Check Number*"
@@ -217,6 +217,13 @@
                           v-slot="{ errors }"
                         >
                           <v-select
+                            @input="
+                              fillAmount(
+                                index,
+                                bill.status,
+                                bill.billnumber.total
+                              )
+                            "
                             v-model="bill.status"
                             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                             label="title"
@@ -228,9 +235,9 @@
                       </b-form-group>
                     </b-col>
                     <!-- amount -->
-                    <b-col lg="4" v-if="bill.status.title === 'Continue'">
+                    <b-col lg="4">
                       <b-form-group
-                        label="Amount*"
+                        label="Paid Amount*"
                         label-class="form_label_class"
                       >
                         <validation-Provider
@@ -240,7 +247,7 @@
                         >
                           <b-form-input
                             placeholder="Enter Amount"
-                            v-model="bill.amount"
+                            v-model="bill.paidamount"
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -272,15 +279,15 @@
 
       <!-- create check modal -->
 
-      <!-- <b-modal
+      <b-modal
         ref="createcheckmodal"
         hide-footer
         title="Add Check"
         title-class="modal_title_color"
         no-close-on-backdrop
       >
-        <SuplierCheckCreate :propForm="form" />
-      </b-modal> -->
+        <AirfreightCheckCreate :propForm="form" />
+      </b-modal>
     </div>
   </div>
 </template>
@@ -311,7 +318,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-// import SuplierCheckCreate from "./CheckBook/Components/Create.vue";
+import AirfreightCheckCreate from "@/views/CheckBook/Components/Create.vue";
 
 import {
   required,
@@ -327,12 +334,13 @@ import {
   alphaDash,
   length,
 } from "@validations";
+import notification from "@/ApiConstance/toast";
 export default {
-  name: "AddQuality",
+  name: "AddAirfreightPayment",
   components: {
     BImg,
     BCard,
-    // SuplierCheckCreate,
+    AirfreightCheckCreate,
     BFormDatepicker,
     BFormRadio,
     BInputGroupAppend,
@@ -364,7 +372,7 @@ export default {
         {
           billnumber: "Select Invoice",
           status: "Select Status",
-          amount: "",
+          paidamount: "",
         },
       ],
       // bill numbers
@@ -390,20 +398,20 @@ export default {
         },
       ],
       // bill statuses
-      paymentMethods: [
+      paymentCurrencies: [
         {
-          title: "Cash",
+          title: "LKR",
           id: 1,
         },
         {
-          title: "Check",
+          title: "USD",
           id: 2,
         },
       ],
       // payent method
-      paymentmethod: {
-        title: "Cash",
-        id: 1,
+      paymentcurrency: {
+        title: "USD",
+        id: 2,
       },
       // suplier checks
       suplierchecks: [
@@ -455,6 +463,7 @@ export default {
 
     opencheckmodel() {
       if (this.checknumber.check_no === "Add New") {
+        this.form.check_type = "Airfreight_Check";
         this.$refs.createcheckmodal.show();
         this.suplierchecks.push({
           check_no: "A23444",
@@ -475,6 +484,39 @@ export default {
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
+    },
+
+    // automatialyy fills the bill paid amount
+    fillAmount(index, status, billtotal) {
+      // if status done , amount will be sameas bill value
+      if (status.title === "Done") {
+        this.bills[index].paidamount = billtotal;
+      }
+      // if status if continue
+      else if (status.title === "Continue") {
+        let totamount = 0;
+        // if current index is not 0
+        if (index !== 0) {
+          // add all paid amounts until the current index
+          for (let i = 0; i < index; i++) {
+            totamount = totamount + this.bills[i].paidamount;
+          }
+          // if all paid amounts until the current index is lower  than billvalue
+          if (this.form.amount - totamount < billtotal) {
+            this.bills[index].paidamount = this.form.amount - totamount;
+          }
+          // if all paid amounts until the current index is higher  than billvalue else {
+          notification.toast(
+            "You Have Enough Remining Balance To FullFill This Bill!",
+            "error"
+          );
+          this.bills[index].paidamount = "";
+        }
+      }
+      // if curent index is not 0
+      else {
+        this.bills[index].paidamount = "";
+      }
     },
   },
 };

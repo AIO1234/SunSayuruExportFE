@@ -81,7 +81,6 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
-import gradingApi from "@/Api/Modules/gradings";
 import {
   required,
   email,
@@ -97,7 +96,7 @@ import {
   length,
 } from "@validations";
 export default {
-  name: "AddGrading",
+  name: "AddCheck",
   components: {
     BCard,
     BFormRadio,
@@ -126,6 +125,7 @@ export default {
   },
   created() {
     this.form.amount = this.propForm.amount;
+    this.form.check_type = this.propForm.check_type;
   },
   data() {
     return {

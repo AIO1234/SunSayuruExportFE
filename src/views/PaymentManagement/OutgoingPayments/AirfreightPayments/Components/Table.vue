@@ -11,7 +11,10 @@
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
-              <b-button variant="flat-none" @click="openUpdateModal(data.item)">
+              <b-button
+                variant="flat-none"
+                @click="$router.push('/airfreight_payments_edit')"
+              >
                 <b-img
                   width="17px"
                   src="@/assets/images/icons/Group 101.png"
@@ -45,7 +48,7 @@ import {
   BContainer,
 } from "bootstrap-vue";
 export default {
-  name: "AirfreightTable",
+  name: "AirfreightPaymentTable",
   components: {
     BFormInput,
     BCard,
