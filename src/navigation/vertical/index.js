@@ -74,4 +74,20 @@ export default [
     icon: "FileTextIcon",
     role: ["Super Admin"],
   },
+
+  {
+    title: "Payments",
+    icon: "DollarSignIcon",
+    role: ["Super Admin"],
+    children: [
+      {
+        title: "Out Going",
+        route: "outgoingpayments",
+      },
+      {
+        title: "Incoming",
+        route: "",
+      },
+    ],
+  },
 ];

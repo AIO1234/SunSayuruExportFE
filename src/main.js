@@ -54,6 +54,7 @@ require("@/assets/scss/users.scss");
 require("@/assets/scss/packings.scss");
 require("@/assets/scss/airfreightbills.scss");
 require("@/assets/scss/suplierearnings.scss");
+require("@/assets/scss/payments.scss");
 
 auth_controller.init(router, store);
 Vue.config.productionTip = false;
