@@ -61,88 +61,12 @@
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
-
-                <!-- Amount  -->
-                <b-col md="12" class="mb-1">
-                  <b-form-group label="Amount*" label-class="form_label_class">
-                    <validation-Provider
-                      name="Amount"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <b-form-input
-                        placeholder="Enter Amount"
-                        v-model="form.amount"
-                      ></b-form-input>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
-                </b-col>
-
-                <!-- payment method -->
-                <b-col lg="12" class="mb-1">
-                  <b-form-group
-                    label="Payment Method*"
-                    label-class="form_label_class"
-                  >
-                    <validation-Provider
-                      name="Payment Method"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <v-select
-                        v-model="paymentmethod"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="title"
-                        :options="paymentMethods"
-                      >
-                      </v-select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
-                </b-col>
-
-                <!-- check number -->
-                <b-col
-                  lg="12"
-                  class="mb-1"
-                  v-if="paymentmethod.title === 'Check'"
-                >
-                  <b-form-group
-                    label="Check Number*"
-                    label-class="form_label_class"
-                  >
-                    <validation-Provider
-                      name="Check Number"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <v-select
-                        v-model="checknumber"
-                        @input="opencheckmodel()"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="check_no"
-                        :options="suplierchecks"
-                      >
-                        <template slot="option" slot-scope="option">
-                          <div
-                            class="d-center"
-                            v-if="option.check_no === 'Add New'"
-                          >
-                            <span class="text-danger font-weight-bold">{{
-                              option.check_no
-                            }}</span>
-                          </div>
-                        </template>
-                      </v-select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
-                </b-col>
-
+                
                 <!-- bill numbers -->
-                <b-col lg="12">
-                  <b-row>
+                <b-col lg="12" class="mt-1">
+                  
+                  <b-row >
+                 
                     <b-col lg="6">
                       <span class="repeater_title">Bill Number/s*</span>
                     </b-col>
@@ -162,7 +86,8 @@
                   <b-row
                     class="mr-1"
                     v-for="(bill, index) in bills"
-                    :key="bill"
+                    :key="bill.id"
+                    :id="bill.id"
                   >
                     <br /><br />
                     <br /><br />
@@ -217,6 +142,10 @@
                           v-slot="{ errors }"
                         >
                           <v-select
+                            v-model="bill.status"
+                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                            label="title"
+                            :options="billstatuses"
                             @input="
                               fillAmount(
                                 index,
@@ -224,10 +153,6 @@
                                 bill.billnumber.total
                               )
                             "
-                            v-model="bill.status"
-                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            label="title"
-                            :options="billstatuses"
                           >
                           </v-select>
                           <span class="text-danger">{{ errors[0] }}</span>
@@ -248,6 +173,7 @@
                           <b-form-input
                             placeholder="Enter Amount"
                             v-model="bill.paidamount"
+                            @input="form.amount = 'Processing.....'"
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -259,6 +185,86 @@
                       </b-button>
                     </b-col>
                   </b-row>
+                </b-col>
+
+                <!-- payment method -->
+                <b-col lg="12" class="mt-2">
+                  <b-form-group
+                    label="Payment Method*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Payment Method"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <v-select
+                        v-model="paymentmethod"
+                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                        label="title"
+                        @input="fializeAmount()"
+                        :options="paymentMethods"
+                      >
+                      </v-select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- Amount  -->
+                <b-col md="12" class="mt-1">
+                  <b-form-group label="Amount*" label-class="form_label_class">
+                    <validation-Provider
+                      name="Amount"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-input
+                        placeholder="Enter Amount"
+                        v-model="form.amount"
+                        readonly
+                      ></b-form-input>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- check number -->
+                <b-col
+                  lg="12"
+                  class="mt-1"
+                  v-if="paymentmethod.title === 'Check'"
+                >
+                  <b-form-group
+                    label="Check Number*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Check Number"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <v-select
+                        v-model="checknumber"
+                        @input="opencheckmodel()"
+                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                        label="check_no"
+                        :options="suplierchecks"
+                      >
+                        <template slot="option" slot-scope="option">
+                          <div
+                            class="d-center"
+                            v-if="option.check_no === 'Add New'"
+                          >
+                            <span class="text-danger font-weight-bold">{{
+                              option.check_no
+                            }}</span>
+                          </div>
+                        </template>
+                      </v-select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
                 </b-col>
                 <!-- button -->
                 <b-col md="12" class="mt-5 pt-2 text-center">
@@ -365,11 +371,14 @@ export default {
   },
   data() {
     return {
-      form: {},
+      form: {
+        amount: 0,
+      },
       nextTodoId: 1,
       // bill repeater
       bills: [
         {
+          id: 1,
           billnumber: "Select Invoice",
           status: "Select Status",
           paidamount: "",
@@ -400,17 +409,17 @@ export default {
       // bill statuses
       paymentMethods: [
         {
-          title: "Cash",
+          title: "Check",
           id: 1,
         },
         {
-          title: "Check",
+          title: "Cash",
           id: 2,
         },
       ],
       // payent method
       paymentmethod: {
-        title: "Cash",
+        title: "Check",
         id: 1,
       },
       // suplier checks
@@ -462,6 +471,9 @@ export default {
     // open  check modal
 
     opencheckmodel() {
+      // finalize bill amount and initialize to final amount
+      this.fializeAmount();
+      // open chcek modal
       if (this.checknumber.check_no === "Add New") {
         this.form.check_type = "Supplier_Check";
         this.$refs.createcheckmodal.show();
@@ -478,12 +490,13 @@ export default {
         id: (this.nextTodoId += this.nextTodoId),
         billnumber: "Select Invoice",
         status: "Select Status",
-        amount: "",
+        paidamount: "",
       });
     },
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
+      this.fializeAmount();
     },
 
     // automatialyy fills the bill paid amount
@@ -492,31 +505,20 @@ export default {
       if (status.title === "Done") {
         this.bills[index].paidamount = billtotal;
       }
-      // if status if continue
-      else if (status.title === "Continue") {
-        let totamount = 0;
-        // if current index is not 0
-        if (index !== 0) {
-          // add all paid amounts until the current index
-          for (let i = 0; i < index; i++) {
-            totamount = totamount + this.bills[i].paidamount;
-          }
-          // if all paid amounts until the current index is lower  than billvalue
-          if (this.form.amount - totamount < billtotal) {
-            this.bills[index].paidamount = this.form.amount - totamount;
-          }
-          // if all paid amounts until the current index is higher  than billvalue else {
-          notification.toast(
-            "You Have Enough Remining Balance To FullFill This Bill!",
-            "error"
-          );
-          this.bills[index].paidamount = "";
-        }
-      }
-      // if curent index is not 0
+      // if status continue , amount must be added
       else {
-        this.bills[index].paidamount = "";
+        this.bills[index].paidamount = 0;
       }
+      this.form.amount = "Processing.....";
+    },
+
+    // finalize bill amount and initialize to final amount
+    fializeAmount() {
+      let total = 0;
+      this.bills.forEach((element) => {
+        total = total + parseFloat(element.paidamount);
+      });
+      this.form.amount = total;
     },
   },
 };

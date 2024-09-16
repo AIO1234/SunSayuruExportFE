@@ -21,15 +21,6 @@
             </div>
           </b-button>
         </div>
-        <br />
-        <br />
-
-        <div class="balance_amount">
-          <span class="text"
-            >Remaining Airfreight Bill Amount :
-            <b class="amount">Rs.500,000.00($2000)</b></span
-          >
-        </div>
 
         <!-- select search -->
         <div class="mt-5"></div>
@@ -83,6 +74,15 @@
           </b-col>
         </b-row>
 
+        <br />
+        <br />
+
+        <div class="balance_amount">
+          <span class="text"
+            >Remaining Airfreight Bill Amount :
+            <b class="amount">Rs.500,000.00($2000)</b></span
+          >
+        </div>
         <!-- table -->
         <AirfreightPaymentTable />
       </div>

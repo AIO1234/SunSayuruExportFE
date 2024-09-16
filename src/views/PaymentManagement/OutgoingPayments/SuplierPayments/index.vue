@@ -6,7 +6,7 @@
         <div class="text-right">
           <b-button
             variant="none"
-            class="button_color button_width "
+            class="button_color button_width"
             @click="$router.push('/suplier_payments_add')"
           >
             <div class="d-flex justify-content-start">
@@ -22,15 +22,6 @@
           </b-button>
         </div>
 
-        <br />
-        <br />
-
-        <div class="balance_amount">
-          <span class="text"
-            >Remaining Supplier Bill Amount :
-            <b class="amount">Rs.500,000.00</b></span
-          >
-        </div>
         <!-- select search -->
         <div class="mt-5"></div>
         <b-row>
@@ -83,6 +74,15 @@
           </b-col>
         </b-row>
 
+        <br />
+        <br />
+        <!-- remaining balance -->
+        <div class="balance_amount">
+          <span class="text"
+            >Remaining Supplier Bill Amount :
+            <b class="amount">Rs.500,000.00</b></span
+          >
+        </div>
         <!-- table -->
         <SuplierPaymentTable />
       </div>

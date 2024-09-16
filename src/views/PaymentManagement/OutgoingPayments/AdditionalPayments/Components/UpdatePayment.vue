@@ -15,7 +15,7 @@
           <b-card>
             <center>
               <b-card-title class="modal_title_color_payment"
-                >Update Additionl payments</b-card-title
+                >Update Additional payments</b-card-title
               >
             </center>
             <div class="mt-3"></div>
