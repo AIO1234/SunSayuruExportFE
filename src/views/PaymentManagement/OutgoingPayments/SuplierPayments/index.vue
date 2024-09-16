@@ -54,7 +54,7 @@
               </template> </v-date-picker
           ></b-col>
           <b-col lg="4">
-            <v-date-picker v-model="startdate" is-required>
+            <v-date-picker v-model="enddate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
                 <b-input-group
                   class="input-group-merge form_input_styles_group"
@@ -66,7 +66,7 @@
                     class="bg-white border px-2 py-1 rounded form_input_styles_date"
                     :value="inputValue"
                     v-on="inputEvents"
-                    placeholder="Start Date"
+                    placeholder="End Date"
                   ></b-form-input>
                 </b-input-group>
               </template>

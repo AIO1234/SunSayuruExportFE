@@ -116,7 +116,6 @@ export default [
     },
   },
 
-
   {
     path: "/addtional_payments_edit",
     name: "addtional_payments_edit",
@@ -131,6 +130,26 @@ export default [
       breadcrumb: [
         {
           text: "OutGoing Payments",
+          active: true,
+        },
+      ],
+    },
+  },
+
+  {
+    path: "/incomming_payments",
+    name: "incomming_payments",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/IncommingPayments/index.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "Incomming Payments",
           active: true,
         },
       ],

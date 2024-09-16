@@ -86,7 +86,7 @@ export default [
       },
       {
         title: "Incoming",
-        route: "",
+        route: "incomming_payments",
       },
     ],
   },

@@ -175,7 +175,6 @@ export default {
     // close edit modal
     async closeModal() {
       this.$refs.UpdateModal.hide();
-      await this.getAllAirfreights();
     },
   },
 };

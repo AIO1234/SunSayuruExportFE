@@ -174,13 +174,12 @@ export default {
     // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();
-      this.selectedAirfreight = item;
+      this.selectedPayment = item;
     },
 
     // close edit modal
     async closeModal() {
       this.$refs.UpdateModal.hide();
-      await this.getAllAirfreights();
     },
   },
 };
