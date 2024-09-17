@@ -33,7 +33,7 @@
                 >
                   <b-form-input
                     placeholder="Enter Amount"
-                    v-model="form.amount"
+                    v-model="form.lkramount"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -124,7 +124,7 @@ export default {
     propForm: Object,
   },
   created() {
-    this.form.amount = this.propForm.amount;
+    this.form.lkramount = this.propForm.lkramount;
     this.form.check_type = this.propForm.check_type;
   },
   data() {

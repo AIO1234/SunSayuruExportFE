@@ -13,7 +13,7 @@
             <b-col lg="4">
               <b-button
                 variant="flat-none"
-                @click="$router.push('/suplier_payments_update')"
+                @click="$router.push('/buyer_payments_update')"
               >
                 <b-img
                   width="17px"

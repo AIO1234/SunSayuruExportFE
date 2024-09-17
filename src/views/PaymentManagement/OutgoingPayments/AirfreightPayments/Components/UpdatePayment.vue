@@ -61,6 +61,28 @@
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
+                <!-- payment curency -->
+                <b-col lg="12" class="mt-1">
+                  <b-form-group
+                    label="Payment Currency*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Payment Currency"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <v-select
+                        v-model="paymentcurrency"
+                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                        label="title"
+                        :options="paymentCurrencies"
+                      >
+                      </v-select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
 
                 <!-- bill numbers -->
                 <b-col lg="12" class="mt-1">
@@ -185,30 +207,6 @@
                   </b-row>
                 </b-col>
 
-                <!-- payment method -->
-                <b-col lg="12" class="mt-1">
-                  <b-form-group
-                    label="Payment Method*"
-                    label-class="form_label_class"
-                  >
-                    <validation-Provider
-                      name="Payment Method"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <v-select
-                        v-model="paymentmethod"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="title"
-                        @input="fializeAmount()"
-                        :options="paymentMethods"
-                      >
-                      </v-select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
-                </b-col>
-
                 <!-- Amount  -->
                 <b-col md="12" class="mt-1">
                   <b-form-group label="Amount*" label-class="form_label_class">
@@ -231,7 +229,7 @@
                 <b-col
                   lg="12"
                   class="mt-1"
-                  v-if="paymentmethod.title === 'Check'"
+                  v-if="paymentcurrency.title === 'LKR'"
                 >
                   <b-form-group
                     label="Check Number*"
@@ -404,21 +402,21 @@ export default {
           title: "Done",
         },
       ],
-      // bill statuses
-      paymentMethods: [
+      // paymenr currencies
+      paymentCurrencies: [
         {
-          title: "Check",
+          title: "USD",
           id: 1,
         },
         {
-          title: "Cash",
+          title: "LKR",
           id: 2,
         },
       ],
-      // payent method
-      paymentmethod: {
-        title: "Check",
-        id: 1,
+      // payent currency
+      paymentcurrency: {
+        title: "LKR",
+        id: 2,
       },
       // suplier checks
       suplierchecks: [

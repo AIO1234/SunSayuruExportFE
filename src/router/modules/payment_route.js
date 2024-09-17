@@ -155,4 +155,46 @@ export default [
       ],
     },
   },
+
+
+  {
+    path: "/buyer_payments_add",
+    name: "buyer_payments_add",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/IncommingPayments/Components/AddPayment.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "Incomming Payments",
+          active: true,
+        },
+      ],
+    },
+  },
+
+
+  {
+    path: "/buyer_payments_update",
+    name: "buyer_payments_update",
+    component: () =>
+      import(
+        "@/views/PaymentManagement/IncommingPayments/Components/EditPayment.vue"
+      ),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Manage Payments",
+      breadcrumb: [
+        {
+          text: "Incomming Payments",
+          active: true,
+        },
+      ],
+    },
+  },
 ];
