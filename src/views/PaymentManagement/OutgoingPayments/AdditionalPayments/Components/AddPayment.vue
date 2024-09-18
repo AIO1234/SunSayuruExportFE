@@ -92,7 +92,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.amount"
+                        v-model="form.lkramount"
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
@@ -142,7 +142,7 @@
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="check_no"
-                        :options="suplierchecks"
+                        :options="aditionalchecks"
                       >
                         <template slot="option" slot-scope="option">
                           <div
@@ -191,6 +191,20 @@
       >
         <AdditionalCheckCreate :propForm="form" />
       </b-modal>
+
+      <!-- check create alert -->
+
+      <b-modal
+        ref="checkalert"
+        hide-footer
+        title-class="modal_title_color"
+        no-close-on-backdrop
+      >
+        <SuplierCheckAlert
+          @chceckReplaceStatus="chceckReplaceStatus"
+          @hideCheckeplaceModal="hideCheckeplaceModal"
+        />
+      </b-modal>
     </div>
   </div>
 </template>
@@ -222,6 +236,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import AdditionalCheckCreate from "@/views/CheckBook/Components/Create.vue";
+import SuplierCheckAlert from "@/Components/AddCheckAlert.vue";
 
 import {
   required,
@@ -237,11 +252,11 @@ import {
   alphaDash,
   length,
 } from "@validations";
-import notification from "@/ApiConstance/toast";
 export default {
   name: "AddAdditionalPayment",
   components: {
     BImg,
+    SuplierCheckAlert,
     BCard,
     AdditionalCheckCreate,
     BFormDatepicker,
@@ -317,7 +332,7 @@ export default {
         id: 1,
       },
       // suplier checks
-      suplierchecks: [
+      aditionalchecks: [
         {
           check_no: "Add New",
         },
@@ -365,28 +380,37 @@ export default {
     // open  check modal
 
     opencheckmodel() {
+      // open chcek modal
       if (this.checknumber.check_no === "Add New") {
-        this.form.check_type = "Additional_Check";
-        this.$refs.createcheckmodal.show();
-        this.suplierchecks.push({
-          check_no: "A23444",
-          id: 1,
-        });
-        this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+        // if check is already created
+        if (this.aditionalchecks.length > 1) {
+          this.$refs.checkalert.show();
+        } else {
+          // if check is not already created
+          this.form.check_type = "Airfreight_Check";
+          this.$refs.createcheckmodal.show();
+          this.aditionalchecks.push({
+            check_no: "A23444",
+            id: 1,
+          });
+          this.checknumber =
+            this.aditionalchecks[this.aditionalchecks.length - 1];
+        }
       }
     },
-    // repeat bill
-    repeatBill() {
-      this.bills.push({
-        id: (this.nextTodoId += this.nextTodoId),
-        billnumber: "Select Invoice",
-        status: "Select Status",
-        amount: "",
-      });
+
+    // get check replace status
+    chceckReplaceStatus() {
+      this.$refs.checkalert.hide();
+      this.checknumber = this.aditionalchecks[this.aditionalchecks.length - 1];
+      this.form.check_type = "Additional_Check";
+      this.form.check_no = this.checknumber.check_no;
+      this.$refs.createcheckmodal.show();
     },
-    // remove bill
-    removeItem(index) {
-      this.bills.splice(index, 1);
+
+    //hide check replace modal
+    hideCheckeplaceModal() {
+      this.$refs.checkalert.hide();
     },
   },
 };

@@ -171,7 +171,7 @@
                           <b-form-input
                             placeholder="Enter Amount"
                             v-model="bill.paidamount"
-                            @input="form.amount = 'Processing.....'"
+                            @input="form.lkramount = 'Processing.....'"
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -186,7 +186,7 @@
                 </b-col>
 
                 <!-- payment method -->
-                <b-col lg="12" class="mt-1">
+                <b-col lg="12" class="mt-2">
                   <b-form-group
                     label="Payment Method*"
                     label-class="form_label_class"
@@ -219,7 +219,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.amount"
+                        v-model="form.lkramount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -292,6 +292,20 @@
       >
         <SuplierCheckCreate :propForm="form" />
       </b-modal>
+
+      <!-- check create alert -->
+
+      <b-modal
+        ref="checkalert"
+        hide-footer
+        title-class="modal_title_color"
+        no-close-on-backdrop
+      >
+        <SuplierCheckAlert
+          @chceckReplaceStatus="chceckReplaceStatus"
+          @hideCheckeplaceModal="hideCheckeplaceModal"
+        />
+      </b-modal>
     </div>
   </div>
 </template>
@@ -323,6 +337,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
+import SuplierCheckAlert from "@/Components/AddCheckAlert.vue";
 
 import {
   required,
@@ -338,10 +353,11 @@ import {
   alphaDash,
   length,
 } from "@validations";
-
+import notification from "@/ApiConstance/toast";
 export default {
-  name: "UpdateSuplierPayment",
+  name: "AddSuplierPayment",
   components: {
+    SuplierCheckAlert,
     BImg,
     BCard,
     SuplierCheckCreate,
@@ -370,7 +386,7 @@ export default {
   data() {
     return {
       form: {
-        amount: 0,
+        lkramount: 0,
       },
       nextTodoId: 1,
       // bill repeater
@@ -451,7 +467,7 @@ export default {
   methods: {
     // create payment
     async validationPaymentUpdateForm() {
-      // if (await this.$refs.PaymentCreateValidation.validate()) {
+      // if (await this.$refs.PaymentUpdateValidation.validate()) {
       //   await this.$vs.loading({
       //     scale: 0.8,
       //   });
@@ -473,14 +489,34 @@ export default {
       this.fializeAmount();
       // open chcek modal
       if (this.checknumber.check_no === "Add New") {
-        this.form.check_type = "Supplier_Check";
-        this.$refs.createcheckmodal.show();
-        this.suplierchecks.push({
-          check_no: "A23444",
-          id: 1,
-        });
-        this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+        // if check is already created
+        if (this.suplierchecks.length > 1) {
+          this.$refs.checkalert.show();
+        } else {
+          // if check is not already created
+          this.form.check_type = "Supplier_Check";
+          this.$refs.createcheckmodal.show();
+          this.suplierchecks.push({
+            check_no: "A23444",
+            id: 1,
+          });
+          this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+        }
       }
+    },
+
+    // get check replace status
+    chceckReplaceStatus() {
+      this.$refs.checkalert.hide();
+      this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+      this.form.check_type = "Supplier_Check";
+      this.form.check_no = this.checknumber.check_no;
+      this.$refs.createcheckmodal.show();
+    },
+
+    //hide check replace modal
+    hideCheckeplaceModal() {
+      this.$refs.checkalert.hide();
     },
     // repeat bill
     repeatBill() {
@@ -507,7 +543,7 @@ export default {
       else {
         this.bills[index].paidamount = 0;
       }
-      this.form.amount = "Processing.....";
+      this.form.lkramount = "Processing.....";
     },
 
     // finalize bill amount and initialize to final amount
@@ -516,7 +552,7 @@ export default {
       this.bills.forEach((element) => {
         total = total + parseFloat(element.paidamount);
       });
-      this.form.amount = total;
+      this.form.lkramount = total;
     },
   },
 };

@@ -124,8 +124,7 @@ export default {
     propForm: Object,
   },
   created() {
-    this.form.lkramount = this.propForm.lkramount;
-    this.form.check_type = this.propForm.check_type;
+    this.initializeData();
   },
   data() {
     return {
@@ -148,6 +147,14 @@ export default {
   },
   methods: {
     async validationCheckCreateForm() {},
+
+    initializeData() {
+      this.form.lkramount = this.propForm.lkramount;
+      this.form.check_type = this.propForm.check_type;
+      if (this.propForm.check_no) {
+        this.form.check_no = this.propForm.check_no;
+      }
+    },
   },
 };
 </script>

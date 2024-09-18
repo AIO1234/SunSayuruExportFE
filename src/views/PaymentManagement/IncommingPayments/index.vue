@@ -80,7 +80,7 @@
         <div class="balance_amount">
           <span class="text"
             >Remaining Buyer Bill Amount :
-            <b class="amount">Rs.500,000.00($.5000.00)</b></span
+            <b class="amount">$.5000.00</b></span
           >
         </div>
         <!-- table -->

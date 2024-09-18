@@ -61,7 +61,8 @@
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
-                <!-- payment curency -->
+
+                <!-- payment currency -->
                 <b-col lg="12" class="mt-1">
                   <b-form-group
                     label="Payment Currency*"
@@ -76,6 +77,7 @@
                         v-model="paymentcurrency"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
+                        @input="finalizeAmount()"
                         :options="paymentCurrencies"
                       >
                       </v-select>
@@ -193,7 +195,10 @@
                           <b-form-input
                             placeholder="Enter Amount"
                             v-model="bill.paidamount"
-                            @input="form.amount = 'Processing.....'"
+                            @input="
+                              form.lkramount = 'Processing.....';
+                              form.usdamount = 'Processing.....';
+                            "
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -207,17 +212,41 @@
                   </b-row>
                 </b-col>
 
-                <!-- Amount  -->
+                <!--Lkr  Amount  -->
                 <b-col md="12" class="mt-1">
-                  <b-form-group label="Amount*" label-class="form_label_class">
+                  <b-form-group
+                    label="Amount(LKR)*"
+                    label-class="form_label_class"
+                  >
                     <validation-Provider
-                      name="Amount"
+                      name="Amount(LKR)"
                       rules="required"
                       v-slot="{ errors }"
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.amount"
+                        v-model="form.lkramount"
+                        readonly
+                      ></b-form-input>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- Usd Amount  -->
+                <b-col md="12" class="mt-1">
+                  <b-form-group
+                    label="Amount(USD)*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Amount(USD)"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-input
+                        placeholder="Enter Amount"
+                        v-model="form.usdamount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -245,7 +274,7 @@
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="check_no"
-                        :options="suplierchecks"
+                        :options="airfreightchecks"
                       >
                         <template slot="option" slot-scope="option">
                           <div
@@ -262,6 +291,18 @@
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
+
+                <!-- process button -->
+                <b-col
+                  lg="12"
+                  class="mt-1"
+                  v-if="paymentcurrency.title === 'USD'"
+                >
+                  <b-button variant="primary" @click="finalizeAmount()"
+                    >Process Full Amount</b-button
+                  >
+                </b-col>
+
                 <!-- button -->
                 <b-col md="12" class="mt-5 pt-2 text-center">
                   <b-button
@@ -289,6 +330,20 @@
         no-close-on-backdrop
       >
         <AirfreightCheckCreate :propForm="form" />
+      </b-modal>
+
+      <!-- check create alert -->
+
+      <b-modal
+        ref="checkalert"
+        hide-footer
+        title-class="modal_title_color"
+        no-close-on-backdrop
+      >
+        <SuplierCheckAlert
+          @chceckReplaceStatus="chceckReplaceStatus"
+          @hideCheckeplaceModal="hideCheckeplaceModal"
+        />
       </b-modal>
     </div>
   </div>
@@ -321,6 +376,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import AirfreightCheckCreate from "@/views/CheckBook/Components/Create.vue";
+import SuplierCheckAlert from "@/Components/AddCheckAlert.vue";
 
 import {
   required,
@@ -336,10 +392,10 @@ import {
   alphaDash,
   length,
 } from "@validations";
-import notification from "@/ApiConstance/toast";
 export default {
-  name: "UpdateAirfreightPayment",
+  name: "AddAirfreightPayment",
   components: {
+    SuplierCheckAlert,
     BImg,
     BCard,
     AirfreightCheckCreate,
@@ -368,7 +424,8 @@ export default {
   data() {
     return {
       form: {
-        amount: 0,
+        usdamount: 0,
+        lkramount: 0,
       },
       nextTodoId: 1,
       // bill repeater
@@ -419,7 +476,7 @@ export default {
         id: 2,
       },
       // suplier checks
-      suplierchecks: [
+      airfreightchecks: [
         {
           check_no: "Add New",
         },
@@ -468,18 +525,41 @@ export default {
 
     opencheckmodel() {
       // finalize bill amount and initialize to final amount
-      this.fializeAmount();
+      this.finalizeAmount();
       // open chcek modal
       if (this.checknumber.check_no === "Add New") {
-        this.form.check_type = "Airfreight_Check";
-        this.$refs.createcheckmodal.show();
-        this.suplierchecks.push({
-          check_no: "A23444",
-          id: 1,
-        });
-        this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+        // if check is already created
+        if (this.airfreightchecks.length > 1) {
+          this.$refs.checkalert.show();
+        } else {
+          // if check is not already created
+          this.form.check_type = "Airfreight_Check";
+          this.$refs.createcheckmodal.show();
+          this.airfreightchecks.push({
+            check_no: "A23444",
+            id: 1,
+          });
+          this.checknumber =
+            this.airfreightchecks[this.airfreightchecks.length - 1];
+        }
       }
     },
+
+    // get check replace status
+    chceckReplaceStatus() {
+      this.$refs.checkalert.hide();
+      this.checknumber =
+        this.airfreightchecks[this.airfreightchecks.length - 1];
+      this.form.check_type = "Supplier_Check";
+      this.form.check_no = this.checknumber.check_no;
+      this.$refs.createcheckmodal.show();
+    },
+
+    //hide check replace modal
+    hideCheckeplaceModal() {
+      this.$refs.checkalert.hide();
+    },
+
     // repeat bill
     repeatBill() {
       this.bills.push({
@@ -492,7 +572,7 @@ export default {
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
-      this.fializeAmount();
+      this.finalizeAmount();
     },
 
     // automatialyy fills the bill paid amount
@@ -505,16 +585,23 @@ export default {
       else {
         this.bills[index].paidamount = 0;
       }
-      this.form.amount = "Processing.....";
+      this.form.lkramount = "Processing.....";
+      this.form.usdamount = "Processing.....";
     },
 
     // finalize bill amount and initialize to final amount
-    fializeAmount() {
+    finalizeAmount() {
       let total = 0;
       this.bills.forEach((element) => {
         total = total + parseFloat(element.paidamount);
       });
-      this.form.amount = total;
+      if (this.paymentcurrency.title === "USD") {
+        this.form.usdamount = total;
+        this.form.lkramount = total * 302.08;
+      } else if (this.paymentcurrency.title === "LKR") {
+        this.form.usdamount = total / 302.08;
+        this.form.lkramount = total;
+      }
     },
   },
 };

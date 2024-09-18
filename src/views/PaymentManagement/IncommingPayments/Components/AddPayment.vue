@@ -63,7 +63,7 @@
                 </b-col>
 
                 <!-- Converting rate -->
-                <b-col md="12" class="mb-1">
+                <b-col md="12" class="mt-1">
                   <b-form-group
                     label="Converting rate*"
                     label-class="form_label_class"
@@ -109,7 +109,7 @@
                 <div class="mt-3"></div>
                 <span></span>
                 <!--country  repeater form -->
-                <b-col lg="12">
+                <b-col lg="12" class="mt-2">
                   <b-card
                     class="repeater_body"
                     v-for="(country, countryindex) in countries"
@@ -318,43 +318,13 @@
                   </b-form-group>
                 </b-col>
 
-                <!-- check number -->
-                <b-col
-                  lg="12"
-                  class="mt-1"
-                  v-if="paymentcurrency.title === 'LKR'"
-                >
-                  <b-form-group
-                    label="Check Number*"
-                    label-class="form_label_class"
+                <!-- process button -->
+                <b-col lg="12" class="mt-1">
+                  <b-button variant="primary" @click="finalizeAmount()"
+                    >Process Full Amount</b-button
                   >
-                    <validation-Provider
-                      name="Check Number"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <v-select
-                        v-model="checknumber"
-                        @input="opencheckmodel()"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="check_no"
-                        :options="suplierchecks"
-                      >
-                        <template slot="option" slot-scope="option">
-                          <div
-                            class="d-center"
-                            v-if="option.check_no === 'Add New'"
-                          >
-                            <span class="text-danger font-weight-bold">{{
-                              option.check_no
-                            }}</span>
-                          </div>
-                        </template>
-                      </v-select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
                 </b-col>
+
                 <!-- button -->
                 <b-col md="12" class="mt-5 pt-2 text-center">
                   <b-button
@@ -546,8 +516,8 @@ export default {
       ],
       // payent currency
       paymentcurrency: {
-        title: "LKR",
-        id: 2,
+        title: "USD",
+        id: 1,
       },
       // suplier checks
       suplierchecks: [
@@ -645,7 +615,7 @@ export default {
       }
       // if status continue , amount must be added
       else {
-        bills[index].paidamount = billtotal;
+        bills[index].paidamount = 0;
       }
 
       this.form.lkramount = "Processing.....";

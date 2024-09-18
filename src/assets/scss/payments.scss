@@ -365,14 +365,42 @@
           text-align: left;
           color: #444444;
         }
-        .repeater_add_buton {
-          font-family: Urbanist;
-          font-size: 14px;
-          font-weight: 700;
-          line-height: 19.6px;
-          text-align: right;
-          color: #0071be;
-          text-decoration: underline;
+        .repeater_remove_buton {
+          background-color: #e76a00;
+          width: 160px;
+          border-radius: 8px;
+          .text {
+            font-family: "Urbanist", sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 19.6px;
+            text-align: right;
+            color: #ffffff;
+          }
+        }
+        .repeater_body {
+          background-color: #edf8ff;
+          .repeater_add_bill_buton {
+            background-color: #1775b5;
+            width: 160px;
+            border-radius: 8px;
+            .text {
+              font-family: "Urbanist", sans-serif;
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 19.6px;
+              text-align: right;
+              color: #ffffff;
+            }
+          }
+          .form_input {
+            border-radius: 5px;
+            border: 0.1px solid #0071be;
+            background-color: #edf8ff;
+          }
+          .country {
+            width: 30.8%;
+          }
         }
       }
     }
