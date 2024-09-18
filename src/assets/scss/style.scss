@@ -51,6 +51,9 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .form_input_styles_date::placeholder {
   color: #0052ba;
 }
+.form_input_styles_date_1::placeholder {
+  color: #0052ba;
+}
 .form_input_styles_group {
   border-radius: 5px;
   border: 0.1px solid #0052ba;
@@ -251,5 +254,20 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   .text {
     color: white;
     font-family: "Lato", sans-serif;
+  }
+}
+.download_button {
+  background-color: #fc5e05;
+  width: 190px;
+  height: 40px;
+  border-radius: 8px;
+  .download_button_color {
+    font-family: "Urbanist", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #ffffff;
   }
 }

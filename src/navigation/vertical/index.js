@@ -90,4 +90,20 @@ export default [
       },
     ],
   },
+
+  {
+    title: "Reports",
+    icon: "BarChartIcon",
+    role: ["Super Admin"],
+    children: [
+      {
+        title: "Shipment Wise",
+        route: "shipment_profit",
+      },
+      {
+        title: "Monthly Wise",
+        route: "monthly_profit",
+      },
+    ],
+  },
 ];
