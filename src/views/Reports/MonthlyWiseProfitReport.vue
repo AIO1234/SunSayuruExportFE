@@ -17,6 +17,10 @@
       </b-col>
 
       <b-col lg="4" class="text-right">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <v-select
           class="year_selection"
           v-model="year"
@@ -27,6 +31,10 @@
         </v-select>
       </b-col>
       <b-col lg="4" class="text-right">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <b-button variant="none" class="download_button"
           ><span class="download_button_color">Download</span></b-button
         >

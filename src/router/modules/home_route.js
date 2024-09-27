@@ -9,7 +9,7 @@ export default [
       pageTitle: "Home",
       breadcrumb: [
         {
-          text: "Home",
+          text: "Dashboard",
           active: true,
         },
       ],

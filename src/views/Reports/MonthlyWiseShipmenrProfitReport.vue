@@ -15,6 +15,10 @@
     <div class="mt-5"></div>
     <b-row>
       <b-col lg="3" cols="12">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <b-input-group class="input-group-merge form_input_styles_group">
           <b-input-group-prepend is-text>
             <feather-icon class="search_icon_color" icon="SearchIcon" />
@@ -27,6 +31,10 @@
         </b-input-group>
       </b-col>
       <b-col lg="3">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <v-date-picker v-model="startdate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
@@ -43,6 +51,10 @@
           </template> </v-date-picker
       ></b-col>
       <b-col lg="3">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <v-date-picker v-model="enddate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
@@ -61,6 +73,10 @@
       </b-col>
 
       <b-col lg="3" class="text-right">
+        <!-- space only for mobile -->
+        <div class="mobile_only_view">
+          <div class="mt-2"></div>
+        </div>
         <b-button variant="none" class="download_button"
           ><span class="download_button_color">Download</span></b-button
         >
