@@ -65,4 +65,10 @@
     margin-top: 5px;
     background-color: #801818;
   }
+  .padding_year {
+    padding-left: 20px;
+    @media (max-width: 768px) {
+      padding-left: 0px;
+    }
+  }
 }

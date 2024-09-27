@@ -38,8 +38,9 @@
             >
             </v-select>
           </b-col>
+
           <!-- year selection -->
-          <b-col lg="2" cols="12">
+          <b-col lg="2" cols="12" class="padding_year">
             <!-- space only for mobile -->
             <div class="mobile_only_view">
               <div class="mt-1"></div>
