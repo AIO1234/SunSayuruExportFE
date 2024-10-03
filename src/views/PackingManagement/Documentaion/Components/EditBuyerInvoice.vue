@@ -23,6 +23,24 @@
           </b-col>
 
           <b-col lg="6" class="pt-2">
+            <b-form-group
+              label="Converting Rate*"
+              label-class="form_label_class"
+            >
+              <validation-Provider
+                name="Converting Rate"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <b-form-input
+                  placeholder="Enter Converting Rate"
+                  v-model="form.converting_rate"
+                ></b-form-input>
+                <span class="text-danger">{{ errors[0] }}</span>
+              </validation-Provider>
+            </b-form-group>
+          </b-col>
+          <b-col lg="6" class="pt-2">
             <b-form-group label="AWB*" label-class="form_label_class">
               <validation-Provider
                 name="AWB"
@@ -54,7 +72,7 @@
             </b-form-group>
           </b-col>
 
-          <b-col lg="6" class="pt-2">
+          <b-col lg="12" class="pt-2">
             <b-form-group label="ETA*" label-class="form_label_class">
               <validation-Provider
                 name="ETA"

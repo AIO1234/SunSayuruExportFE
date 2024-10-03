@@ -3,18 +3,64 @@
     <validation-observer ref="additionalValidation" #default="{ invalid }">
       <br />
       <h2 class="shipment_create_header">Airfreight Cost</h2>
-
-      <b-form-group label="Airfreight Cost*" label-class="form_label_class">
-        <validation-Provider name="Airfreight Cost" v-slot="{ errors }">
-          <b-form-input
-            type="number"
-            step="0.01"
-            placeholder="Enter Airfreight Cost"
-            v-model="form.airfreight_cost"
-          ></b-form-input>
-          <span class="text-danger">{{ errors[0] }}</span>
-        </validation-Provider>
-      </b-form-group>
+      <br /><br />
+      <b-row>
+        <b-col lg="3">
+          <b-form-group
+            label="Airfreight Company*"
+            label-class="form_label_class"
+          >
+            <validation-Provider name="Airfreight Company" v-slot="{ errors }">
+              <v-select
+                v-model="airfreight_company"
+                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                label="Airfreight Company"
+                :options="airefreightcompanies"
+                class="airfeight_select"
+              />
+              <span class="text-danger">{{ errors[0] }}</span>
+            </validation-Provider>
+          </b-form-group>
+        </b-col>
+        <b-col lg="3">
+          <b-form-group label="Converting Rate*" label-class="form_label_class">
+            <validation-Provider name="Converting Rate" v-slot="{ errors }">
+              <b-form-input
+                type="number"
+                placeholder="Enter Converting Rate"
+                v-model="form.airfreight_rate"
+              ></b-form-input>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </validation-Provider>
+          </b-form-group>
+        </b-col>
+        <b-col lg="3">
+          <b-form-group label="Airfreight Cost(USD)*" label-class="form_label_class">
+            <validation-Provider name="Airfreight Cost" v-slot="{ errors }">
+              <b-form-input
+                type="number"
+                step="0.01"
+                placeholder="Enter Airfreight Cost"
+                v-model="form.usd_airfreight_cost"
+              ></b-form-input>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </validation-Provider>
+          </b-form-group>
+        </b-col>
+        <b-col lg="3">
+          <b-form-group label="Lkr Airfreight Cost(LKR)*" label-class="form_label_class">
+            <validation-Provider name="Airfreight Cost" v-slot="{ errors }">
+              <b-form-input
+                type="number"
+                step="0.01"
+                placeholder="Enter Airfreight Cost"
+                v-model="form.lkr_airfreight_cost"
+              ></b-form-input>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </validation-Provider>
+          </b-form-group>
+        </b-col>
+      </b-row>
       <br /><br />
       <h2 class="shipment_create_header">Additional cost</h2>
       <br /><br />
@@ -150,6 +196,8 @@ export default {
           prevHeight: 0,
         },
       ],
+      airefreightcompanies: [],
+      airfreight_company: {},
     };
   },
   components: {
@@ -234,3 +282,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.airfeight_select {
+  border-color: #ffffff;
+  background-color: white;
+  @media (max-width: 600px) {
+    width: 180px;
+  }
+}
+</style>
