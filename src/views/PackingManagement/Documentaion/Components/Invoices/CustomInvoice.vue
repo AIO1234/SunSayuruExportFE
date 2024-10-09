@@ -129,15 +129,15 @@
             <div class="web_only_view">
               <b-row>
                 <b-col lg="8" cols="8"
-                  ><span class="total ml-1">Total</span></b-col
+                  ><span class="total ml-0">Total</span></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total" style="margin-left: 30px">
+                  ><span class="total" style="margin-left: 10px">
                     {{getWeight(custominvoice.boxes.total_weight) }}</span
                   ></b-col
                 >
                 <b-col lg="2" cols="2"
-                  ><span class="total ml-1">{{
+                  ><span class="total ml-0">{{
                     getPriceWithOutCurrency(custominvoice.boxes.total_amount)
                   }}</span>
                 </b-col>
