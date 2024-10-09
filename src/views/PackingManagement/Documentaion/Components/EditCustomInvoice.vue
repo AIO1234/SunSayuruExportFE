@@ -211,7 +211,7 @@
         @click="repeateAgain()"
         class="form_submit_button"
       >
-        <span class="button_text_styles">Add cost</span>
+        <span class="button_text_styles">Add</span>
       </b-button>
     </div>
     <div class="d-flex justify-content-end pt-3">
