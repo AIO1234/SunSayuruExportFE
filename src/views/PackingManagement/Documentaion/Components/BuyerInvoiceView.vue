@@ -75,6 +75,7 @@
           <!-- buyer invoice -->
           <div class="buyer_invoice">
             <div class="mt-0">
+              <!-- header details -->
               <div class="text-center">
                 <h2 class="invoice_heading">
                   SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.
@@ -88,7 +89,9 @@
                   <span class="cost_sheet">Invoice</span>
                 </div>
               </div>
-              <div class="mt-0 mr-3 ml-4">
+
+              <!-- sub details -->
+              <div class="mt-0">
                 <b-container>
                   <b-card style="border-radius: 12px; box-shadow: 30">
                     <b-container class="margin-card">
@@ -189,7 +192,8 @@
                   </b-card>
                 </b-container>
 
-                <div style="margin-top: -33px">
+                <!-- table details -->
+                <div style="margin-top: -33px" class="mt-0 mr-3 ml-4">
                   <div class="pt-0">
                     <!-- table -->
                     <table class="table table-sm" sortable>
@@ -259,7 +263,7 @@
                           ></b-col
                         >
                         <b-col lg="2" cols="2"
-                          ><span class="total" style="padding-right:10px">{{
+                          ><span class="total" style="padding-right: 10px">{{
                             getPriceWithOutCurrency(
                               buyerinvoice.boxes.total_amount
                             )
