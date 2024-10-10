@@ -185,6 +185,9 @@
                   class="input_background"
                   placeholder="Enter Weight"
                   v-model="seafood.weight"
+                  @input="
+                    changeAmount(seafood.price_rate, seafood.weight, index)
+                  "
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>

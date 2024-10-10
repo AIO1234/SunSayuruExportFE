@@ -186,13 +186,13 @@
         :float-layout="true"
         :enable-download="true"
         :preview-modal="true"
-        :paginate-elements-by-height="1400"
+        :paginate-elements-by-height="50000"
         :filename="$route.params.invoice_no + '' + ' PackingList'"
         :pdf-quality="2"
         :manual-pagination="false"
         pdf-format="a4"
-        pdf-orientation="landscape"
-        pdf-content-width="1200px"
+        pdf-orientation="portrait"
+        pdf-content-width="800px"
         @progress="onProgress($event)"
         @hasStartedGeneration="hasStartedGeneration()"
         @hasGenerated="hasGenerated($event)"
@@ -200,9 +200,10 @@
       >
         <section slot="pdf-content">
           <!-- packing invoice -->
-          <div class="pt-4">
+          <!-- headings -->
+          <div class="pt-0">
             <div class="buyer_invoice">
-              <div class="invoice_padding_one">
+              <div class="pt-0">
                 <div class="text-center">
                   <h2 class="invoice_heading">
                     SUN SAYURU SEA FOODS EXPORTS (PVT) LTD.
@@ -212,38 +213,156 @@
                   </h5>
                   <h5 class="invoice_sub_heading">Tel : +94 772529262</h5>
 
-                  <div class="invoice_padding">
+                  <div class="mt-0">
                     <span class="cost_sheet">Packing List</span>
                   </div>
                 </div>
               </div>
             </div>
-            <b-card>
+
+            <!-- sub details(eta,shipment no) -->
+            <div class="buyer_invoice">
+              <div class="mt-0">
+                <b-container>
+                  <b-card style="border-radius: 12px; box-shadow: 30">
+                    <b-container class="margin-card">
+                      <div>
+                        <b-row>
+                          <b-col lg="3" cols="12">
+                            <span class="inoice_number"> Invoice no </span>
+                            <br /><br />
+                            <span class="ivoice_numbr_value">{{
+                              shipmentdetails.invoice_no
+                            }}</span>
+                          </b-col>
+                          <div></div>
+                          <b-col lg="5" cols="8" class="mobile_paddings">
+                            <span class="inoice_number"> Consignee </span>
+                            <br /><br />
+                            <span class="ivoice_numbr_value">
+                              {{ shipmentdetails.consignee }}</span
+                            >
+                          </b-col>
+
+                          <b-col lg="4" class="mobile_paddings">
+                            <!-- A.W.B -->
+                            <div class="web_only_view">
+                              <div class="row d-flex justify-content">
+                                <div>
+                                  <span class="col inoice_number">
+                                    A.W.B.
+                                  </span>
+                                  <span class="col ivoice_numbr_value">
+                                    {{ shipmentdetails.awb }}</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="mobile_only_view">
+                              <span class="inoice_number"> A.W.B. </span>
+                              <br /><br />
+                              <span class="ivoice_numbr_value">
+                                {{ shipmentdetails.awb }}</span
+                              >
+                            </div>
+
+                            <br />
+
+                            <!-- Flight -->
+                            <div class="web_only_view">
+                              <div class="row d-flex justify-content">
+                                <div>
+                                  <span class="col inoice_number">
+                                    Flight
+                                  </span>
+                                  <span
+                                    class="col ivoice_numbr_value margin_flight"
+                                  >
+                                    {{ shipmentdetails.flight }}</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="mobile_only_view">
+                              <span class="inoice_number"> Flight </span>
+                              <br /><br />
+                              <span class="ivoice_numbr_value">
+                                {{ shipmentdetails.flight }}</span
+                              >
+                            </div>
+
+                            <br />
+
+                            <!-- ETA -->
+                            <div class="web_only_view">
+                              <div class="row d-flex justify-content">
+                                <div>
+                                  <span class="col inoice_number">ETA </span>
+                                  <span
+                                    class="col ivoice_numbr_value margin_eta"
+                                  >
+                                    {{ shipmentdetails.eta }}</span
+                                  >
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="mobile_only_view">
+                              <span class="inoice_number"> ETA </span>
+                              <br /><br />
+                              <span class="ivoice_numbr_value">
+                                {{ shipmentdetails.eta }}</span
+                              >
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </div>
+                    </b-container>
+                  </b-card>
+                </b-container>
+              </div>
+            </div>
+            <!-- table -->
+            <b-card style="margin-top: -53px;">
               <table class="table table-sm">
                 <thead>
                   <tr>
-                    <th scope="col">Box Number</th>
-                    <th scope="col">Seafood type</th>
-                    <th scope="col">Quality</th>
-                    <th scope="col">Grading</th>
-                    <th scope="col">Weight(Kg)</th>
+                    <th class="packing_list_font_pdf" scope="col">
+                      Box Number
+                    </th>
+                    <th class="packing_list_font_pdf" scope="col">
+                      Seafood type
+                    </th>
+                    <th class="packing_list_font_pdf" scope="col">Quality</th>
+                    <th class="packing_list_font_pdf" scope="col">Grading</th>
+                    <th class="packing_list_font_pdf" scope="col">
+                      Weight(Kg)
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody v-for="item in boxes" :key="item.box_no">
                   <tr
-                    style="height: 50px"
+                    style="page-break-inside: avoid"
                     v-for="(seafood, seafoodindex) in item.seafoods"
                     :key="seafood.seafoodtype"
                   >
-                    <th scope="row" v-if="!seafoodindex > 0">
+                    <th
+                      scope="row"
+                      v-if="!seafoodindex > 0"
+                      class="packing_list_font_pdf"
+                    >
                       {{ item.box_no }}
                     </th>
                     <td scope="row" v-if="seafoodindex > 0"></td>
-                    <td>{{ seafood.seafoodtype }}</td>
-                    <td>{{ seafood.quality }}</td>
-                    <td>{{ seafood.grading }}</td>
-                    <td>{{ seafood.weight }}</td>
+                    <td class="packing_list_font_pdf">
+                      {{ seafood.seafoodtype }}
+                    </td>
+                    <td class="packing_list_font_pdf">{{ seafood.quality }}</td>
+                    <td class="packing_list_font_pdf">{{ seafood.grading }}</td>
+                    <td class="packing_list_font_pdf">{{ seafood.weight }}</td>
                   </tr>
                 </tbody>
               </table>

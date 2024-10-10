@@ -83,12 +83,13 @@
           <b-col><span class="edit_form_header">Weight (Kg)</span></b-col>
           <b-col><span class="edit_form_header">Rate per Kg ($)</span></b-col>
           <b-col><span class="edit_form_header">Total cost ($)</span></b-col>
+          <b-col lg="12"></b-col>
         </b-row>
 
         <b-row
           class="pl-2 pr-2 pt-2"
-          v-for="seafood in form.boxes.seafoods"
-          :key="seafood.seafoodtype"
+          v-for="(seafood, index) in form.boxes.seafoods"
+          :key="seafood"
         >
           <b-col>
             <b-form-group label-class="form_label_class">
@@ -99,7 +100,7 @@
               >
                 <b-form-input
                   class="input_background"
-                  placeholder="Enter Business name"
+                  placeholder="Enter Sefood"
                   v-model="seafood.seafoodtype"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
@@ -150,6 +151,9 @@
                   class="input_background"
                   placeholder="Enter Weight"
                   v-model="seafood.weight"
+                  @input="
+                    changeAmount(seafood.price_rate, seafood.weight, index)
+                  "
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
@@ -191,10 +195,25 @@
               </validation-Provider>
             </b-form-group>
           </b-col>
+
+          <b-col lg="12" class="text-right minus_button_margin">
+            <b-button variant="none" @click="removeItem(index)">
+              <b-img src="@/assets/images/Group.png"></b-img>
+            </b-button>
+          </b-col>
         </b-row>
       </b-container>
     </div>
-
+    <div class="text-left pt-3">
+      <b-button
+        v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+        variant="none"
+        @click="repeateAgain()"
+        class="form_submit_button"
+      >
+        <span class="button_text_styles">Add</span>
+      </b-button>
+    </div>
     <div class="d-flex justify-content-end pt-3">
       <b-button
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -215,6 +234,7 @@ import { ValidationObserver } from "vee-validate";
 import vSelect from "vue-select";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import {
+  BImg,
   BCard,
   BFormRadio,
   BFormGroup,
@@ -235,6 +255,7 @@ import {
 } from "bootstrap-vue";
 export default {
   components: {
+    BImg,
     BCard,
     vSelect,
     ValidationProvider,
@@ -300,6 +321,24 @@ export default {
         });
 
       this.$vs.loading.close();
+    },
+
+    //repeate row
+
+    // repeat button
+    repeateAgain() {
+      this.form.boxes.seafoods.push({
+        seafoodtype: "",
+        quality: "",
+        grading: "",
+        weight: "",
+        price_rate: "",
+        total_amount: "",
+      });
+    },
+    // remove item
+    removeItem(index) {
+      this.form.boxes.seafoods.splice(index, 1);
     },
   },
 };
