@@ -34,7 +34,7 @@
               >
                 <b-form-input
                   placeholder="Enter Converting Rate"
-                  v-model="form.converting_rate"
+                  v-model="form.buyer_converting_rate"
                 ></b-form-input>
                 <span class="text-danger">{{ errors[0] }}</span>
               </validation-Provider>
