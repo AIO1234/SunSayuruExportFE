@@ -1,6 +1,5 @@
-import _ from 'lodash';
-const moment = require('moment-timezone');
-
+import _ from "lodash";
+const moment = require("moment-timezone");
 
 export default {
   methods: {
@@ -10,6 +9,9 @@ export default {
     },
     getPrice(price) {
       return `Rs. ${parseFloat(price).toFixed(2)} `;
+    },
+    getPriceUsd(price) {
+      return `$. ${parseFloat(price).toFixed(2)} `;
     },
     getPriceWithOutCurrency(price) {
       return `${parseFloat(price).toFixed(2)}`;
@@ -34,7 +36,7 @@ export default {
     },
     //For time format
     momentFormat(value, arg) {
-      return moment(new Date(value), arg).tz('Asia/Colombo').format(arg);
+      return moment(new Date(value), arg).tz("Asia/Colombo").format(arg);
     },
     momentTimestampFormat(value, arg) {
       return moment(new Date(value)).format(arg);

@@ -17,7 +17,7 @@ export default [
     },
   },
   {
-    path: "/suplier_payments_add",
+    path: "/suplier_payments_add/:id/:name",
     name: "suplier_payments_add",
     component: () =>
       import(

@@ -1,17 +1,40 @@
 <template>
   <div>
-    <b-table
-      sticky-header=""
-      responsive="sm"
-      :items="airfreightbills"
-      :fields="fields"
-    >
+    <b-table sticky-header="" responsive="sm" :items="bills" :fields="fields">
+      <template #cell(total_company_lkr_cost)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(total_company_usd_cost)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(lkr_received_payments)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(usd_received_payments)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(lkr_due_balance)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(usd_due_balance)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
       <template #cell(action)="data">
         <b-row no-gutters>
-          <b-col lg="4">
+          <b-col lg="2">
             <b-button
               variant="flat-none"
-              @click="$router.push('/shipmentwiseairfreightbill')"
+              @click="
+                $router.push(
+                  `/shipmentwiseairfreightbill/${data.item.id}/${data.item.company_name}`
+                )
+              "
             >
               <b-img
                 width="17px"
@@ -19,7 +42,7 @@
               ></b-img>
             </b-button>
           </b-col>
-          <b-col lg="4"> </b-col>
+          <b-col lg="2"> </b-col>
         </b-row>
       </template>
     </b-table>
@@ -40,7 +63,7 @@ export default {
     return {
       fields: [
         {
-          key: "name",
+          key: "company_name",
           label: "Company Name",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -48,7 +71,7 @@ export default {
         },
 
         {
-          key: "lkrcost",
+          key: "total_company_lkr_cost",
           label: "Total Cost(LKR)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -56,7 +79,7 @@ export default {
         },
 
         {
-          key: "usdcost",
+          key: "total_company_usd_cost",
           label: "Total Cost(USD)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -64,41 +87,49 @@ export default {
         },
 
         {
+          key: "lkr_received_payments",
+          label: "Total Paid Payments(LKR)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+
+        {
+          key: "usd_received_payments",
+          label: "Total Paid Payments(USD)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+
+        {
+          key: "lkr_due_balance",
+          label: "Total Due Payments(LKR)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+
+        {
+          key: "usd_due_balance",
+          label: "Total Due Payments(USD)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+        {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "15%" },
+          // thStyle: { width: "15%" },
           // tdClass: "td-style",
         },
       ],
-      airfreightbills: [
-        {
-          name: "ABC Company",
-          lkrcost: "Rs. 50000.00",
-          usdcost: "$ 168.03 ",
-        },
-        {
-          name: "ABC Company",
-          lkrcost: "Rs. 50000.00",
-          usdcost: "$ 168.03 ",
-        },
-        {
-          name: "ABC Company",
-          lkrcost: "Rs. 50000.00",
-          usdcost: "$ 168.03 ",
-        },
-        {
-          name: "ABC Company",
-          lkrcost: "Rs. 50000.00",
-          usdcost: "$ 168.03 ",
-        },
-        {
-          name: "ABC Company",
-          lkrcost: "Rs. 50000.00",
-          usdcost: "$ 168.03 ",
-        },
-      ],
     };
+  },
+
+  props: {
+    bills: Array,
   },
 };
 </script>

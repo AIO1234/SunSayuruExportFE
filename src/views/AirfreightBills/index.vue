@@ -1,28 +1,14 @@
 <template>
-  <div class="pt-3">
-    <!-- search bar -->
-    <b-row>
-      <b-col lg="4">
-        <b-input-group class="input-group-merge form_input_styles_group">
-          <b-input-group-prepend is-text>
-            <feather-icon class="search_icon_color" icon="SearchIcon" />
-          </b-input-group-prepend>
-          <b-form-input
-            type="search"
-            class="form_input_styles"
-            placeholder="Search Company Name...."
-          ></b-form-input>
-        </b-input-group>
-      </b-col>
-    </b-row>
-
+  <div>
     <!-- airfreight table view -->
-
-    <b-card class="mt-5"> <AirfreightBillTable /> </b-card>
+    <b-card class="mt-5">
+      <AirfreightBillTable :bills="airfreightbills" />
+    </b-card>
   </div>
 </template>
 <script>
 import AirfreightBillTable from "./Components/AirfreightTable.vue";
+import reportApi from "@/Api/Modules/reports";
 import {
   BFormInput,
   BRow,
@@ -54,6 +40,24 @@ export default {
     BButton,
     BInputGroup,
     BInputGroupPrepend,
+  },
+  data() {
+    return {
+      airfreightbills: [],
+    };
+  },
+  async created() {
+    await this.getAirfreightBills();
+  },
+  methods: {
+    async getAirfreightBills() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.airfreightMainBills();
+      this.airfreightbills = res.data.data;
+      this.$vs.loading.close();
+    },
   },
 };
 </script>

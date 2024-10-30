@@ -120,6 +120,7 @@
                   >
                     <b-form-textarea
                       type="number"
+                      
                       placeholder="Enter Usd Converting Rate"
                       v-model="form.buyer_converting_rate"
                     ></b-form-textarea>

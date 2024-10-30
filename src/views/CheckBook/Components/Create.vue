@@ -23,6 +23,24 @@
                 </validation-Provider>
               </b-form-group>
             </b-col>
+
+            <!-- check date -->
+            <b-col lg="12">
+              <b-form-group label="Check Date*" label-class="form_label_class">
+                <validation-Provider
+                  name="Check Date"
+                  rules="required"
+                  v-slot="{ errors }"
+                >
+                  <b-form-datepicker
+                    placeholder="Select Date"
+                    v-model="form.check_date"
+                  ></b-form-datepicker>
+                  <span class="text-danger">{{ errors[0] }}</span>
+                </validation-Provider>
+              </b-form-group>
+            </b-col>
+
             <!-- check amount -->
             <b-col md="12" class="mb-1">
               <b-form-group label="Amount*" label-class="form_label_class">
@@ -33,7 +51,8 @@
                 >
                   <b-form-input
                     placeholder="Enter Amount"
-                    v-model="form.lkramount"
+                    v-model="form.amount"
+                    readonly
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -47,7 +66,16 @@
                 variant="none"
                 class="form_submit_button"
               >
-                <span class="button_text_styles">Create</span>
+                <span
+                  v-if="form.view_type === 'create_exists'"
+                  class="button_text_styles"
+                  >Create</span
+                >
+                <span
+                  v-else-if="form.view_type === 'update_exists'"
+                  class="button_text_styles"
+                  >Update
+                </span>
               </b-button>
             </b-col>
           </b-row>
@@ -58,6 +86,7 @@
 </template>
 
 <script>
+import checkApi from "@/Api/Modules/checkbook";
 import {
   BCard,
   BFormRadio,
@@ -76,6 +105,7 @@ import {
   BFormInput,
   BContainer,
   BInputGroupAppend,
+  BFormDatepicker,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
@@ -98,6 +128,7 @@ import {
 export default {
   name: "AddCheck",
   components: {
+    BFormDatepicker,
     BCard,
     BFormRadio,
     BInputGroupAppend,
@@ -130,7 +161,6 @@ export default {
     return {
       form: {},
       // validations
-
       required,
       email,
       confirmed,
@@ -146,14 +176,31 @@ export default {
     };
   },
   methods: {
-    async validationCheckCreateForm() {},
+    async validationCheckCreateForm() {
+      this.form.status = "Not Asigned To Payment";
+      if (await this.$refs.CheckCreateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await checkApi
+          .storeCheck(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$emit("close", true);
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
+    },
 
     initializeData() {
-      this.form.lkramount = this.propForm.lkramount;
-      this.form.check_type = this.propForm.check_type;
-      if (this.propForm.check_no) {
-        this.form.check_no = this.propForm.check_no;
-      }
+      this.form.amount = this.propForm.amount;
+      this.form.type = this.propForm.check_type;
+      this.form.view_type = this.propForm.view_type;
+      this.form.check_id = this.propForm.check_id;
+      this.form.check_no = this.propForm.check_no;
+      this.form.check_date = this.propForm.check_date;
     },
   },
 };

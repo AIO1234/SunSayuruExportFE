@@ -35,7 +35,7 @@ export default [
   },
 
   {
-    path: "/shipmentwiseairfreightbill",
+    path: "/shipmentwiseairfreightbill/:id/:company_name",
     name: "shipmentwiseairfreightbill",
     component: () =>
       import("@/views/AirfreightBills/Components/ShipmentWiseView.vue"),

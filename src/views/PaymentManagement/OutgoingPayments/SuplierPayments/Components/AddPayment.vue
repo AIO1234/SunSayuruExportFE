@@ -15,7 +15,7 @@
         <b-card>
           <center>
             <b-card-title class="modal_title_color_payment"
-              >Add Supplier payments</b-card-title
+              >Add payment For {{ $route.params.name }}</b-card-title
             >
           </center>
           <div class="mt-3"></div>
@@ -103,14 +103,15 @@
                           <v-select
                             v-model="bill.billnumber"
                             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            label="invoce_no"
+                            label="invoice_no"
+                            @input="uniqueShipments(index, bill.billnumber)"
                             :options="billnumbers"
                           >
                             <template slot="option" slot-scope="option">
                               <div class="d-center">
                                 <span
-                                  >{{ option.invoce_no }} -
-                                  {{ option.total }}</span
+                                  >{{ option.invoice_no }} -
+                                  {{ option.pending_cost }}</span
                                 >
                               </div>
                             </template>
@@ -119,8 +120,8 @@
                                 {{ bill.billnumber }}
                               </div>
                               <div v-else>
-                                {{ bill.billnumber.invoce_no }} -
-                                <b> {{ bill.billnumber.total }}</b>
+                                {{ bill.billnumber.invoice_no }} -
+                                <b> {{ bill.billnumber.pending_cost }}</b>
                               </div>
                             </template>
                           </v-select>
@@ -148,7 +149,7 @@
                               fillAmount(
                                 index,
                                 bill.status,
-                                bill.billnumber.total
+                                bill.billnumber.pending_cost
                               )
                             "
                           >
@@ -170,8 +171,8 @@
                         >
                           <b-form-input
                             placeholder="Enter Amount"
-                            v-model="bill.paidamount"
-                            @input="form.lkramount = 'Processing.....'"
+                            v-model="bill.paid_amount"
+                            @input="form.amount = 'Processing.....'"
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
@@ -200,7 +201,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="fializeAmount()"
+                        @input="finalizeAmount"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -219,7 +220,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.lkramount"
+                        v-model="form.amount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -258,11 +259,36 @@
                               option.check_no
                             }}</span>
                           </div>
+
+                          <div class="d-center" v-else>
+                            <span
+                              >{{ option.check_no }} - {{ option.amount }}</span
+                            >
+                          </div>
+                        </template>
+
+                        <template #selected-option="option">
+                          <div v-if="checknumber.check_no">
+                            {{ checknumber.check_no }} -
+                            {{ checknumber.amount }}
+                          </div>
                         </template>
                       </v-select>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
+                </b-col>
+                <!-- process button -->
+                <b-col
+                  lg="12"
+                  class="mt-1"
+                  v-if="paymentmethod.title === 'Cash'"
+                >
+                  <b-button
+                    variant="primary"
+                    @click="finalizeAmount(paymentmethod)"
+                    >Process Full Amount</b-button
+                  >
                 </b-col>
                 <!-- button -->
                 <b-col md="12" class="mt-5 pt-2 text-center">
@@ -290,7 +316,7 @@
         title-class="modal_title_color"
         no-close-on-backdrop
       >
-        <SuplierCheckCreate :propForm="form" />
+        <SuplierCheckCreate :propForm="form" @close="closeModal" />
       </b-modal>
 
       <!-- check create alert -->
@@ -353,7 +379,10 @@ import {
   alphaDash,
   length,
 } from "@validations";
+import paymentApi from "@/Api/Modules/payments";
+import checkApi from "@/Api/Modules/checkbook";
 import notification from "@/ApiConstance/toast";
+
 export default {
   name: "AddSuplierPayment",
   components: {
@@ -386,31 +415,18 @@ export default {
   data() {
     return {
       form: {
-        lkramount: 0,
+        amount: 0,
       },
-      nextTodoId: 1,
       // bill repeater
       bills: [
         {
-          id: 1,
           billnumber: "Select Invoice",
           status: "Select Status",
-          paidamount: "",
+          paid_amount: "",
         },
       ],
       // bill numbers
-      billnumbers: [
-        {
-          invoce_no: "A123",
-          id: 1,
-          total: 120.0,
-        },
-        {
-          invoce_no: "A123",
-          id: 2,
-          total: 120.0,
-        },
-      ],
+      billnumbers: [],
       // statuses
       billstatuses: [
         {
@@ -433,15 +449,11 @@ export default {
       ],
       // payent method
       paymentmethod: {
-        title: "Check",
-        id: 1,
+        title: "Cash",
+        id: 2,
       },
       // suplier checks
-      suplierchecks: [
-        {
-          check_no: "Add New",
-        },
-      ],
+      suplierchecks: [],
       // check  number
       checknumber: {},
       // validations
@@ -463,30 +475,69 @@ export default {
   props: {
     loadingStatus: Boolean,
   },
-
+  async created() {
+    await this.getPendingShipments();
+  },
   methods: {
     // create payment
     async validationPaymentCreateForm() {
-      // if (await this.$refs.PaymentCreateValidation.validate()) {
-      //   await this.$vs.loading({
-      //     scale: 0.8,
-      //   });
-      //   await qualityApi
-      //     .storeQuality(this.form, this.loadingStatus)
-      //     .then(() => {
-      //       this.$vs.loading.close();
-      //       this.$emit("close", false);
-      //     })
-      //     .catch(() => {
-      //       this.$vs.loading.close();
-      //     });
-      // }
+      this.form.payment_method = this.paymentmethod.title;
+      this.form.check_id = this.checknumber.id;
+      this.form.suplier_id = this.$route.params.id;
+      this.form.shipments = this.bills;
+
+      if (await this.$refs.PaymentCreateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await paymentApi
+          .storeSuplierPayment(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$router.push("/outgoing_payments");
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
     },
+
+    // get new or contnue shipments
+
+    async getPendingShipments() {
+      const payload = {
+        suplier_id: this.$route.params.id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getSuplierPendingShipments(payload);
+      this.billnumbers = res.data.data;
+      console.log(this.billnumbers);
+      this.$vs.loading.close();
+    },
+    // get continue checks
+
+    async getContinueChecks(payload) {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await checkApi.continuChecks(payload);
+      this.suplierchecks = res.data.data;
+
+      this.suplierchecks.push({ check_no: "Add New" });
+
+      this.suplierchecks = this.suplierchecks.reverse();
+      this.$vs.loading.close();
+    },
+
     // open  check modal
 
     opencheckmodel() {
       // finalize bill amount and initialize to final amount
-      this.fializeAmount();
+
+      this.finalizeAmount();
+
       // open chcek modal
       if (this.checknumber.check_no === "Add New") {
         // if check is already created
@@ -494,65 +545,99 @@ export default {
           this.$refs.checkalert.show();
         } else {
           // if check is not already created
-          this.form.check_type = "Supplier_Check";
+          this.form.check_type = "Suplier_Check";
+          this.form.view_type = "create_exists";
+          this.form.check_id = "";
+          this.form.check_no = "";
+          this.form.check_date = "";
           this.$refs.createcheckmodal.show();
-          this.suplierchecks.push({
-            check_no: "A23444",
-            id: 1,
-          });
-          this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+
+          this.checknumber = "";
         }
       }
     },
 
+    // close check modal
+
+    async closeModal() {
+      // hide create check modal
+      this.$refs.createcheckmodal.hide();
+      const payload = {
+        type: "Suplier_Check",
+      };
+      await this.getContinueChecks(payload);
+    },
     // get check replace status
     chceckReplaceStatus() {
+      // if checkis already created
       this.$refs.checkalert.hide();
       this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
-      this.form.check_type = "Supplier_Check";
+      this.form.check_type = "Suplier_Check";
       this.form.check_no = this.checknumber.check_no;
+      this.form.check_id = this.checknumber.id;
+      this.form.check_date = this.checknumber.check_date;
+      this.form.view_type = "update_exists";
       this.$refs.createcheckmodal.show();
     },
 
     //hide check replace modal
     hideCheckeplaceModal() {
       this.$refs.checkalert.hide();
+      this.checknumber = "";
     },
     // repeat bill
     repeatBill() {
       this.bills.push({
-        id: (this.nextTodoId += this.nextTodoId),
         billnumber: "Select Invoice",
         status: "Select Status",
-        paidamount: "",
+        paid_amount: "",
       });
     },
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
-      this.fializeAmount();
+      this.finalizeAmount();
     },
 
     // automatialyy fills the bill paid amount
     fillAmount(index, status, billtotal) {
       // if status done , amount will be sameas bill value
       if (status.title === "Done") {
-        this.bills[index].paidamount = billtotal;
+        this.bills[index].paid_amount = billtotal;
       }
       // if status continue , amount must be added
       else {
-        this.bills[index].paidamount = 0;
+        this.bills[index].paid_amount = 0;
       }
-      this.form.lkramount = "Processing.....";
+      this.form.amount = "Processing.....";
     },
 
     // finalize bill amount and initialize to final amount
-    fializeAmount() {
+    async finalizeAmount(data) {
+      if (data.title === "Check") {
+        const payload = {
+          type: "Suplier_Check",
+        };
+        await this.getContinueChecks(payload);
+      }
       let total = 0;
       this.bills.forEach((element) => {
-        total = total + parseFloat(element.paidamount);
+        total = total + parseFloat(element.paid_amount);
       });
-      this.form.lkramount = total;
+      this.form.amount = total;
+    },
+
+    // check aleady selected the shipment
+    uniqueShipments(index, value) {
+      if (index > 0) {
+        if (this.bills[index - 1].billnumber === value) {
+          notification.toast(
+            "You Have already Selected This Shipment",
+            "error"
+          );
+          this.bills[index].billnumber = "";
+        }
+      }
     },
   },
 };

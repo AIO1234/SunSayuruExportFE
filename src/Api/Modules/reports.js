@@ -2,7 +2,7 @@ import { api } from "../index";
 
 export default {
   async allShipements(payload) {
-    return await api.post("/report/allsupliershipments" , payload);
+    return await api.post("/report/allsupliershipments", payload);
   },
 
   async buyerShipements(payload) {
@@ -39,5 +39,13 @@ export default {
 
   async suplierViseSuplierShipmentEarnings(payload) {
     return await api.post("/report/supliervisesupliersinnerdetails", payload);
+  },
+
+  async airfreightMainBills() {
+    return await api.get("/airfreightmainbill");
+  },
+
+  async airfreightInnerShipments(payload) {
+    return await api.post("/airfreightshipmntwisebill", payload);
   },
 };

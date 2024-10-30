@@ -7,7 +7,11 @@
           <b-button
             variant="none"
             class="button_color button_width"
-            @click="$router.push('/suplier_payments_add')"
+            @click="
+              $router.push(
+                `/suplier_payments_add/${suplier.id}/${suplier.name}`
+              )
+            "
           >
             <div class="d-flex justify-content-start">
               <b-img
@@ -22,7 +26,7 @@
           </b-button>
         </div>
 
-        <!-- select search -->
+        <!-- select suplier search -->
         <div class="mt-5"></div>
         <b-row>
           <b-col lg="4">
@@ -30,11 +34,12 @@
               class="form_input_styles_group"
               v-model="suplier"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              label="title"
+              label="name"
               :options="supliers"
             >
             </v-select>
           </b-col>
+          <!-- date seaches -->
           <b-col lg="4">
             <v-date-picker v-model="startdate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
@@ -105,25 +110,16 @@ import {
   BInputGroup,
   BFormInput,
 } from "bootstrap-vue";
+import suplierpi from "@/Api/Modules/supliers";
 export default {
   data() {
     return {
       startdate: "",
       enddate: "",
       suplier: {
-        title: "Sumith",
-        id: 1,
+        name: "Select Suplier",
       },
-      supliers: [
-        {
-          title: "Sumith",
-          id: 1,
-        },
-        {
-          title: "Kamal",
-          id: 2,
-        },
-      ],
+      supliers: [],
     };
   },
   components: {
@@ -141,6 +137,9 @@ export default {
     BInputGroupPrepend,
     BFormInput,
   },
+  async created() {
+    await this.getAllsupliers();
+  },
   methods: {
     // get all supliers
 
@@ -148,8 +147,8 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await airfreightsApi.allAirfreids();
-      this.airfreights = res.data.data;
+      const res = await suplierpi.allSupliers();
+      this.supliers = res.data.data;
       this.$vs.loading.close();
     },
   },
