@@ -57,7 +57,7 @@ export default [
   },
 
   {
-    path: "/airfreight_payments_add",
+    path: "/airfreight_payments_add/:id/:name",
     name: "airfreight_payments_add",
     component: () =>
       import(

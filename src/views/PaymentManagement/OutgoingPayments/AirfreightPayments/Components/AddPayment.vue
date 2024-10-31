@@ -15,7 +15,7 @@
         <b-card>
           <center>
             <b-card-title class="modal_title_color_payment"
-              >Add Airfreight payments</b-card-title
+              >Add payment For {{ $route.params.name }} Company</b-card-title
             >
           </center>
           <div class="mt-3"></div>
@@ -77,7 +77,7 @@
                         v-model="paymentcurrency"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="finalizeAmount()"
+                        @input="getContinueChecks(true)"
                         :options="paymentCurrencies"
                       >
                       </v-select>
@@ -127,15 +127,20 @@
                           <v-select
                             v-model="bill.billnumber"
                             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                            @input="uniqueShipments(index, bill.billnumber)"
                             label="invoce_no"
                             :options="billnumbers"
                           >
                             <template slot="option" slot-scope="option">
                               <div class="d-center">
-                                <span
-                                  >{{ option.invoce_no }} -
-                                  {{ option.total }}</span
-                                >
+                                <span v-if="paymentcurrency.title === 'LKR'"
+                                  >{{ option.invoice_no }} -
+                                  <b> Rs.{{ option.pending_lkr_cost }}</b>
+                                </span>
+                                <span v-else
+                                  >{{ option.invoice_no }} -
+                                  <b> ${{ option.pending_usd_cost }}</b>
+                                </span>
                               </div>
                             </template>
                             <template #selected-option="option">
@@ -143,8 +148,14 @@
                                 {{ bill.billnumber }}
                               </div>
                               <div v-else>
-                                {{ bill.billnumber.invoce_no }} -
-                                <b> {{ bill.billnumber.total }}</b>
+                                <span v-if="paymentcurrency.title === 'LKR'"
+                                  >{{ option.invoice_no }} -
+                                  <b>Rs.{{ option.pending_lkr_cost }}</b>
+                                </span>
+                                <span v-else
+                                  >{{ option.invoice_no }} -
+                                  <b>${{ option.pending_usd_cost }}</b>
+                                </span>
                               </div>
                             </template>
                           </v-select>
@@ -172,7 +183,9 @@
                               fillAmount(
                                 index,
                                 bill.status,
-                                bill.billnumber.total
+                                bill.billnumber.pending_lkr_cost,
+                                bill.billnumber.pending_usd_cost,
+                                bill.billnumber.airfreight_converting_rate
                               )
                             "
                           >
@@ -181,8 +194,9 @@
                         </validation-Provider>
                       </b-form-group>
                     </b-col>
-                    <!-- amount -->
-                    <b-col lg="4">
+
+                    <!-- shipment usd amount -->
+                    <b-col lg="4" v-if="paymentcurrency.title === 'USD'">
                       <b-form-group
                         label="Paid Amount*"
                         label-class="form_label_class"
@@ -194,16 +208,47 @@
                         >
                           <b-form-input
                             placeholder="Enter Amount"
-                            v-model="bill.paidamount"
+                            v-model="bill.paid_usd_amount"
                             @input="
-                              form.lkramount = 'Processing.....';
-                              form.usdamount = 'Processing.....';
+                              setContinueBalance(
+                                index,
+                                bill.paid_usd_amount,
+                                bill.billnumber.airfreight_converting_rate
+                              )
                             "
                           ></b-form-input>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
                       </b-form-group>
                     </b-col>
+
+                    <!-- shipment lkr amount -->
+                    <b-col lg="4" v-if="paymentcurrency.title === 'LKR'">
+                      <b-form-group
+                        label="Paid Amount*"
+                        label-class="form_label_class"
+                      >
+                        <validation-Provider
+                          name="Amount"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <b-form-input
+                            placeholder="Enter Amount"
+                            v-model="bill.paid_lkr_amount"
+                            @input="
+                              setContinueBalance(
+                                index,
+                                bill.paid_lkr_amount,
+                                bill.billnumber.airfreight_converting_rate
+                              )
+                            "
+                          ></b-form-input>
+                          <span class="text-danger">{{ errors[0] }}</span>
+                        </validation-Provider>
+                      </b-form-group>
+                    </b-col>
+
                     <b-col lg="1" class="minus_button_margin">
                       <b-button variant="none" @click="removeItem(index)">
                         <b-img src="@/assets/images/Group.png"></b-img>
@@ -211,6 +256,7 @@
                     </b-col>
                   </b-row>
                 </b-col>
+                <!-- end bills -->
 
                 <!--Lkr  Amount  -->
                 <b-col md="12" class="mt-1">
@@ -225,7 +271,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.lkramount"
+                        v-model="form.lkr_amount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -246,7 +292,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.usdamount"
+                        v-model="form.usd_amount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -329,7 +375,7 @@
         title-class="modal_title_color"
         no-close-on-backdrop
       >
-        <AirfreightCheckCreate :propForm="form" />
+        <AirfreightCheckCreate :propForm="form" @close="closeModal" />
       </b-modal>
 
       <!-- check create alert -->
@@ -350,6 +396,9 @@
 </template>
 
 <script>
+import paymentApi from "@/Api/Modules/payments";
+import checkApi from "@/Api/Modules/checkbook";
+import notification from "@/ApiConstance/toast";
 import {
   BCard,
   BFormRadio,
@@ -424,8 +473,8 @@ export default {
   data() {
     return {
       form: {
-        usdamount: 0,
-        lkramount: 0,
+        usd_amount: 0,
+        lkr_amount: 0,
       },
       nextTodoId: 1,
       // bill repeater
@@ -434,22 +483,12 @@ export default {
           id: 1,
           billnumber: "Select Invoice",
           status: "Select Status",
-          paidamount: "",
+          paid_lkr_amount: "",
+          paid_usd_amount: "",
         },
       ],
       // bill numbers
-      billnumbers: [
-        {
-          invoce_no: "A123",
-          id: 1,
-          total: 120.0,
-        },
-        {
-          invoce_no: "A123",
-          id: 2,
-          total: 120.0,
-        },
-      ],
+      billnumbers: [],
       // statuses
       billstatuses: [
         {
@@ -472,15 +511,11 @@ export default {
       ],
       // payent currency
       paymentcurrency: {
-        title: "LKR",
-        id: 2,
+        title: "USD",
+        id: 1,
       },
       // suplier checks
-      airfreightchecks: [
-        {
-          check_no: "Add New",
-        },
-      ],
+      airfreightchecks: [],
       // check  number
       checknumber: {},
       // validations
@@ -502,27 +537,69 @@ export default {
   props: {
     loadingStatus: Boolean,
   },
-
+  async created() {
+    await this.getPendingShipments();
+  },
   methods: {
     // create payment
     async validationPaymentCreateForm() {
-      // if (await this.$refs.PaymentCreateValidation.validate()) {
-      //   await this.$vs.loading({
-      //     scale: 0.8,
-      //   });
-      //   await qualityApi
-      //     .storeQuality(this.form, this.loadingStatus)
-      //     .then(() => {
-      //       this.$vs.loading.close();
-      //       this.$emit("close", false);
-      //     })
-      //     .catch(() => {
-      //       this.$vs.loading.close();
-      //     });
-      // }
-    },
-    // open  check modal
+      this.form.payment_currency = this.paymentcurrency.title;
+      this.form.check_id = this.checknumber.id;
+      this.form.airfreight_id = this.$route.params.id;
+      this.form.shipments = this.bills;
 
+      if (await this.$refs.PaymentCreateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await paymentApi
+          .storeAirfreightPayment(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$router.push("/outgoing_payments");
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
+    },
+
+    // get new or contnue shipments
+
+    async getPendingShipments() {
+      const payload = {
+        airfreight_id: this.$route.params.id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getAirfreightPendingShipments(payload);
+      this.billnumbers = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // get continue checks
+    async getContinueChecks(load = false) {
+      if (load === true) {
+        const payload = {
+          type: "Airfreight_Check",
+        };
+
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+
+        const res = await checkApi.continuChecks(payload);
+        this.airfreightchecks = res.data.data;
+
+        this.airfreightchecks.push({ check_no: "Add New" });
+
+        this.airfreightchecks = this.airfreightchecks.reverse();
+        this.$vs.loading.close();
+      }
+    },
+
+    // open  check modal
     opencheckmodel() {
       // finalize bill amount and initialize to final amount
       this.finalizeAmount();
@@ -534,29 +611,48 @@ export default {
         } else {
           // if check is not already created
           this.form.check_type = "Airfreight_Check";
+          this.form.view_type = "create_exists";
+          this.form.check_id = "";
+          this.form.check_no = "";
+          this.form.check_date = "";
           this.$refs.createcheckmodal.show();
-          this.airfreightchecks.push({
-            check_no: "A23444",
-            id: 1,
-          });
-          this.checknumber =
-            this.airfreightchecks[this.airfreightchecks.length - 1];
+
+          this.checknumber = "";
         }
       }
+    },
+
+    // close check modal
+
+    async closeModal() {
+      // hide create check modal
+      this.$refs.createcheckmodal.hide();
+      const payload = {
+        type: "Suplier_Check",
+      };
+      await this.getContinueChecks(payload, true);
+      this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
     },
 
     // get check replace status
     chceckReplaceStatus() {
       this.$refs.checkalert.hide();
-      this.checknumber = this.airfreightchecks[this.airfreightchecks.length - 1];
-      this.form.check_type = "Supplier_Check";
+      // if check is already created
+      this.checknumber =
+        this.airfreightchecks[this.airfreightchecks.length - 1];
+      this.form.check_type = "Airfreight_Check";
       this.form.check_no = this.checknumber.check_no;
+      this.form.check_id = this.checknumber.id;
+      this.form.check_date = this.checknumber.check_date;
+      this.form.view_type = "update_exists";
+
       this.$refs.createcheckmodal.show();
     },
 
     //hide check replace modal
     hideCheckeplaceModal() {
       this.$refs.checkalert.hide();
+      this.checknumber = "";
     },
 
     // repeat bill
@@ -565,7 +661,8 @@ export default {
         id: (this.nextTodoId += this.nextTodoId),
         billnumber: "Select Invoice",
         status: "Select Status",
-        paidamount: "",
+        paid_lkr_amount: "",
+        paid_usd_amount: "",
       });
     },
     // remove bill
@@ -575,31 +672,72 @@ export default {
     },
 
     // automatialyy fills the bill paid amount
-    fillAmount(index, status, billtotal) {
-      // if status done , amount will be sameas bill value
-      if (status.title === "Done") {
-        this.bills[index].paidamount = billtotal;
+    fillAmount(index, status, billlkrtotal, billusdtotal, rate) {
+      // if currency is in usd
+      if (this.paymentcurrency.title === "USD") {
+        if (status.title === "Done") {
+          // if status done , amount will be sameas bill value
+          this.bills[index].paid_lkr_amount = billusdtotal * rate;
+          this.bills[index].paid_usd_amount = billusdtotal;
+          console.log(billusdtotal);
+        }
+        // if status continue , amount must be added
+        else {
+          this.bills[index].paid_lkr_amount = 0;
+          this.bills[index].paid_usd_amount = 0;
+        }
       }
-      // if status continue , amount must be added
+      // if currency is in lkr
       else {
-        this.bills[index].paidamount = 0;
+        // if status done , amount will be sameas bill value
+        if (status.title === "Done") {
+          this.bills[index].paid_lkr_amount = billlkrtotal;
+          this.bills[index].paid_usd_amount = billlkrtotal / rate;
+        }
+        // if status continue , amount must be added
+        else {
+          this.bills[index].paid_lkr_amount = 0;
+          this.bills[index].paid_usd_amount = 0;
+        }
       }
-      this.form.lkramount = "Processing.....";
-      this.form.usdamount = "Processing.....";
+      this.form.lkr_amount = "Processing.....";
+      this.form.usd_amount = "Processing.....";
     },
 
     // finalize bill amount and initialize to final amount
-    finalizeAmount() {
-      let total = 0;
+    async finalizeAmount() {
+      let lkrtotal = 0;
+      let usdtotal = 0;
+
+      // loop all bills and calculate payment
       this.bills.forEach((element) => {
-        total = total + parseFloat(element.paidamount);
+        lkrtotal = lkrtotal + parseFloat(element.paid_lkr_amount);
+        usdtotal = usdtotal + parseFloat(element.paid_usd_amount);
       });
-      if (this.paymentcurrency.title === "USD") {
-        this.form.usdamount = total;
-        this.form.lkramount = total * 302.08;
-      } else if (this.paymentcurrency.title === "LKR") {
-        this.form.usdamount = total / 302.08;
-        this.form.lkramount = total;
+
+      this.form.usd_amount = usdtotal;
+      this.form.lkr_amount = lkrtotal;
+    },
+
+    // set  continue balance amounts
+    setContinueBalance(index, value, rate) {
+      if (this.paymentcurrency.title == "USD") {
+        this.bills[index].paid_lkr_amount = value * rate;
+      } else {
+        this.bills[index].paid_usd_amount = value / rate;
+      }
+    },
+
+    // check aleady selected the shipment
+    uniqueShipments(index, value) {
+      if (index > 0) {
+        if (this.bills[index - 1].billnumber === value) {
+          notification.toast(
+            "You Have already Selected This Shipment",
+            "error"
+          );
+          this.bills[index].billnumber = "";
+        }
       }
     },
   },

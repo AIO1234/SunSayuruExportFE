@@ -116,12 +116,12 @@
                               </div>
                             </template>
                             <template #selected-option="option">
-                              <div v-if="bill.billnumber === 'Select Invoice'">
-                                {{ bill.billnumber }}
+                              <div v-if="option === 'Select Invoice'">
+                                {{ option }}
                               </div>
                               <div v-else>
-                                {{ bill.billnumber.invoice_no }} -
-                                <b> {{ bill.billnumber.pending_cost }}</b>
+                                {{ option.invoice_no }} -
+                                <b> {{ option.pending_cost }}</b>
                               </div>
                             </template>
                           </v-select>
@@ -201,7 +201,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="finalizeAmount"
+                        @input="finalizeAmount(paymentmethod, true)"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -268,9 +268,9 @@
                         </template>
 
                         <template #selected-option="option">
-                          <div v-if="checknumber.check_no">
-                            {{ checknumber.check_no }} -
-                            {{ checknumber.amount }}
+                          <div v-if="option.check_no">
+                            {{ option.check_no }} -
+                            {{ option.amount }}
                           </div>
                         </template>
                       </v-select>
@@ -483,7 +483,7 @@ export default {
     async validationPaymentCreateForm() {
       this.form.payment_method = this.paymentmethod.title;
       this.form.check_id = this.checknumber.id;
-      this.form.suplier_id = this.$route.params.id;
+      this.form.airfreight = this.$route.params.id;
       this.form.shipments = this.bills;
 
       if (await this.$refs.PaymentCreateValidation.validate()) {
@@ -516,19 +516,23 @@ export default {
       console.log(this.billnumbers);
       this.$vs.loading.close();
     },
+
     // get continue checks
 
-    async getContinueChecks(payload) {
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await checkApi.continuChecks(payload);
-      this.suplierchecks = res.data.data;
+    async getContinueChecks(payload, load = false) {
+      if (load === true) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
 
-      this.suplierchecks.push({ check_no: "Add New" });
+        const res = await checkApi.continuChecks(payload);
+        this.suplierchecks = res.data.data;
 
-      this.suplierchecks = this.suplierchecks.reverse();
-      this.$vs.loading.close();
+        this.suplierchecks.push({ check_no: "Add New" });
+
+        this.suplierchecks = this.suplierchecks.reverse();
+        this.$vs.loading.close();
+      }
     },
 
     // open  check modal
@@ -536,7 +540,7 @@ export default {
     opencheckmodel() {
       // finalize bill amount and initialize to final amount
 
-      this.finalizeAmount();
+      this.finalizeAmount(this.paymentmethod);
 
       // open chcek modal
       if (this.checknumber.check_no === "Add New") {
@@ -565,8 +569,10 @@ export default {
       const payload = {
         type: "Suplier_Check",
       };
-      await this.getContinueChecks(payload);
+      await this.getContinueChecks(payload, true);
+      this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
     },
+
     // get check replace status
     chceckReplaceStatus() {
       // if checkis already created
@@ -596,10 +602,10 @@ export default {
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
-      this.finalizeAmount();
+      this.finalizeAmount(this.paymentmethod);
     },
 
-    // automatialyy fills the bill paid amount
+    // automatialyy fills the bill paid amount trigger with status
     fillAmount(index, status, billtotal) {
       // if status done , amount will be sameas bill value
       if (status.title === "Done") {
@@ -613,12 +619,12 @@ export default {
     },
 
     // finalize bill amount and initialize to final amount
-    async finalizeAmount(data) {
+    async finalizeAmount(data, load = false) {
       if (data.title === "Check") {
         const payload = {
           type: "Suplier_Check",
         };
-        await this.getContinueChecks(payload);
+        await this.getContinueChecks(payload, load);
       }
       let total = 0;
       this.bills.forEach((element) => {

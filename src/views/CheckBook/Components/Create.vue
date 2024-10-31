@@ -195,12 +195,16 @@ export default {
     },
 
     initializeData() {
-      this.form.amount = this.propForm.amount;
       this.form.type = this.propForm.check_type;
       this.form.view_type = this.propForm.view_type;
       this.form.check_id = this.propForm.check_id;
       this.form.check_no = this.propForm.check_no;
       this.form.check_date = this.propForm.check_date;
+      if (this.propForm.check_type === "Airfreight_Check") {
+        this.form.amount = this.propForm.lkr_amount;
+      } else {
+        this.form.amount = this.propForm.amount;
+      }
     },
   },
 };

@@ -7,7 +7,11 @@
           <b-button
             variant="none"
             class="button_color button_width"
-            @click="$router.push('/airfreight_payments_add')"
+            @click="
+              $router.push(
+                `/airfreight_payments_add/${airfreight.id}/${airfreight.company_name}`
+              )
+            "
           >
             <div class="d-flex justify-content-start">
               <b-img
@@ -22,7 +26,7 @@
           </b-button>
         </div>
 
-        <!-- select search -->
+        <!-- select airfreiht search -->
         <div class="mt-5"></div>
         <b-row>
           <b-col lg="4">
@@ -30,7 +34,7 @@
               class="form_input_styles_group"
               v-model="airfreight"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-              label="title"
+              label="company_name"
               :options="airfreights"
             >
             </v-select>
@@ -91,6 +95,7 @@
 </template>
 <script>
 import AirfreightPaymentTable from "./Components/Table.vue";
+import airfreigtApi from "@/Api/Modules/airefreights";
 import vSelect from "vue-select";
 import {
   BImg,
@@ -110,20 +115,13 @@ export default {
       startdate: "",
       enddate: "",
       airfreight: {
-        title: "Pera Logistic",
-        id: 1,
+        company_name: "Select Airfreight",
       },
-      airfreights: [
-        {
-          title: "Pera Logistic",
-          id: 1,
-        },
-        {
-          title: "Company 2",
-          id: 2,
-        },
-      ],
+      airfreights: [],
     };
+  },
+  async created() {
+    await this.getAllAirfreights();
   },
   components: {
     AirfreightPaymentTable,
@@ -146,7 +144,7 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await airfreightsApi.allAirfreids();
+      const res = await airfreigtApi.allAirfreids();
       this.airfreights = res.data.data;
       this.$vs.loading.close();
     },
