@@ -84,8 +84,8 @@
                   <b-row
                     class="mr-1"
                     v-for="(bill, index) in bills"
-                    :key="bill.id"
-                    :id="bill.id"
+                    :key="bill"
+                    :id="bill"
                   >
                     <br /><br />
                     <br /><br />
@@ -111,7 +111,7 @@
                               <div class="d-center">
                                 <span
                                   >{{ option.invoice_no }} -
-                                  {{ option.pending_cost }}</span
+                                  <b>{{ option.pending_cost }}</b></span
                                 >
                               </div>
                             </template>
@@ -483,7 +483,7 @@ export default {
     async validationPaymentCreateForm() {
       this.form.payment_method = this.paymentmethod.title;
       this.form.check_id = this.checknumber.id;
-      this.form.airfreight = this.$route.params.id;
+      this.form.suplier_id = this.$route.params.id;
       this.form.shipments = this.bills;
 
       if (await this.$refs.PaymentCreateValidation.validate()) {

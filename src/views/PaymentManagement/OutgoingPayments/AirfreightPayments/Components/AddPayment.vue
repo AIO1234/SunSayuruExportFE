@@ -628,10 +628,11 @@ export default {
       // hide create check modal
       this.$refs.createcheckmodal.hide();
       const payload = {
-        type: "Suplier_Check",
+        type: "Airfreight_Check",
       };
       await this.getContinueChecks(payload, true);
-      this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+      this.checknumber =
+        this.airfreightchecks[this.airfreightchecks.length - 1];
     },
 
     // get check replace status

@@ -7,7 +7,7 @@
           <b-button
             variant="none"
             class="button_color button_width"
-            @click="$router.push('/buyer_payments_add')"
+            @click="$router.push(`/buyer_payments_add/${buyer.id}/${buyer.code}/${buyer.country.name}/${buyer.country.id}`)"
           >
             <div class="d-flex justify-content-start">
               <b-img
@@ -33,6 +33,24 @@
               label="code"
               :options="buyers"
             >
+              <template slot="option" slot-scope="option">
+                <div class="d-center">
+                  <span v-if="option.country"
+                    >{{ option.code }} - {{ option.country.name }}</span
+                  >
+                </div>
+              </template>
+              <template #selected-option="option">
+                <div v-if="option.code === 'Select Buyer'">
+                  {{ option.code }}
+                </div>
+                <div v-else>
+                  <span v-if="option.country">
+                    {{ option.code }} -
+                    <b> {{ option.country.name }}</b>
+                  </span>
+                </div>
+              </template>
             </v-select>
           </b-col>
           <b-col lg="4">
@@ -79,8 +97,7 @@
         <!-- remaining balance -->
         <div class="balance_amount">
           <span class="text"
-            >Remaining Buyer Bill Amount :
-            <b class="amount">$.5000.00</b></span
+            >Remaining Buyer Bill Amount : <b class="amount">$.5000.00</b></span
           >
         </div>
         <!-- table -->
@@ -90,6 +107,7 @@
   </div>
 </template>
 <script>
+import buyerpi from "@/Api/Modules/buyers";
 import SuplierPaymentTable from "./Components/Table.vue";
 import SuplierPaymentCreate from "./Components/AddPayment.vue";
 import vSelect from "vue-select";
@@ -111,19 +129,9 @@ export default {
       startdate: "",
       enddate: "",
       buyer: {
-        code: "PSD",
-        id: 1,
+        code: "Select Buyer",
       },
-      buyers: [
-        {
-          code: "CS",
-          id: 1,
-        },
-        {
-          code: "PSD",
-          id: 2,
-        },
-      ],
+      buyers: [],
     };
   },
   components: {
@@ -141,16 +149,18 @@ export default {
     BInputGroupPrepend,
     BFormInput,
   },
+  async created() {
+    await this.getAllBuyers();
+  },
   methods: {
     // get all buyers
-
     async getAllBuyers() {
-      //   await this.$vs.loading({
-      //     scale: 0.8,
-      //   });
-      //   const res = await airfreightsApi.allAirfreids();
-      //   this.airfreights = res.data.data;
-      //   this.$vs.loading.close();
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await buyerpi.buyerswithqualities();
+      this.buyers = res.data.data;
+      this.$vs.loading.close();
     },
   },
 };

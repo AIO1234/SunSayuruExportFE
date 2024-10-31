@@ -158,7 +158,7 @@ export default [
 
 
   {
-    path: "/buyer_payments_add",
+    path: "/buyer_payments_add/:buyer_id/:buyer_code/:country_name/:country_id",
     name: "buyer_payments_add",
     component: () =>
       import(
