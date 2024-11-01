@@ -81,11 +81,16 @@
         <div class="balance_amount">
           <span class="text"
             >Remaining Additional Bill Amount :
-            <b class="amount">Rs.500,000.00</b></span
-          >
+            <b
+              class="amount"
+              v-if="additional_due !== '' && additional_due > 0"
+              >{{ getPrice(additional_due) }}</b
+            >
+            <b class="amount" v-else>No Due Balance(Paid Fully)</b>
+          </span>
         </div>
         <!-- table -->
-        <AdditionalPaymentTable />
+        <AdditionalPaymentTable :additionalpayments="additionalpayments" />
       </div>
     </div>
   </div>
@@ -93,6 +98,7 @@
 <script>
 import AdditionalPaymentTable from "./Components/Table.vue";
 import vSelect from "vue-select";
+import paymentApi from "@/Api/Modules/payments";
 import {
   BImg,
   BContainer,
@@ -110,20 +116,8 @@ export default {
     return {
       startdate: "",
       enddate: "",
-      airfreight: {
-        title: "Pera Logistic",
-        id: 1,
-      },
-      airfreights: [
-        {
-          title: "Pera Logistic",
-          id: 1,
-        },
-        {
-          title: "Company 2",
-          id: 2,
-        },
-      ],
+      additionalpayments: [],
+      additional_due: "",
     };
   },
   components: {
@@ -140,7 +134,21 @@ export default {
     BInputGroupPrepend,
     BFormInput,
   },
-  methods: {},
+  async created() {
+    await this.getAdditionalPayments();
+  },
+  methods: {
+    // get suplier payments
+    async getAdditionalPayments() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getAdditionalPayments();
+      this.additionalpayments = res.data.data.additionalpayments;
+      this.additional_due = res.data.data.due_balance;
+      this.$vs.loading.close();
+    },
+  },
 };
 </script>
 <style lang="scss">

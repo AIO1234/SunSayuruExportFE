@@ -262,7 +262,8 @@
 
                           <div class="d-center" v-else>
                             <span
-                              >{{ option.check_no }} - {{ option.amount }}</span
+                              >{{ option.check_no }} -
+                              <b>{{ option.amount }}</b></span
                             >
                           </div>
                         </template>
@@ -270,7 +271,7 @@
                         <template #selected-option="option">
                           <div v-if="option.check_no">
                             {{ option.check_no }} -
-                            {{ option.amount }}
+                            <b> {{ option.amount }}</b>
                           </div>
                         </template>
                       </v-select>

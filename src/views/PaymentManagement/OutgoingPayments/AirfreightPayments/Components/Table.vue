@@ -8,6 +8,28 @@
         :items="airfreightpayments"
         :fields="fields"
       >
+        <template #cell(lkr_amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
+
+        <template #cell(usd_amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
+
+        <template #cell(airfreight_checks)="data">
+          <span v-if="data.item.check_id !== null">
+            {{ data.value.check_no }} - <b>{{ getPrice(data.value.amount) }}</b>
+          </span>
+          <span v-else> N/A </span>
+        </template>
+
+        <template #cell(airfreight_payment_invoices)="data">
+          <div v-for="item in data.value" :key="item">
+            {{ item.invoice_no }} - <b>{{ item.pivot.status }}</b>
+            <div class="pt-1"></div>
+          </div>
+        </template>
+
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -80,10 +102,10 @@ export default {
         },
 
         {
-          key: "date",
+          key: "payment_date",
           label: "Date",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "15%" },
           // tdClass: "td-style",
         },
         {
@@ -108,66 +130,32 @@ export default {
           // tdClass: "td-style",
         },
         {
-          key: "check_no",
+          key: "airfreight_checks",
           label: "Check Number",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "20%" },
           // tdClass: "td-style",
         },
         {
-          key: "bills",
+          key: "airfreight_payment_invoices",
           label: "Invoice Number/s",
           sortable: true,
-          // thStyle: { width: "2%" },
+          thStyle: { width: "20%" },
           // tdClass: "td-style",
         },
         {
           key: "action",
           label: "Action",
           sortable: true,
-          thStyle: { width: "15%" },
+          // thStyle: { width: "15%" },
           // tdClass: "td-style",
         },
       ],
-      airfreightpayments: [
-        {
-          payment_no: "p13",
-          date: "p13",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-      ],
+      airfreightpayments: [],
     };
+  },
+  props: {
+    airfreightpayments: Array,
   },
   methods: {
     setCellPadding(value, key, item) {

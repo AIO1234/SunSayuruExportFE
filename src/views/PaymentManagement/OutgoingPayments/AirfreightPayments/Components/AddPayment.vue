@@ -331,6 +331,20 @@
                               option.check_no
                             }}</span>
                           </div>
+
+                          <div class="d-center" v-else>
+                            <span
+                              >{{ option.check_no }} -
+                              <b>{{ option.amount }}</b></span
+                            >
+                          </div>
+                        </template>
+
+                        <template #selected-option="option">
+                          <div v-if="option.check_no">
+                            {{ option.check_no }} -
+                            <b> {{ option.amount }}</b>
+                          </div>
                         </template>
                       </v-select>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -339,11 +353,7 @@
                 </b-col>
 
                 <!-- process button -->
-                <b-col
-                  lg="12"
-                  class="mt-1"
-                  v-if="paymentcurrency.title === 'USD'"
-                >
+                <b-col lg="12" class="mt-1">
                   <b-button variant="primary" @click="finalizeAmount()"
                     >Process Full Amount</b-button
                   >
@@ -630,7 +640,7 @@ export default {
       const payload = {
         type: "Airfreight_Check",
       };
-      await this.getContinueChecks(payload, true);
+      await this.getContinueChecks(true);
       this.checknumber =
         this.airfreightchecks[this.airfreightchecks.length - 1];
     },

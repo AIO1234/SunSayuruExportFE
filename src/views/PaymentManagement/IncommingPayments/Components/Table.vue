@@ -8,6 +8,21 @@
         :items="buyerpayments"
         :fields="fields"
       >
+        <template #cell(country)="data">
+          {{ country }}
+        </template>
+
+        <template #cell(amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
+
+        <template #cell(buyer_payment_invoices)="data">
+          <div v-for="item in data.value" :key="item">
+            {{ item.invoice_no }} - <b>{{ item.pivot.status }}</b>
+            <div class="pt-1"></div>
+          </div>
+        </template>
+
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -80,7 +95,7 @@ export default {
         },
 
         {
-          key: "date",
+          key: "payment_date",
           label: "Date",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -100,15 +115,9 @@ export default {
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
+
         {
-          key: "lkr_amount",
-          label: "Amount(Lkr)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
-        {
-          key: "usd_amount",
+          key: "amount",
           label: "Amount(usd)",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -116,7 +125,7 @@ export default {
         },
 
         {
-          key: "bills",
+          key: "buyer_payment_invoices",
           label: "Invoice Number/s",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -130,49 +139,11 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      buyerpayments: [
-        {
-          payment_no: "p13",
-          date: "p13",
-          country: "China",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          country: "China",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          country: "China",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          date: "p13",
-          country: "China",
-          lkr_amount: "230.00",
-          usd_amount: "230.00",
-          payment_currency: "LKR",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-      ],
     };
+  },
+  props: {
+    buyerpayments: Array,
+    country: String,
   },
   methods: {
     setCellPadding(value, key, item) {

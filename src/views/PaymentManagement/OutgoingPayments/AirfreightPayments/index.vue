@@ -35,6 +35,7 @@
               v-model="airfreight"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="company_name"
+              @input="selectAirfreight()"
               :options="airfreights"
             >
             </v-select>
@@ -81,14 +82,33 @@
         <br />
         <br />
 
-        <div class="balance_amount">
+        <div
+          class="balance_amount"
+          v-if="airfreight.company_name !== 'Select Airfreight'"
+        >
           <span class="text"
-            >Remaining Airfreight Bill Amount :
-            <b class="amount">Rs.500,000.00($2000)</b></span
-          >
+            >
+            <b>{{ airfreight.company_name }}'s </b> Remaining Airfreight Bill Amount :
+            <b
+              class="amount"
+              v-if="
+                airfreight_lkr_due !== '' &&
+                airfreight_usd_due !== '' &&
+                airfreight_lkr_due > 0 &&
+                airfreight_usd_due > 0
+              "
+              >{{ getPrice(airfreight_lkr_due) }}({{
+                getPriceUsd(airfreight_usd_due)
+              }})
+            </b>
+
+            <b class="amount" v-else>No Due Balance(Paid Fully) </b>
+          </span>
         </div>
         <!-- table -->
-        <AirfreightPaymentTable />
+        <div v-if="airfreight.company_name !== 'Select Airfreight'">
+          <AirfreightPaymentTable :airfreightpayments="airfreightpayments" />
+        </div>
       </div>
     </div>
   </div>
@@ -96,7 +116,10 @@
 <script>
 import AirfreightPaymentTable from "./Components/Table.vue";
 import airfreigtApi from "@/Api/Modules/airefreights";
+import suplierpi from "@/Api/Modules/supliers";
+import paymentApi from "@/Api/Modules/payments";
 import vSelect from "vue-select";
+import store from "@/store";
 import {
   BImg,
   BContainer,
@@ -118,6 +141,9 @@ export default {
         company_name: "Select Airfreight",
       },
       airfreights: [],
+      airfreightpayments: [],
+      airfreight_lkr_due: "",
+      airfreight_usd_due: "",
     };
   },
   async created() {
@@ -137,7 +163,33 @@ export default {
     BInputGroupPrepend,
     BFormInput,
   },
+  async created() {
+    await this.initializeData();
+  },
   methods: {
+    // initiate  data with loading
+    async initializeData() {
+      // call all supliers
+      await this.getAllAirfreights();
+      // get sessionstorage suplier if any
+      if (
+        store.getters.getselectedairfreightforpayment.airfreight_id !== null ||
+        store.getters.getselectedairfreightforpayment.company_name !== null
+      ) {
+        // console.log(store.getters.getselectedsuplierforpayment)
+
+        // sessionstorage suplier name initiate
+        this.airfreight.company_name =
+          store.getters.getselectedairfreightforpayment.company_name;
+
+        // sessionstorage suplier id initiate
+        this.airfreight.id =
+          store.getters.getselectedairfreightforpayment.airfreight_id;
+
+        await this.getAirfreightPayments();
+      }
+    },
+
     // get all airfreights
 
     async getAllAirfreights() {
@@ -146,6 +198,32 @@ export default {
       });
       const res = await airfreigtApi.allAirfreids();
       this.airfreights = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // select suplier method
+    async selectAirfreight() {
+      // assign current selected suplier to store
+      store.commit("SET_SELECTED_AIRFREIGHT_FOR_PAYMENT", this.airfreight);
+      // call suplier payments
+      await this.getAirfreightPayments();
+    },
+
+    // get suplier payments
+    async getAirfreightPayments() {
+      // store suplier id to session storage
+      const payload = {
+        airfreight_id: this.airfreight.id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getAirfreightPayments(payload);
+      this.airfreightpayments = res.data.data.airfreightpayments;
+
+      this.airfreight_lkr_due = res.data.data.lkr_due_balance;
+      this.airfreight_usd_due = res.data.data.usd_due_balance;
+
       this.$vs.loading.close();
     },
   },

@@ -8,6 +8,18 @@
         :items="additionalpayments"
         :fields="fields"
       >
+
+      <template #cell(amount)="data">
+          {{ getPriceWithOutCurrency(data.value) }}
+        </template>
+
+        <template #cell(additionals_checks)="data">
+          <span v-if="data.item.check_id !== null">
+            {{ data.value.check_no }} - <b>{{ getPrice(data.value.amount) }}</b>
+          </span>
+          <span v-else> N/A </span>
+        </template>
+
         <template #cell(action)="data">
           <b-row no-gutters>
             <b-col lg="4">
@@ -87,7 +99,7 @@ export default {
           // tdClass: "td-style",
         },
         {
-          key: "date",
+          key: "payment_date",
           label: "Date",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -103,7 +115,7 @@ export default {
         },
 
         {
-          key: "check_no",
+          key: "additionals_checks",
           label: "Check Number",
           sortable: true,
           // thStyle: { width: "2%" },
@@ -125,45 +137,10 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      additionalpayments: [
-        {
-          payment_no: "p13",
-          payment_description: "Packing Boxes",
-          date: "p13",
-          amount: "230.00",
-          payment_method: "Check",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          payment_description: "Packing Boxes",
-          date: "p13",
-          amount: "230.00",
-          payment_method: "Check",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          payment_description: "Packing Boxes",
-          date: "p13",
-          amount: "230.00",
-          payment_method: "Check",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-        {
-          payment_no: "p13",
-          payment_description: "Packing Boxes",
-          date: "p13",
-          amount: "230.00",
-          payment_method: "Check",
-          check_no: "123444ghf",
-          bills: "SDA-144 - Continue",
-        },
-      ],
     };
+  },
+  props: {
+    additionalpayments: Array,
   },
   methods: {
     setCellPadding(value, key, item) {

@@ -35,6 +35,7 @@
               v-model="suplier"
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="name"
+              @input="selectSuplier()"
               :options="supliers"
             >
             </v-select>
@@ -82,14 +83,22 @@
         <br />
         <br />
         <!-- remaining balance -->
-        <div class="balance_amount">
+        <div class="balance_amount" v-if="suplier.name !== 'Select Suplier'">
           <span class="text"
-            >Remaining Supplier Bill Amount :
-            <b class="amount">Rs.500,000.00</b></span
-          >
+            ><b>{{ suplier.name }}'s</b> Remaining Bill Amount :
+
+            <b class="amount" v-if="suplier_due !== '' && suplier_due > 0">{{
+              getPrice(suplier_due)
+            }}</b>
+
+            <b class="amount" v-else>No Due Balance(Paid Fully)</b>
+          </span>
         </div>
         <!-- table -->
-        <SuplierPaymentTable />
+
+        <div v-if="suplier.name !== 'Select Suplier'">
+          <SuplierPaymentTable :suplierpayments="suplierpayments" />
+        </div>
       </div>
     </div>
   </div>
@@ -111,6 +120,8 @@ import {
   BFormInput,
 } from "bootstrap-vue";
 import suplierpi from "@/Api/Modules/supliers";
+import paymentApi from "@/Api/Modules/payments";
+import store from "@/store";
 export default {
   data() {
     return {
@@ -120,6 +131,8 @@ export default {
         name: "Select Suplier",
       },
       supliers: [],
+      suplierpayments: [],
+      suplier_due: "",
     };
   },
   components: {
@@ -138,17 +151,63 @@ export default {
     BFormInput,
   },
   async created() {
-    await this.getAllsupliers();
+    await this.initializeData();
   },
   methods: {
-    // get all supliers
+    // initiate  data with loading
+    async initializeData() {
+      // call all supliers
+      await this.getAllsupliers();
+      // get sessionstorage suplier if any
+      if (
+        store.getters.getselectedsuplierforpayment.suplier_id !== null ||
+        store.getters.getselectedsuplierforpayment.suplier_name !== null
+      ) {
+        // console.log(store.getters.getselectedsuplierforpayment)
 
+        //sessionstorage suplier name initiate
+        this.suplier.name =
+          store.getters.getselectedsuplierforpayment.suplier_name;
+
+        //sessionstorage suplier id initiate
+        this.suplier.id = store.getters.getselectedsuplierforpayment.suplier_id;
+
+        await this.getSuplierPayments();
+      }
+    },
+
+    // get all supliers
     async getAllsupliers() {
       await this.$vs.loading({
         scale: 0.8,
       });
       const res = await suplierpi.allSupliers();
       this.supliers = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // select suplier method
+    async selectSuplier() {
+      // assign current selected suplier to store
+      store.commit("SET_SELECTED_SUPLIER_FOR_PAYMENT", this.suplier);
+
+      // call suplier payments
+      await this.getSuplierPayments();
+    },
+
+    // get suplier payments
+    async getSuplierPayments() {
+      // store suplier id to session storage
+
+      const payload = {
+        suplier_id: this.suplier.id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getSuplierPayments(payload);
+      this.suplierpayments = res.data.data.suplierpayments;
+      this.suplier_due = res.data.data.due_balance;
       this.$vs.loading.close();
     },
   },

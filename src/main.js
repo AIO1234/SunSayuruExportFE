@@ -45,6 +45,17 @@ setupCalendar({
   },
 });
 
+// document.addEventListener("keydown", function (event) {
+//   if (event.ctrlKey && event.shiftKey && event.code === "KeyC") {
+//     event.preventDefault();
+//   }
+//   if (event.ctrlKey && event.shiftKey && event.code === "KeyI") {
+//     event.preventDefault();
+//   }
+//   if (event.ctrlKey && event.code === "KeyU") {
+//     event.preventDefault();
+//   }
+// });
 // document.addEventListener("contextmenu", (event) => event.preventDefault());
 
 Vue.component("v-date-picker", DatePicker);
@@ -57,7 +68,6 @@ require("@/assets/scss/suplierearnings.scss");
 require("@/assets/scss/payments.scss");
 require("@/assets/scss/profits.scss");
 require("@/assets/scss/dashboard.scss");
-
 
 auth_controller.init(router, store);
 Vue.config.productionTip = false;

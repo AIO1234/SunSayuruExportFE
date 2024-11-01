@@ -7,7 +7,11 @@
           <b-button
             variant="none"
             class="button_color button_width"
-            @click="$router.push(`/buyer_payments_add/${buyer.id}/${buyer.code}/${buyer.country.name}/${buyer.country.id}`)"
+            @click="
+              $router.push(
+                `/buyer_payments_add/${buyer.id}/${buyer.code}/${buyer.country.name}/${buyer.country.id}`
+              )
+            "
           >
             <div class="d-flex justify-content-start">
               <b-img
@@ -32,6 +36,7 @@
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="code"
               :options="buyers"
+              @input="selectBuyer()"
             >
               <template slot="option" slot-scope="option">
                 <div class="d-center">
@@ -95,20 +100,32 @@
         <br />
         <br />
         <!-- remaining balance -->
-        <div class="balance_amount">
+        <div class="balance_amount" v-if="buyer.code !== 'Select Buyer'">
           <span class="text"
-            >Remaining Buyer Bill Amount : <b class="amount">$.5000.00</b></span
-          >
+            ><b>{{ buyer.code }} 's</b> Remaining Due Amount For
+            <span v-if="buyer.country">{{ buyer.country.name }}</span> :
+
+            <b class="amount" v-if="buyer_due !== '' && buyer_due > 0">{{
+              getPriceUsd(buyer_due)
+            }}</b>
+
+            <b class="amount" v-else>No Due Balance(Paid Fully)</b>
+          </span>
         </div>
         <!-- table -->
-        <SuplierPaymentTable />
+        <div v-if="buyer.code !== 'Select Buyer' && buyer.country">
+          <BuyerPaymentTable
+            :buyerpayments="buyerpayments"
+            :country="buyer.country.name"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import buyerpi from "@/Api/Modules/buyers";
-import SuplierPaymentTable from "./Components/Table.vue";
+import BuyerPaymentTable from "./Components/Table.vue";
 import SuplierPaymentCreate from "./Components/AddPayment.vue";
 import vSelect from "vue-select";
 import {
@@ -123,6 +140,9 @@ import {
   BInputGroup,
   BFormInput,
 } from "bootstrap-vue";
+import paymentApi from "@/Api/Modules/payments";
+import store from "@/store";
+
 export default {
   data() {
     return {
@@ -130,13 +150,16 @@ export default {
       enddate: "",
       buyer: {
         code: "Select Buyer",
+        country: {},
       },
       buyers: [],
+      buyerpayments: [],
+      buyer_due: "",
     };
   },
   components: {
     SuplierPaymentCreate,
-    SuplierPaymentTable,
+    BuyerPaymentTable,
     BInputGroup,
     vSelect,
     BImg,
@@ -150,9 +173,37 @@ export default {
     BFormInput,
   },
   async created() {
-    await this.getAllBuyers();
+    await this.initializeData();
   },
   methods: {
+    // initiate  data with loading
+    async initializeData() {
+      // call all supliers
+      await this.getAllBuyers();
+      // get sessionstorage suplier if any
+      if (
+        store.getters.getselectedbuyerforpayment.buyer_id !== null ||
+        store.getters.getselectedbuyerforpayment.buyer_code !== null ||
+        store.getters.getselectedbuyerforpayment.country_id !== null ||
+        store.getters.getselectedbuyerforpayment.country_name !== null
+      ) {
+        // console.log(store.getters.getselectedbuyerforpayment)
+
+        //sessionstorage buyer name initiate
+        this.buyer.code = store.getters.getselectedbuyerforpayment.buyer_code;
+
+        //sessionstorage buyer id initiate
+        this.buyer.id = store.getters.getselectedbuyerforpayment.buyer_id;
+
+        this.buyer.country.id =
+          store.getters.getselectedbuyerforpayment.country_id;
+        this.buyer.country.name =
+          store.getters.getselectedbuyerforpayment.country_name;
+
+        await this.getBuyerPayments();
+      }
+    },
+
     // get all buyers
     async getAllBuyers() {
       await this.$vs.loading({
@@ -160,6 +211,30 @@ export default {
       });
       const res = await buyerpi.buyerswithqualities();
       this.buyers = res.data.data;
+      this.$vs.loading.close();
+    },
+
+    // select suplier method
+    async selectBuyer() {
+      // assign current selected suplier to store
+      store.commit("SET_SELECTED_BUYER_FOR_PAYMENT", this.buyer);
+
+      // call suplier payments
+      await this.getBuyerPayments();
+    },
+
+    // get suplier payments
+    async getBuyerPayments() {
+      // store suplier id to session storage
+      const payload = {
+        buyer_id: this.buyer.id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getBuyerPayments(payload);
+      this.buyerpayments = res.data.data.buyerpayments;
+      this.buyer_due = res.data.data.due_balance;
       this.$vs.loading.close();
     },
   },

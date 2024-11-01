@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-row
-      v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
+      v-if="$route.meta.dcrumb || $route.meta.pageTitle"
       class="content-header"
     >
       <!-- Content Left -->
-      <b-col class="content-header-left mb-2" lg="6" md="12">
+      <b-col class="content-header-left mb-2" lg="12" md="12" sm="12" cols="12">
         <b-row class="breadcrumbs-top">
           <b-col cols="12">
             <h2 class="content-header-title float-left pr-1 mb-0">
@@ -37,72 +37,81 @@
       <!-- Content Right -->
 
       <b-col
-        class="payments"
-        lg="6"
+        class="payments pt-5"
+        lg="12"
+        sm="12"
         md="12"
+        cols="12"
         v-if="$route.name === 'outgoingpayments'"
       >
-        <b-container>
-          <div>
-            <b-tabs
-              pills
-              align="right"
-              active-nav-item-class="bg-warning border-warning"
-              value="1"
+        <div>
+          <b-tabs
+            pills
+            align="left"
+            active-nav-item-class="bg-warning border-warning"
+            value="1"
+          >
+            <b-tab
+              :active="activesuplierpayments"
+              @click="changeTab1()"
+              title="Supplier Payments"
+              title-item-class="supplier_button"
             >
-              <b-tab
-                :active="activesuplierpayments"
-                @click="changeTab1()"
-                title="Supplier Payments"
-                title-item-class="supplier_button"
-              >
-                <template #title>
-                  <span class="text">Supplier Payments</span>
-                </template>
-                <br /><br />
-              </b-tab>
+              <template #title>
+                <span class="text">Supplier Payments</span>
+              </template>
+              <br /><br />
+            </b-tab>
 
-              <b-tab
-                :active="activeairfreightpayments"
-                @click="changeTab2()"
-                title="Air Freight Payments"
-                title-item-class="airfreight_button margin_class_tab"
-              >
-                <template #title>
-                  <span class="text">Air Freight Payments</span>
-                </template>
-                <br /><br />
-              </b-tab>
+            <b-tab
+              :active="activeairfreightpayments"
+              @click="changeTab2()"
+              title="Air Freight Payments"
+              title-item-class="airfreight_button margin_class_tab"
+            >
+              <template #title>
+                <span class="text">Air Freight Payments</span>
+              </template>
+              <br /><br />
+            </b-tab>
 
-              <b-tab
-                :active="activeaditionalpayments"
-                @click="changeTab3()"
-                title="Additional Payments"
-                title-item-class="additional_button  margin_class_tab"
-              >
-                <template #title>
-                  <span class="text">Additional Payments</span>
-                </template>
-                <br /><br />
-              </b-tab>
-            </b-tabs>
-          </div>
-        </b-container>
+            <b-tab
+              :active="activeaditionalpayments"
+              @click="changeTab3()"
+              title="Additional Payments"
+              title-item-class="additional_button  margin_class_tab"
+            >
+              <template #title>
+                <span class="text">Additional Payments</span>
+              </template>
+              <br /><br />
+            </b-tab>
+          </b-tabs>
+        </div>
       </b-col>
     </b-row>
 
-    <div v-if="tab1 === true && $route.name === 'outgoingpayments'">
-      <div class="web_only_view mt-1 pt-1"></div>
+    <div
+      v-if="
+        activesuplierpayments === true && $route.name === 'outgoingpayments'
+      "
+    >
       <SupliePayments />
     </div>
 
-    <div v-else-if="tab2 === true && $route.name === 'outgoingpayments'">
-      <div class="web_only_view mt-1 pt-1"></div>
+    <div
+      v-else-if="
+        activeairfreightpayments === true && $route.name === 'outgoingpayments'
+      "
+    >
       <AirfreightPayments />
     </div>
 
-    <div v-else-if="tab3 === true && $route.name === 'outgoingpayments'">
-      <div class="web_only_view mt-1 pt-1"></div>
+    <div
+      v-else-if="
+        activeaditionalpayments === true && $route.name === 'outgoingpayments'
+      "
+    >
       <AdditionalPayments />
     </div>
   </div>
@@ -118,6 +127,7 @@ import {
   BImg,
   BBreadcrumb,
   BBreadcrumbItem,
+  BContainer,
   BModal,
   VBModal,
   BRow,
@@ -129,6 +139,7 @@ import {
   BButton,
 } from "bootstrap-vue";
 import Ripple from "vue-ripple-directive";
+import store from "@/store";
 
 export default {
   directives: {
@@ -140,15 +151,14 @@ export default {
     return {
       modalTitle: "Add Category",
       emitedData: {},
-      tab1: false,
-      tab2: false,
-      tab3: false,
+
       activesuplierpayments: false,
       activeairfreightpayments: false,
       activeaditionalpayments: false,
     };
   },
   components: {
+    BContainer,
     SupliePayments,
     AirfreightPayments,
     AdditionalPayments,
@@ -167,24 +177,77 @@ export default {
     BButton,
   },
   created() {
-    this.tab1 = true;
-    this.activesuplierpayments = true;
+    this.initiateData();
   },
   methods: {
+    // initiate data
+
+    initiateData() {
+      // if selected store tab is suplier payment
+      if (
+        !store.getters.getselectedongoingpaymenttab !== null &&
+        store.getters.getselectedongoingpaymenttab === "Suplier_Payment_Tab"
+      ) {
+        this.activesuplierpayments = true;
+        this.activeairfreightpayments = false;
+        this.activeaditionalpayments = false;
+      }
+      // if selected store tab is airfreight payment
+      else if (
+        !store.getters.getselectedongoingpaymenttab !== null &&
+        store.getters.getselectedongoingpaymenttab === "Airfreight_Payment_Tab"
+      ) {
+        this.activeairfreightpayments = true;
+        this.activesuplierpayments = false;
+        this.activeaditionalpayments = false;
+      }
+      // if selected store tab is additional payment
+      else if (
+        !store.getters.getselectedongoingpaymenttab !== null &&
+        store.getters.getselectedongoingpaymenttab === "Additional_Payment_Tab"
+      ) {
+        this.activeaditionalpayments = true;
+        this.activesuplierpayments = false;
+        this.activeairfreightpayments = false;
+      } else {
+        this.activesuplierpayments = true;
+        this.activeairfreightpayments = false;
+        this.activeaditionalpayments = false;
+      }
+    },
+
     changeTab1() {
-      this.tab1 = true;
-      this.tab2 = false;
-      this.tab3 = false;
+      this.activesuplierpayments = true;
+      this.activeairfreightpayments = false;
+      this.activeaditionalpayments = false;
+
+      // store selected payment type to store
+
+      store.commit("SET_SELECTED_ONGOING_PAYMENT_TAB", "Suplier_Payment_Tab");
     },
     changeTab2() {
-      this.tab2 = true;
-      this.tab1 = false;
-      this.tab3 = false;
+      this.activeairfreightpayments = true;
+      this.activesuplierpayments = false;
+      this.activeaditionalpayments = false;
+
+      // store selected payment type to store
+
+      store.commit(
+        "SET_SELECTED_ONGOING_PAYMENT_TAB",
+        "Airfreight_Payment_Tab"
+      );
     },
     changeTab3() {
-      this.tab3 = true;
-      this.tab2 = false;
-      this.tab1 = false;
+      this.activeaditionalpayments = true;
+      this.activesuplierpayments = false;
+      this.activeairfreightpayments = false;
+
+      // store selected payment type to session storage
+
+      store.commit(
+        "SET_SELECTED_ONGOING_PAYMENT_TAB",
+        "Additional_Payment_Tab"
+      );
     },
   },
 };
