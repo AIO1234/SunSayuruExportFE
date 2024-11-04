@@ -184,9 +184,9 @@ export default {
         });
         await checkApi
           .storeCheck(this.form)
-          .then(() => {
+          .then((res) => {
             this.$vs.loading.close();
-            this.$emit("close", true);
+            this.$emit("close", res.data.data);
           })
           .catch(() => {
             this.$vs.loading.close();

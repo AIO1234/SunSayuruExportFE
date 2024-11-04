@@ -50,6 +50,42 @@ export default {
   },
 
   async getBuyerPayments(payload) {
-    return await api.post("/buyer_payment/allbuyerpayments" , payload);
+    return await api.post("/buyer_payment/allbuyerpayments", payload);
+  },
+
+  // show payment
+
+  async showSuplierPayment(payload) {
+    return await api.post("/suplier_payment/editpayment", payload);
+  },
+
+  async showAirfreightPayment(payload) {
+    return await api.post("/airfreight_payment/editpayment", payload);
+  },
+
+  async shoBuyerPayment(payload) {
+    return await api.post("/buyer_payment/editpayment", payload);
+  },
+
+  async shoAdditionalPayment(payload) {
+    return await api.post("/additional_payment/editpayment", payload);
+  },
+
+  // update payment
+
+  async updateSuplierPayment(payload) {
+    return await api.post("/suplier_payment/updatepayment", payload);
+  },
+
+  async updateAirfreightPayment(payload) {
+    return await api.post("/airfreight_payment/updatepayment", payload);
+  },
+
+  async updateBuyerPayment(payload) {
+    return await api.post("/buyer_payment/updatepayment", payload);
+  },
+
+  async updateAdditionalPayment(payload) {
+    return await api.post("/additional_payment/updatepayment", payload);
   },
 };

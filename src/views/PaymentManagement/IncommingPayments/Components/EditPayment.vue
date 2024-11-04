@@ -15,11 +15,13 @@
         <b-card>
           <center>
             <b-card-title class="modal_title_color_payment"
-              >Update Buyer payments</b-card-title
+              >Update {{ $route.params.payment_code }} Payment For
+              {{ $route.params.buyer_code }} -
+              {{ $route.params.country_name }}</b-card-title
             >
           </center>
           <div class="mt-3"></div>
-          <b-form @submit.prevent class="Edit_Form">
+          <b-form @submit.prevent class="Add_Form">
             <validation-observer ref="PaymentUpdateValidation">
               <b-row>
                 <!-- Payment ID / Payment No -->
@@ -75,230 +77,136 @@
                     >
                       <b-form-input
                         placeholder="Enter Payment ID / Payment No"
-                        v-model="form.rate"
+                        v-model="form.buyer_converting_rate"
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
-                <!-- payment currency -->
-                <b-col lg="12" class="mt-1">
-                  <b-form-group
-                    label="Payment Currency*"
-                    label-class="form_label_class"
-                  >
-                    <validation-Provider
-                      name="Payment Currency"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <v-select
-                        v-model="paymentcurrency"
-                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="title"
-                        :options="paymentCurrencies"
-                      >
-                      </v-select>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
-                </b-col>
-
-                <!-- countries -->
 
                 <div class="mt-3"></div>
                 <span></span>
-                <!--country  repeater form -->
-                <b-col lg="12" class="mt-2">
-                  <b-card
-                    class="repeater_body"
-                    v-for="(country, countryindex) in countries"
-                    :key="country.id"
-                    :id="country.id"
+                <!--bills  repeater form -->
+                <b-col lg="12" class="mt-2 repeater_body">
+                  <!-- bill repeater form -->
+                  <b-row
+                    class="mr-1 pt-2"
+                    v-for="(bill, index) in bills"
+                    :key="bill"
+                    :id="bill"
                   >
-                    <!-- country -->
-                    <div class="text-left">
+                    <br /><br />
+                    <br /><br />
+                    <!-- bill number -->
+                    <b-col lg="4">
                       <b-form-group
-                        label="Country*"
+                        label="Bill No*"
                         label-class="form_label_class"
                       >
                         <validation-Provider
-                          name="Country"
+                          name="Bill No"
                           rules="required"
                           v-slot="{ errors }"
                         >
                           <v-select
+                            class="form_input"
+                            v-model="bill.billnumber"
                             :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                            label="country"
-                            v-model="country.country"
-                            class="form_input country"
-                            :options="buyercountries"
+                            label="invoce_no"
+                            @input="uniqueShipments(index, bill.billnumber)"
+                            :options="billnumbers"
+                          >
+                            <template slot="option" slot-scope="option">
+                              <div class="d-center">
+                                <span
+                                  >{{ option.invoice_no }} -
+                                  <b>{{ option.pending_cost }}</b></span
+                                >
+                              </div>
+                            </template>
+                            <template #selected-option="option">
+                              <div v-if="bill.billnumber === 'Select Invoice'">
+                                {{ bill.billnumber }}
+                              </div>
+                              <div v-else>
+                                {{ option.invoice_no }} -
+                                <b> {{ option.pending_cost }}</b>
+                              </div>
+                            </template>
+                          </v-select>
+                          <span class="text-danger">{{ errors[0] }}</span>
+                        </validation-Provider>
+                      </b-form-group>
+                    </b-col>
+                    <!-- status -->
+                    <b-col lg="3">
+                      <b-form-group
+                        label="Payment Status*"
+                        label-class="form_label_class"
+                      >
+                        <validation-Provider
+                          name="Status"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <v-select
+                            class="form_input"
+                            v-model="bill.status"
+                            :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                            label="status"
+                            :options="billstatuses"
+                            @input="
+                              fillAmount(
+                                index,
+                                bill.status,
+                                bill.billnumber.pending_cost
+                              )
+                            "
                           >
                           </v-select>
                           <span class="text-danger">{{ errors[0] }}</span>
                         </validation-Provider>
                       </b-form-group>
-                    </div>
-
-                    <!-- bill repeater form -->
-                    <b-row
-                      class="mr-1 pt-2"
-                      v-for="(bill, billindex) in country.bills"
-                      :key="bill.id"
-                      :id="bill.id"
-                    >
-                      <br /><br />
-                      <br /><br />
-                      <!-- bill number -->
-                      <b-col lg="4">
-                        <b-form-group
-                          label="Bill No*"
-                          label-class="form_label_class"
+                    </b-col>
+                    <!-- amount -->
+                    <b-col lg="4">
+                      <b-form-group
+                        label="Paid Amount*"
+                        label-class="form_label_class"
+                      >
+                        <validation-Provider
+                          name="Amount"
+                          rules="required"
+                          v-slot="{ errors }"
                         >
-                          <validation-Provider
-                            name="Bill No"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <v-select
-                              class="form_input"
-                              v-model="bill.billnumber"
-                              :dir="
-                                $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
-                              "
-                              label="invoce_no"
-                              :options="billnumbers"
-                            >
-                              <template slot="option" slot-scope="option">
-                                <div class="d-center">
-                                  <span
-                                    >{{ option.invoce_no }} -
-                                    {{ option.total }}</span
-                                  >
-                                </div>
-                              </template>
-                              <template #selected-option="option">
-                                <div
-                                  v-if="bill.billnumber === 'Select Invoice'"
-                                >
-                                  {{ bill.billnumber }}
-                                </div>
-                                <div v-else>
-                                  {{ bill.billnumber.invoce_no }} -
-                                  <b> {{ bill.billnumber.total }}</b>
-                                </div>
-                              </template>
-                            </v-select>
-                            <span class="text-danger">{{ errors[0] }}</span>
-                          </validation-Provider>
-                        </b-form-group>
-                      </b-col>
-                      <!-- status -->
-                      <b-col lg="3">
-                        <b-form-group
-                          label="Payment Status*"
-                          label-class="form_label_class"
-                        >
-                          <validation-Provider
-                            name="Status"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <v-select
-                              class="form_input"
-                              v-model="bill.status"
-                              :dir="
-                                $store.state.appConfig.isRTL ? 'rtl' : 'ltr'
-                              "
-                              label="title"
-                              :options="billstatuses"
-                              @input="
-                                fillAmount(
-                                  country.bills,
-                                  billindex,
-                                  bill.status,
-                                  bill.billnumber.total
-                                )
-                              "
-                            >
-                            </v-select>
-                            <span class="text-danger">{{ errors[0] }}</span>
-                          </validation-Provider>
-                        </b-form-group>
-                      </b-col>
-                      <!-- amount -->
-                      <b-col lg="4">
-                        <b-form-group
-                          label="Paid Amount*"
-                          label-class="form_label_class"
-                        >
-                          <validation-Provider
-                            name="Amount"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <b-form-input
-                              class="form_input"
-                              placeholder="Enter Amount"
-                              v-model="bill.paidamount"
-                            ></b-form-input>
-                            <span class="text-danger">{{ errors[0] }}</span>
-                          </validation-Provider>
-                        </b-form-group>
-                      </b-col>
-                      <b-col lg="1" class="minus_button_margin">
-                        <b-button
-                          variant="none"
-                          @click="removeBill(country.bills, billindex)"
-                        >
-                          <b-img src="@/assets/images/Group.png"></b-img>
-                        </b-button>
-                      </b-col>
-                    </b-row>
-                    <br />
-                    <b-button
-                      variant="none"
-                      @click="repeatBill(country.bills)"
-                      class="repeater_add_bill_buton"
-                    >
-                      <span class="text">Add bill</span>
-                    </b-button>
-                  </b-card>
-
-                  <div class="text-right" v-if="returnlenth > 1">
-                    <b-button
-                      variant="none"
-                      @click="removeCountry(countryindex)"
-                      class="repeater_remove_buton"
-                    >
-                      <span class="text">Remove Country</span>
-                    </b-button>
-                  </div>
-                </b-col>
-
-                <!-- Amount LKR -->
-                <b-col md="12" class="mt-1">
-                  <b-form-group
-                    label="Amount(Lkr)*"
-                    label-class="form_label_class"
+                          <b-form-input
+                            class="form_input"
+                            placeholder="Enter Amount"
+                            v-model="bill.paid_amount"
+                          ></b-form-input>
+                          <span class="text-danger">{{ errors[0] }}</span>
+                        </validation-Provider>
+                      </b-form-group>
+                    </b-col>
+                    <b-col lg="1" class="minus_button_margin">
+                      <b-button variant="none" @click="removeItem(index)">
+                        <b-img src="@/assets/images/Group.png"></b-img>
+                      </b-button>
+                    </b-col>
+                  </b-row>
+                  <br />
+                  <b-button
+                    variant="none"
+                    @click="repeatBill()"
+                    class="repeater_add_bill_buton"
                   >
-                    <validation-Provider
-                      name="Amount"
-                      rules="required"
-                      v-slot="{ errors }"
-                    >
-                      <b-form-input
-                        placeholder="Enter Amount"
-                        v-model="form.lkramount"
-                        readonly
-                      ></b-form-input>
-                      <span class="text-danger">{{ errors[0] }}</span>
-                    </validation-Provider>
-                  </b-form-group>
+                    <span class="text">Add bill</span>
+                  </b-button>
+                  <br /><br />
                 </b-col>
 
-                <!-- Amount USD -->
-                <b-col md="12" class="mt-1">
+                <!-- Amount-->
+                <b-col md="12" class="mt-3">
                   <b-form-group
                     label="Amount(USD)*"
                     label-class="form_label_class"
@@ -310,7 +218,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.usdamount"
+                        v-model="form.amount"
                         readonly
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
@@ -328,12 +236,12 @@
                 <!-- button -->
                 <b-col md="12" class="mt-5 pt-2 text-center">
                   <b-button
-                    @click="validationPaymentCreateForm()"
+                    @click="validationPaymentUpdateForm()"
                     type="submit"
                     variant="none"
                     class="form_submit_button"
                   >
-                    <span class="button_text_styles"> Create</span>
+                    <span class="button_text_styles"> Update</span>
                   </b-button>
                 </b-col>
               </b-row>
@@ -382,9 +290,8 @@ import {
 import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
-import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
-
+import paymentApi from "@/Api/Modules/payments";
 import {
   required,
   email,
@@ -431,102 +338,22 @@ export default {
   data() {
     return {
       form: {
-        lkramount: 0,
-        usdamount: 0,
+        amount: 0,
       },
-      nextTodoId: 1,
 
-      // countries
-      buyercountries: [
-        {
-          country: "Spain",
-          id: 1,
-        },
-        {
-          country: "Canada",
-          id: 2,
-        },
-      ],
-      // countries array
-      countries: [
-        {
-          country: {
-            country: "Spain",
-            id: 1,
-          },
-          bills: [
-            {
-              id: 1,
-              billnumber: "Select Invoice",
-              status: "Select Status",
-              paidamount: "",
-            },
-          ],
-        },
-
-        {
-          country: {
-            country: "Canada",
-            id: 2,
-          },
-          bills: [
-            {
-              id: 1,
-              billnumber: "Select Invoice",
-              status: "Select Status",
-              paidamount: "",
-            },
-          ],
-        },
-      ],
-      //
-
+      bills: [],
       // bill numbers
-      billnumbers: [
-        {
-          invoce_no: "A123",
-          id: 1,
-          total: 120.0,
-        },
-        {
-          invoce_no: "A123",
-          id: 2,
-          total: 120.0,
-        },
-      ],
+      billnumbers: [],
       // statuses
       billstatuses: [
         {
-          title: "Continue",
+          status: "Continue",
         },
         {
-          title: "Done",
+          status: "Done",
         },
       ],
-      // paymenr currencies
-      paymentCurrencies: [
-        {
-          title: "USD",
-          id: 1,
-        },
-        {
-          title: "LKR",
-          id: 2,
-        },
-      ],
-      // payent currency
-      paymentcurrency: {
-        title: "LKR",
-        id: 2,
-      },
-      // suplier checks
-      suplierchecks: [
-        {
-          check_no: "Add New",
-        },
-      ],
-      // check  number
-      checknumber: {},
+
       // validations
 
       required,
@@ -547,98 +374,150 @@ export default {
     loadingStatus: Boolean,
   },
 
-  computed: {
-    returnlenth() {
-      return this.countries.length;
-    },
+  async created() {
+    await this.getPendingShipments();
+    await this.showPayment();
   },
-  methods: {
-    // create payment
-    async validationPaymentCreateForm() {
-      // if (await this.$refs.PaymentUpdateValidation.validate()) {
-      //   await this.$vs.loading({
-      //     scale: 0.8,
-      //   });
-      //   await qualityApi
-      //     .storeQuality(this.form, this.loadingStatus)
-      //     .then(() => {
-      //       this.$vs.loading.close();
-      //       this.$emit("close", false);
-      //     })
-      //     .catch(() => {
-      //       this.$vs.loading.close();
-      //     });
-      // }
-    },
-    // open  check modal
 
-    opencheckmodel() {
-      // finalize bill amount and initialize to final amount
-      this.finalizeAmount();
-      // open chcek modal
-      if (this.checknumber.check_no === "Add New") {
-        this.form.check_type = "Supplier_Check";
-        this.$refs.createcheckmodal.show();
-        this.suplierchecks.push({
-          check_no: "A23444",
-          id: 1,
+  methods: {
+    // update payment
+    async validationPaymentUpdateForm() {
+      this.form.payment_currency = "USD";
+      this.form.shipments = this.bills;
+      this.form.id = this.$route.params.payment_id;
+
+      if (await this.$refs.PaymentUpdateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
         });
-        this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
+        await paymentApi
+          .updateBuyerPayment(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$router.push("/incomming_payments");
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
+
+    // edit payment to show selected payment details
+    async showPayment() {
+      const payload = {
+        id: this.$route.params.payment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.shoBuyerPayment(payload);
+      this.form = res.data.data;
+
+      // loop all data for selected shipment
+      this.form.buyer_payment_invoices.forEach((val) => {
+        const obj = this.billnumbers.find((value) => {
+          return value.id === val.id;
+        });
+        // check paid shipments available in pending shipments
+        if (obj === undefined) {
+          // if not available in pendinf shipments , paid shipment will  e  added as selected billnumber
+          this.billnumbers.push({
+            id: val.id,
+            invoice_no: val.invoice_no,
+            pending_cost: val.pivot.paid_amount,
+          });
+
+          this.bills.push({
+            billnumber: {
+              id: val.id,
+              invoice_no: val.invoice_no,
+              pending_cost: val.pivot.paid_amount,
+            },
+            status: val.pivot,
+            paid_amount: val.pivot.paid_amount,
+            country_id: val.country_id,
+          });
+        } else {
+          // if available in pendinf shipments , pending shipment will  e  added as  selected billnumber
+          this.bills.push({
+            billnumber: obj,
+            status: val.pivot,
+            paid_amount: val.pivot.paid_amount,
+            country_id: val.country_id,
+          });
+        }
+      });
+      this.$vs.loading.close();
+    },
+
+    // get new or contnue shipments
+
+    async getPendingShipments() {
+      const payload = {
+        buyer_id: this.$route.params.buyer_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.getBuyerPendingShipments(payload);
+      this.billnumbers = res.data.data;
+
+      this.$vs.loading.close();
+    },
+
     // repeat bill
-    repeatBill(bills) {
-      bills.push({
+    repeatBill() {
+      this.bills.push({
         billnumber: "Select Invoice",
         status: "Select Status",
-        paidamount: "",
+        paid_amount: "",
+        country_id: "",
       });
     },
     // remove bill
-
-    removeBill(bills, billindex) {
-      bills.splice(billindex, 1);
-      // this.finalizeAmount();
-    },
-    // remove country
-    removeCountry(index) {
-      this.countries.splice(index, 1);
-
-      // this.finalizeAmount();
+    removeItem(index) {
+      this.bills.splice(index, 1);
+      this.finalizeAmount(this.paymentmethod);
     },
 
     // automatialyy fills the bill paid amount
-    fillAmount(bills, index, status, billtotal) {
+    fillAmount(index, status, billtotal) {
+      // assign country id
+
+      this.bills[index].country_id = this.$route.params.country_id;
       // if status done , amount will be sameas bill value
-      if (status.title === "Done") {
-        bills[index].paidamount = billtotal;
+      if (status.status === "Done") {
+        this.bills[index].paid_amount = billtotal;
       }
       // if status continue , amount must be added
       else {
-        bills[index].paidamount = 0;
+        this.bills[index].paid_amount = 0;
       }
 
-      this.form.lkramount = "Processing.....";
-      this.form.usdamount = "Processing.....";
+      this.form.amount = "Processing.....";
     },
 
     // finalize bill amount and initialize to final amount
     finalizeAmount() {
       let total = 0;
-      this.countries.forEach((element1) => {
-        element1.bills.forEach((element2) => {
-          total = total + parseFloat(element2.paidamount);
-        });
-      });
 
-      if (this.paymentcurrency.title === "LKR") {
-        this.form.lkramount = total;
-        this.form.usdamount = total / this.form.rate;
-      } else if (this.paymentcurrency.title === "USD") {
-        this.form.lkramount = total * this.form.rate;
-        this.form.usdamount = total;
+      this.bills.forEach((element) => {
+        total = total + parseFloat(element.paid_amount);
+      });
+      this.form.amount = total;
+    },
+
+    // check aleady selected the shipment
+    uniqueShipments(index, value) {
+      if (index > 0) {
+        if (this.bills[index - 1].billnumber.id === value.id) {
+          notification.toast(
+            "You Have already Selected This Shipment",
+            "error"
+          );
+          this.bills[index].billnumber = "";
+        }
       }
-      console.log(this.form.lkramount);
     },
   },
 };

@@ -8,8 +8,7 @@
         :items="additionalpayments"
         :fields="fields"
       >
-
-      <template #cell(amount)="data">
+        <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
@@ -25,7 +24,11 @@
             <b-col lg="4">
               <b-button
                 variant="flat-none"
-                @click="$router.push('/addtional_payments_edit')"
+                @click="
+                  $router.push(
+                    `/addtional_payments_edit/${data.item.id}/${data.item.payment_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"

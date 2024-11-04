@@ -37,7 +37,7 @@ export default [
   },
 
   {
-    path: "/suplier_payments_update",
+    path: "/suplier_payments_update/:payment_id/:suplier_name/:suplier_id/:payment_code",
     name: "suplier_payments_update",
     component: () =>
       import(
@@ -77,7 +77,7 @@ export default [
   },
 
   {
-    path: "/airfreight_payments_edit",
+    path: "/airfreight_payments_edit/:payment_id/:company_name/:airfreight_id/:payment_code",
     name: "airfreight_payments_edit",
     component: () =>
       import(
@@ -117,7 +117,7 @@ export default [
   },
 
   {
-    path: "/addtional_payments_edit",
+    path: "/addtional_payments_edit/:payment_id/:payment_code",
     name: "addtional_payments_edit",
     component: () =>
       import(
@@ -140,9 +140,7 @@ export default [
     path: "/incomming_payments",
     name: "incomming_payments",
     component: () =>
-      import(
-        "@/views/PaymentManagement/IncommingPayments/index.vue"
-      ),
+      import("@/views/PaymentManagement/IncommingPayments/index.vue"),
     meta: {
       authReuire: true,
       role: ["Super Admin", "Admin"],
@@ -155,7 +153,6 @@ export default [
       ],
     },
   },
-
 
   {
     path: "/buyer_payments_add/:buyer_id/:buyer_code/:country_name/:country_id",
@@ -177,9 +174,8 @@ export default [
     },
   },
 
-
   {
-    path: "/buyer_payments_update",
+    path: "/buyer_payments_update/:buyer_id/:buyer_code/:payment_code/:country_name/:payment_id/:country_id",
     name: "buyer_payments_update",
     component: () =>
       import(

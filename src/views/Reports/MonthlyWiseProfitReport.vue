@@ -27,17 +27,12 @@
           :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
           label="year"
           :options="years"
+          @input="monthlyprofit()"
         >
         </v-select>
       </b-col>
       <b-col lg="4" class="text-right">
         <!-- space only for mobile -->
-        <div class="mobile_only_view">
-          <div class="mt-2"></div>
-        </div>
-        <b-button variant="none" class="download_button"
-          ><span class="download_button_color">Download</span></b-button
-        >
       </b-col>
     </b-row>
 
@@ -47,14 +42,53 @@
       <b-table
         sticky-header=""
         responsive="sm"
-        :items="monthlyprofit"
+        :items="profitData"
         :fields="fields"
       >
+        <template #cell(month)="data">
+          {{ getMonth(data.value) }}
+        </template>
+
+        <template #cell(total_usd_income)="data">
+          {{ getPriceUsd(data.value) }}
+        </template>
+
+        <template #cell(total_lkr_income)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(total_airfreight_usd_expense)="data">
+          {{ getPriceUsd(data.value) }}
+        </template>
+
+        <template #cell(total_airfreight_lkr_expense)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(total_suplier_expense)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(total_material_expense)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(total_additional_expense)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(profitorlossvalue)="data">
+          {{ getPrice(data.value) }}
+        </template>
         <!-- action-->
         <template #cell(action)="data">
           <b-button
             variant="flat-none"
-            @click="$router.push('/shipments_wise_monthly_profit_inner')"
+            @click="
+              $router.push(
+                `/shipments_wise_monthly_profit_inner/${year.year}/${data.item.month}`
+              )
+            "
           >
             <b-img
               width="17px"
@@ -68,6 +102,7 @@
 </template>
 <script>
 import vSelect from "vue-select";
+import reportApi from "@/Api/Modules/reports";
 import {
   BImg,
   BContainer,
@@ -122,7 +157,7 @@ export default {
         },
       ],
       year: {
-        year: "2024",
+        year: new Date().getFullYear(),
       },
       fields: [
         {
@@ -150,34 +185,44 @@ export default {
         },
 
         {
-          key: "total_expences",
-          label: "Total Expenses",
+          key: "total_airfreight_usd_expense",
+          label: "Total Air freight Usd expenses($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
 
         {
-          key: "total_airfreight_expences",
-          label: "Total Air freight expenses",
+          key: "total_airfreight_lkr_expense",
+          label: "Total Air freight Lkr expenses(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
         {
-          key: "total_additional_expences",
-          label: "Total Additional Expenses",
+          key: "total_suplier_expense",
+          label: "Total Supplier Expenses(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
+
         {
-          key: "total_supplier_expences",
-          label: "Total Supplier Expenses",
+          key: "total_material_expense",
+          label: "Total Material Expenses(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
+
+        {
+          key: "total_additional_expense",
+          label: "Total Additional Expenses(Rs)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "td-style",
+        },
+
         {
           key: "status",
           label: "Status",
@@ -187,8 +232,8 @@ export default {
         },
 
         {
-          key: "profit_amount",
-          label: "Profit/Loss Amount",
+          key: "profitorlossvalue",
+          label: "Profit/Loss Amount(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -202,53 +247,32 @@ export default {
           // tdClass: "td-style",
         },
       ],
-      monthlyprofit: [
-        {
-          month: "January",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "60000",
-          total_airfreight_expences: "30000.00",
-          total_additional_expences: "20000.00",
-          total_supplier_expences: "10000.00",
-          status: "Profit",
-          profit_amount: "40000.00",
-        },
-        {
-          month: "January",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "60000",
-          total_airfreight_expences: "30000.00",
-          total_additional_expences: "20000.00",
-          total_supplier_expences: "10000.00",
-          status: "Profit",
-          profit_amount: "40000.00",
-        },
-        {
-          month: "January",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "60000",
-          total_airfreight_expences: "30000.00",
-          total_additional_expences: "20000.00",
-          total_supplier_expences: "10000.00",
-          status: "Profit",
-          profit_amount: "40000.00",
-        },
-        {
-          month: "January",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "60000",
-          total_airfreight_expences: "30000.00",
-          total_additional_expences: "20000.00",
-          total_supplier_expences: "10000.00",
-          status: "Profit",
-          profit_amount: "40000.00",
-        },
-      ],
+      profitData: [],
     };
+  },
+  async created() {
+    await this.monthlyprofit();
+  },
+  methods: {
+    async monthlyprofit() {
+      const payload = {
+        year: this.year.year,
+      };
+
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      await reportApi
+        .monthlyWiseProfit(payload)
+        .then((res) => {
+          this.profitData = res.data.data;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+    },
   },
 };
 </script>

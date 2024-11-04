@@ -8,7 +8,10 @@
       <span class="text">Back</span>
     </b-button>
     <div class="mt-3">
-      <span class="inner_view_title">January 2024 - Profit & Loss Report</span>
+      <span class="inner_view_title"
+        >{{  getMonth($route.params.month) }} {{ $route.params.year }} - Profit & Loss
+        Report</span
+      >
     </div>
 
     <div class="mt-5"></div>
@@ -74,12 +77,6 @@
 
       <b-col lg="3" class="text-right">
         <!-- space only for mobile -->
-        <div class="mobile_only_view">
-          <div class="mt-2"></div>
-        </div>
-        <b-button variant="none" class="download_button"
-          ><span class="download_button_color">Download</span></b-button
-        >
       </b-col>
     </b-row>
 
@@ -92,6 +89,21 @@
         :items="shipmentprofit"
         :fields="fields"
       >
+        <template #cell(total_usd_income)="data">
+          {{ getPriceUsd(data.value) }}
+        </template>
+
+        <template #cell(total_lkr_income)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(total_expences)="data">
+          {{ getPrice(data.value) }}
+        </template>
+
+        <template #cell(profitorlossvalue)="data">
+          {{ getPrice(data.value) }}
+        </template>
       </b-table>
     </b-card>
   </div>
@@ -115,6 +127,7 @@ import {
   BInputGroup,
   BInputGroupPrepend,
 } from "bootstrap-vue";
+import reportApi from "@/Api/Modules/reports";
 export default {
   components: {
     BImg,
@@ -140,8 +153,8 @@ export default {
       enddate: "",
       fields: [
         {
-          key: "shipment_no",
-          label: "Shipment No",
+          key: "invoice_no",
+          label: "Invoice No",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -186,52 +199,40 @@ export default {
           // tdClass: "td-style",
         },
         {
-          key: "profitamount",
+          key: "profitorlossvalue",
           label: "Profit/Loss Amount",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
       ],
-      shipmentprofit: [
-        {
-          shipment_no: "SXC-12344",
-          eta: "2024.09.9",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "3000.00",
-          status: "Profit",
-          profitamount: "10000",
-        },
-        {
-          shipment_no: "SXC-12344",
-          eta: "2024.09.9",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "3000.00",
-          status: "Profit",
-          profitamount: "10000",
-        },
-        {
-          shipment_no: "SXC-12344",
-          eta: "2024.09.9",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "3000.00",
-          status: "Profit",
-          profitamount: "10000",
-        },
-        {
-          shipment_no: "SXC-12344",
-          eta: "2024.09.9",
-          total_usd_income: "230.00",
-          total_lkr_income: "22230.00",
-          total_expences: "3000.00",
-          status: "Profit",
-          profitamount: "10000",
-        },
-      ],
+      shipmentprofit: [],
     };
+  },
+  async created() {
+    await this.monthlyProfitInnerShipments();
+  },
+  methods: {
+    async monthlyProfitInnerShipments() {
+      const payload = {
+        year: this.$route.params.year,
+        month: this.$route.params.month,
+      };
+
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      await reportApi
+        .monthlyWiseProfitInnerShipments(payload)
+        .then((res) => {
+          this.shipmentprofit = res.data.data;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+    },
   },
 };
 </script>

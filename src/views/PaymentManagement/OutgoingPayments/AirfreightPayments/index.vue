@@ -86,28 +86,22 @@
           class="balance_amount"
           v-if="airfreight.company_name !== 'Select Airfreight'"
         >
-          <span class="text"
-            >
-            <b>{{ airfreight.company_name }}'s </b> Remaining Airfreight Bill Amount :
-            <b
-              class="amount"
-              v-if="
-                airfreight_lkr_due !== '' &&
-                airfreight_usd_due !== '' &&
-                airfreight_lkr_due > 0 &&
-                airfreight_usd_due > 0
-              "
+          <span class="text">
+            <b>{{ airfreight.company_name }}'s </b> Remaining Airfreight Bill
+            Amount :
+            <b class="amount"
               >{{ getPrice(airfreight_lkr_due) }}({{
                 getPriceUsd(airfreight_usd_due)
               }})
             </b>
-
-            <b class="amount" v-else>No Due Balance(Paid Fully) </b>
           </span>
         </div>
         <!-- table -->
         <div v-if="airfreight.company_name !== 'Select Airfreight'">
-          <AirfreightPaymentTable :airfreightpayments="airfreightpayments" />
+          <AirfreightPaymentTable
+            :airfreightpayments="airfreightpayments"
+            :airfreight="airfreight"
+          />
         </div>
       </div>
     </div>
@@ -145,9 +139,6 @@ export default {
       airfreight_lkr_due: "",
       airfreight_usd_due: "",
     };
-  },
-  async created() {
-    await this.getAllAirfreights();
   },
   components: {
     AirfreightPaymentTable,

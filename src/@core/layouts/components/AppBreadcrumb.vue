@@ -183,6 +183,7 @@ export default {
     // initiate data
 
     initiateData() {
+      console.log('store.getters.getselectedongoingpaymenttab');
       // if selected store tab is suplier payment
       if (
         !store.getters.getselectedongoingpaymenttab !== null &&

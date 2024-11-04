@@ -15,7 +15,7 @@
         <b-card>
           <center>
             <b-card-title class="modal_title_color_payment"
-              >Update Additional payments</b-card-title
+              >Update {{ $route.params.payment_code }} payment</b-card-title
             >
           </center>
           <div class="mt-3"></div>
@@ -92,7 +92,7 @@
                     >
                       <b-form-input
                         placeholder="Enter Amount"
-                        v-model="form.lkramount"
+                        v-model="form.amount"
                       ></b-form-input>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
@@ -114,6 +114,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
+                        @input="getContinueChecks(true)"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -147,11 +148,28 @@
                         <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
-                            v-if="option.check_no === 'Add New'"
+                            v-if="
+                              option.check_no === 'Add New' ||
+                              option.check_no === 'Replace Amount'
+                            "
                           >
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
                             }}</span>
+                          </div>
+
+                          <div class="d-center" v-else>
+                            <span
+                              >{{ option.check_no }} -
+                              <b>{{ option.amount }}</b></span
+                            >
+                          </div>
+                        </template>
+
+                        <template #selected-option="option">
+                          <div v-if="option.check_no">
+                            {{ option.check_no }} -
+                            <b> {{ option.amount }}</b>
                           </div>
                         </template>
                       </v-select>
@@ -185,11 +203,11 @@
       <b-modal
         ref="createcheckmodal"
         hide-footer
-        title="Add Check"
+        :title="checkTitle"
         title-class="modal_title_color"
         no-close-on-backdrop
       >
-        <AdditionalCheckCreate :propForm="form" />
+        <AdditionalCheckCreate :propForm="form" @close="closeModal" />
       </b-modal>
 
       <!-- check create alert -->
@@ -252,6 +270,8 @@ import {
   alphaDash,
   length,
 } from "@validations";
+import paymentApi from "@/Api/Modules/payments";
+import checkApi from "@/Api/Modules/checkbook";
 export default {
   name: "AddAdditionalPayment",
   components: {
@@ -284,59 +304,22 @@ export default {
   data() {
     return {
       form: {},
-      nextTodoId: 1,
-      // bill repeater
-      bills: [
-        {
-          billnumber: "Select Invoice",
-          status: "Select Status",
-          paidamount: "",
-        },
-      ],
-      // bill numbers
-      billnumbers: [
-        {
-          invoce_no: "A123",
-          id: 1,
-          total: 120.0,
-        },
-        {
-          invoce_no: "A123",
-          id: 2,
-          total: 120.0,
-        },
-      ],
-      // statuses
-      billstatuses: [
-        {
-          title: "Continue",
-        },
-        {
-          title: "Done",
-        },
-      ],
+
       // bill statuses
       paymentMethods: [
         {
           title: "Cash",
-          id: 1,
         },
         {
           title: "Check",
-          id: 2,
         },
       ],
       // payent method
       paymentmethod: {
         title: "Cash",
-        id: 1,
       },
       // suplier checks
-      aditionalchecks: [
-        {
-          check_no: "Add New",
-        },
-      ],
+      aditionalchecks: [],
       // check  number
       checknumber: {},
       // validations
@@ -359,52 +342,131 @@ export default {
     loadingStatus: Boolean,
   },
 
+  async created() {
+    await this.showPayment();
+  },
   methods: {
     // create payment
     async validationPaymentUpdateForm() {
-      // if (await this.$refs.PaymentUpdateValidation.validate()) {
-      //   await this.$vs.loading({
-      //     scale: 0.8,
-      //   });
-      //   await qualityApi
-      //     .storeQuality(this.form, this.loadingStatus)
-      //     .then(() => {
-      //       this.$vs.loading.close();
-      //       this.$emit("close", false);
-      //     })
-      //     .catch(() => {
-      //       this.$vs.loading.close();
-      //     });
-      // }
+      this.form.payment_method = this.paymentmethod.title;
+
+      if (this.form.payment_method === "Check") {
+        this.form.check_id = this.checknumber.id;
+      }
+
+      if (await this.$refs.PaymentUpdateValidation.validate()) {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        await paymentApi
+          .updateAdditionalPayment(this.form)
+          .then(() => {
+            this.$vs.loading.close();
+            this.$router.push("/outgoing_payments");
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
     },
+
+    // edit payment to show selected payment details
+    async showPayment() {
+      const payload = {
+        id: this.$route.params.payment_id,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await paymentApi.shoAdditionalPayment(payload);
+      this.form = res.data.data;
+
+      // loop all data for selected shipment
+      this.paymentmethod.title = res.data.data.payment_method;
+      this.checknumber = res.data.data.additionals_checks;
+      // if payment methods check  , getting exist ceck for this payment
+      if (this.paymentmethod.title === "Check" && this.check_id !== null) {
+        this.aditionalchecks.push({ check_no: "Replace Amount" });
+
+        this.aditionalchecks.push(this.checknumber);
+      }
+      this.$vs.loading.close();
+    },
+    // get continue checks
+
+    async getContinueChecks(load = false) {
+      if (load === true) {
+        const payload = {
+          type: "Additional_Check",
+        };
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+
+        const res = await checkApi.continuChecks(payload);
+        this.aditionalchecks = res.data.data;
+
+        if (this.aditionalchecks.length > 0) {
+          this.aditionalchecks.push({ check_no: "Replace New" });
+        } else {
+          this.aditionalchecks.push({ check_no: "Add New" });
+        }
+
+        this.aditionalchecks = this.aditionalchecks.reverse();
+        this.$vs.loading.close();
+      }
+    },
+
     // open  check modal
 
     opencheckmodel() {
       // open chcek modal
-      if (this.checknumber.check_no === "Add New") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.aditionalchecks.length > 1) {
           this.$refs.checkalert.show();
         } else {
           // if check is not already created
-          this.form.check_type = "Airfreight_Check";
+          this.form.check_type = "Additional_Check";
+          this.form.view_type = "create_exists";
+          this.form.check_id = "";
+          this.form.check_no = "";
+          this.form.check_date = "";
+          this.checkTitle = "Add Check";
           this.$refs.createcheckmodal.show();
-          this.aditionalchecks.push({
-            check_no: "A23444",
-            id: 1,
-          });
-          this.checknumber =
-            this.aditionalchecks[this.aditionalchecks.length - 1];
+
+          this.checknumber = "";
         }
       }
+    },
+
+    // close check modal
+
+    async closeModal(data) {
+      // hide create check modal
+      this.$refs.createcheckmodal.hide();
+      this.aditionalchecks = [];
+
+      this.aditionalchecks.push({ check_no: "Replace Amount" });
+      this.aditionalchecks.push(data);
+
+      this.checknumber = this.aditionalchecks[this.aditionalchecks.length - 1];
     },
 
     // get check replace status
     chceckReplaceStatus() {
       this.$refs.checkalert.hide();
+      // if check is already created
       this.checknumber = this.aditionalchecks[this.aditionalchecks.length - 1];
       this.form.check_type = "Additional_Check";
       this.form.check_no = this.checknumber.check_no;
+      this.form.check_id = this.checknumber.id;
+      this.form.check_date = this.checknumber.check_date;
+      this.form.view_type = "update_exists";
+      this.checkTitle = "Update Check";
       this.$refs.createcheckmodal.show();
     },
 

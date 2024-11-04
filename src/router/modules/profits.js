@@ -34,7 +34,7 @@ export default [
   },
 
   {
-    path: "/shipments_wise_monthly_profit_inner",
+    path: "/shipments_wise_monthly_profit_inner/:year/:month",
     name: "shipments_wise_monthly_profit_inne",
     component: () =>
       import("@/views/Reports/MonthlyWiseShipmenrProfitReport.vue"),

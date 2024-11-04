@@ -87,17 +87,16 @@
           <span class="text"
             ><b>{{ suplier.name }}'s</b> Remaining Bill Amount :
 
-            <b class="amount" v-if="suplier_due !== '' && suplier_due > 0">{{
-              getPrice(suplier_due)
-            }}</b>
-
-            <b class="amount" v-else>No Due Balance(Paid Fully)</b>
+            <b class="amount">{{ getPrice(suplier_due) }}</b>
           </span>
         </div>
         <!-- table -->
 
         <div v-if="suplier.name !== 'Select Suplier'">
-          <SuplierPaymentTable :suplierpayments="suplierpayments" />
+          <SuplierPaymentTable
+            :suplierpayments="suplierpayments"
+            :suplier="suplier"
+          />
         </div>
       </div>
     </div>

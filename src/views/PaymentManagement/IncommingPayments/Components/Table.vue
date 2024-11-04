@@ -28,7 +28,7 @@
             <b-col lg="4">
               <b-button
                 variant="flat-none"
-                @click="$router.push('/buyer_payments_update')"
+                @click="$router.push(`/buyer_payments_update/${buyer.id}/${buyer.code}/${data.item.payment_no}/${country}/${data.item.id}/${country_id}`)"
               >
                 <b-img
                   width="17px"
@@ -62,6 +62,7 @@ import {
   BLink,
   BContainer,
 } from "bootstrap-vue";
+import { integer } from "vee-validate/dist/rules";
 export default {
   name: "BuyerPaymentsTable",
   components: {
@@ -144,6 +145,8 @@ export default {
   props: {
     buyerpayments: Array,
     country: String,
+    country_id: integer,
+    buyer: Object,
   },
   methods: {
     setCellPadding(value, key, item) {

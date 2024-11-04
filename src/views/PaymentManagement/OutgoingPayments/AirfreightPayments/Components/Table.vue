@@ -32,10 +32,14 @@
 
         <template #cell(action)="data">
           <b-row no-gutters>
-            <b-col lg="4">
+            <b-col lg="2">
               <b-button
                 variant="flat-none"
-                @click="$router.push('/airfreight_payments_edit')"
+                @click="
+                  $router.push(
+                    `/airfreight_payments_edit/${data.item.id}/${airfreight.company_name}/${airfreight.id}/${data.item.payment_no}`
+                  )
+                "
               >
                 <b-img
                   width="17px"
@@ -43,7 +47,7 @@
                 ></b-img>
               </b-button>
             </b-col>
-            <b-col lg="4"> </b-col>
+            <b-col lg="2"> </b-col>
           </b-row>
         </template>
       </b-table>
@@ -156,6 +160,7 @@ export default {
   },
   props: {
     airfreightpayments: Array,
+    airfreight: Object,
   },
   methods: {
     setCellPadding(value, key, item) {

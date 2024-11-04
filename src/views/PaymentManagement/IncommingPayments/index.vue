@@ -105,11 +105,7 @@
             ><b>{{ buyer.code }} 's</b> Remaining Due Amount For
             <span v-if="buyer.country">{{ buyer.country.name }}</span> :
 
-            <b class="amount" v-if="buyer_due !== '' && buyer_due > 0">{{
-              getPriceUsd(buyer_due)
-            }}</b>
-
-            <b class="amount" v-else>No Due Balance(Paid Fully)</b>
+            <b class="amount">{{ getPriceUsd(buyer_due) }}</b>
           </span>
         </div>
         <!-- table -->
@@ -117,6 +113,8 @@
           <BuyerPaymentTable
             :buyerpayments="buyerpayments"
             :country="buyer.country.name"
+            :country_id="buyer.country.id"
+            :buyer="buyer"
           />
         </div>
       </div>

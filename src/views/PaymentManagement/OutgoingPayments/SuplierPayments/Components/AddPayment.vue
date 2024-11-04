@@ -201,7 +201,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="finalizeAmount(paymentmethod, true)"
+                        @input="getContinueChecks()"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -253,7 +253,10 @@
                         <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
-                            v-if="option.check_no === 'Add New'"
+                            v-if="
+                              option.check_no === 'Add New' ||
+                              option.check_no === 'Replace Amount'
+                            "
                           >
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
@@ -280,14 +283,8 @@
                   </b-form-group>
                 </b-col>
                 <!-- process button -->
-                <b-col
-                  lg="12"
-                  class="mt-1"
-                  v-if="paymentmethod.title === 'Cash'"
-                >
-                  <b-button
-                    variant="primary"
-                    @click="finalizeAmount(paymentmethod)"
+                <b-col lg="12" class="mt-1">
+                  <b-button variant="primary" @click="finalizeAmount()"
                     >Process Full Amount</b-button
                   >
                 </b-col>
@@ -313,7 +310,7 @@
       <b-modal
         ref="createcheckmodal"
         hide-footer
-        title="Add Check"
+        :title="checkTitle"
         title-class="modal_title_color"
         no-close-on-backdrop
       >
@@ -483,7 +480,11 @@ export default {
     // create payment
     async validationPaymentCreateForm() {
       this.form.payment_method = this.paymentmethod.title;
-      this.form.check_id = this.checknumber.id;
+
+      if (this.form.payment_method === "Check") {
+        this.form.check_id = this.checknumber.id;
+      }
+
       this.form.suplier_id = this.$route.params.id;
       this.form.shipments = this.bills;
 
@@ -520,20 +521,28 @@ export default {
 
     // get continue checks
 
-    async getContinueChecks(payload, load = false) {
-      if (load === true) {
-        await this.$vs.loading({
-          scale: 0.8,
-        });
+    async getContinueChecks() {
+      const payload = {
+        type: "Suplier_Check",
+      };
 
-        const res = await checkApi.continuChecks(payload);
-        this.suplierchecks = res.data.data;
+      await this.$vs.loading({
+        scale: 0.8,
+      });
 
+      const res = await checkApi.continuChecks(payload);
+
+      this.suplierchecks = res.data.data;
+
+      if (this.suplierchecks.length > 0) {
+        this.suplierchecks.push({ check_no: "Replace Amount" });
+      } else {
         this.suplierchecks.push({ check_no: "Add New" });
-
-        this.suplierchecks = this.suplierchecks.reverse();
-        this.$vs.loading.close();
       }
+
+      this.suplierchecks = this.suplierchecks.reverse();
+
+      this.$vs.loading.close();
     },
 
     // open  check modal
@@ -541,10 +550,13 @@ export default {
     opencheckmodel() {
       // finalize bill amount and initialize to final amount
 
-      this.finalizeAmount(this.paymentmethod);
+      this.finalizeAmount();
 
       // open chcek modal
-      if (this.checknumber.check_no === "Add New") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.suplierchecks.length > 1) {
           this.$refs.checkalert.show();
@@ -555,6 +567,7 @@ export default {
           this.form.check_id = "";
           this.form.check_no = "";
           this.form.check_date = "";
+          this.checkTitle = "Add Check";
           this.$refs.createcheckmodal.show();
 
           this.checknumber = "";
@@ -564,13 +577,14 @@ export default {
 
     // close check modal
 
-    async closeModal() {
+    async closeModal(data) {
       // hide create check modal
       this.$refs.createcheckmodal.hide();
-      const payload = {
-        type: "Suplier_Check",
-      };
-      await this.getContinueChecks(payload, true);
+      this.suplierchecks = [];
+
+      this.suplierchecks.push({ check_no: "Replace Amount" });
+      this.suplierchecks.push(data);
+
       this.checknumber = this.suplierchecks[this.suplierchecks.length - 1];
     },
 
@@ -584,6 +598,7 @@ export default {
       this.form.check_id = this.checknumber.id;
       this.form.check_date = this.checknumber.check_date;
       this.form.view_type = "update_exists";
+      this.checkTitle = "Update Check";
       this.$refs.createcheckmodal.show();
     },
 
@@ -603,7 +618,7 @@ export default {
     // remove bill
     removeItem(index) {
       this.bills.splice(index, 1);
-      this.finalizeAmount(this.paymentmethod);
+      this.finalizeAmount();
     },
 
     // automatialyy fills the bill paid amount trigger with status
@@ -620,13 +635,7 @@ export default {
     },
 
     // finalize bill amount and initialize to final amount
-    async finalizeAmount(data, load = false) {
-      if (data.title === "Check") {
-        const payload = {
-          type: "Suplier_Check",
-        };
-        await this.getContinueChecks(payload, load);
-      }
+    async finalizeAmount() {
       let total = 0;
       this.bills.forEach((element) => {
         total = total + parseFloat(element.paid_amount);

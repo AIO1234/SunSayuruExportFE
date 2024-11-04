@@ -48,4 +48,17 @@ export default {
   async airfreightInnerShipments(payload) {
     return await api.post("/airfreightshipmntwisebill", payload);
   },
+
+  async monthlyWiseProfit(payload) {
+    return await api.post("/monthlyprofit", payload);
+  },
+
+  async monthlyWiseProfitInnerShipments(payload) {
+    return await api.post("/monthlyinnershipmentprofit", payload);
+  },
+
+  async shipmentWiseProfit(payload) {
+    return await api.post("/shipmentwiseprofit", payload);
+  },
+  
 };

@@ -396,7 +396,7 @@
         title-class="modal_title_color"
         no-close-on-backdrop
       >
-        <SuplierCheckAlert
+        <CheckAlert
           @chceckReplaceStatus="chceckReplaceStatus"
           @hideCheckeplaceModal="hideCheckeplaceModal"
         />
@@ -435,7 +435,7 @@ import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import { togglePasswordVisibility } from "@core/mixins/ui/forms";
 import AirfreightCheckCreate from "@/views/CheckBook/Components/Create.vue";
-import SuplierCheckAlert from "@/Components/AddCheckAlert.vue";
+import CheckAlert from "@/Components/AddCheckAlert.vue";
 
 import {
   required,
@@ -454,7 +454,7 @@ import {
 export default {
   name: "AddAirfreightPayment",
   components: {
-    SuplierCheckAlert,
+    CheckAlert,
     BImg,
     BCard,
     AirfreightCheckCreate,
@@ -554,7 +554,10 @@ export default {
     // create payment
     async validationPaymentCreateForm() {
       this.form.payment_currency = this.paymentcurrency.title;
-      this.form.check_id = this.checknumber.id;
+
+      if (this.form.payment_currency === "LKR") {
+        this.form.check_id = this.checknumber.id;
+      }
       this.form.airfreight_id = this.$route.params.id;
       this.form.shipments = this.bills;
 
