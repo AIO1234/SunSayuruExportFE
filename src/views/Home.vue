@@ -8,7 +8,7 @@
       <div>
         <span class="card_view_title">Total Profit</span>
         <hr />
-        <span class="total_profit">Rs. 1,200,000,000.00</span>
+        <span class="total_profit">{{ getPrice(totalProfit) }}</span>
       </div>
     </b-card>
 
@@ -35,6 +35,7 @@
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="title"
               :options="types"
+              @input="dashboardOverview()"
             >
             </v-select>
           </b-col>
@@ -51,44 +52,48 @@
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               label="year"
               :options="years"
+              @input="dashboardOverview()"
             >
             </v-select>
           </b-col>
         </b-row>
         <br /><br />
         <!-- stats -->
-
         <!-- all stat chart -->
-        <VueApexCharts
+        <apexchart
           v-if="type.title === 'All'"
           type="bar"
           :options="fullchartoptions"
           :series="allseries"
-        ></VueApexCharts>
+          ref="all_chart"
+        ></apexchart>
 
         <!-- income chart -->
-        <VueApexCharts
+        <apexchart
           v-if="type.title === 'Income'"
           type="bar"
           :options="incomechartoptions"
           :series="incomeseries"
-        ></VueApexCharts>
+          ref="income_chart"
+        ></apexchart>
 
         <!-- expence chart -->
-        <VueApexCharts
+        <apexchart
           v-if="type.title === 'Expences'"
           type="bar"
           :options="expenceschartoptions"
           :series="expenceseries"
-        ></VueApexCharts>
+          ref="expence_chart"
+        ></apexchart>
 
         <!-- profit chart -->
-        <VueApexCharts
+        <apexchart
           v-if="type.title === 'Profit'"
           type="bar"
           :options="profitschartoptions"
           :series="profitseries"
-        ></VueApexCharts>
+          ref="profit_chart"
+        ></apexchart>
       </div>
     </b-card>
   </div>
@@ -106,10 +111,10 @@ import {
   BContainer,
 } from "bootstrap-vue";
 import vSelect from "vue-select";
-
+import reportApi from "@/Api/Modules/reports";
 export default {
   components: {
-    VueApexCharts,
+    apexchart: VueApexCharts,
     vSelect,
     BCard,
     BCol,
@@ -121,6 +126,7 @@ export default {
   },
   data() {
     return {
+      totalProfit: "",
       types: [
         {
           title: "All",
@@ -150,9 +156,8 @@ export default {
         },
       ],
       year: {
-        year: "2024",
+        year: new Date().getFullYear(),
       },
-
       // charts
 
       // all  option chart
@@ -190,24 +195,15 @@ export default {
       allseries: [
         {
           name: "Income",
-          data: [
-            8000, 7000, 9000, 8500, 9500, 10000, 11000, 10500, 9500, 10000,
-            9000, 9500,
-          ],
+          data: [],
         },
         {
           name: "Expenses",
-          data: [
-            2000, 2400, 2300, 2500, 2600, 2700, 2800, 3000, 2500, 2700, 2300,
-            2500,
-          ],
+          data: [],
         },
         {
           name: "Profit",
-          data: [
-            6000, 4600, 6700, 6000, 6900, 7300, 8200, 7500, 7000, 7300, 6700,
-            7000,
-          ],
+          data: [],
         },
       ],
 
@@ -247,10 +243,7 @@ export default {
       incomeseries: [
         {
           name: "Income",
-          data: [
-            8000, 7000, 9000, 8500, 9500, 10000, 11000, 10500, 9500, 10000,
-            9000, 9500,
-          ],
+          data: [],
         },
       ],
 
@@ -290,10 +283,7 @@ export default {
       expenceseries: [
         {
           name: "Expence",
-          data: [
-            8000, 7000, 9000, 8500, 9500, 10000, 11000, 10500, 9500, 10000,
-            9000, 9500,
-          ],
+          data: [],
         },
       ],
 
@@ -332,19 +322,59 @@ export default {
       profitseries: [
         {
           name: "Profit",
-          data: [
-            8000, 7000, 9000, 8500, 9500, 10000, 11000, 10500, 9500, 10000,
-            9000, 9500,
-          ],
+          data: [],
         },
       ],
     };
   },
+  async created() {
+    await this.dashboardOverview();
+  },
 
+  // computed: {
+  //   returnAllseris() {
+  //     return this.allseries;
+  //   },
+  //   returnIncomeseris() {
+  //     return this.incomeseries;
+  //   },
+  // },
   methods: {
     setCellPadding(value, key, item) {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
+    },
+
+    // dashboard overvie api calling
+    async dashboardOverview() {
+      const payload = {
+        type: this.type.title,
+        year: this.year.year,
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const res = await reportApi.dashboardOverview(payload);
+
+      this.totalProfit = res.data.data.prifit_details.full_profit;
+
+      if (this.type.title === "All") {
+        this.allseries[0].data = res.data.data.incomearray;
+        this.allseries[1].data = res.data.data.expencearray;
+        this.allseries[2].data = res.data.data.profitarray;
+        this.$refs.all_chart.refresh();
+      } else if (this.type.title === "Income") {
+        this.incomeseries[0].data = res.data.data.incomearray;
+        this.$refs.income_chart.refresh();
+      } else if (this.type.title === "Expences") {
+        this.expenceseries[0].data = res.data.data.expencearray;
+
+        this.$refs.expence_chart.refresh();
+      } else if (this.type.title === "Profit") {
+        this.profitseries[0].data = res.data.data.profitarray;
+        this.$refs.profit_chart.refresh();
+      }
+      this.$vs.loading.close();
     },
   },
 };

@@ -13,6 +13,7 @@ import seafoodRoute from "./modules/seafood_route";
 import airfreightsRoute from "./modules/airfreights_route";
 import paymentRoute from "./modules/payment_route";
 import profitRoute from "./modules/profits";
+import checkRoute from "./modules/checkbook";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,7 @@ const router = new VueRouter({
     ...airfreightsRoute,
     ...paymentRoute,
     ...profitRoute,
+    ...checkRoute,
   ],
 });
 

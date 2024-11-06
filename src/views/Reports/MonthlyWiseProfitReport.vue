@@ -3,19 +3,6 @@
     <!-- header details -->
 
     <b-row>
-      <b-col lg="4" cols="12">
-        <b-input-group class="input-group-merge form_input_styles_group">
-          <b-input-group-prepend is-text>
-            <feather-icon class="search_icon_color" icon="SearchIcon" />
-          </b-input-group-prepend>
-          <b-form-input
-            type="search"
-            class="form_input_styles"
-            placeholder="Type here...."
-          ></b-form-input>
-        </b-input-group>
-      </b-col>
-
       <b-col lg="4" class="text-right">
         <!-- space only for mobile -->
         <div class="mobile_only_view">

@@ -106,4 +106,11 @@ export default [
       },
     ],
   },
+
+  {
+    title: "Check Book",
+    icon: "FileIcon",
+    role: ["Super Admin", "Admin"],
+    route: "checkbook",
+  },
 ];

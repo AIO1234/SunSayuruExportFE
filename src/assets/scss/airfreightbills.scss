@@ -26,4 +26,13 @@
     text-align: left;
     color: #000000;
   }
+  .search_button {
+    background-color: #e76a00;
+    width: 100%;
+    .search_text {
+      color: white;
+      font-family: "Urbanist", sans-serif;
+      font-size: 16px;
+    }
+  }
 }

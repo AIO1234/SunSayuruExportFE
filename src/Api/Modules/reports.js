@@ -60,5 +60,9 @@ export default {
   async shipmentWiseProfit(payload) {
     return await api.post("/shipmentwiseprofit", payload);
   },
+
+  async dashboardOverview(payload) {
+    return await api.post("/dashboardoverview", payload);
+  },
   
 };

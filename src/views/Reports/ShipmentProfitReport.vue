@@ -3,22 +3,6 @@
     <!-- header details -->
 
     <b-row>
-      <b-col lg="3" cols="12">
-        <!-- space only for mobile -->
-        <div class="mobile_only_view">
-          <div class="mt-2"></div>
-        </div>
-        <b-input-group class="input-group-merge form_input_styles_group">
-          <b-input-group-prepend is-text>
-            <feather-icon class="search_icon_color" icon="SearchIcon" />
-          </b-input-group-prepend>
-          <b-form-input
-            type="search"
-            class="form_input_styles"
-            placeholder="Type here...."
-          ></b-form-input>
-        </b-input-group>
-      </b-col>
       <b-col lg="3">
         <!-- space only for mobile -->
         <div class="mobile_only_view">
@@ -60,7 +44,16 @@
           </template>
         </v-date-picker>
       </b-col>
-
+      <b-col lg="3">
+        <b-button @click="shipmntProfit()" variant="none" class="search_button"
+          ><span class="search_text">Search</span></b-button
+        >
+      </b-col>
+      <b-col lg="3">
+        <b-button @click="clear()" variant="none" class="search_button"
+          ><span class="search_text">Clear</span></b-button
+        >
+      </b-col>
       <b-col lg="3" class="text-right">
         <!-- space only for mobile -->
       </b-col>
@@ -74,6 +67,8 @@
         responsive="sm"
         :items="shipmentprofit"
         :fields="fields"
+        per-page="10"
+        :current-page="currentPage"
       >
         <template #cell(total_usd_income)="data">
           {{ getPriceUsd(data.value) }}
@@ -91,6 +86,24 @@
           {{ getPrice(data.value) }}
         </template>
       </b-table>
+
+      <!-- pagination -->
+      <b-row>
+        <b-col lg="4"></b-col>
+        <b-col lg="8">
+          <div class="mt-1">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="shipmentprofit.length"
+              per-page="10"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+            ></b-pagination>
+          </div>
+        </b-col>
+      </b-row>
     </b-card>
   </div>
 </template>
@@ -112,10 +125,12 @@ import {
   BLink,
   BInputGroup,
   BInputGroupPrepend,
+  BPagination,
 } from "bootstrap-vue";
 import reportApi from "@/Api/Modules/reports";
 export default {
   components: {
+    BPagination,
     BImg,
     BContainer,
     BModal,
@@ -135,6 +150,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       startdate: "",
       enddate: "",
       fields: [
@@ -201,19 +217,52 @@ export default {
   },
   methods: {
     async shipmntProfit() {
-      await this.$vs.loading({
-        scale: 0.8,
-      });
+      // if seach data not clear geting profits with range
+      if (this.startdate !== "" || this.enddate !== "") {
+        const payload = {
+          start_date: this.startdate,
+          end_date: this.enddate,
+        };
 
-      await reportApi
-        .shipmentWiseProfit()
-        .then((res) => {
-          this.shipmentprofit = res.data.data;
-          this.$vs.loading.close();
-        })
-        .catch(() => {
-          this.$vs.loading.close();
+        await this.$vs.loading({
+          scale: 0.8,
         });
+
+        await reportApi
+          .shipmentWiseProfit(payload)
+          .then((res) => {
+            this.shipmentprofit = res.data.data;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
+      // if seach data clear geting pprofits  with not seach
+      else if (this.startdate === "" || this.enddate === "") {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+
+        await reportApi
+          .shipmentWiseProfit()
+          .then((res) => {
+            this.shipmentprofit = res.data.data;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
+      }
+    },
+    // clear searhces
+
+    async clear() {
+      // clear start  and date
+
+      this.startdate = "";
+      this.enddate = "";
+      await this.shipmntProfit();
     },
   },
 };

@@ -45,8 +45,8 @@ export default {
     return await api.post("/airfreight_payment/allairfreightpayments", payload);
   },
 
-  async getAdditionalPayments() {
-    return await api.post("/additional_payment/alladditionalpayments");
+  async getAdditionalPayments(payload) {
+    return await api.post("/additional_payment/alladditionalpayments" , payload);
   },
 
   async getBuyerPayments(payload) {

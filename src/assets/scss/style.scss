@@ -274,3 +274,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .td-style {
   width: 80%;
 }
+.check_search_button {
+  background-color: #e76a00;
+  width: 100%;
+  .search_text {
+    color: white;
+    font-family: "Urbanist", sans-serif;
+    font-size: 16px;
+  }
+}

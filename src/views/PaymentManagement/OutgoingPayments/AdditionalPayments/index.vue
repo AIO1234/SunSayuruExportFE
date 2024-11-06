@@ -25,19 +25,7 @@
         <!-- select search -->
         <div class="mt-5"></div>
         <b-row>
-          <b-col lg="4" cols="12">
-            <b-input-group class="input-group-merge form_input_styles_group">
-              <b-input-group-prepend is-text>
-                <feather-icon class="search_icon_color" icon="SearchIcon" />
-              </b-input-group-prepend>
-              <b-form-input
-                type="search"
-                class="form_input_styles"
-                placeholder="Type here...."
-              ></b-form-input>
-            </b-input-group>
-          </b-col>
-          <b-col lg="4">
+          <b-col lg="3">
             <v-date-picker v-model="startdate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
                 <b-input-group
@@ -55,7 +43,7 @@
                 </b-input-group>
               </template> </v-date-picker
           ></b-col>
-          <b-col lg="4">
+          <b-col lg="3">
             <v-date-picker v-model="enddate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
                 <b-input-group
@@ -73,6 +61,19 @@
                 </b-input-group>
               </template>
             </v-date-picker>
+          </b-col>
+          <b-col lg="3">
+            <b-button
+              @click="getAdditionalPayments()"
+              variant="none"
+              class="search_button"
+              ><span class="search_text">Search</span></b-button
+            >
+          </b-col>
+          <b-col lg="3">
+            <b-button @click="clear()" variant="none" class="search_button"
+              ><span class="search_text">Clear</span></b-button
+            >
           </b-col>
         </b-row>
 
@@ -140,13 +141,41 @@ export default {
   methods: {
     // get suplier payments
     async getAdditionalPayments() {
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await paymentApi.getAdditionalPayments();
-      this.additionalpayments = res.data.data.additionalpayments;
-      this.additional_due = res.data.data.due_balance;
-      this.$vs.loading.close();
+      // if seach data not clear geting payment with range
+      if (this.startdate !== "" || this.enddate !== "") {
+        const payload = {
+          start_date: this.startdate,
+          end_date: this.enddate,
+        };
+
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await paymentApi.getAdditionalPayments(payload);
+        this.additionalpayments = res.data.data.additionalpayments;
+        this.additional_due = res.data.data.due_balance;
+        this.$vs.loading.close();
+      }
+      // if seach data clear geting payment with not seach
+      else if (this.startdate === "" || this.enddate === "") {
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await paymentApi.getAdditionalPayments();
+        this.additionalpayments = res.data.data.additionalpayments;
+        this.additional_due = res.data.data.due_balance;
+        this.$vs.loading.close();
+      }
+    },
+
+    // clear searhces
+
+    async clear() {
+      // clear start  and date
+
+      this.startdate = "";
+      this.enddate = "";
+      await this.getAdditionalPayments();
     },
   },
 };

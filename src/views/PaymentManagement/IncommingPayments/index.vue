@@ -29,7 +29,7 @@
         <!-- select search -->
         <div class="mt-5"></div>
         <b-row>
-          <b-col lg="4">
+          <b-col lg="3">
             <v-select
               class="form_input_styles_group"
               v-model="buyer"
@@ -58,7 +58,7 @@
               </template>
             </v-select>
           </b-col>
-          <b-col lg="4">
+          <b-col lg="3">
             <v-date-picker v-model="startdate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
                 <b-input-group
@@ -76,7 +76,7 @@
                 </b-input-group>
               </template> </v-date-picker
           ></b-col>
-          <b-col lg="4">
+          <b-col lg="3">
             <v-date-picker v-model="enddate" is-required>
               <template v-slot="{ inputValue, inputEvents }">
                 <b-input-group
@@ -94,6 +94,19 @@
                 </b-input-group>
               </template>
             </v-date-picker>
+          </b-col>
+          <b-col lg="2">
+            <b-button
+              @click="getBuyerPayments()"
+              variant="none"
+              class="search_button"
+              ><span class="search_text">Search</span></b-button
+            >
+          </b-col>
+          <b-col lg="1">
+            <b-button @click="clear()" variant="none" class="search_button"
+              ><span class="search_text">Clear</span></b-button
+            >
           </b-col>
         </b-row>
 
@@ -224,16 +237,44 @@ export default {
     // get suplier payments
     async getBuyerPayments() {
       // store suplier id to session storage
-      const payload = {
-        buyer_id: this.buyer.id,
-      };
-      await this.$vs.loading({
-        scale: 0.8,
-      });
-      const res = await paymentApi.getBuyerPayments(payload);
-      this.buyerpayments = res.data.data.buyerpayments;
-      this.buyer_due = res.data.data.due_balance;
-      this.$vs.loading.close();
+
+      // if seach data not clear geting payment with range
+      if (this.startdate !== "" || this.enddate !== "") {
+        const payload = {
+          buyer_id: this.buyer.id,
+          start_date: this.startdate,
+          end_date: this.enddate,
+        };
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await paymentApi.getBuyerPayments(payload);
+        this.buyerpayments = res.data.data.buyerpayments;
+        this.buyer_due = res.data.data.due_balance;
+        this.$vs.loading.close();
+      }
+      // if seach data clear geting payment with not seach
+      else if (this.startdate === "" || this.enddate === "") {
+        const payload = {
+          buyer_id: this.buyer.id,
+        };
+        await this.$vs.loading({
+          scale: 0.8,
+        });
+        const res = await paymentApi.getBuyerPayments(payload);
+        this.buyerpayments = res.data.data.buyerpayments;
+        this.buyer_due = res.data.data.due_balance;
+        this.$vs.loading.close();
+      }
+    },
+    // clear searhces
+
+    async clear() {
+      // clear start  and date
+
+      this.startdate = "";
+      this.enddate = "";
+      await this.getBuyerPayments();
     },
   },
 };
