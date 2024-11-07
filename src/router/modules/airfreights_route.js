@@ -24,7 +24,7 @@ export default [
     meta: {
       pageTitle: "Airfreight Bills",
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       breadcrumb: [
         {
           text: "Airfreight Bills",
@@ -42,7 +42,7 @@ export default [
     meta: {
       pageTitle: "Airfreight Bills",
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       breadcrumb: [
         {
           text: "Shipment Wise",

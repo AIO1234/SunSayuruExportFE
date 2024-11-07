@@ -34,6 +34,7 @@ api.interceptors.response.use(
   },
 
   function (error) {
+    console.log(error.response);
     if (typeof error.response !== "undefined") {
       //Setup Generic Response Messages
 
@@ -54,10 +55,10 @@ api.interceptors.response.use(
         notification.toast(error.response.data.message, "warning");
       }
       if (error.response.status === 422) {
-        notification.toast(error.response.data.message, "error" , 800000);
+        notification.toast(error.response.data.message, "error", 800000);
       }
       if (error.response.status === 500) {
-        notification.toast(error.response.statusText, "error");
+        notification.toast(error.response.data.error, "error");
       }
     }
     return Promise.reject(error);

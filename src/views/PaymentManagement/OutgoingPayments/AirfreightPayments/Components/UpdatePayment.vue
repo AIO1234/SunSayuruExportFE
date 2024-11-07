@@ -78,7 +78,7 @@
                         v-model="paymentcurrency"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks(true)"
+                        @input="getContinueChecks()"
                         :options="paymentCurrencies"
                       >
                       </v-select>
@@ -326,7 +326,10 @@
                         <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
-                            v-if="option.check_no === 'Replace Amount'"
+                            v-if="
+                              option.check_no === 'Add New' ||
+                              option.check_no === 'Replace Amount'
+                            "
                           >
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
@@ -382,7 +385,7 @@
       <b-modal
         ref="createcheckmodal"
         hide-footer
-       :title="checkTitle"
+        :title="checkTitle"
         title-class="modal_title_color"
         no-close-on-backdrop
       >
@@ -548,9 +551,9 @@ export default {
       this.form.payment_currency = this.paymentcurrency.title;
 
       if (this.form.payment_currency === "LKR") {
-      this.form.check_id = this.checknumber.id;
+        this.form.check_id = this.checknumber.id;
       }
-      
+
       this.form.shipments = this.bills;
       this.form.id = this.$route.params.payment_id;
 
@@ -629,6 +632,28 @@ export default {
       this.$vs.loading.close();
     },
 
+    // get continue checks
+    async getContinueChecks() {
+      const payload = {
+        type: "Airfreight_Check",
+      };
+
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      const res = await checkApi.continuChecks(payload);
+      this.airfreightchecks = res.data.data;
+
+      if (this.airfreightchecks.length > 0) {
+        this.airfreightchecks.push({ check_no: "Replace Amount" });
+      } else {
+        this.airfreightchecks.push({ check_no: "Add New" });
+      }
+
+      this.airfreightchecks = this.airfreightchecks.reverse();
+      this.$vs.loading.close();
+    },
     // get new or contnue shipments
 
     async getPendingShipments() {
@@ -648,7 +673,10 @@ export default {
       // finalize bill amount and initialize to final amount
       this.finalizeAmount();
       // open chcek modal
-      if (this.checknumber.check_no === "Replace Amount") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.airfreightchecks.length > 1) {
           this.$refs.checkalert.show();
@@ -728,7 +756,6 @@ export default {
           // if status done , amount will be sameas bill value
           this.bills[index].paid_lkr_amount = billusdtotal * rate;
           this.bills[index].paid_usd_amount = billusdtotal;
-
         }
         // if status continue , amount must be added
         else {

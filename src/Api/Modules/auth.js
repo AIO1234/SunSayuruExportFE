@@ -12,7 +12,15 @@ export default {
       localStorage.setItem("sunsayurucacheuser", res.data.data.data.name);
       store.commit("SET_CURRENT_USER_NAME", res.data.data.data.name);
       store.commit("SET_LOGGED_ROLE", role);
-      window.location.href = "/dashboard";
+
+      if (
+        localStorage.role === "Super Admin" ||
+        localStorage.role === "Admin"
+      ) {
+        window.location.href = "/dashboard";
+      } else {
+        window.location.href = "/packinglist";
+      }
     });
   },
   async profile() {

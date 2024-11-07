@@ -6,7 +6,7 @@ export default [
       import("@/views/PaymentManagement/OutgoingPayments/index.vue"),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -25,7 +25,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -45,7 +45,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -65,7 +65,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -85,7 +85,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -105,7 +105,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {
@@ -125,7 +125,7 @@ export default [
       ),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Payments",
       breadcrumb: [
         {

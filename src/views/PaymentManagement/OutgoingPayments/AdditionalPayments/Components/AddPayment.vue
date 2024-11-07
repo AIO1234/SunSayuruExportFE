@@ -114,7 +114,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks(true)"
+                        @input="getContinueChecks()"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -366,30 +366,35 @@ export default {
 
     // get continue checks
 
-    async getContinueChecks(load = false) {
-      if (load === true) {
-        const payload = {
-          type: "Additional_Check",
-        };
-        await this.$vs.loading({
-          scale: 0.8,
-        });
+    async getContinueChecks() {
+      const payload = {
+        type: "Additional_Check",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
 
-        const res = await checkApi.continuChecks(payload);
-        this.aditionalchecks = res.data.data;
+      const res = await checkApi.continuChecks(payload);
+      this.aditionalchecks = res.data.data;
 
+      if (this.aditionalchecks.length > 0) {
+        this.aditionalchecks.push({ check_no: "Replace New" });
+      } else {
         this.aditionalchecks.push({ check_no: "Add New" });
-
-        this.aditionalchecks = this.aditionalchecks.reverse();
-        this.$vs.loading.close();
       }
+
+      this.aditionalchecks = this.aditionalchecks.reverse();
+      this.$vs.loading.close();
     },
 
     // open  check modal
 
     opencheckmodel() {
       // open chcek modal
-      if (this.checknumber.check_no === "Add New") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.aditionalchecks.length > 1) {
           this.$refs.checkalert.show();
@@ -409,13 +414,16 @@ export default {
 
     // close check modal
 
-    async closeModal() {
+    async closeModal(data) {
       // hide create check modal
       this.$refs.createcheckmodal.hide();
-      const payload = {
-        type: "Additional_Check",
-      };
-      await this.getContinueChecks(true);
+
+      this.aditionalchecks = [];
+
+      this.aditionalchecks.push({ check_no: "Replace Amount" });
+
+      this.aditionalchecks.push(data);
+
       this.checknumber = this.aditionalchecks[this.aditionalchecks.length - 1];
     },
 

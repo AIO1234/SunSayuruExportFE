@@ -42,27 +42,27 @@ export default {
   },
 
   async airfreightMainBills() {
-    return await api.get("/airfreightmainbill");
+    return await api.get("/report/airfreightmainbill");
   },
 
   async airfreightInnerShipments(payload) {
-    return await api.post("/airfreightshipmntwisebill", payload);
+    return await api.post("/report/airfreightshipmntwisebill", payload);
   },
 
   async monthlyWiseProfit(payload) {
-    return await api.post("/monthlyprofit", payload);
+    return await api.post("/report/monthlyprofit", payload);
   },
 
   async monthlyWiseProfitInnerShipments(payload) {
-    return await api.post("/monthlyinnershipmentprofit", payload);
+    return await api.post("/report/monthlyinnershipmentprofit", payload);
   },
 
   async shipmentWiseProfit(payload) {
-    return await api.post("/shipmentwiseprofit", payload);
+    return await api.post("/report/shipmentwiseprofit", payload);
   },
 
   async dashboardOverview(payload) {
-    return await api.post("/dashboardoverview", payload);
+    return await api.post("/report/dashboardoverview", payload);
   },
   
 };

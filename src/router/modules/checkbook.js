@@ -5,7 +5,7 @@ export default [
     component: () => import("@/views/CheckBook/index.vue"),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin"],
+      role: ["Super Admin", "Admin", "Staff"],
       pageTitle: "Manage Checks",
       breadcrumb: [
         {

@@ -114,7 +114,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks(true)"
+                        @input="getContinueChecks()"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -394,27 +394,25 @@ export default {
     },
     // get continue checks
 
-    async getContinueChecks(load = false) {
-      if (load === true) {
-        const payload = {
-          type: "Additional_Check",
-        };
-        await this.$vs.loading({
-          scale: 0.8,
-        });
+    async getContinueChecks() {
+      const payload = {
+        type: "Additional_Check",
+      };
+      await this.$vs.loading({
+        scale: 0.8,
+      });
 
-        const res = await checkApi.continuChecks(payload);
-        this.aditionalchecks = res.data.data;
+      const res = await checkApi.continuChecks(payload);
+      this.aditionalchecks = res.data.data;
 
-        if (this.aditionalchecks.length > 0) {
-          this.aditionalchecks.push({ check_no: "Replace New" });
-        } else {
-          this.aditionalchecks.push({ check_no: "Add New" });
-        }
-
-        this.aditionalchecks = this.aditionalchecks.reverse();
-        this.$vs.loading.close();
+      if (this.aditionalchecks.length > 0) {
+        this.aditionalchecks.push({ check_no: "Replace New" });
+      } else {
+        this.aditionalchecks.push({ check_no: "Add New" });
       }
+
+      this.aditionalchecks = this.aditionalchecks.reverse();
+      this.$vs.loading.close();
     },
 
     // open  check modal

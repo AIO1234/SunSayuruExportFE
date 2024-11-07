@@ -77,7 +77,7 @@
                         v-model="paymentcurrency"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks(true)"
+                        @input="getContinueChecks()"
                         :options="paymentCurrencies"
                       >
                       </v-select>
@@ -325,7 +325,10 @@
                         <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
-                            v-if="option.check_no === 'Add New'"
+                            v-if="
+                              option.check_no === 'Add New' ||
+                              option.check_no === 'Replace Amount'
+                            "
                           >
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
@@ -592,24 +595,26 @@ export default {
     },
 
     // get continue checks
-    async getContinueChecks(load = false) {
-      if (load === true) {
-        const payload = {
-          type: "Airfreight_Check",
-        };
+    async getContinueChecks() {
+      const payload = {
+        type: "Airfreight_Check",
+      };
 
-        await this.$vs.loading({
-          scale: 0.8,
-        });
+      await this.$vs.loading({
+        scale: 0.8,
+      });
 
-        const res = await checkApi.continuChecks(payload);
-        this.airfreightchecks = res.data.data;
+      const res = await checkApi.continuChecks(payload);
+      this.airfreightchecks = res.data.data;
 
+      if (this.airfreightchecks.length > 0) {
+        this.airfreightchecks.push({ check_no: "Replace Amount" });
+      } else {
         this.airfreightchecks.push({ check_no: "Add New" });
-
-        this.airfreightchecks = this.airfreightchecks.reverse();
-        this.$vs.loading.close();
       }
+
+      this.airfreightchecks = this.airfreightchecks.reverse();
+      this.$vs.loading.close();
     },
 
     // open  check modal
@@ -617,7 +622,10 @@ export default {
       // finalize bill amount and initialize to final amount
       this.finalizeAmount();
       // open chcek modal
-      if (this.checknumber.check_no === "Add New") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.airfreightchecks.length > 1) {
           this.$refs.checkalert.show();
@@ -637,13 +645,15 @@ export default {
 
     // close check modal
 
-    async closeModal() {
+    async closeModal(data) {
       // hide create check modal
       this.$refs.createcheckmodal.hide();
-      const payload = {
-        type: "Airfreight_Check",
-      };
-      await this.getContinueChecks(true);
+
+      this.airfreightchecks = [];
+
+      this.airfreightchecks.push({ check_no: "Replace Amount" });
+      this.airfreightchecks.push(data);
+
       this.checknumber =
         this.airfreightchecks[this.airfreightchecks.length - 1];
     },

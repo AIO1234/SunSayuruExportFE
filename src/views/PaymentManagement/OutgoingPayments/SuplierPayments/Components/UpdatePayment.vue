@@ -202,7 +202,7 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks(true)"
+                        @input="getContinueChecks()"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -254,7 +254,10 @@
                         <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
-                            v-if="option.check_no === 'Replace Amount'"
+                            v-if="
+                              option.check_no === 'Add New' ||
+                              option.check_no === 'Replace Amount'
+                            "
                           >
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
@@ -549,6 +552,32 @@ export default {
       this.$vs.loading.close();
     },
 
+    // get continue checks
+
+    async getContinueChecks() {
+      const payload = {
+        type: "Suplier_Check",
+      };
+
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+
+      const res = await checkApi.continuChecks(payload);
+
+      this.suplierchecks = res.data.data;
+
+      if (this.suplierchecks.length > 0) {
+        this.suplierchecks.push({ check_no: "Replace Amount" });
+      } else {
+        this.suplierchecks.push({ check_no: "Add New" });
+      }
+
+      this.suplierchecks = this.suplierchecks.reverse();
+
+      this.$vs.loading.close();
+    },
+
     // get new or contnue shipments
 
     async getPendingShipments() {
@@ -571,7 +600,10 @@ export default {
       this.finalizeAmount();
 
       // open chcek modal
-      if (this.checknumber.check_no === "Replace Amount") {
+      if (
+        this.checknumber.check_no === "Add New" ||
+        this.checknumber.check_no === "Replace Amount"
+      ) {
         // if check is already created
         if (this.suplierchecks.length > 1) {
           this.$refs.checkalert.show();
