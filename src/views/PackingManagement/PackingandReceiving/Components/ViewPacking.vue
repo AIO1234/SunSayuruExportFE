@@ -51,6 +51,15 @@
                   shipment.shipmentdetails.awb
                 }}</span>
               </div>
+
+              <br>
+
+              <div class="row d-flex justify-content">
+                <span class="col-5 shipment_summery_heading">Airfreight</span>
+                <span class="col-5 shipment_summry_para">{{
+                  shipment.shipmentdetails.airfreight_company_name
+                }}</span>
+              </div>
             </b-container>
           </div>
         </b-col>

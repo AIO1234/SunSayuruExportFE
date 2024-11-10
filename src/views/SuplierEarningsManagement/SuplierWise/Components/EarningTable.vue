@@ -11,7 +11,11 @@
           <b-col lg="4">
             <b-button
               variant="none"
-              @click="$router.push(`/suplierwiseearnings/supliers/${data.item.id}/${data.item.name}/earnings`)"
+              @click="
+                $router.push(
+                  `/suplierwiseearnings/supliers/${data.item.id}/${data.item.name}/earnings`
+                )
+              "
             >
               <b-img
                 width="17px"
@@ -23,8 +27,16 @@
       </template>
 
       <template #cell(total_amount)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(received_payments)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
+
+      <template #cell(due_balance)="data">
+        {{ getPriceWithOutCurrency(data.value) }}
+      </template>
     </b-table>
 
     <b-modal
@@ -89,6 +101,22 @@ export default {
         {
           key: "total_amount",
           label: "Total Cost(Rs)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "received_payments",
+          label: "Total Paid Amount(Rs)",
+          sortable: true,
+          // thStyle: { width: "2%" },
+          // tdClass: "custom-cell-padding",
+        },
+
+        {
+          key: "due_balance",
+          label: "Total Due Balance(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "custom-cell-padding",

@@ -39,6 +39,7 @@
                 </b-form-group>
               </b-col>
 
+              <!-- quantity -->
               <b-col>
                 <b-form-group label="Quantity*" label-class="form_label_class">
                   <validation-Provider
@@ -50,12 +51,14 @@
                       type="number"
                       placeholder="Enter quantity"
                       v-model="item.quantity"
+                      @input="changeAmount(item.unitprice,item.quantity, index)"
                     />
                     <span class="text-danger">{{ errors[0] }}</span>
                   </validation-Provider>
                 </b-form-group>
               </b-col>
 
+              <!-- unit price -->
               <b-col lg="3">
                 <b-form-group
                   label="Unit Price*"

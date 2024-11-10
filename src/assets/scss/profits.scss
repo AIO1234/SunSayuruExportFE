@@ -1,0 +1,29 @@
+.profits_overview {
+  .year_selection {
+    width: 190px;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    border: 1.7px solid #4bbdfd;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+
+  .search_button {
+    background-color: #e76a00;
+    width: 100%;
+    .search_text {
+      color: white;
+      font-family: "Urbanist", sans-serif;
+      font-size: 16px;
+    }
+  }
+  .inner_view_title {
+    font-family: "Urbanist", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 41.6px;
+    text-align: left;
+    color: #444444;
+  }
+}

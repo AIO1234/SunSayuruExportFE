@@ -5,11 +5,11 @@ export default [
     component: () => import("@/views/Home.vue"),
     meta: {
       authReuire: true,
-      role: ["Super Admin", "Admin", "Staff"],
+      role: ["Super Admin", "Admin"],
       pageTitle: "Home",
       breadcrumb: [
         {
-          text: "Home",
+          text: "Dashboard",
           active: true,
         },
       ],

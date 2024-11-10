@@ -61,11 +61,7 @@
               <!-- flight -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="Flight*" label-class="form_label_class">
-                  <validation-Provider
-                    name="Flight"
-                 
-                    v-slot="{ errors }"
-                  >
+                  <validation-Provider name="Flight" v-slot="{ errors }">
                     <b-form-input
                       placeholder="Enter flight number"
                       v-model="form.flight"
@@ -77,11 +73,7 @@
               <!-- Eta -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="ETA*" label-class="form_label_class">
-                  <validation-Provider
-                    name="ETA"
-                  
-                    v-slot="{ errors }"
-                  >
+                  <validation-Provider name="ETA" v-slot="{ errors }">
                     <b-form-datepicker
                       placeholder="Select Date"
                       v-model="form.eta"
@@ -93,11 +85,7 @@
               <!-- awb -->
               <b-col lg="6" class="pt-2">
                 <b-form-group label="AWB*" label-class="form_label_class">
-                  <validation-Provider
-                    name="AWB"
-                 
-                    v-slot="{ errors }"
-                  >
+                  <validation-Provider name="AWB" v-slot="{ errors }">
                     <b-form-input
                       placeholder="Enter AWB number"
                       v-model="form.awb"
@@ -110,11 +98,7 @@
               <!-- consignee -->
               <b-col lg="12" class="pt-2">
                 <b-form-group label="Consignee*" label-class="form_label_class">
-                  <validation-Provider
-                    name="Consignee"
-                
-                    v-slot="{ errors }"
-                  >
+                  <validation-Provider name="Consignee" v-slot="{ errors }">
                     <b-form-textarea
                       placeholder="Enter Consignee"
                       v-model="form.consignee"
@@ -123,7 +107,27 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-         
+
+              <!-- Buyer Converting rate -->
+              <b-col lg="12" class="pt-2">
+                <b-form-group
+                  label="Usd Converting Rate*"
+                  label-class="form_label_class"
+                >
+                  <validation-Provider
+                    name="Usd Converting Rate"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-textarea
+                      type="number"
+                      
+                      placeholder="Enter Usd Converting Rate"
+                      v-model="form.buyer_converting_rate"
+                    ></b-form-textarea>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
             </b-row>
 
             <br />

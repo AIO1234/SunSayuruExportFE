@@ -1,6 +1,5 @@
-import _ from 'lodash';
-const moment = require('moment-timezone');
-
+import _ from "lodash";
+const moment = require("moment-timezone");
 
 export default {
   methods: {
@@ -10,6 +9,9 @@ export default {
     },
     getPrice(price) {
       return `Rs. ${parseFloat(price).toFixed(2)} `;
+    },
+    getPriceUsd(price) {
+      return `$. ${parseFloat(price).toFixed(2)} `;
     },
     getPriceWithOutCurrency(price) {
       return `${parseFloat(price).toFixed(2)}`;
@@ -23,6 +25,34 @@ export default {
       if (split_ref.length === 1) return reference;
       return `${split_ref[0]}-${parseInt(split_ref[1])}`;
     },
+    getMonth(month) {
+      // eslint-disable-next-line no-undef
+      if (month == "1") {
+        return "January";
+      } else if (month == "2") {
+        return "February";
+      } else if (month == "3") {
+        return "March";
+      } else if (month == "4") {
+        return "April";
+      } else if (month == "5") {
+        return "May";
+      } else if (month == "6") {
+        return "June";
+      } else if (month == "7") {
+        return "July";
+      } else if (month == "8") {
+        return "August";
+      } else if (month == "9") {
+        return "September";
+      } else if (month == "10") {
+        return "October";
+      } else if (month == "11") {
+        return "November";
+      } else if (month == "12") {
+        return "December";
+      }
+    },
     firstLetterUpperCase(value) {
       if (value === null) return "N/A";
       // eslint-disable-next-line no-undef
@@ -34,7 +64,7 @@ export default {
     },
     //For time format
     momentFormat(value, arg) {
-      return moment(new Date(value), arg).tz('Asia/Colombo').format(arg);
+      return moment(new Date(value), arg).tz("Asia/Colombo").format(arg);
     },
     momentTimestampFormat(value, arg) {
       return moment(new Date(value)).format(arg);
