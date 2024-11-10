@@ -146,7 +146,7 @@ export default {
 
         {
           key: "amount",
-          label: "Amount(usd)",
+          label: "Amount($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

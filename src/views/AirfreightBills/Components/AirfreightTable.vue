@@ -72,7 +72,7 @@ export default {
 
         {
           key: "total_company_lkr_cost",
-          label: "Total Cost(LKR)",
+          label: "Total Cost(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -80,7 +80,7 @@ export default {
 
         {
           key: "total_company_usd_cost",
-          label: "Total Cost(USD)",
+          label: "Total Cost($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -88,7 +88,7 @@ export default {
 
         {
           key: "lkr_received_payments",
-          label: "Total Paid Payments(LKR)",
+          label: "Total Paid Payments(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -96,7 +96,7 @@ export default {
 
         {
           key: "usd_received_payments",
-          label: "Total Paid Payments(USD)",
+          label: "Total Paid Payments($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -104,7 +104,7 @@ export default {
 
         {
           key: "lkr_due_balance",
-          label: "Total Due Payments(LKR)",
+          label: "Total Due Payments(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -112,7 +112,7 @@ export default {
 
         {
           key: "usd_due_balance",
-          label: "Total Due Payments(USD)",
+          label: "Total Due Payments($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

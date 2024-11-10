@@ -149,7 +149,7 @@ export default {
         },
         {
           key: "amount",
-          label: "Total Cost(LKR)",
+          label: "Total Cost(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

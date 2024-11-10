@@ -144,14 +144,14 @@ export default {
         },
         {
           key: "lkr_amount",
-          label: "Amount(Lkr)",
+          label: "Amount(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
         {
           key: "usd_amount",
-          label: "Amount(usd)",
+          label: "Amount($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

@@ -37,35 +37,35 @@
         </template>
 
         <template #cell(total_usd_income)="data">
-          {{ getPriceUsd(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_lkr_income)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_airfreight_usd_expense)="data">
-          {{ getPriceUsd(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_airfreight_lkr_expense)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_suplier_expense)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_material_expense)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_additional_expense)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(profitorlossvalue)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
         <!-- action-->
         <template #cell(action)="data">

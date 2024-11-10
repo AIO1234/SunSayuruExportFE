@@ -147,7 +147,7 @@ export default {
 
         {
           key: "airfreight_cost",
-          label: "Amount(LKR)",
+          label: "Amount(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -155,7 +155,7 @@ export default {
 
         {
           key: "usd_airfreight_cost",
-          label: "Amount(USD)",
+          label: "Amount($)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",

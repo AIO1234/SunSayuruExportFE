@@ -71,19 +71,19 @@
         :current-page="currentPage"
       >
         <template #cell(total_usd_income)="data">
-          {{ getPriceUsd(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_lkr_income)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(total_expense)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
 
         <template #cell(profitorlossvalue)="data">
-          {{ getPrice(data.value) }}
+          {{ getPriceWithOutCurrency(data.value) }}
         </template>
       </b-table>
 
@@ -188,7 +188,7 @@ export default {
 
         {
           key: "total_expense",
-          label: "Total Expenses",
+          label: "Total Expenses(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
@@ -202,7 +202,7 @@ export default {
         },
         {
           key: "profitorlossvalue",
-          label: "Profit/Loss Amount",
+          label: "Profit/Loss Amount(Rs)",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
