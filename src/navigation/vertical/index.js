@@ -3,15 +3,13 @@ export default [
     title: "Dashboard",
     route: "dashboard",
     icon: "HomeIcon",
-    role: ["Super Admin", "Admin", "Staff"],
-
+    role: ["Super Admin", "Admin"],
   },
   {
     title: "Users",
     icon: "UsersIcon",
     route: "users",
     role: ["Super Admin", "Admin"],
-
   },
   {
     title: "Packing & receiving",
@@ -68,5 +66,64 @@ export default [
         route: "airfreights",
       },
     ],
+  },
+
+  {
+    title: "Airfreight Bills",
+    route: "airfreightbill",
+    icon: "FileTextIcon",
+    role: ["Super Admin", "Admin", "Staff"],
+  },
+
+  {
+    title: "OutGoing Payments",
+    icon: "FileIcon",
+    role: ["Super Admin", "Admin", "Staff"],
+    route: "outgoingpayments",
+  },
+
+  {
+    title: "Remittance",
+    icon: "FileIcon",
+    role: ["Super Admin", "Admin"],
+    route: "incomming_payments",
+  },
+  // {
+  //   title: "Payments",
+  //   icon: "DollarSignIcon",
+  //   role: ["Super Admin", "Admin", "Staff"],
+  //   children: [
+  //     {
+  //       title: "Out Going",
+  //       route: "outgoingpayments",
+  //     },
+  //     {
+  //       title: "Remittance",
+  //       route: "incomming_payments",
+  //     },
+  //   ],
+  // },
+
+  {
+    title: "Reports",
+    icon: "BarChartIcon",
+    role: ["Super Admin", "Admin"],
+    children: [
+      {
+        title: "Shipment Wise",
+        route: "shipment_profit",
+      },
+      {
+        title: "Monthly Wise",
+        route: "monthly_profit",
+      },
+    ],
+  },
+
+  {
+    title: "Check Book",
+    icon: "FileIcon",
+    role: ["Super Admin", "Admin", "Staff"],
+    route: "checkbook",
   },
 ];

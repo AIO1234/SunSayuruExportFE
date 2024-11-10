@@ -7,6 +7,20 @@ export default {
     current_user_name: null,
     current_user_permission: null,
     logged_role: null,
+    logged_role: null,
+
+    current_selected_ongoing_payment_tab: null,
+
+    selected_suplier_name_for_payment: null,
+    selected_suplier_id_for_payment: null,
+
+    selected_airfreight_name_for_payment: null,
+    selected_airfreight_id_for_payment: null,
+
+    selected_buyer_code_for_payment: null,
+    selected_buyer_id_for_payment: null,
+    selected_buyer_country_id_for_payment: null,
+    selected_buyer_country_name_for_payment: null,
   },
   mutations: {
     CLEAR_CURRENT_USER: (state) => {
@@ -41,6 +55,27 @@ export default {
       state.current_user_data.user.name = displayName;
       state.current_user_data.user.image = photoURL;
     },
+
+    SET_SELECTED_ONGOING_PAYMENT_TAB: (state, tab) => {
+      state.current_selected_ongoing_payment_tab = tab;
+    },
+
+    SET_SELECTED_SUPLIER_FOR_PAYMENT: (state, suplierdata) => {
+      state.selected_suplier_id_for_payment = suplierdata.id;
+      state.selected_suplier_name_for_payment = suplierdata.name;
+    },
+
+    SET_SELECTED_AIRFREIGHT_FOR_PAYMENT: (state, airfreightdata) => {
+      state.selected_airfreight_id_for_payment = airfreightdata.id;
+      state.selected_airfreight_name_for_payment = airfreightdata.company_name;
+    },
+
+    SET_SELECTED_BUYER_FOR_PAYMENT: (state, buyertdata) => {
+      state.selected_buyer_id_for_payment = buyertdata.id;
+      state.selected_buyer_code_for_payment = buyertdata.code;
+      state.selected_buyer_country_id_for_payment = buyertdata.country.id;
+      state.selected_buyer_country_name_for_payment = buyertdata.country.name;
+    },
   },
   getters: {
     isLogedIn: (state) =>
@@ -49,7 +84,33 @@ export default {
     getRole: (state) => state.logged_role,
 
     getUserName: (state) => state.current_user_name,
-    // currentUser: state => state.current_user_data,
+
+    getselectedsuplierforpayment(state) {
+      return {
+        suplier_id: state.selected_suplier_id_for_payment,
+        suplier_name: state.selected_suplier_name_for_payment,
+      };
+    },
+
+    getselectedairfreightforpayment(state) {
+      return {
+        airfreight_id: state.selected_airfreight_id_for_payment,
+        company_name: state.selected_airfreight_name_for_payment,
+      };
+    },
+
+    getselectedbuyerforpayment(state) {
+      return {
+        buyer_id: state.selected_buyer_id_for_payment,
+        buyer_code: state.selected_buyer_code_for_payment,
+        country_id: state.selected_buyer_country_id_for_payment,
+        country_name: state.selected_buyer_country_name_for_payment,
+      };
+    },
+
+    getselectedongoingpaymenttab: (state) =>
+      state.selected_airfreight_name_for_payment,
+
     // permissions: state => state.current_user_permission
   },
   actions: {
@@ -90,7 +151,7 @@ export default {
         await this.dispatch("logout");
       }
     },
-   
+
     async logout({ commit }) {
       try {
         await profile.logout();

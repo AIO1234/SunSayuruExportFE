@@ -1,0 +1,74 @@
+.dashboard {
+  .main_title {
+    font-family: "Urbanist", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 41.6px;
+    text-align: left;
+    color: #444444;
+  }
+  .card_view_title {
+    font-family: "Urbanist", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+    color: #5b5b5b;
+  }
+  .total_profit {
+    font-family: "Urbanist", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 33.6px;
+    text-align: center;
+    color: #0066ff;
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+  }
+  .stats_title {
+    font-family: "Urbanist", sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 39.32px;
+    text-align: center;
+    color: #003476;
+    @media (max-width: 768px) {
+      font-size: 18px;
+      line-height: 21.32px;
+    }
+  }
+  .selection {
+    width: 190px;
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    border: 1.7px solid #0052ba;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  .income_type_box {
+    width: 12.29px;
+    height: 12.38px;
+    margin-top: 5px;
+    background-color: #248900;
+  }
+  .expences_type_box {
+    width: 12.29px;
+    height: 12.38px;
+    margin-top: 5px;
+    background-color: #f8a838;
+  }
+  .profit_type_box {
+    width: 12.29px;
+    height: 12.38px;
+    margin-top: 5px;
+    background-color: #801818;
+  }
+  .padding_year {
+    padding-left: 20px;
+    @media (max-width: 768px) {
+      padding-left: 0px;
+    }
+  }
+}

@@ -107,8 +107,26 @@
                   </validation-Provider>
                 </b-form-group>
               </b-col>
-              <!-- Airfreight Cost  -->
-             
+
+              <!-- Buyer Converting rate -->
+              <b-col lg="6" class="pt-2">
+                <b-form-group
+                  label="Usd Converting Rate*"
+                  label-class="form_label_class"
+                >
+                  <validation-Provider
+                    name="Usd Converting Rate"
+                    v-slot="{ errors }"
+                  >
+                    <b-form-input
+                      type="number"
+                      placeholder="Enter Usd Converting Rate"
+                      v-model="form.buyer_converting_rate"
+                    ></b-form-input>
+                    <span class="text-danger">{{ errors[0] }}</span>
+                  </validation-Provider>
+                </b-form-group>
+              </b-col>
             </b-row>
 
             <br />
