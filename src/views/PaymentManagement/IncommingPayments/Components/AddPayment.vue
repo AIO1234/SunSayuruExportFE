@@ -4,12 +4,12 @@
       <div class="buyer_payments">
         <b-button
           variant="none"
-          class="back_button mt-1"
+          class="backbutton mt-1"
           @click="$router.back()"
         >
           <feather-icon icon="ChevronLeftIcon" size="14" class="text-dark" />
           &nbsp;
-          <span class="text">Back</span>
+          <span class="back_button_text_styles">Back</span>
         </b-button>
         <br /><br />
         <b-card>

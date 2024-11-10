@@ -46,6 +46,7 @@ setupCalendar({
 });
 
 document.addEventListener("contextmenu", (event) => event.preventDefault());
+
 document.addEventListener("keydown", function (event) {
   if (event.ctrlKey && event.shiftKey && event.code === "KeyC") {
     event.preventDefault();
@@ -57,7 +58,8 @@ document.addEventListener("keydown", function (event) {
     event.preventDefault();
   }
 });
-document.addEventListener("contextmenu", (event) => event.preventDefault());
+
+// document.addEventListener("contextmenu", (event) => event.preventDefault());
 
 Vue.component("v-date-picker", DatePicker);
 // import assets styles

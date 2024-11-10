@@ -109,7 +109,7 @@ export default {
     },
 
     getselectedongoingpaymenttab: (state) =>
-      state.selected_airfreight_name_for_payment,
+      state.current_selected_ongoing_payment_tab,
 
     // permissions: state => state.current_user_permission
   },
