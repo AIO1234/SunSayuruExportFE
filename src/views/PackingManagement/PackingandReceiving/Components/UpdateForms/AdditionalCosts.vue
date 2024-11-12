@@ -219,7 +219,9 @@ export default {
         },
       ],
       airefreightcompanies: [],
-      airfreight_company: {},
+      airfreight_company: {
+        company_name: "Select Airfreight",
+      },
 
       // updating data
 
@@ -279,7 +281,14 @@ export default {
 
       this.airfreight_company.id = res.data.data.airfreight_id;
 
-      this.airfreight_company.company_name = res.data.data.company_name;
+      // if airfreight is not null
+      if (res.data.data.company_name !== null) {
+        this.airfreight_company.company_name = res.data.data.company_name;
+      }
+      // if airfreight is null
+      else {
+        this.airfreight_company.company_name = "Select Airfreight";
+      }
 
       this.form.airfreight_converting_rate =
         res.data.data.airfreight_converting_rate;
@@ -300,7 +309,11 @@ export default {
         this.form.additionalcosts = this.additionalcosts;
         this.form.shipment_id = this.$route.params.shipment_id;
 
-        this.form.airfreight_id = this.airfreight_company.id;
+        if (this.airfreight_company.company_name !== "Select Airfreight") {
+          this.form.airfreight_id = this.airfreight_company.id;
+        } else {
+          this.form.airfreight_id = "";
+        }
 
         this.form.usd_airfreight_cost = this.usd_airfreight_cost;
         this.form.airfreight_cost = this.airfreight_cost;
@@ -380,3 +393,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.airfeight_select {
+  border-color: #ffffff;
+  background-color: white;
+  @media (max-width: 600px) {
+    width: 180px;
+  }
+}
+</style>
