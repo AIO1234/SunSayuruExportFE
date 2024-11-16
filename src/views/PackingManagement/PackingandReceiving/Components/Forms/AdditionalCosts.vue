@@ -294,14 +294,12 @@ export default {
         this.form.additionalcosts = this.additionalcosts;
         this.form.shipment_id = localStorage.getItem("currentShipmentId");
         // if company name null
-        if (this.airfreight_company.company_name !== "Select Airfreight") {
+
+        if (this.airfreight_company !== null) {
           this.form.airfreight_id = this.airfreight_company.id;
         }
         // if not null
-        else {
-          this.form.airfreight_id = "";
-        }
-
+      
         this.form.usd_airfreight_cost = this.usd_airfreight_cost;
         this.form.airfreight_cost = this.airfreight_cost;
 
