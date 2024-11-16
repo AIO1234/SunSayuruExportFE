@@ -309,10 +309,8 @@ export default {
         this.form.additionalcosts = this.additionalcosts;
         this.form.shipment_id = this.$route.params.shipment_id;
 
-        if (this.airfreight_company.company_name !== "Select Airfreight") {
+        if (this.airfreight_company !== null) {
           this.form.airfreight_id = this.airfreight_company.id;
-        } else {
-          this.form.airfreight_id = "";
         }
 
         this.form.usd_airfreight_cost = this.usd_airfreight_cost;
