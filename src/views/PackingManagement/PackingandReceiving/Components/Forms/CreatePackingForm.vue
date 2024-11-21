@@ -438,11 +438,25 @@
             class="form_submit_button"
             :disabled="invalid"
           >
-            <span class="button_text_styles" @click="next()">Next</span>
+            <span
+              class="button_text_styles"
+              @click="dataexiststatus === true ? openApproveModal() : next()"
+              >Next</span
+            >
           </b-button></b-col
         >
       </b-row>
     </validation-observer>
+
+    <!-- confirmation box-->
+    <b-modal
+      ref="confirmbox"
+      hide-footer
+      title-class="modal_title_color"
+      no-close-on-backdrop
+    >
+      <ConfirmAlert @confirm="confirmApprovation" @hide="DeclineApprovation" />
+    </b-modal>
   </div>
 </template>
 
@@ -476,11 +490,13 @@ import suplierApi from "@/Api/Modules/supliers";
 import shipmentApi from "@/Api/Modules/shipments.js";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+import ConfirmAlert from "@/Components/FlowApprovationBox.vue";
 
 export default {
   name: "CreatePackingForm",
   components: {
     BCard,
+    ConfirmAlert,
     BImg,
     BInputGroupAppend,
     BFormRadio,
@@ -507,7 +523,7 @@ export default {
   data() {
     return {
       form: {},
-
+      dataexiststatus: false,
       boxes: [
         {
           id: 1,
@@ -564,6 +580,16 @@ export default {
       });
       const res = await shipmentApi.showShipment(payload);
       this.boxes = res.data.data.boxes;
+
+      // if boxes didnt have in tis shipment
+      if (this.boxes[0].box_number === "") {
+        this.dataexiststatus = false;
+      }
+      // if boxes already have in tis shipment
+      else {
+        this.dataexiststatus = true;
+      }
+
       this.$vs.loading.close();
     },
 
@@ -600,8 +626,34 @@ export default {
       const res = await suplierApi.allSupliers();
       this.supliers = res.data.data;
     },
+
+    // open approvation modal to go next
+    openApproveModal() {
+      this.$refs.confirmbox.show();
+    },
+
+    // confirm approvation to go next
+
+    async confirmApprovation() {
+      await this.next("confirmupdateinvoice");
+    },
+
+    // cancel approvation to go next
+
+    async DeclineApprovation() {
+      await this.next("declineupdateinvoice");
+    },
     // next button and save
-    async next() {
+    async next(approvestatus = "") {
+      // check approve status is true
+      if (approvestatus === "confirmupdateinvoice" || approvestatus === "") {
+        this.form.update_invoice_status = "confirmupdateinvoice";
+      }
+      // if status is declined
+      else if (approvestatus === "declineupdateinvoice") {
+        this.form.update_invoice_status = "declineupdateinvoice";
+      }
+
       this.form.boxes = this.boxes;
       this.form.shipment_id = localStorage.getItem("currentShipmentId");
       if (await this.$refs.packingValidation.validate()) {
