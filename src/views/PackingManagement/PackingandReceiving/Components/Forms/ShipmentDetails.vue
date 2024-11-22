@@ -208,6 +208,7 @@ export default {
         awb: "",
         consignee: "",
         flight: "",
+        buyer_converting_rate: "",
       },
       countries: [],
       buyers: [],

@@ -266,7 +266,15 @@ export default {
 
       this.airfreight_cost = res.data.data.airfreid_cost;
       this.airfreight_company.id = res.data.data.airfreight_id;
-      this.airfreight_company.company_name = res.data.data.company_name;
+
+      // if airfreight is not null
+      if (res.data.data.company_name !== null) {
+        this.airfreight_company.company_name = res.data.data.company_name;
+      }
+      // if airfreight is null
+      else {
+        this.airfreight_company.company_name = "Select Airfreight";
+      }
 
       this.form.airfreight_converting_rate =
         res.data.data.airfreight_converting_rate;
@@ -285,10 +293,15 @@ export default {
 
         this.form.additionalcosts = this.additionalcosts;
         this.form.shipment_id = localStorage.getItem("currentShipmentId");
+        // if company name null
+        if (this.airfreight_company.company_name !== "Select Airfreight") {
+          this.form.airfreight_id = this.airfreight_company.id;
+        }
+        // if not null
+        else {
+          this.form.airfreight_id = "";
+        }
 
-        this.form.airfreight_id = this.airfreight_company.id;
-
-       
         this.form.usd_airfreight_cost = this.usd_airfreight_cost;
         this.form.airfreight_cost = this.airfreight_cost;
 
