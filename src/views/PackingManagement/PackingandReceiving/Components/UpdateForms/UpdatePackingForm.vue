@@ -439,11 +439,23 @@
             class="form_submit_button"
             :disabled="invalid"
           >
-            <span class="button_text_styles" @click="next()">Next</span>
+            <span class="button_text_styles" @click="openApproveModal()"
+              >Next</span
+            >
           </b-button></b-col
         >
       </b-row>
     </validation-observer>
+
+    <!-- confirmation box-->
+    <b-modal
+      ref="confirmbox"
+      hide-footer
+      title-class="modal_title_color"
+      no-close-on-backdrop
+    >
+      <ConfirmAlert @confirm="confirmApprovation" @hide="DeclineApprovation" />
+    </b-modal>
   </div>
 </template>
 
@@ -477,10 +489,12 @@ import suplierApi from "@/Api/Modules/supliers";
 import shipmentApi from "@/Api/Modules/shipments.js";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
+import ConfirmAlert from "@/Components/FlowApprovationBox.vue";
 
 export default {
-  name: "CreatePackingForm",
+  name: "UpdatePackingForm",
   components: {
+    ConfirmAlert,
     BCard,
     BImg,
     BInputGroupAppend,
@@ -598,8 +612,35 @@ export default {
       const res = await suplierApi.allSupliers();
       this.supliers = res.data.data;
     },
+
+    // open approvation modal to go next
+    openApproveModal() {
+      this.$refs.confirmbox.show();
+    },
+
+    // confirm approvation to go next
+
+    async confirmApprovation() {
+      await this.next("confirmupdateinvoice");
+    },
+
+    // cancel approvation to go next
+
+    async DeclineApprovation() {
+      await this.next("declineupdateinvoice");
+    },
+
     // next button and save
-    async next() {
+    async next(approvestatus) {
+      // check approve status is true
+      if (approvestatus === "confirmupdateinvoice") {
+        this.form.update_invoice_status = "confirmupdateinvoice";
+      }
+      // if status is declined
+      else if (approvestatus === "declineupdateinvoice") {
+        this.form.update_invoice_status = "declineupdateinvoice";
+      }
+
       this.form.boxes = this.boxes;
       this.form.shipment_id = this.$route.params.shipment_id;
       if (await this.$refs.packingValidation.validate()) {
