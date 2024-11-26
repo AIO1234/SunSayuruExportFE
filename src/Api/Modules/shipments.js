@@ -36,4 +36,8 @@ export default {
   async sendEmailInvoice(payload) {
     return await api.post("/shipment/sendemailinvoice", payload);
   },
+
+  async deleteShipment(id) {
+    return await api.delete(`/shipment/deleteshipment/${id}`);
+  },
 };
