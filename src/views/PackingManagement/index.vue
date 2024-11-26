@@ -161,7 +161,10 @@
       <!-- shipments table  -->
       <div class="pt-5" v-if="type === 'Packing & Receivings'">
         <b-card>
-          <ShipmentTable :shipments="packingshipments" />
+          <ShipmentTable
+            :shipments="packingshipments"
+            @loaddata="loadDataFromTable"
+          />
         </b-card>
       </div>
     </div>
@@ -499,6 +502,12 @@ export default {
       } else if (type === "Documentations") {
         await this.getShipmentsForDocuments(false);
       }
+    },
+
+    // load data from delete shipment
+
+    async loadDataFromTable() {
+      await this.getAllShipmentsForPackings();
     },
   },
 };
