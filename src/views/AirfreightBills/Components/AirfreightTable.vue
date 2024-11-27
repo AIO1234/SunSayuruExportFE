@@ -46,10 +46,40 @@
         </b-row>
       </template>
     </b-table>
+
+    <!-- airfreight due total -->
+    <div class="pt-2"></div>
+    <div class="airfreight_bills">
+      <b-row class="pl-2">
+        <b-col lg="4">
+          <span class="totaltext">Full Airfreight Lkr Due Total</span>
+        </b-col>
+
+        <b-col lg="4"
+          ><span class="totaltext">
+            {{ getPrice(airfreight_lkr_due_balance_sum) }}</span
+          ></b-col
+        >
+      </b-row>
+
+      <br />
+      <b-row class="pl-2">
+        <b-col lg="4">
+          <span class="totaltext">Full Airfreight Usd Due Total</span>
+        </b-col>
+
+        <b-col lg="4"
+          ><span class="totaltext">
+            {{ getPriceUsd(airfreight_usd_due_balance_sum) }}</span
+          ></b-col
+        >
+      </b-row>
+    </div>
   </div>
 </template>
 <script>
 import { BTable, BRow, BCard, BImg, BCol, BButton } from "bootstrap-vue";
+import { double } from "vee-validate/dist/rules";
 export default {
   components: {
     BTable,
@@ -130,6 +160,8 @@ export default {
 
   props: {
     bills: Array,
+    airfreight_lkr_due_balance_sum: double,
+    airfreight_usd_due_balance_sum: double,
   },
 };
 </script>
