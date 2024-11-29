@@ -2,7 +2,11 @@
   <div>
     <!-- airfreight table view -->
     <b-card class="mt-5">
-      <AirfreightBillTable :bills="airfreightbills" />
+      <AirfreightBillTable
+        :bills="airfreightbills"
+        :airfreight_lkr_due_balance_sum="airfreight_lkr_due_balance_sum"
+        :airfreight_usd_due_balance_sum="airfreight_usd_due_balance_sum"
+      />
     </b-card>
   </div>
 </template>
@@ -44,6 +48,8 @@ export default {
   data() {
     return {
       airfreightbills: [],
+      airfreight_lkr_due_balance_sum: "",
+      airfreight_usd_due_balance_sum: "",
     };
   },
   async created() {
@@ -55,7 +61,9 @@ export default {
         scale: 0.8,
       });
       const res = await reportApi.airfreightMainBills();
-      this.airfreightbills = res.data.data;
+      this.airfreightbills = res.data.data.allairfreights;
+      this.airfreight_lkr_due_balance_sum = res.data.data.airfreightlkrdutotal;
+      this.airfreight_usd_due_balance_sum = res.data.data.airfreightusddutotal;
       this.$vs.loading.close();
     },
   },
