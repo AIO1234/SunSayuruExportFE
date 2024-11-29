@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- earnings table -->
     <b-table
       sticky-header=""
       responsive="sm"
@@ -38,6 +39,23 @@
         {{ getPriceWithOutCurrency(data.value) }}
       </template>
     </b-table>
+
+    <div class="pt-2"></div>
+    <!-- suplier due total -->
+
+    <div class="suplierearnings">
+      <b-row class="pl-2">
+        <b-col lg="3">
+          <span class="totaltext">Full Supplier Due Total</span>
+        </b-col>
+
+        <b-col lg="2"
+          ><span class="totaltext">
+            {{ getPrice(supier_due_total) }}</span
+          ></b-col
+        >
+      </b-row>
+    </div>
 
     <b-modal
       ref="DetailsModal"
@@ -87,6 +105,7 @@ export default {
   },
   data() {
     return {
+      supier_due_total: "",
       show: false,
       selectedItem: {},
       fields: [
@@ -153,7 +172,9 @@ export default {
         scale: 0.8,
       });
       const res = await reportApi.suplierViseSuplierEarnings();
-      this.suplierearnings = res.data.data;
+      this.suplierearnings = res.data.data.allsupliers;
+      this.supier_due_total = res.data.data.suplierdutotal;
+
       this.$vs.loading.close();
     },
   },

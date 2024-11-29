@@ -39,6 +39,30 @@
           </b-col>
         </b-row>
       </template>
+      <template #cell(delete)="data">
+        <b-row>
+          <b-col lg="12">
+            <!-- delete button -->
+
+            <b-button
+              variant="none"
+              v-if="
+                data.item.data_completed_status === 'Shipment_Data_Completed' ||
+                data.item.data_completed_status === 'Boxes_Data_Completed'
+              "
+              @click="openShipmentDeleteModal(data.item)"
+            >
+              <b-img
+                width="17px"
+                src="@/assets/images/icons/Group 59.png"
+              ></b-img>
+            </b-button>
+
+            <!-- if cant delete -->
+            <b-badge v-else variant="danger">Disabled</b-badge>
+          </b-col>
+        </b-row>
+      </template>
 
       <template #cell(total_material_costs)="data">
         {{ getPriceWithOutCurrency(data.value) }}
@@ -66,6 +90,7 @@
         </div>
       </b-col>
     </b-row>
+    <!-- update modal -->
     <b-modal
       ref="UpdateModal"
       title="Edit Packing"
@@ -76,6 +101,7 @@
       <PackingUpdateForm :selectedPacking="selectedPacking" />
     </b-modal>
 
+    <!-- shipment summary model -->
     <b-modal
       ref="DetailsModal"
       :title="`View packing box number ${selectedPacking.box_number}`"
@@ -85,6 +111,19 @@
     >
       <ViewPacking :selectedPacking="selectedPacking" />
     </b-modal>
+
+    <!-- delete shipment modal -->
+    <b-modal
+      ref="DeleteModal"
+      hide-footer
+      title-class="modal_title_color"
+      no-close-on-backdrop
+    >
+      <ShipmentDeleteAlert
+        @confirm="confirmShipmentDelete"
+        @hide="DeclineShipmentDelete"
+      />
+    </b-modal>
   </div>
 </template>
 
@@ -92,6 +131,7 @@
 import PackingUpdateForm from "@/views/PackingManagement/PackingandReceiving/Components/UpdatePackingForm.vue";
 import shipmentApi from "@/Api/Modules/shipments.js";
 import ViewPacking from "@/views/PackingManagement/PackingandReceiving/Components/ViewPacking.vue";
+import ShipmentDeleteAlert from "@/Components/ShipmentDeleteAlert.vue";
 
 import {
   BModal,
@@ -111,6 +151,7 @@ import {
 export default {
   name: "PackingTable",
   components: {
+    ShipmentDeleteAlert,
     BCard,
     BModal,
     BImg,
@@ -132,6 +173,7 @@ export default {
       show: false,
       currentPage: 1,
       selectedPacking: {},
+      selectedShipment: {},
       fields: [
         {
           key: "invoice_no",
@@ -199,6 +241,13 @@ export default {
 
           // tdClass: "custom-cell-padding",
         },
+        {
+          key: "delete",
+          label: "Delete",
+          sortable: true,
+
+          // tdClass: "custom-cell-padding",
+        },
       ],
     };
   },
@@ -212,14 +261,54 @@ export default {
       // Add a custom class to table cells based on your requirements
       return "custom-cell-padding";
     },
+    // open update modal
     openUpdateModal(data) {
       this.$refs.UpdateModal.show();
       this.selectedPacking = data;
     },
 
+    // open details
     openDetailsModal(data) {
       this.$refs.DetailsModal.show();
       this.selectedPacking = data;
+    },
+
+    // open shipement delete modal
+    openShipmentDeleteModal(item) {
+      this.$refs.DeleteModal.show();
+      this.selectedShipment = item;
+    },
+
+    // confirm shipement delete approvation
+    async confirmShipmentDelete() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      await shipmentApi
+        .deleteShipment(this.selectedShipment.id)
+        .then(() => {
+          this.$vs.loading.close();
+          this.$refs.DeleteModal.hide();
+          this.$emit("loaddata");
+
+          // remove current shipment in locl storage if deleting shipment is equal to that
+          if (
+            this.selectedShipment.id ==
+            localStorage.getItem("currentShipmentId")
+          ) {
+            localStorage.removeItem("currentShipmentId");
+          }
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+    },
+
+    // cancel shipment delete approvation
+
+    DeclineShipmentDelete() {
+      // hide delete modal
+      this.$refs.DeleteModal.hide();
     },
   },
 };
