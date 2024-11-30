@@ -39,7 +39,7 @@
     }
   }
   .selection {
-    width: 160px;
+    width: 190px;
     border-radius: 8px;
     background-color: rgb(255, 255, 255);
     border: 1.7px solid #0052ba;
@@ -49,6 +49,19 @@
       width: 100%;
       
     }
+
+    @media (max-width: 1366px) {
+      width: 150px;
+      
+    }
+    @media (min-width: 1366px) and (max-width: 1440px) {
+      width: 170px;
+      
+    }
+
+   
+
+   
    
 
   }
