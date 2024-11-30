@@ -36,7 +36,7 @@
               <b-col  style="height:20%">
               
                 <v-select
-                  class="select_styles select_type"
+                  class="select_styles"
                   v-model="type"
                   @input="typesChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
