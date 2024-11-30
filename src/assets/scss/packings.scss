@@ -36,10 +36,29 @@
 .select_styles {
   background-color: white;
   border-radius: 5px;
-  width: 98%;
+  width: 100%;  
+  @media (max-width: 1366px) { 
+    font-size:0.846rem;
+  }
+  @media (max-width: 1440px) { 
+    font-size:0.846rem;
+  }
+  @media (max-width: 1445px) { 
+    font-size:0.846rem;
+  }
 }
+
 .search_button {
   background-color: #e76a00;
+  @media (max-width: 1366px) {    
+    height:35px;   
+  }
+  @media (max-width: 1440px) {    
+    height:35px;   
+  }
+  @media (max-width: 1445px) {    
+    height:35px;   
+  }
 }
 .search_text {
   font-family: "Urbanist", sans-serif;

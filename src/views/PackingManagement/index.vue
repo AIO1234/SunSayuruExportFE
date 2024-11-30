@@ -33,19 +33,21 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- view type selection -->
-              <b-col lg="4">
+              <b-col  style="height:20%">
+              
                 <v-select
-                  class="select_styles"
+                  class="select_styles select_type"
                   v-model="type"
                   @input="typesChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
                   :options="types"
+                  
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
               <b-col lg="1" class="search_padding">
-                <b-button class="search_button" variant="none"
+                <b-button class="search_button " variant="none"
                   ><span class="text-white search_text">Search</span></b-button
                 >
               </b-col>

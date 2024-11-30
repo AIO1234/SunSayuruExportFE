@@ -223,7 +223,7 @@
                                       placeholder="Select Date"
                                       style="
                                         background-color: #cde9fc;
-
+                                        font-size:9px;                                     
                                         border-color: #0052ba;
                                       "
                                       v-model="suplier.recieving_date"
