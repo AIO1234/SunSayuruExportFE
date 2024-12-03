@@ -3,11 +3,11 @@
     <!-- upper search section -->
     <div>
       <b-row>
-        <b-col lg="9">
-          <div class="packing_main_button_set">
+        <b-col lg="9" style="padding-right:10px">
+          <div class="packing_main_button_set" >
             <b-row>
               <!-- country selection -->
-              <b-col lg="4">
+              <b-col lg="3" >
                 <v-select
                   class="select_styles"
                   v-model="country"
@@ -20,7 +20,7 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- buyer selection -->
-              <b-col lg="3">
+              <b-col lg="3" >
                 <v-select
                   class="select_styles"
                   v-model="buyer"
@@ -33,7 +33,8 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- view type selection -->
-              <b-col lg="4">
+              <b-col lg="5">
+              
                 <v-select
                   class="select_styles"
                   v-model="type"
@@ -41,11 +42,12 @@
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
                   :options="types"
+                  
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
               <b-col lg="1" class="search_padding">
-                <b-button class="search_button" variant="none"
+                <b-button class="search_button " variant="none"
                   ><span class="text-white search_text">Search</span></b-button
                 >
               </b-col>

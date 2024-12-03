@@ -26,9 +26,11 @@
           <!-- type selection -->
           <b-col lg="2" cols="12">
             <!-- space only for mobile -->
+
             <div class="mobile_only_view">
               <div class="mt-2"></div>
             </div>
+
             <v-select
               class="selection"
               v-model="type"
@@ -46,6 +48,7 @@
             <div class="mobile_only_view">
               <div class="mt-1"></div>
             </div>
+
             <v-select
               class="selection"
               v-model="year"
