@@ -7,7 +7,7 @@
           <div class="packing_main_button_set" >
             <b-row>
               <!-- country selection -->
-              <b-col lg="3" >
+              <b-col lg="4" >
                 <v-select
                   class="select_styles"
                   v-model="country"
@@ -33,10 +33,10 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- view type selection -->
-              <b-col lg="5">
+              <b-col lg="3">
               
                 <v-select
-                  class="select_styles"
+                  class="select_styles"              
                   v-model="type"
                   @input="typesChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
