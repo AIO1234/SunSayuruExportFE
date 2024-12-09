@@ -5,15 +5,15 @@
     >
     <div class="pt-3"></div>
     <b-row>
-      <b-col lg="8">
+      <b-col lg="7">
         <h2 class="shipment_number">
           {{ $route.params.suplier_name }}’s receiving
         </h2>
       </b-col>
-      <b-col lg="4" cols="12">
+      <b-col lg="5" cols="12">
         <div class="d-flex justify-content-end">
           <b-row>
-            <b-col lg="5" cols="6">
+            <b-col lg="6" cols="6">
               <b-button
                 class="download_button"
                 variant="none"
@@ -21,7 +21,7 @@
                 ><span class="download_button_color">Download</span></b-button
               >
             </b-col>
-            <b-col lg="7" cols="6">
+            <b-col lg="6" cols="6">
               <b-button
                 class="sendemail_button"
                 variant="none"
