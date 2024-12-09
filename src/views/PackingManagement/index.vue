@@ -33,7 +33,7 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- view type selection -->
-              <b-col lg="3">
+              <b-col lg="4">
               
                 <v-select
                   class="select_styles"              
