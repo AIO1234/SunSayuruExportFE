@@ -277,9 +277,11 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .check_search_button {
   background-color: #e76a00;
   width: 100%;
+  padding: 12px;
+  
   .search_text {
     color: white;
     font-family: "Urbanist", sans-serif;
-    font-size: 16px;
+    font-size: 15px;
   }
 }
