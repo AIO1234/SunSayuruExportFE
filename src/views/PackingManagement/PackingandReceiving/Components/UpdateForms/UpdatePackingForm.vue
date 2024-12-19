@@ -223,7 +223,7 @@
                                       placeholder="Select Date"
                                       style="
                                         background-color: #cde9fc;
-                                        font-size:0.67rem; 
+                                        font-size: 0.67rem;
                                         border-color: #0052ba;
                                       "
                                       v-model="suplier.recieving_date"
@@ -390,17 +390,34 @@
                     >
                   </div>
                 </b-col>
-                <b-col lg="6">
+                <b-col lg="3">
                   <div class="text-right">
                     <!-- add seafood button -->
                     <b-button
-                      @click="repeateSeafood(box)"
+                      block
+                      @click="repeateSeafoodWithExists(box)"
                       type="submit"
                       variant="none"
                       class="seafood_add_button"
                     >
                       <span class="button_text_styles_seafood_type"
-                        >Add seafood type</span
+                        >Repeat seafood type</span
+                      >
+                    </b-button>
+                  </div>
+                </b-col>
+                <b-col lg="3">
+                  <div class="text-right">
+                    <!-- add seafood button -->
+                    <b-button
+                      block
+                      @click="repeateNewSeafood(box)"
+                      type="submit"
+                      variant="none"
+                      class="seafood_add_button"
+                    >
+                      <span class="button_text_styles_seafood_type"
+                        >Add New seafood type</span
                       >
                     </b-button>
                   </div>
@@ -411,17 +428,37 @@
           </div>
         </div>
         <br />
-        <div class="text-right">
-          <!-- add box button -->
-          <b-button
-            @click="repeateBox()"
-            type="submit"
-            variant="none"
-            class="box_add_button"
-          >
-            <span class="button_text_styles">Add Packing box</span>
-          </b-button>
-        </div>
+        <b-row>
+          <b-col lg="6"> </b-col>
+
+          <b-col lg="3">
+            <div class="text-right">
+              <!-- repeat box button -->
+              <b-button
+                @click="repeateBoxWithExists()"
+                type="submit"
+                variant="none"
+                class="box_add_button"
+              >
+                <span class="button_text_styles">Repeat Packing box</span>
+              </b-button>
+            </div>
+          </b-col>
+
+          <b-col lg="3">
+            <div class="text-right">
+              <!-- add box button -->
+              <b-button
+                @click="repeateNewBox()"
+                type="submit"
+                variant="none"
+                class="box_add_button"
+              >
+                <span class="button_text_styles">Add New Packing box</span>
+              </b-button>
+            </div>
+          </b-col>
+        </b-row>
       </div>
       <div class="pt-5"></div>
       <div class="pt-3"></div>
@@ -691,8 +728,8 @@ export default {
       this.boxes.splice(index, 1);
     },
 
-    // add seafood
-    repeateSeafood(box) {
+    // add new seafood
+    repeateNewSeafood(box) {
       box.seafoods.push({
         id: box.seafoods.length + 1,
         seafoodtype: "Select Seafood",
@@ -711,8 +748,30 @@ export default {
       });
     },
 
+    // repeat exist seafood
+    repeateSeafoodWithExists(box) {
+      box.seafoods.push({
+        id: box.seafoods.length + 1,
+        seafoodtype: box.seafoods[box.seafoods.length - 1].seafoodtype,
+        quality: box.seafoods[box.seafoods.length - 1].quality,
+        grading: box.seafoods[box.seafoods.length - 1].grading,
+        gradings: box.seafoods[box.seafoods.length - 1].gradings,
+        water_percentage:
+          box.seafoods[box.seafoods.length - 1].water_percentage,
+        supliers: box.seafoods[box.seafoods.length - 1].supliers.map(
+          (suplier) => ({
+            id: suplier.id,
+            suplier: suplier.suplier,
+            weight: suplier.weight,
+            price_rate: suplier.price_rate,
+            recieving_date: suplier.recieving_date,
+          })
+        ),
+      });
+    },
+
     // add boxes
-    repeateBox() {
+    repeateNewBox() {
       this.boxes.push({
         id: this.boxes.length + 1,
         seafoods: [
@@ -733,6 +792,76 @@ export default {
             ],
           },
         ],
+      });
+    },
+
+    // repeat exist box
+    repeateBoxWithExists() {
+      this.boxes.push({
+        id: this.boxes.length + 1,
+        // seafoods: [
+        //   {
+        //     id: 1,
+        //     seafoodtype:
+        //       this.boxes[this.boxes.length - 1].seafoods[
+        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //       ].seafoodtype,
+        //     quality:
+        //       this.boxes[this.boxes.length - 1].seafoods[
+        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //       ].quality,
+        //     grading:
+        //       this.boxes[this.boxes.length - 1].seafoods[
+        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //       ].grading,
+        //     gradings:
+        //       this.boxes[this.boxes.length - 1].seafoods[
+        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //       ].gradings,
+        //     water_percentage:
+        //       this.boxes[this.boxes.length - 1].seafoods[
+        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //       ].water_percentage,
+        //     supliers: [
+        //       {
+        //         id: 1,
+        //         suplier:
+        //           this.boxes[this.boxes.length - 1].seafoods[
+        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //           ].supliers[0].suplier,
+        //         weight:
+        //           this.boxes[this.boxes.length - 1].seafoods[
+        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //           ].supliers[0].weight,
+        //         price_rate:
+        //           this.boxes[this.boxes.length - 1].seafoods[
+        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //           ].supliers[0].price_rate,
+        //         recieving_date:
+        //           this.boxes[this.boxes.length - 1].seafoods[
+        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
+        //           ].supliers[0].recieving_date,
+        //       },
+        //     ],
+        //   },
+        // ],
+        seafoods: this.boxes[this.boxes.length - 1].seafoods.map((seafood) => ({
+          id: seafood.id,
+          seafoodtype: seafood.seafoodtype,
+          quality: seafood.quality,
+          grading: seafood.grading,
+          gradings: seafood.gradings,
+          water_percentage: seafood.water_percentage,
+          supliers: seafood.supliers.map(
+            (suplier) => ({
+              id: suplier.id,
+              suplier: suplier.suplier,
+              weight: suplier.weight,
+              price_rate: suplier.price_rate,
+              recieving_date: suplier.recieving_date,
+            })
+          ),
+        })),
       });
     },
   },
