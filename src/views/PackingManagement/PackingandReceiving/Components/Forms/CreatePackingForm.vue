@@ -771,17 +771,15 @@ export default {
         gradings: box.seafoods[box.seafoods.length - 1].gradings,
         water_percentage:
           box.seafoods[box.seafoods.length - 1].water_percentage,
-        supliers: [
-          {
-            id: 1,
-            suplier: box.seafoods[box.seafoods.length - 1].supliers[0].suplier,
-            weight: box.seafoods[box.seafoods.length - 1].supliers[0].weight,
-            price_rate:
-              box.seafoods[box.seafoods.length - 1].supliers[0].price_rate,
-            recieving_date:
-              box.seafoods[box.seafoods.length - 1].supliers[0].recieving_date,
-          },
-        ],
+        supliers: box.seafoods[box.seafoods.length - 1].supliers.map(
+          (suplier) => ({
+            id: suplier.id,
+            suplier: suplier.suplier,
+            weight: suplier.weight,
+            price_rate: suplier.price_rate,
+            recieving_date: suplier.recieving_date,
+          })
+        ),
       });
     },
 
@@ -814,52 +812,21 @@ export default {
     repeateBoxWithExists() {
       this.boxes.push({
         id: this.boxes.length + 1,
-        seafoods: [
-          {
-            id: 1,
-            seafoodtype:
-              this.boxes[this.boxes.length - 1].seafoods[
-                this.boxes[this.boxes.length - 1].seafoods.length - 1
-              ].seafoodtype,
-            quality:
-              this.boxes[this.boxes.length - 1].seafoods[
-                this.boxes[this.boxes.length - 1].seafoods.length - 1
-              ].quality,
-            grading:
-              this.boxes[this.boxes.length - 1].seafoods[
-                this.boxes[this.boxes.length - 1].seafoods.length - 1
-              ].grading,
-            gradings:
-              this.boxes[this.boxes.length - 1].seafoods[
-                this.boxes[this.boxes.length - 1].seafoods.length - 1
-              ].gradings,
-            water_percentage:
-              this.boxes[this.boxes.length - 1].seafoods[
-                this.boxes[this.boxes.length - 1].seafoods.length - 1
-              ].water_percentage,
-            supliers: [
-              {
-                id: 1,
-                suplier:
-                  this.boxes[this.boxes.length - 1].seafoods[
-                    this.boxes[this.boxes.length - 1].seafoods.length - 1
-                  ].supliers[0].suplier,
-                weight:
-                  this.boxes[this.boxes.length - 1].seafoods[
-                    this.boxes[this.boxes.length - 1].seafoods.length - 1
-                  ].supliers[0].weight,
-                price_rate:
-                  this.boxes[this.boxes.length - 1].seafoods[
-                    this.boxes[this.boxes.length - 1].seafoods.length - 1
-                  ].supliers[0].price_rate,
-                recieving_date:
-                  this.boxes[this.boxes.length - 1].seafoods[
-                    this.boxes[this.boxes.length - 1].seafoods.length - 1
-                  ].supliers[0].recieving_date,
-              },
-            ],
-          },
-        ],
+        seafoods: this.boxes[this.boxes.length - 1].seafoods.map((seafood) => ({
+          id: seafood.id,
+          seafoodtype: seafood.seafoodtype,
+          quality: seafood.quality,
+          grading: seafood.grading,
+          gradings: seafood.gradings,
+          water_percentage: seafood.water_percentage,
+          supliers: seafood.supliers.map((suplier) => ({
+            id: suplier.id,
+            suplier: suplier.suplier,
+            weight: suplier.weight,
+            price_rate: suplier.price_rate,
+            recieving_date: suplier.recieving_date,
+          })),
+        })),
       });
     },
   },

@@ -799,52 +799,6 @@ export default {
     repeateBoxWithExists() {
       this.boxes.push({
         id: this.boxes.length + 1,
-        // seafoods: [
-        //   {
-        //     id: 1,
-        //     seafoodtype:
-        //       this.boxes[this.boxes.length - 1].seafoods[
-        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //       ].seafoodtype,
-        //     quality:
-        //       this.boxes[this.boxes.length - 1].seafoods[
-        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //       ].quality,
-        //     grading:
-        //       this.boxes[this.boxes.length - 1].seafoods[
-        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //       ].grading,
-        //     gradings:
-        //       this.boxes[this.boxes.length - 1].seafoods[
-        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //       ].gradings,
-        //     water_percentage:
-        //       this.boxes[this.boxes.length - 1].seafoods[
-        //         this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //       ].water_percentage,
-        //     supliers: [
-        //       {
-        //         id: 1,
-        //         suplier:
-        //           this.boxes[this.boxes.length - 1].seafoods[
-        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //           ].supliers[0].suplier,
-        //         weight:
-        //           this.boxes[this.boxes.length - 1].seafoods[
-        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //           ].supliers[0].weight,
-        //         price_rate:
-        //           this.boxes[this.boxes.length - 1].seafoods[
-        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //           ].supliers[0].price_rate,
-        //         recieving_date:
-        //           this.boxes[this.boxes.length - 1].seafoods[
-        //             this.boxes[this.boxes.length - 1].seafoods.length - 1
-        //           ].supliers[0].recieving_date,
-        //       },
-        //     ],
-        //   },
-        // ],
         seafoods: this.boxes[this.boxes.length - 1].seafoods.map((seafood) => ({
           id: seafood.id,
           seafoodtype: seafood.seafoodtype,
