@@ -38,6 +38,36 @@
               @input="selectSuplier()"
               :options="supliers"
             >
+
+            <template #option="option">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                "
+              >
+                <span>{{ option.name }}</span>
+                <span>{{ option.address }}</span>
+              </div>
+            </template>
+
+            <template #selected-option="option">
+              <div
+                v-if="
+                  suplier.name === 'Select Suplier'
+                "
+              >
+                {{ suplier.name }}
+              </div>
+              <div v-else>
+                {{ suplier.name }} -
+                <b> {{ suplier.address }}</b>
+              </div>
+            </template>
+
+
+
+
             </v-select>
           </b-col>
           <!-- date seaches -->
