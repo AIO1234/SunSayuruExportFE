@@ -227,13 +227,19 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getAirfreightPayments(payload);
-        this.airfreightpayments = res.data.data.airfreightpayments;
+        const res = await paymentApi
+          .getAirfreightPayments(payload)
+          .then((res) => {
+            this.airfreightpayments = res.data.data.airfreightpayments;
 
-        this.airfreight_lkr_due = res.data.data.lkr_due_balance;
-        this.airfreight_usd_due = res.data.data.usd_due_balance;
+            this.airfreight_lkr_due = res.data.data.lkr_due_balance;
+            this.airfreight_usd_due = res.data.data.usd_due_balance;
 
-        this.$vs.loading.close();
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
       // if seach data clear geting payment with not seach
       else if (this.startdate === "" || this.enddate === "") {
@@ -243,13 +249,19 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getAirfreightPayments(payload);
-        this.airfreightpayments = res.data.data.airfreightpayments;
+        const res = await paymentApi
+          .getAirfreightPayments(payload)
+          .then((res) => {
+            this.airfreightpayments = res.data.data.airfreightpayments;
 
-        this.airfreight_lkr_due = res.data.data.lkr_due_balance;
-        this.airfreight_usd_due = res.data.data.usd_due_balance;
+            this.airfreight_lkr_due = res.data.data.lkr_due_balance;
+            this.airfreight_usd_due = res.data.data.usd_due_balance;
 
-        this.$vs.loading.close();
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 
