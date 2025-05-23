@@ -357,27 +357,32 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await reportApi.dashboardOverview(payload);
+      const res = await reportApi
+        .dashboardOverview(payload)
+        .then((res) => {
+          this.totalProfit = res.data.data.prifit_details.full_profit;
 
-      this.totalProfit = res.data.data.prifit_details.full_profit;
+          if (this.type.title === "All") {
+            this.allseries[0].data = res.data.data.incomearray;
+            this.allseries[1].data = res.data.data.expencearray;
+            this.allseries[2].data = res.data.data.profitarray;
+            this.$refs.all_chart.refresh();
+          } else if (this.type.title === "Income") {
+            this.incomeseries[0].data = res.data.data.incomearray;
+            this.$refs.income_chart.refresh();
+          } else if (this.type.title === "Expences") {
+            this.expenceseries[0].data = res.data.data.expencearray;
 
-      if (this.type.title === "All") {
-        this.allseries[0].data = res.data.data.incomearray;
-        this.allseries[1].data = res.data.data.expencearray;
-        this.allseries[2].data = res.data.data.profitarray;
-        this.$refs.all_chart.refresh();
-      } else if (this.type.title === "Income") {
-        this.incomeseries[0].data = res.data.data.incomearray;
-        this.$refs.income_chart.refresh();
-      } else if (this.type.title === "Expences") {
-        this.expenceseries[0].data = res.data.data.expencearray;
-
-        this.$refs.expence_chart.refresh();
-      } else if (this.type.title === "Profit") {
-        this.profitseries[0].data = res.data.data.profitarray;
-        this.$refs.profit_chart.refresh();
-      }
-      this.$vs.loading.close();
+            this.$refs.expence_chart.refresh();
+          } else if (this.type.title === "Profit") {
+            this.profitseries[0].data = res.data.data.profitarray;
+            this.$refs.profit_chart.refresh();
+          }
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
   },
 };
