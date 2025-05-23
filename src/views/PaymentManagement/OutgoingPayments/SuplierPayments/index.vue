@@ -38,36 +38,22 @@
               @input="selectSuplier()"
               :options="supliers"
             >
+              <template #option="option">
+                <div style="display: flex; justify-content: space-between">
+                  <span>{{ option.name }}</span>
+                  <span>{{ option.address }}</span>
+                </div>
+              </template>
 
-            <template #option="option">
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                "
-              >
-                <span>{{ option.name }}</span>
-                <span>{{ option.address }}</span>
-              </div>
-            </template>
-
-            <template #selected-option="option">
-              <div
-                v-if="
-                  suplier.name === 'Select Suplier'
-                "
-              >
-                {{ suplier.name }}
-              </div>
-              <div v-else>
-                {{ suplier.name }} -
-                <b> {{ suplier.address }}</b>
-              </div>
-            </template>
-
-
-
-
+              <template #selected-option="option">
+                <div v-if="suplier.name === 'Select Suplier'">
+                  {{ suplier.name }}
+                </div>
+                <div v-else>
+                  {{ suplier.name }} -
+                  <b> {{ suplier.address }}</b>
+                </div>
+              </template>
             </v-select>
           </b-col>
           <!-- date seaches -->
@@ -251,10 +237,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getSuplierPayments(payload);
-        this.suplierpayments = res.data.data.suplierpayments;
-        this.suplier_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getSuplierPayments(payload)
+          .then((res) => {
+            this.suplierpayments = res.data.data.suplierpayments;
+            this.suplier_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
       // if seach data clear geting payment with not seach
       else if (this.startdate === "" || this.enddate === "") {
@@ -264,10 +256,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getSuplierPayments(payload);
-        this.suplierpayments = res.data.data.suplierpayments;
-        this.suplier_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getSuplierPayments(payload)
+          .then((res) => {
+            this.suplierpayments = res.data.data.suplierpayments;
+            this.suplier_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 

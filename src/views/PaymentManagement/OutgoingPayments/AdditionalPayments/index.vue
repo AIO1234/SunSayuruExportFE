@@ -151,20 +151,32 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getAdditionalPayments(payload);
-        this.additionalpayments = res.data.data.additionalpayments;
-        this.additional_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getAdditionalPayments()
+          .then((res) => {
+            this.additionalpayments = res.data.data.additionalpayments;
+            this.additional_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
       // if seach data clear geting payment with not seach
       else if (this.startdate === "" || this.enddate === "") {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getAdditionalPayments();
-        this.additionalpayments = res.data.data.additionalpayments;
-        this.additional_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getAdditionalPayments()
+          .then((res) => {
+            this.additionalpayments = res.data.data.additionalpayments;
+            this.additional_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 

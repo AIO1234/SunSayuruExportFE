@@ -3,11 +3,11 @@
     <!-- upper search section -->
     <div>
       <b-row>
-        <b-col lg="9" style="padding-right:10px">
-          <div class="packing_main_button_set" >
+        <b-col lg="9" style="padding-right: 10px">
+          <div class="packing_main_button_set">
             <b-row>
               <!-- country selection -->
-              <b-col lg="4" >
+              <b-col lg="4">
                 <v-select
                   class="select_styles"
                   v-model="country"
@@ -20,7 +20,7 @@
               <div class="pt-5 mobile_only_view"></div>
 
               <!-- buyer selection -->
-              <b-col lg="3" >
+              <b-col lg="3">
                 <v-select
                   class="select_styles"
                   v-model="buyer"
@@ -34,20 +34,18 @@
 
               <!-- view type selection -->
               <b-col lg="4">
-              
                 <v-select
-                  class="select_styles"              
+                  class="select_styles"
                   v-model="type"
                   @input="typesChange()"
                   :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                   label="title"
                   :options="types"
-                  
                 />
               </b-col>
               <div class="pt-5 mobile_only_view"></div>
               <b-col lg="1" class="search_padding">
-                <b-button class="search_button " variant="none"
+                <b-button class="search_button" variant="none"
                   ><span class="text-white search_text">Search</span></b-button
                 >
               </b-col>
@@ -356,9 +354,15 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await countryApi.allCountries();
-      this.countries = res.data.data;
-      this.$vs.loading.close();
+      const res = await countryApi
+        .allCountries()
+        .then((res) => {
+          this.countries = res.data.data;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
 
     async getBuyers(id) {
@@ -368,9 +372,15 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await buyerApi.buyers(payload);
-      this.$vs.loading.close();
-      return res;
+      const res = await buyerApi
+        .buyers(payload)
+        .then((res) => {
+          this.$vs.loading.close();
+          return res;
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
     // trigger  when country change
     async countryChange() {
@@ -436,10 +446,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await reportApi.buyerShipements(payload);
-        this.documentshipments = res.data.data;
-        this.$vs.loading.close();
-        this.loaded = true;
+        const res = await reportApi
+          .buyerShipements(payload)
+          .then((res) => {
+            this.documentshipments = res.data.data;
+            this.$vs.loading.close();
+            this.loaded = true;
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 
@@ -453,8 +469,8 @@ export default {
     changeTab3() {
       sessionStorage.setItem("documenttype", "BuyerInvoice");
     },
-    // get all shipments for packing & receiving
 
+    // get all shipments for packing & receiving
     async getAllShipmentsForPackings(reset = false) {
       if (
         localStorage.currentSelectedBuyerid &&
@@ -481,9 +497,15 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await shipmentApi.allShipments(payload);
-        this.packingshipments = res.data.data;
-        this.$vs.loading.close();
+        const res = await shipmentApi
+          .allShipments(payload)
+          .then((res) => {
+            this.packingshipments = res.data.data;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
 

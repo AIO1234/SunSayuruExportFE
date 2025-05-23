@@ -220,9 +220,15 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await buyerpi.buyerswithqualities();
-      this.buyers = res.data.data;
-      this.$vs.loading.close();
+      const res = await buyerpi
+        .buyerswithqualities()
+        .then((res) => {
+          this.buyers = res.data.data;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
 
     // select suplier method
@@ -248,10 +254,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getBuyerPayments(payload);
-        this.buyerpayments = res.data.data.buyerpayments;
-        this.buyer_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getBuyerPayments(payload)
+          .then((res) => {
+            this.buyerpayments = res.data.data.buyerpayments;
+            this.buyer_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
       // if seach data clear geting payment with not seach
       else if (this.startdate === "" || this.enddate === "") {
@@ -261,10 +273,16 @@ export default {
         await this.$vs.loading({
           scale: 0.8,
         });
-        const res = await paymentApi.getBuyerPayments(payload);
-        this.buyerpayments = res.data.data.buyerpayments;
-        this.buyer_due = res.data.data.due_balance;
-        this.$vs.loading.close();
+        const res = await paymentApi
+          .getBuyerPayments(payload)
+          .then((res) => {
+            this.buyerpayments = res.data.data.buyerpayments;
+            this.buyer_due = res.data.data.due_balance;
+            this.$vs.loading.close();
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+          });
       }
     },
     // clear searhces

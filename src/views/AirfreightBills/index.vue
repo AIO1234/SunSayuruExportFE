@@ -60,11 +60,19 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await reportApi.airfreightMainBills();
-      this.airfreightbills = res.data.data.allairfreights;
-      this.airfreight_lkr_due_balance_sum = res.data.data.airfreightlkrdutotal;
-      this.airfreight_usd_due_balance_sum = res.data.data.airfreightusddutotal;
-      this.$vs.loading.close();
+      const res = await reportApi
+        .airfreightMainBills()
+        .then((res) => {
+          this.airfreightbills = res.data.data.allairfreights;
+          this.airfreight_lkr_due_balance_sum =
+            res.data.data.airfreightlkrdutotal;
+          this.airfreight_usd_due_balance_sum =
+            res.data.data.airfreightusddutotal;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
   },
 };
