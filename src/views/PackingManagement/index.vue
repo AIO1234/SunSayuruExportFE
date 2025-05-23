@@ -372,15 +372,11 @@ export default {
       await this.$vs.loading({
         scale: 0.8,
       });
-      const res = await buyerApi
-        .buyers(payload)
-        .then((res) => {
-          this.$vs.loading.close();
-          return res;
-        })
-        .catch(() => {
-          this.$vs.loading.close();
-        });
+      const res = await buyerApi.buyers(payload).catch(() => {
+        this.$vs.loading.close();
+      });
+      this.$vs.loading.close();
+      return res;
     },
     // trigger  when country change
     async countryChange() {
