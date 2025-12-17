@@ -9,12 +9,12 @@
     >
       <div class="d-flex justify-content-end">
         <b-row>
-          <b-col lg="5" cols="6">
+          <b-col lg="6" cols="6">
             <b-button class="download_button" variant="none" @click="generate()"
               ><span class="download_button_color">Download</span></b-button
             >
           </b-col>
-          <b-col lg="7" cols="6">
+          <b-col lg="6" cols="6">
             <b-button
               class="sendemail_button"
               variant="none"
