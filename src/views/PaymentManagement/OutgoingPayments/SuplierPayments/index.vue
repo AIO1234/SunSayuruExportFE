@@ -171,6 +171,7 @@ export default {
       enddate: "",
       suplier: {
         name: "Select Suplier",
+        address: "",
       },
       supliers: [],
       suplierpayments: [],
@@ -210,6 +211,9 @@ export default {
         //sessionstorage suplier name initiate
         this.suplier.name =
           store.getters.getselectedsuplierforpayment.suplier_name;
+
+          
+
 
         //sessionstorage suplier id initiate
         this.suplier.id = store.getters.getselectedsuplierforpayment.suplier_id;
