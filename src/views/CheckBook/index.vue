@@ -72,11 +72,37 @@
         >
       </b-col>
     </b-row>
+    <div class="mt-2"></div>
+    <b-row>
+      <b-col lg="3"></b-col>
+      <b-col lg="3"></b-col>
+      <b-col lg="3"></b-col>
+      <b-col lg="3">
+        <b-button
+          @click="opencheckmodel()"
+          variant="none"
+          class="check_search_button"
+          ><span class="search_text">Check Book Add</span></b-button
+        >
+      </b-col>
+    </b-row>
 
     <!-- table -->
     <div class="mt-5">
       <CheckTable :checkData="checks" @close="closeUppdateModal" />
     </div>
+
+    <!-- create check modal -->
+
+    <b-modal
+      ref="createcheckmodal"
+      hide-footer
+      :title="checkTitle"
+      title-class="modal_title_color"
+      no-close-on-backdrop
+    >
+      <SuplierCheckCreate @close="closecheckModal" />
+    </b-modal>
 
     <!--Airfreight create modal -->
 
@@ -96,6 +122,7 @@
 import CheckTable from "./Components/Table.vue";
 import Ripple from "vue-ripple-directive";
 import checkbookApi from "@/Api/Modules/checkbook";
+import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
 import {
   BFormInput,
   BModal,
@@ -117,6 +144,7 @@ export default {
     };
   },
   components: {
+    SuplierCheckCreate,
     CheckTable,
     BModal,
     BInputGroup,
@@ -206,7 +234,18 @@ export default {
     async closeUppdateModal() {
       await this.getAllChecks();
     },
-  },
+
+    // Open new check model
+    opencheckmodel() {
+      // open add chcek modal
+      this.$refs.createcheckmodal.show();
+    },
+
+    // close new check add modal
+    closecheckModal() {
+      this.$refs.createcheckmodal.hide();
+    },
+  }
 };
 </script>
 
