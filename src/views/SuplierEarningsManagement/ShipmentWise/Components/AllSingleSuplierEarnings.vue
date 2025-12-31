@@ -13,7 +13,6 @@
       <b-col lg="9" cols="12">
         <div class="d-flex justify-content-end">
           <b-row>
-            
             <b-col lg="4" cols="6">
               <b-button
                 class="download_button"
@@ -32,7 +31,7 @@
                 ></b-button
               >
             </b-col>
-             <b-col lg="4" cols="6">
+            <b-col lg="4" cols="6">
               <b-button
                 class="sendemail_button"
                 variant="none"
@@ -57,13 +56,13 @@
         per-page="20"
         :current-page="currentPage"
       >
-        <template #cell(price_rate)="data">         
-            <b-form-input           
-              v-model="data.item.price_rate"
-              placeholder="price rate"
-              type="number"
-              class="input_filed "
-            />        
+        <template #cell(price_rate)="data">
+          <b-form-input
+            v-model="data.item.price_rate"
+            placeholder="price rate"
+            type="number"
+            class="input_filed"
+          />
         </template>
         <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
@@ -234,7 +233,8 @@ import {
   BContainer,
   BPagination,
   BForm,
-  BFormGroup, BFormInput
+  BFormGroup,
+  BFormInput,
 } from "bootstrap-vue";
 import reportApi from "@/Api/Modules/reports";
 import EmailModal from "@/Components/EmailModal.vue";
@@ -256,8 +256,8 @@ export default {
     BLink,
     BPagination,
     BForm,
-     BFormGroup,
-    BFormInput
+    BFormGroup,
+    BFormInput,
   },
   props: {
     selectedItem: Object,
@@ -316,9 +316,9 @@ export default {
       ],
       details: [],
       totalearnings: "",
-      seafoodid:"",
-      gradingid:"",
-      qualityid:"",
+      seafoodid: "",
+      gradingid: "",
+      qualityid: "",
     };
   },
   async created() {
@@ -338,7 +338,7 @@ export default {
         suplier_id: this.$route.params.suplier_id,
       };
       const res = await reportApi.shipmentiseSupliersDetails(payload);
-      this.details = res.data.data.results_data;    
+      this.details = res.data.data.results_data;
       this.totalearnings = res.data.data.total_earning;
       this.$vs.loading.close();
     },
@@ -348,21 +348,23 @@ export default {
     },
 
     // save price rate
-    async savePrice(){
+    async savePrice() {
       await this.$vs.loading({
         scale: 0.8,
       });
       const payload = {
         details: this.details,
-      };     
-      
-       await reportApi.changeShipmentPrice(payload).then(() => {
-        this.$vs.loading.close();        
-      })
-      .catch(() => {
-        this.$vs.loading.close();
-      });
-    }
+      };
+
+      await reportApi
+        .changeShipmentPrice(payload)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
+    },
   },
 };
 </script>
