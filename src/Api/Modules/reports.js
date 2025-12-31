@@ -65,4 +65,12 @@ export default {
     return await api.post("/report/dashboardoverview", payload);
   },
   
+  async changeShipmentPrice(payload) {
+    return await api.post("/report/changeshipmentprice", payload).then(
+    () => {
+      window.location.reload();
+    }
+  );
+  },
+
 };

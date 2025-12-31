@@ -304,9 +304,11 @@
   text-align: left;
   color: #e76a00;
 }
+
 .download_button {
   background-color: #fc5e05;
   height: 45px;
+  width: 160px;
   .download_button_color {
     font-family: "Urbanist", sans-serif;
     font-size: 18px;
@@ -320,6 +322,7 @@
 .sendemail_button {
   background-color: #0052ba;
   width: 160px;
+ 
   .sendemail_button_color {
     font-family: "Urbanist", sans-serif;
     font-size: 18px;
@@ -603,3 +606,5 @@
   text-align: left;
   color: #353131;
 }
+
+

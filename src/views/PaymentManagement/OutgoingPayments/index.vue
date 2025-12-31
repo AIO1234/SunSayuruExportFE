@@ -136,7 +136,7 @@ export default {
     // initiate data
 
     initiateData() {
-      console.log("store.getters.getselectedongoingpaymenttab");
+      console.log("store.getters.");
       // if selected store tab is suplier payment
       if (
         !store.getters.getselectedongoingpaymenttab !== null &&
