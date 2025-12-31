@@ -341,7 +341,7 @@
                       Weight(Kg)
                     </th>
                   </tr>
-                </thead>
+                </thead>               
 
                 <tbody v-for="item in boxes" :key="item.box_no">
                   <tr

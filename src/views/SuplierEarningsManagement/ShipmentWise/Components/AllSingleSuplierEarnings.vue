@@ -5,15 +5,15 @@
     >
     <div class="pt-3"></div>
     <b-row>
-      <b-col lg="7">
+      <b-col lg="3">
         <h2 class="shipment_number">
           {{ $route.params.suplier_name }}’s receiving
         </h2>
       </b-col>
-      <b-col lg="5" cols="12">
+      <b-col lg="9" cols="12">
         <div class="d-flex justify-content-end">
           <b-row>
-            <b-col lg="6" cols="6">
+            <b-col lg="4" cols="6">
               <b-button
                 class="download_button"
                 variant="none"
@@ -21,7 +21,7 @@
                 ><span class="download_button_color">Download</span></b-button
               >
             </b-col>
-            <b-col lg="6" cols="6">
+            <b-col lg="4" cols="6">
               <b-button
                 class="sendemail_button"
                 variant="none"
@@ -29,6 +29,14 @@
                 ><span class="sendemail_button_color"
                   >Send Email</span
                 ></b-button
+              >
+            </b-col>
+            <b-col lg="4" cols="6">
+              <b-button
+                class="sendemail_button"
+                variant="none"
+                @click="savePrice()"
+                ><span class="sendemail_button_color">Save</span></b-button
               >
             </b-col>
           </b-row>
@@ -49,7 +57,12 @@
         :current-page="currentPage"
       >
         <template #cell(price_rate)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
+          <b-form-input
+            v-model="data.item.price_rate"
+            placeholder="price rate"
+            type="number"
+            class="input_filed"
+          />
         </template>
         <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
@@ -219,6 +232,9 @@ import {
   BLink,
   BContainer,
   BPagination,
+  BForm,
+  BFormGroup,
+  BFormInput,
 } from "bootstrap-vue";
 import reportApi from "@/Api/Modules/reports";
 import EmailModal from "@/Components/EmailModal.vue";
@@ -239,6 +255,9 @@ export default {
     EmailModal,
     BLink,
     BPagination,
+    BForm,
+    BFormGroup,
+    BFormInput,
   },
   props: {
     selectedItem: Object,
@@ -297,6 +316,9 @@ export default {
       ],
       details: [],
       totalearnings: "",
+      seafoodid: "",
+      gradingid: "",
+      qualityid: "",
     };
   },
   async created() {
@@ -323,6 +345,25 @@ export default {
 
     generate() {
       this.$refs.html2Pdf.generatePdf();
+    },
+
+    // save price rate
+    async savePrice() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const payload = {
+        details: this.details,
+      };
+
+      await reportApi
+        .changeShipmentPrice(payload)
+        .then(() => {
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
+        });
     },
   },
 };
