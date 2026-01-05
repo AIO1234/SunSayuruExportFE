@@ -245,12 +245,11 @@
                     >
                       <v-select
                         v-model="checknumber"
-                        @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="check_no"
+                        :get-option-label="getCheckLabel"
                         :options="suplierchecks"
                       >
-                        <template slot="option" slot-scope="option">
+                        <!-- <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
                             v-if="
@@ -269,12 +268,12 @@
                               <b>{{ option.amount }}</b></span
                             >
                           </div>
-                        </template>
+                        </template> -->
 
                         <template #selected-option="option">
-                          <div v-if="option.check_no">
+                          <div v-if="option.check_no && option.bank_name">
                             {{ option.check_no }} -
-                            <b> {{ option.amount }}</b>
+                            <b> {{ option.bank_name }}</b>
                           </div>
                         </template>
                       </v-select>
@@ -477,6 +476,11 @@ export default {
     await this.getPendingShipments();
   },
   methods: {
+    // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
+
     // create payment
     async validationPaymentCreateForm() {
       this.form.payment_method = this.paymentmethod.title;
@@ -522,27 +526,31 @@ export default {
     // get continue checks
 
     async getContinueChecks() {
-      const payload = {
-        type: "Suplier_Check",
-      };
+      // const payload = {
+      //   type: "Suplier_Check",
+      // };
 
-      await this.$vs.loading({
-        scale: 0.8,
-      });
+      // await this.$vs.loading({
+      //   scale: 0.8,
+      // });
 
-      const res = await checkApi.continuChecks(payload);
+      // const res = await checkApi.continuChecks(payload);
+
+      // this.suplierchecks = res.data.data;
+
+      // if (this.suplierchecks.length > 0) {
+      //   this.suplierchecks.push({ check_no: "Replace Amount" });
+      // } else {
+      //   this.suplierchecks.push({ check_no: "Add New" });
+      // }
+
+      // this.suplierchecks = this.suplierchecks.reverse();
+
+      // this.$vs.loading.close();
+
+      const res = await checkApi.continuChecks();
 
       this.suplierchecks = res.data.data;
-
-      if (this.suplierchecks.length > 0) {
-        this.suplierchecks.push({ check_no: "Replace Amount" });
-      } else {
-        this.suplierchecks.push({ check_no: "Add New" });
-      }
-
-      this.suplierchecks = this.suplierchecks.reverse();
-
-      this.$vs.loading.close();
     },
 
     // open  check modal

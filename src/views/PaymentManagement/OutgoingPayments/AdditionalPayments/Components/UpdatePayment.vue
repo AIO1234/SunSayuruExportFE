@@ -114,7 +114,6 @@
                         v-model="paymentmethod"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="title"
-                        @input="getContinueChecks()"
                         :options="paymentMethods"
                       >
                       </v-select>
@@ -138,14 +137,20 @@
                       rules="required"
                       v-slot="{ errors }"
                     >
-                      <v-select
+                      <!-- <v-select
                         v-model="checknumber"
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="check_no"
                         :options="aditionalchecks"
+                      > -->
+                      <v-select
+                        v-model="checknumber"
+                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                        :get-option-label="getCheckLabel"
+                        :options="aditionalchecks"
                       >
-                        <template slot="option" slot-scope="option">
+                        <!-- <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
                             v-if="
@@ -164,12 +169,19 @@
                               <b>{{ option.amount }}</b></span
                             >
                           </div>
-                        </template>
+                        </template> -->
 
-                        <template #selected-option="option">
+                        <!-- <template #selected-option="option">
                           <div v-if="option.check_no">
                             {{ option.check_no }} -
                             <b> {{ option.amount }}</b>
+                          </div>
+                        </template> -->
+
+                        <template #selected-option="option">
+                          <div v-if="option.check_no && option.bank_name">
+                            {{ option.check_no }} -
+                            <b> {{ option.bank_name }}</b>
                           </div>
                         </template>
                       </v-select>
@@ -344,8 +356,14 @@ export default {
 
   async created() {
     await this.showPayment();
+    await this.getContinueChecks();
   },
   methods: {
+    // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
+
     // create payment
     async validationPaymentUpdateForm() {
       this.form.payment_method = this.paymentmethod.title;
@@ -405,11 +423,11 @@ export default {
       const res = await checkApi.continuChecks(payload);
       this.aditionalchecks = res.data.data;
 
-      if (this.aditionalchecks.length > 0) {
-        this.aditionalchecks.push({ check_no: "Replace New" });
-      } else {
-        this.aditionalchecks.push({ check_no: "Add New" });
-      }
+      // if (this.aditionalchecks.length > 0) {
+      //   this.aditionalchecks.push({ check_no: "Replace New" });
+      // } else {
+      //   this.aditionalchecks.push({ check_no: "Add New" });
+      // }
 
       this.aditionalchecks = this.aditionalchecks.reverse();
       this.$vs.loading.close();
