@@ -285,7 +285,6 @@
                           </div>
                         </template> -->
 
-
                         <template #selected-option="option">
                           <div v-if="option.check_no && option.bank_name">
                             {{ option.check_no }} -
@@ -297,6 +296,31 @@
                     </validation-Provider>
                   </b-form-group>
                 </b-col>
+
+                <!-- check date -->
+                <b-col
+                  lg="12"
+                  v-if="paymentmethod.title === 'Check'"
+                  class="mt-1"
+                >
+                  <b-form-group
+                    label="Check Date*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Check Date"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-datepicker
+                        placeholder="Select Date"
+                        v-model="form.check_date"
+                      ></b-form-datepicker>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
                 <!-- process button -->
                 <b-col lg="12">
                   <b-button variant="primary" @click="finalizeAmount()"
@@ -562,9 +586,9 @@ export default {
 
       this.paymentmethod.title = res.data.data.payment_method;
       this.checknumber = res.data.data.suplier_checks;
+      this.form.check_date = this.checknumber.check_date;
       // if payment methods check  , getting exist ceck for this payment
       if (this.paymentmethod.title === "Check") {
-       
         this.suplierchecks.push(this.checknumber);
         this.getContinueChecks();
       }
