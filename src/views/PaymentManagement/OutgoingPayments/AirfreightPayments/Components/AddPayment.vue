@@ -319,11 +319,11 @@
                         v-model="checknumber"
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="check_no"
+                        :get-option-label="getCheckLabel"
                         :options="airfreightchecks"
                       >
-                        <template slot="option" slot-scope="option">
-                          <div
+                        <!-- <template slot="option" slot-scope="option"> -->
+                        <!-- <div
                             class="d-center"
                             v-if="
                               option.check_no === 'Add New' ||
@@ -333,20 +333,26 @@
                             <span class="text-danger font-weight-bold">{{
                               option.check_no
                             }}</span>
-                          </div>
+                          </div> -->
 
-                          <div class="d-center" v-else>
+                        <!-- <div class="d-center" v-else>
                             <span
                               >{{ option.check_no }} -
                               <b>{{ option.amount }}</b></span
                             >
                           </div>
-                        </template>
+                        </template> -->
 
-                        <template #selected-option="option">
+                        <!-- <template #selected-option="option">
                           <div v-if="option.check_no">
                             {{ option.check_no }} -
                             <b> {{ option.amount }}</b>
+                          </div>
+                        </template> -->
+                        <template #selected-option="option">
+                          <div v-if="option.check_no && option.bank_name">
+                            {{ option.check_no }} -
+                            <b> {{ option.bank_name }}</b>
                           </div>
                         </template>
                       </v-select>
@@ -554,6 +560,11 @@ export default {
     await this.getPendingShipments();
   },
   methods: {
+    // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
+
     // create payment
     async validationPaymentCreateForm() {
       this.form.payment_currency = this.paymentcurrency.title;
@@ -607,11 +618,11 @@ export default {
       const res = await checkApi.continuChecks(payload);
       this.airfreightchecks = res.data.data;
 
-      if (this.airfreightchecks.length > 0) {
-        this.airfreightchecks.push({ check_no: "Replace Amount" });
-      } else {
-        this.airfreightchecks.push({ check_no: "Add New" });
-      }
+      // if (this.airfreightchecks.length > 0) {
+      //   this.airfreightchecks.push({ check_no: "Replace Amount" });
+      // } else {
+      //   this.airfreightchecks.push({ check_no: "Add New" });
+      // }
 
       this.airfreightchecks = this.airfreightchecks.reverse();
       this.$vs.loading.close();

@@ -100,15 +100,30 @@
                 label="New Check No*"
                 label-class="form_label_class"
               >
-                <validation-Provider
-                  name="Check Date"
-                  rules="required"
-                  v-slot="{ errors }"
-                >
-                  <b-form-input
+                 <validation-Provider
+                      name="Check Number"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                  <!-- <b-form-input
                     placeholder="Enter Replace Check No"
                     v-model="form.new_check_no"
-                  ></b-form-input>
+                  ></b-form-input> -->
+
+                  <v-select
+                    v-model="form.new_check_no"
+                    :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                    :get-option-label="getCheckLabel"
+                    :options="allchecks"
+                  >
+                    <template #selected-option="option">
+                      <div v-if="option.check_no && option.bank_name">
+                        {{ option.check_no }} -
+                        <b> {{ option.bank_name }}</b>
+                      </div>
+                    </template>
+                  </v-select>
+
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
@@ -183,6 +198,7 @@ import vSelect from "vue-select";
 import { ValidationObserver } from "vee-validate";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 import checkbookApi from "@/Api/Modules/checkbook";
+
 import {
   required,
   email,
@@ -228,10 +244,12 @@ export default {
   },
   created() {
     this.initializeData();
+    this.getContinueChecks();
   },
   data() {
     return {
       statuses: [],
+      allchecks: [],
       status: {},
 
       form: {},
@@ -251,6 +269,12 @@ export default {
     };
   },
   methods: {
+
+     // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
+
     async validationCheckUpdateForm() {
       this.form.status = this.status.status;
       if (await this.$refs.CheckUpdateValidation.validate()) {
@@ -288,6 +312,12 @@ export default {
       }
 
       this.status.status = this.selectedItem.status;
+    },
+
+    // get not assigned checks
+    async getContinueChecks() {
+      const res = await checkbookApi.continuChecks();
+      this.allchecks = res.data.data;
     },
   },
 };

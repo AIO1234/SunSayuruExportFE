@@ -4,55 +4,51 @@
       <b-form @submit.prevent>
         <validation-observer ref="CheckCreateValidation">
           <b-row>
-            <!-- check Number -->
+            <!-- Bank Name -->
             <b-col md="12" class="mb-1">
-              <b-form-group
-                label="Check Number*"
-                label-class="form_label_class"
-              >
+              <b-form-group label="Bank Name*" label-class="form_label_class">
                 <validation-Provider
-                  name="Check Number"
+                  name="Bank Name"
                   rules="required"
                   v-slot="{ errors }"
                 >
                   <b-form-input
-                    placeholder="Enter Check Number"
-                    v-model="form.check_no"
+                    placeholder="Enter Bank Name"
+                    v-model="form.bank_name"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
             </b-col>
 
-            <!-- check date -->
-            <b-col lg="12">
-              <b-form-group label="Check Date*" label-class="form_label_class">
+            <!-- Start Number -->
+            <b-col md="12" class="mb-1">
+              <b-form-group label="Start No*" label-class="form_label_class">
                 <validation-Provider
-                  name="Check Date"
+                  name="Start"
                   rules="required"
                   v-slot="{ errors }"
                 >
-                  <b-form-datepicker
-                    placeholder="Select Date"
-                    v-model="form.check_date"
-                  ></b-form-datepicker>
+                  <b-form-input
+                    placeholder="Start Number"
+                    v-model="form.start_no"
+                  ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
               </b-form-group>
             </b-col>
 
-            <!-- check amount -->
+            <!-- End Number -->
             <b-col md="12" class="mb-1">
-              <b-form-group label="Amount*" label-class="form_label_class">
+              <b-form-group label="End No*" label-class="form_label_class">
                 <validation-Provider
-                  name="Amount"
+                  name="End"
                   rules="required"
                   v-slot="{ errors }"
                 >
                   <b-form-input
-                    placeholder="Enter Amount"
-                    v-model="form.amount"
-                    readonly
+                    placeholder="End Number"
+                    v-model="form.end_no"
                   ></b-form-input>
                   <span class="text-danger">{{ errors[0] }}</span>
                 </validation-Provider>
@@ -66,16 +62,7 @@
                 variant="none"
                 class="form_submit_button"
               >
-                <span
-                  v-if="form.view_type === 'create_exists'"
-                  class="button_text_styles"
-                  >Create</span
-                >
-                <span
-                  v-else-if="form.view_type === 'update_exists'"
-                  class="button_text_styles"
-                  >Update
-                </span>
+                <span class="button_text_styles">Create</span>
               </b-button>
             </b-col>
           </b-row>
@@ -178,6 +165,7 @@ export default {
   methods: {
     async validationCheckCreateForm() {
       this.form.status = "Not Asigned To Payment";
+      // this.form.view_type = "create_exists";
       if (await this.$refs.CheckCreateValidation.validate()) {
         await this.$vs.loading({
           scale: 0.8,
@@ -186,7 +174,7 @@ export default {
           .storeCheck(this.form)
           .then((res) => {
             this.$vs.loading.close();
-            this.$emit("close", res.data.data);
+            this.$emit("close");
           })
           .catch(() => {
             this.$vs.loading.close();

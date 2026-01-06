@@ -41,6 +41,22 @@
           <span v-else> N/A </span>
         </template>
 
+        <template #cell(status)="data">
+          <span v-if="data.item.status === 'Asigned To Payment'">
+            <b-form-select
+              v-model="data.item.status"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :options="statuses"
+              class="form-control-lg"
+               @input="onStatusChange(data.item, $event)"
+            >
+            </b-form-select>
+          </span>
+          <span v-else>
+            {{ data.item.status }}
+          </span>
+        </template>
+
         <template #cell(declined_check_no)="data">
           <span v-if="data.value !== ''">
             {{ data.value }}
@@ -94,6 +110,9 @@
 </template>
 <script>
 import CheckEdit from "./Edit.vue";
+import { BFormSelect } from "bootstrap-vue";
+import checkApi from "@/Api/Modules/checkbook";
+
 import {
   BModal,
   BCard,
@@ -115,6 +134,7 @@ import {
 export default {
   name: "CheckBookTable",
   components: {
+    BFormSelect,
     BFormInput,
     BCard,
     BPagination,
@@ -137,6 +157,8 @@ export default {
   data() {
     return {
       selectedCheck: {},
+      statuses: ["Asigned To Payment", "Received"],
+
       currentPage: 1,
       fields: [
         {
@@ -218,6 +240,20 @@ export default {
   },
 
   methods: {
+    // change check status
+
+    async onStatusChange(item, newStatus) {
+      // console.log("Selected status:", newStatus);
+      // console.log("Row item:", item);
+      const payload = {
+        id: item.id,
+        status:newStatus,
+      }
+      // console.log(payload);
+      await checkApi.changeCheckStatus(payload);
+
+    },
+
     // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();

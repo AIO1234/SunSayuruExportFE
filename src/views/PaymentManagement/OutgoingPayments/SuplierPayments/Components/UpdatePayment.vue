@@ -244,14 +244,20 @@
                       rules="required"
                       v-slot="{ errors }"
                     >
-                      <v-select
+                      <!-- <v-select
                         v-model="checknumber"
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                         label="check_no"
                         :options="suplierchecks"
+                      > -->
+                      <v-select
+                        v-model="checknumber"
+                        :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+                        :get-option-label="getCheckLabel"
+                        :options="suplierchecks"
                       >
-                        <template slot="option" slot-scope="option">
+                        <!-- <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
                             v-if="
@@ -270,12 +276,20 @@
                               <b>{{ option.amount }}</b></span
                             >
                           </div>
-                        </template>
+                        </template> -->
 
-                        <template #selected-option="option">
+                        <!-- <template #selected-option="option">
                           <div v-if="option.check_no">
                             {{ option.check_no }} -
                             <b> {{ option.amount }}</b>
+                          </div>
+                        </template> -->
+
+
+                        <template #selected-option="option">
+                          <div v-if="option.check_no && option.bank_name">
+                            {{ option.check_no }} -
+                            <b> {{ option.bank_name }}</b>
                           </div>
                         </template>
                       </v-select>
@@ -470,6 +484,11 @@ export default {
     await this.showPayment();
   },
   methods: {
+    // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
+
     // update payment
     async validationPaymentUpdateForm() {
       this.form.payment_method = this.paymentmethod.title;
@@ -545,8 +564,9 @@ export default {
       this.checknumber = res.data.data.suplier_checks;
       // if payment methods check  , getting exist ceck for this payment
       if (this.paymentmethod.title === "Check") {
-        this.suplierchecks.push({ check_no: "Replace Amount" });
+       
         this.suplierchecks.push(this.checknumber);
+        this.getContinueChecks();
       }
 
       this.$vs.loading.close();
@@ -566,14 +586,6 @@ export default {
       const res = await checkApi.continuChecks(payload);
 
       this.suplierchecks = res.data.data;
-
-      if (this.suplierchecks.length > 0) {
-        this.suplierchecks.push({ check_no: "Replace Amount" });
-      } else {
-        this.suplierchecks.push({ check_no: "Add New" });
-      }
-
-      this.suplierchecks = this.suplierchecks.reverse();
 
       this.$vs.loading.close();
     },
