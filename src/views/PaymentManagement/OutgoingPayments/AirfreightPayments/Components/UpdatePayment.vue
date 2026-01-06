@@ -359,11 +359,40 @@
 
                         <template #selected-option="option">
                           <div v-if="option.check_no && option.bank_name">
-                            {{ option.check_no }} -
-                            <b> {{ option.bank_name }}</b>
+                            <span
+                              >{{ option.check_no }} -
+                              <b v-if="option.bank_name">{{
+                                option.bank_name
+                              }}</b>
+                              <b v-else>{{ option.amount }}</b>
+                            </span>
                           </div>
                         </template>
                       </v-select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- check date -->
+                <b-col
+                  lg="12"
+                  v-if="paymentcurrency.title === 'LKR'"
+                  class="mt-1"
+                >
+                  <b-form-group
+                    label="Check Date*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Check Date"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-datepicker
+                        placeholder="Select Date"
+                        v-model="form.check_date"
+                      ></b-form-datepicker>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
@@ -558,7 +587,6 @@ export default {
     await this.getPendingShipments();
     await this.showPayment();
     await this.getContinueChecks();
-    
   },
   methods: {
     // check num label
@@ -643,6 +671,7 @@ export default {
 
       this.paymentcurrency.title = res.data.data.payment_currency;
       this.checknumber = res.data.data.airfreight_checks;
+      this.form.check_date = this.checknumber.check_date;
       // if payment methods check  , getting exist ceck for this payment
       if (this.paymentcurrency.title === "LKR") {
         this.airfreightchecks.push({ check_no: "Replace Amount" });

@@ -287,8 +287,13 @@
 
                         <template #selected-option="option">
                           <div v-if="option.check_no && option.bank_name">
-                            {{ option.check_no }} -
-                            <b> {{ option.bank_name }}</b>
+                            <span
+                              >{{ option.check_no }} -
+                              <b v-if="option.bank_name">{{
+                                option.bank_name
+                              }}</b>
+                              <b v-else>{{ option.amount }}</b>
+                            </span>
                           </div>
                         </template>
                       </v-select>
