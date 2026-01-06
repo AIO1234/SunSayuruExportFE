@@ -7,7 +7,9 @@ export default {
   },
 
   async storeCheck(payload) {
-    return await api.post("/check_book/storecheck", payload);
+    return await api.post("/check_book/storecheck", payload).then(() => {
+      window.location.href = "/checkbook";
+    });;
   },
 
   async continuChecks() {
