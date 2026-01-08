@@ -122,7 +122,7 @@
 
     <!-- table -->
     <div class="mt-5">
-      <CheckTable :checkData="checks" @close="closeUppdateModal" />
+      <CheckTable :checkData="checks" :totals="totals"  @close="closeUppdateModal" />
     </div>
 
     <!-- create check modal -->
@@ -183,6 +183,10 @@ export default {
         enddate: "",
        
       },
+       totals: {
+       
+      },
+   
     };
   },
   components: {
@@ -229,7 +233,8 @@ export default {
       await checkbookApi
         .allChecks(payload)
         .then((res) => {
-          this.checks = res.data.data;
+          this.checks = res.data.data.checks;         
+          this.totals = res.data.data.totals;
           this.$vs.loading.close();
         })
         .catch(() => {

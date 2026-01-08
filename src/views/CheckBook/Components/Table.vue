@@ -102,6 +102,40 @@
           </div>
         </b-col>
       </b-row>
+
+      <!-- asigned to payment full amount -->
+      <div class="checkbook">
+        <b-row class="pl-2">
+          <b-col lg="4">
+            <span class="totaltext">Asigned To Payment Full Amount</span>
+          </b-col>
+
+          <b-col lg="4"
+            ><span class="totaltext">
+               {{ getPriceWithOutCurrency(totals.asignedtotal)}}</span
+            ></b-col
+          >
+        </b-row>
+        <br />
+         <!-- Received full amount -->
+        <b-row class="pl-2">
+          <b-col lg="4">
+            <span class="totaltext">Received Full Amount</span>
+          </b-col>
+
+          <b-col lg="4"
+            ><span class="totaltext">
+              {{ getPriceWithOutCurrency(totals.recivedtotal) }} </span
+            ></b-col
+          >
+        </b-row>
+      </div>
+
+      
+    
+     
+
+     
     </b-card>
 
     <b-modal
@@ -138,6 +172,7 @@ import {
   BContainer,
   BPagination,
 } from "bootstrap-vue";
+
 export default {
   name: "CheckBookTable",
   components: {
@@ -251,6 +286,9 @@ export default {
 
   props: {
     checkData: Array,
+    totals: Object,  
+    
+    
   },
 
   methods: {
