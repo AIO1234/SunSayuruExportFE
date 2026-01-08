@@ -48,7 +48,7 @@
               :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
               :options="statuses"
               class="form-control-lg"
-               @input="onStatusChange(data.item, $event)"
+              @input="onStatusChange(data.item, $event)"
             >
             </b-form-select>
           </span>
@@ -105,12 +105,12 @@
 
           <b-col lg="4"
             ><span class="totaltext">
-               {{ getPriceWithOutCurrency(totals.asignedtotal)}}</span
+              {{ getPriceWithOutCurrency(totals.asignedtotal) }}</span
             ></b-col
           >
         </b-row>
         <br />
-         <!-- Received full amount -->
+        <!-- Received full amount -->
         <b-row class="pl-2">
           <b-col lg="4">
             <span class="totaltext">Received Full Amount</span>
@@ -118,17 +118,11 @@
 
           <b-col lg="4"
             ><span class="totaltext">
-              {{ getPriceWithOutCurrency(totals.recivedtotal) }} </span
-            ></b-col
+              {{ getPriceWithOutCurrency(totals.recivedtotal) }}
+            </span></b-col
           >
         </b-row>
       </div>
-
-      
-    
-     
-
-     
     </b-card>
 
     <b-modal
@@ -272,9 +266,7 @@ export default {
 
   props: {
     checkData: Array,
-    totals: Object,  
-    
-    
+    totals: Object,
   },
 
   methods: {
@@ -285,11 +277,10 @@ export default {
       // console.log("Row item:", item);
       const payload = {
         id: item.id,
-        status:newStatus,
-      }
+        status: newStatus,
+      };
       // console.log(payload);
       await checkApi.changeCheckStatus(payload);
-
     },
 
     // open edit modal
