@@ -2,6 +2,8 @@
   <div>
     <!-- search bars -->
     <div class="pt-5"></div>
+
+    <!-- search bank  -->
     <b-row>
       <b-col lg="3">
         <b-input-group class="input-group-merge form_input_styles_group">
@@ -11,7 +13,38 @@
           <b-form-input
             type="search"
             class="form_input_styles"
-            v-model="searchcheck_no"
+            v-model="filter.bank_name"
+            placeholder="Type Bank Name...."
+          ></b-form-input>
+        </b-input-group>
+      </b-col>
+
+      <!-- checkbook number -->
+      <b-col lg="3">
+        <b-input-group class="input-group-merge form_input_styles_group">
+          <b-input-group-prepend is-text>
+            <feather-icon class="search_icon_color" icon="SearchIcon" />
+          </b-input-group-prepend>
+          <b-form-input
+            type="search"
+            class="form_input_styles"
+            v-model="filter.checkbook_no"
+            placeholder="Type Check Book No...."
+          ></b-form-input>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <div class="pt-2"></div>
+    <b-row>
+      <b-col lg="3">
+        <b-input-group class="input-group-merge form_input_styles_group">
+          <b-input-group-prepend is-text>
+            <feather-icon class="search_icon_color" icon="SearchIcon" />
+          </b-input-group-prepend>
+          <b-form-input
+            type="search"
+            class="form_input_styles"
+            v-model="filter.searchcheck_no"
             placeholder="Type Check No...."
           ></b-form-input>
         </b-input-group>
@@ -22,7 +55,7 @@
         <div class="mobile_only_view">
           <div class="mt-2"></div>
         </div>
-        <v-date-picker v-model="startdate" is-required>
+        <v-date-picker v-model="filter.startdate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
               <b-input-group-prepend is-text>
@@ -32,7 +65,7 @@
                 class="bg-white border px-2 py-1 rounded form_input_styles_date_1"
                 :value="inputValue"
                 v-on="inputEvents"
-                placeholder="Start Eta"
+                placeholder="Start Date"
               ></b-form-input>
             </b-input-group>
           </template> </v-date-picker
@@ -42,7 +75,7 @@
         <div class="mobile_only_view">
           <div class="mt-2"></div>
         </div>
-        <v-date-picker v-model="enddate" is-required>
+        <v-date-picker v-model="filter.enddate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
               <b-input-group-prepend is-text>
@@ -52,7 +85,7 @@
                 class="bg-white border px-2 py-1 rounded form_input_styles_date"
                 :value="inputValue"
                 v-on="inputEvents"
-                placeholder="End Eta"
+                placeholder="End Date"
               ></b-form-input>
             </b-input-group>
           </template>
@@ -72,11 +105,37 @@
         >
       </b-col>
     </b-row>
+    <div class="mt-2"></div>
+    <b-row>
+      <b-col lg="3"></b-col>
+      <b-col lg="3"></b-col>
+      <b-col lg="3"></b-col>
+      <b-col lg="3">
+        <b-button
+          @click="opencheckmodel()"
+          variant="none"
+          class="check_search_button"
+          ><span class="search_text">Check Book Add</span></b-button
+        >
+      </b-col>
+    </b-row>
 
     <!-- table -->
     <div class="mt-5">
-      <CheckTable :checkData="checks" @close="closeUppdateModal" />
+      <CheckTable :checkData="checks" :totals="totals"  @close="closeUppdateModal" />
     </div>
+
+    <!-- create check modal -->
+
+    <b-modal
+      ref="createcheckmodal"
+      hide-footer
+      :title="checkTitle"
+      title-class="modal_title_color"
+      no-close-on-backdrop
+    >
+      <SuplierCheckCreate @close="closecheckModal" />
+    </b-modal>
 
     <!--Airfreight create modal -->
 
@@ -96,6 +155,7 @@
 import CheckTable from "./Components/Table.vue";
 import Ripple from "vue-ripple-directive";
 import checkbookApi from "@/Api/Modules/checkbook";
+import SuplierCheckCreate from "@/views/CheckBook/Components/Create.vue";
 import {
   BFormInput,
   BModal,
@@ -111,12 +171,26 @@ export default {
   name: "countries",
   data() {
     return {
-      searchcheck_no: "",
       openmodal: false,
       checks: [],
+
+      // global filter
+      filter: {
+        searchcheck_no: "",
+        checkbook_no: "",
+        bank_name: "",
+        startdate: "",
+        enddate: "",
+       
+      },
+       totals: {
+       
+      },
+   
     };
   },
   components: {
+    SuplierCheckCreate,
     CheckTable,
     BModal,
     BInputGroup,
@@ -135,60 +209,48 @@ export default {
     await this.getAllChecks();
   },
   methods: {
+    formatDate(date) {
+      if (!date) return "";
+      const d = new Date(date);
+      return d.toISOString().split("T")[0]; // YYYY-MM-DD
+    },
     // all checks
-
     async getAllChecks() {
       // if seach data not clear geting profits with range
-      if (
-        (this.startdate !== "" && this.enddate !== "") ||
-        this.searchcheck_no !== ""
-      ) {
-        const payload = {
-          check_no: this.searchcheck_no,
-          start_date: this.startdate,
-          end_date: this.enddate,
-        };
 
-        await this.$vs.loading({
-          scale: 0.8,
+      const payload = {
+        "check__books.check_no": this.filter.searchcheck_no,
+        search_dates: `${this.formatDate(this.filter.startdate)},${this.formatDate(this.filter.enddate)}`,
+        "check__books.bank_name": this.filter.bank_name,
+        "check__books.checkbook_no": this.filter.checkbook_no,
+      };
+
+     // console.log(this.startdate);
+
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      await checkbookApi
+        .allChecks(payload)
+        .then((res) => {
+          this.checks = res.data.data.checks;         
+          this.totals = res.data.data.totals;
+          this.$vs.loading.close();
+        })
+        .catch(() => {
+          this.$vs.loading.close();
         });
-        await checkbookApi
-          .allChecks(payload)
-          .then((res) => {
-            this.checks = res.data.data;
-            this.$vs.loading.close();
-          })
-          .catch(() => {
-            this.$vs.loading.close();
-          });
-      }
-      // if seach data clear geting pprofits  with not seach
-      else if (
-        (this.startdate === "" || this.enddate === "") &&
-        this.searchcheck_no === ""
-      ) {
-        await this.$vs.loading({
-          scale: 0.8,
-        });
-        await checkbookApi
-          .allChecks()
-          .then((res) => {
-            this.checks = res.data.data;
-            this.$vs.loading.close();
-          })
-          .catch(() => {
-            this.$vs.loading.close();
-          });
-      }
     },
     // clear searhces
 
     async clear() {
       // clear start  and date
 
-      this.startdate = "";
-      this.enddate = "";
-      this.searchcheck_no = "";
+      this.filter.startdate = null;
+      this.filter.enddate = null;
+      this.filter.searchcheck_no = "";
+      this.filter.checkbook_no = "";
+      this.filter.bank_name = "";
 
       await this.getAllChecks();
     },
@@ -205,6 +267,17 @@ export default {
 
     async closeUppdateModal() {
       await this.getAllChecks();
+    },
+
+    // Open new check model
+    opencheckmodel() {
+      // open add chcek modal
+      this.$refs.createcheckmodal.show();
+    },
+
+    // close new check add modal
+    closecheckModal() {
+      this.$refs.createcheckmodal.hide();
     },
   },
 };

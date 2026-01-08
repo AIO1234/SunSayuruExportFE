@@ -41,9 +41,32 @@
           <span v-else> N/A </span>
         </template>
 
-        <template #cell(declined_check_no)="data">
+        <template #cell(status)="data">
+          <span v-if="data.item.status === 'Asigned To Payment'">
+            <b-form-select
+              v-model="data.item.status"
+              :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
+              :options="statuses"
+              class="form-control-lg"
+              @input="onStatusChange(data.item, $event)"
+            >
+            </b-form-select>
+          </span>
+          <span v-else>
+            {{ data.item.status }}
+          </span>
+        </template>
+
+         <template #cell(declined_check_no)="data">
           <span v-if="data.value !== ''">
             {{ data.value }}
+          </span>
+          <span v-else> N/A </span>
+        </template>
+
+        <template #cell(checkbookno)="data">
+          <span v-if="data.item.checkbook_no !== ''">
+            {{ data.item.checkbook_no }}
           </span>
           <span v-else> N/A </span>
         </template>
@@ -79,6 +102,34 @@
           </div>
         </b-col>
       </b-row>
+
+      <!-- asigned to payment full amount -->
+      <div class="checkbook">
+        <b-row class="pl-2">
+          <b-col lg="4">
+            <span class="totaltext">Asigned To Payment Full Amount</span>
+          </b-col>
+
+          <b-col lg="4"
+            ><span class="totaltext">
+              {{ getPriceWithOutCurrency(totals.asignedtotal) }}</span
+            ></b-col
+          >
+        </b-row>
+        <br />
+        <!-- Received full amount -->
+        <b-row class="pl-2">
+          <b-col lg="4">
+            <span class="totaltext">Received Full Amount</span>
+          </b-col>
+
+          <b-col lg="4"
+            ><span class="totaltext">
+              {{ getPriceWithOutCurrency(totals.recivedtotal) }}
+            </span></b-col
+          >
+        </b-row>
+      </div>
     </b-card>
 
     <b-modal
@@ -94,6 +145,9 @@
 </template>
 <script>
 import CheckEdit from "./Edit.vue";
+import { BFormSelect } from "bootstrap-vue";
+import checkApi from "@/Api/Modules/checkbook";
+
 import {
   BModal,
   BCard,
@@ -112,9 +166,11 @@ import {
   BContainer,
   BPagination,
 } from "bootstrap-vue";
+
 export default {
   name: "CheckBookTable",
   components: {
+    BFormSelect,
     BFormInput,
     BCard,
     BPagination,
@@ -137,6 +193,8 @@ export default {
   data() {
     return {
       selectedCheck: {},
+      statuses: ["Asigned To Payment", "Received"],
+
       currentPage: 1,
       fields: [
         {
@@ -177,6 +235,13 @@ export default {
           thStyle: { width: "30%" },
           // tdClass: "td-style",
         },
+        {
+          key: "checkbookno",
+          label: "CheckBook No",
+          sortable: true,
+          thStyle: { width: "15%" },
+          // tdClass: "td-style",
+        },
 
         {
           key: "type",
@@ -215,9 +280,23 @@ export default {
 
   props: {
     checkData: Array,
+    totals: Object,
   },
 
   methods: {
+    // change check status
+
+    async onStatusChange(item, newStatus) {
+      // console.log("Selected status:", newStatus);
+      // console.log("Row item:", item);
+      const payload = {
+        id: item.id,
+        status: newStatus,
+      };
+      // console.log(payload);
+      await checkApi.changeCheckStatus(payload);
+    },
+
     // open edit modal
     openUpdateModal(item) {
       this.$refs.UpdateModal.show();

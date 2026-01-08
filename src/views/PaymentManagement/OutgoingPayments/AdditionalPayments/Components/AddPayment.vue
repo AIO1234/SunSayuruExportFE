@@ -142,10 +142,10 @@
                         v-model="checknumber"
                         @input="opencheckmodel()"
                         :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                        label="check_no"
+                        :get-option-label="getCheckLabel"
                         :options="aditionalchecks"
                       >
-                        <template slot="option" slot-scope="option">
+                        <!-- <template slot="option" slot-scope="option">
                           <div
                             class="d-center"
                             v-if="option.check_no === 'Add New'"
@@ -161,15 +161,51 @@
                               <b>{{ option.amount }}</b></span
                             >
                           </div>
+                        </template> -->
+
+                        <template slot="option" slot-scope="option">
+                          <div class="d-center">
+                            <span
+                              >{{ option.check_no }} -
+                              <b v-if="option.bank_name">{{
+                                option.bank_name
+                              }}</b>
+                              <b v-else>{{ option.amount }}</b>
+                            </span>
+                          </div>
                         </template>
 
                         <template #selected-option="option">
-                          <div v-if="option.check_no">
+                          <div v-if="option.check_no && option.bank_name">
                             {{ option.check_no }} -
-                            <b> {{ option.amount }}</b>
+                            <b> {{ option.bank_name }}</b>
                           </div>
                         </template>
                       </v-select>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
+                <!-- check date -->
+                <b-col
+                  lg="12"
+                  v-if="paymentmethod.title === 'Check'"
+                  class="mt-1"
+                >
+                  <b-form-group
+                    label="Check Date*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Check Date"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-datepicker
+                        placeholder="Select Date"
+                        v-model="form.check_date"
+                      ></b-form-datepicker>
                       <span class="text-danger">{{ errors[0] }}</span>
                     </validation-Provider>
                   </b-form-group>
@@ -343,6 +379,10 @@ export default {
   },
 
   methods: {
+    // check num label
+    getCheckLabel(option) {
+      return `${option.check_no} - ${option.bank_name}`;
+    },
     // create payment
     async validationPaymentCreateForm() {
       this.form.payment_method = this.paymentmethod.title;
@@ -377,11 +417,11 @@ export default {
       const res = await checkApi.continuChecks(payload);
       this.aditionalchecks = res.data.data;
 
-      if (this.aditionalchecks.length > 0) {
-        this.aditionalchecks.push({ check_no: "Replace New" });
-      } else {
-        this.aditionalchecks.push({ check_no: "Add New" });
-      }
+      // if (this.aditionalchecks.length > 0) {
+      //   this.aditionalchecks.push({ check_no: "Replace New" });
+      // } else {
+      //   this.aditionalchecks.push({ check_no: "Add New" });
+      // }
 
       this.aditionalchecks = this.aditionalchecks.reverse();
       this.$vs.loading.close();
