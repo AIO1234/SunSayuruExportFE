@@ -190,6 +190,30 @@
                   </b-form-group>
                 </b-col>
 
+                <!-- check date -->
+                <b-col
+                  lg="12"
+                  v-if="paymentmethod.title === 'Check'"
+                  class="mt-1"
+                >
+                  <b-form-group
+                    label="Check Date*"
+                    label-class="form_label_class"
+                  >
+                    <validation-Provider
+                      name="Check Date"
+                      rules="required"
+                      v-slot="{ errors }"
+                    >
+                      <b-form-datepicker
+                        placeholder="Select Date"
+                        v-model="form.check_date"
+                      ></b-form-datepicker>
+                      <span class="text-danger">{{ errors[0] }}</span>
+                    </validation-Provider>
+                  </b-form-group>
+                </b-col>
+
                 <div class="mt-1"></div>
                 <span></span>
 
@@ -398,6 +422,7 @@ export default {
       });
       const res = await paymentApi.shoAdditionalPayment(payload);
       this.form = res.data.data;
+      this.form.check_date = res.data.data.additionals_checks.check_date;
 
       // loop all data for selected shipment
       this.paymentmethod.title = res.data.data.payment_method;

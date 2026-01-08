@@ -623,6 +623,7 @@ export default {
 
     // show payment
     async showPayment() {
+     
       const payload = {
         id: this.$route.params.payment_id,
       };
@@ -637,15 +638,18 @@ export default {
         const obj = this.billnumbers.find((value) => {
           return value.id === val.id;
         });
+        
         // check paid shipments available in pending shipments
         if (obj === undefined) {
           // if not available in pendinf shipments , paid shipment will  e  added as selected billnumber
           this.billnumbers.push({
             id: val.id,
+            airfreight_converting_rate: val.airfreight_converting_rate,
             invoice_no: val.invoice_no,
             pending_lkr_cost: val.pivot.paid_lkr_amount,
             pending_usd_cost: val.pivot.paid_usd_amount,
           });
+         
 
           this.bills.push({
             billnumber: {
@@ -653,6 +657,7 @@ export default {
               invoice_no: val.invoice_no,
               pending_lkr_cost: val.pivot.paid_lkr_amount,
               pending_usd_cost: val.pivot.paid_usd_amount,
+              airfreight_converting_rate: val.airfreight_converting_rate,
             },
             status: val.pivot,
             paid_lkr_amount: val.pivot.paid_lkr_amount,
@@ -666,7 +671,9 @@ export default {
             paid_lkr_amount: val.pivot.paid_lkr_amount,
             paid_usd_amount: val.pivot.paid_usd_amount,
           });
+          
         }
+        
       });
 
       this.paymentcurrency.title = res.data.data.payment_currency;
@@ -799,6 +806,7 @@ export default {
 
     // automatialyy fills the bill paid amount
     fillAmount(index, status, billlkrtotal, billusdtotal, rate) {
+       
       // if currency is in usd
       if (this.paymentcurrency.title === "USD") {
         if (status.status === "Done") {
@@ -833,12 +841,14 @@ export default {
     async finalizeAmount() {
       let lkrtotal = 0;
       let usdtotal = 0;
+      // console.log(this.bills);
 
       // loop all bills and calculate payment
       this.bills.forEach((element) => {
         lkrtotal = lkrtotal + parseFloat(element.paid_lkr_amount);
         usdtotal = usdtotal + parseFloat(element.paid_usd_amount);
       });
+      
 
       this.form.usd_amount = usdtotal;
       this.form.lkr_amount = lkrtotal;
@@ -846,8 +856,11 @@ export default {
 
     // set  continue balance amounts
     setContinueBalance(index, value, rate) {
+      
+     
       if (this.paymentcurrency.title == "USD") {
         this.bills[index].paid_lkr_amount = value * rate;
+      
       } else {
         this.bills[index].paid_usd_amount = value / rate;
       }
@@ -855,6 +868,7 @@ export default {
 
     // check aleady selected the shipment
     uniqueShipments(index, value) {
+      // console.log(value);
       if (index > 0) {
         if (this.bills[index - 1].billnumber === value) {
           notification.toast(
