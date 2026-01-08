@@ -57,9 +57,16 @@
           </span>
         </template>
 
-        <template #cell(declined_check_no)="data">
+         <template #cell(declined_check_no)="data">
           <span v-if="data.value !== ''">
             {{ data.value }}
+          </span>
+          <span v-else> N/A </span>
+        </template>
+
+        <template #cell(checkbookno)="data">
+          <span v-if="data.item.checkbook_no !== ''">
+            {{ data.item.checkbook_no }}
           </span>
           <span v-else> N/A </span>
         </template>
@@ -226,6 +233,13 @@ export default {
           label: "Status",
           sortable: true,
           thStyle: { width: "30%" },
+          // tdClass: "td-style",
+        },
+        {
+          key: "checkbookno",
+          label: "CheckBook No",
+          sortable: true,
+          thStyle: { width: "15%" },
           // tdClass: "td-style",
         },
 
