@@ -163,12 +163,17 @@
                           </div>
                         </template> -->
 
-                        <!-- <template #selected-option="option">
-                          <div v-if="option.check_no">
-                            {{ option.check_no }} -
-                            <b> {{ option.amount }}</b>
+                        <template slot="option" slot-scope="option">
+                          <div class="d-center">
+                            <span
+                              >{{ option.check_no }} -
+                              <b v-if="option.bank_name">{{
+                                option.bank_name
+                              }}</b>
+                              <b v-else>{{ option.amount }}</b>
+                            </span>
                           </div>
-                        </template> -->
+                        </template>
 
                         <template #selected-option="option">
                           <div v-if="option.check_no && option.bank_name">
