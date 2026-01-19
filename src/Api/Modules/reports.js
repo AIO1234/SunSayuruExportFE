@@ -73,4 +73,9 @@ export default {
   );
   },
 
+
+   async shipmentWiseProfitLoss(payload){
+    return await api.post("/report/shipmentwiseprofitloss", payload);
+  },
+
 };

@@ -50,4 +50,21 @@ export default [
       ],
     },
   },
+   {
+    path: "/shipments_wise_profit_loss/:shipment_id",
+    name: "shipments_wise_profit_loss",
+    component: () =>
+      import("@/views/Reports/ShipmentWiseProfitLossReport.vue"),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Profit & Loss Reports",
+      breadcrumb: [
+        {
+          text: "Profit Loss - Shipment Wise",
+          active: true,
+        },
+      ],
+    },
+  },
 ];
