@@ -219,7 +219,7 @@ export default {
     await this.shipmentWiseProfitLossDetails();
   },
   methods: {
-  
+  // get shipment wise profit loss details
     async shipmentWiseProfitLossDetails() {
       await this.$vs.loading({
         scale: 0.8,

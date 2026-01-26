@@ -67,4 +67,21 @@ export default [
       ],
     },
   },
+   {
+    path: "/shipment_wise_cost",
+    name: "shipment_wise_cost",
+    component: () => import("@/views/Reports/ShipmentWiseCostReport.vue"),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Shipment Wise Cost Reports",
+      breadcrumb: [
+        {
+          text: "Shipment Wise Cost",
+          active: true,
+        },
+      ],
+    },
+  },
+
 ];

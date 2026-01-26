@@ -73,9 +73,13 @@ export default {
   );
   },
 
-
+// shipment wise profit loss report api 
    async shipmentWiseProfitLoss(payload){
     return await api.post("/report/shipmentwiseprofitloss", payload);
+  },
+// shipment wise average cost report api
+   async shipmentWiseAverageCost(payload){
+    return await api.post("/report/shipmentwiseaveragecost", payload);
   },
 
 };
