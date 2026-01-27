@@ -45,6 +45,7 @@
         </v-date-picker>
       </b-col>
       <b-col lg="3">
+        
         <b-button @click="shipmntProfit()" variant="none" class="search_button"
           ><span class="search_text">Search</span></b-button
         >
@@ -65,41 +66,35 @@
       <b-table
         sticky-header=""
         responsive="sm"
-        :items="shipmentprofit"
+        :items="shipmentaveragecost"
         :fields="fields"
         per-page="10"
         :current-page="currentPage"
       >
-        <template #cell(total_usd_income)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(total_lkr_income)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(total_expense)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(profitorlossvalue)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-        <template #cell(shipment_id)="data">
-           <b-button
-            variant="flat-none"
-            @click="
-              $router.push(
-                `/shipments_wise_profit_loss/${data.value}`
-              )
-            "
-          >
-            <b-img
-              width="17px"
-              src="@/assets/images/icons/Group 117855.png"
-            ></b-img>
-          </b-button>
-        </template>
+        <!-- total airfreight cost devide by total weight -->
+         <template #cell(airfreight_cost)="data">        
+            {{
+              (getPriceWithOutCurrency(data.item.airfreight_cost /  data.item.total_weight))
+            }}          
+        </template> 
+         <!-- total material costs devide by total weight -->
+         <template #cell(total_material_costs)="data">        
+            {{
+              (getPriceWithOutCurrency(data.item.total_material_costs /  data.item.total_weight))
+            }}          
+        </template> 
+         <!-- total additional costs devide by total weight -->
+         <template #cell(total_additional_costs)="data">        
+            {{
+              (getPriceWithOutCurrency(data.item.total_additional_costs /  data.item.total_weight))
+            }}          
+        </template> 
+        <!-- total additional costs devide by total weight -->
+         <template #cell(total_weight)="data">        
+            {{
+              (getPriceWithOutCurrency((data.item.airfreight_cost + data.item.total_material_costs + data.item.total_additional_costs ) / data.item.total_weight))
+            }}          
+        </template> 
       </b-table>
 
       <!-- pagination -->
@@ -109,7 +104,7 @@
           <div class="mt-1">
             <b-pagination
               v-model="currentPage"
-              :total-rows="shipmentprofit.length"
+              :total-rows="shipmentaveragecost.length"
               per-page="10"
               first-text="First"
               prev-text="Prev"
@@ -186,64 +181,51 @@ export default {
         },
 
         {
-          key: "total_usd_income",
-          label: "Total Income($)",
+          key: "airfreight_cost",
+          label: "Airfreight Cost Per Kg",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
 
         {
-          key: "total_lkr_income",
-          label: "Total Income(RS)",
+          key: "total_material_costs",
+          label: "Material Cost Per Kg",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
 
         {
-          key: "total_expense",
-          label: "Total Expenses(Rs)",
+          key: "total_additional_costs",
+          label: "Additional Cost Per Kg",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
         {
-          key: "status",
-          label: "Status",
+          key: "total_weight",
+          label: "Total Cost Per Kg",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
         },
-        {
-          key: "profitorlossvalue",
-          label: "Profit/Loss Amount(Rs)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
-        {
-          key: "shipment_id",
-          label: "Action",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
+        
       ],
-      shipmentprofit: [],
+      shipmentaveragecost: [],
     };
   },
 
   async created() {
-    await this.shipmntProfit();
+    await this.shipmentWiseAverageCost();
   },
   methods: {
-    async shipmntProfit() {
+    async shipmentWiseAverageCost() {
       // if seach data not clear geting profits with range
       if (this.startdate !== "" || this.enddate !== "") {
         const payload = {
-          start_date: this.startdate,
-          end_date: this.enddate,
+          startdate: this.startdate,
+          enddate: this.enddate,
         };
 
         await this.$vs.loading({
@@ -251,9 +233,9 @@ export default {
         });
 
         await reportApi
-          .shipmentWiseProfit(payload)
+          .shipmentWiseAverageCost(payload)
           .then((res) => {
-            this.shipmentprofit = res.data.data;
+            this.shipmentaveragecost = res.data.data;
             this.$vs.loading.close();
           })
           .catch(() => {
@@ -267,10 +249,10 @@ export default {
         });
 
         await reportApi
-          .shipmentWiseProfit()
+          .shipmentWiseAverageCost()
           .then((res) => {
-            this.shipmentprofit = res.data.data;
-           
+            this.shipmentaveragecost = res.data.data;          
+
             this.$vs.loading.close();
           })
           .catch(() => {
@@ -279,13 +261,11 @@ export default {
       }
     },
     // clear searhces
-
     async clear() {
       // clear start  and date
-
       this.startdate = "";
       this.enddate = "";
-      await this.shipmntProfit();
+      await this.shipmentWiseAverageCost();
     },
   },
 };

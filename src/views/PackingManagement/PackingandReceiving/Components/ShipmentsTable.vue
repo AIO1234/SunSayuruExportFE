@@ -1,5 +1,6 @@
 <template>
   <div>
+  
     <b-table
       sticky-header=""
       responsive="sm"

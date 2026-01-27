@@ -8,7 +8,7 @@
         <div class="mobile_only_view">
           <div class="mt-2"></div>
         </div>
-        <v-date-picker v-model="startdate" is-required>
+        <!-- <v-date-picker v-model="startdate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
               <b-input-group-prepend is-text>
@@ -21,14 +21,15 @@
                 placeholder="Start Date"
               ></b-form-input>
             </b-input-group>
-          </template> </v-date-picker
-      ></b-col>
+          </template>
+        </v-date-picker> -->
+      </b-col>
       <b-col lg="3">
         <!-- space only for mobile -->
         <div class="mobile_only_view">
           <div class="mt-2"></div>
         </div>
-        <v-date-picker v-model="enddate" is-required>
+        <!-- <v-date-picker v-model="enddate" is-required>
           <template v-slot="{ inputValue, inputEvents }">
             <b-input-group class="input-group-merge form_input_styles_group">
               <b-input-group-prepend is-text>
@@ -42,17 +43,17 @@
               ></b-form-input>
             </b-input-group>
           </template>
-        </v-date-picker>
+        </v-date-picker> -->
       </b-col>
       <b-col lg="3">
-        <b-button @click="shipmntProfit()" variant="none" class="search_button"
+        <!-- <b-button @click="shipmntProfit()" variant="none" class="search_button"
           ><span class="search_text">Search</span></b-button
-        >
+        > -->
       </b-col>
       <b-col lg="3">
-        <b-button @click="clear()" variant="none" class="search_button"
+        <!-- <b-button @click="clear()" variant="none" class="search_button"
           ><span class="search_text">Clear</span></b-button
-        >
+        > -->
       </b-col>
       <b-col lg="3" class="text-right">
         <!-- space only for mobile -->
@@ -65,41 +66,25 @@
       <b-table
         sticky-header=""
         responsive="sm"
-        :items="shipmentprofit"
+        :items="details"
         :fields="fields"
         per-page="10"
         :current-page="currentPage"
       >
-        <template #cell(total_usd_income)="data">
+        <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(total_lkr_income)="data">
+        </template>      
+        <template #cell(seafood_additional_cost)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(total_expense)="data">
+        </template>     
+         <template #cell(buyer_total_amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-
-        <template #cell(profitorlossvalue)="data">
-          {{ getPriceWithOutCurrency(data.value) }}
-        </template>
-        <template #cell(shipment_id)="data">
-           <b-button
-            variant="flat-none"
-            @click="
-              $router.push(
-                `/shipments_wise_profit_loss/${data.value}`
-              )
-            "
-          >
-            <b-img
-              width="17px"
-              src="@/assets/images/icons/Group 117855.png"
-            ></b-img>
-          </b-button>
-        </template>
+        </template>        
+         <template #cell(profit_loss_amount)="data">        
+            {{
+              (getPriceWithOutCurrency(data.item.buyer_total_amount -  data.item.total_seafood_cost))
+            }}          
+        </template>         
       </b-table>
 
       <!-- pagination -->
@@ -109,7 +94,7 @@
           <div class="mt-1">
             <b-pagination
               v-model="currentPage"
-              :total-rows="shipmentprofit.length"
+              :total-rows="details.length"
               per-page="10"
               first-text="First"
               prev-text="Prev"
@@ -166,126 +151,86 @@ export default {
   data() {
     return {
       currentPage: 1,
-      startdate: "",
-      enddate: "",
-      fields: [
+      // startdate: "",
+      // enddate: "",
+      details: [],
+        additional_cost_per_kg:'',
+        fields: [
         {
-          key: "invoice_no",
-          label: "Invoice No",
+          key: "seafoodtype",
+          label: "Seafood type",
           sortable: true,
           // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
         },
 
         {
-          key: "eta",
-          label: "ETA",
+          key: "quality",
+          label: "Quality",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
+        },
+        {
+          key: "grading",
+          label: "Grading (Kg)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
         },
 
         {
-          key: "total_usd_income",
-          label: "Total Income($)",
+          key: "weight",
+          label: "Weight(Kg)",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
-
-        {
-          key: "total_lkr_income",
-          label: "Total Income(RS)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
-        },
-
-        {
-          key: "total_expense",
-          label: "Total Expenses(Rs)",
-          sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
         },
         {
-          key: "status",
-          label: "Status",
+          key: "amount",
+          label: "Seafood Total cost(Rs)",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
         },
         {
-          key: "profitorlossvalue",
-          label: "Profit/Loss Amount(Rs)",
+          key: "seafood_additional_cost",
+          label: "Seafood additional cost(Rs)",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
         },
-        {
-          key: "shipment_id",
-          label: "Action",
+         {
+          key: "buyer_total_amount",
+          label: "Buyer total amount(Rs)",
           sortable: true,
-          // thStyle: { width: "2%" },
-          // tdClass: "td-style",
+          // tdClass: "custom-cell-padding",
         },
+       
+         {
+         key: "profit_loss_amount",
+          label: "Profit / Loss (Rs)",
+          sortable: true,
+          // tdClass: "custom-cell-padding",
+        },
+      
+        
       ],
-      shipmentprofit: [],
+      
     };
   },
 
   async created() {
-    await this.shipmntProfit();
+    await this.shipmentWiseProfitLossDetails();
   },
   methods: {
-    async shipmntProfit() {
-      // if seach data not clear geting profits with range
-      if (this.startdate !== "" || this.enddate !== "") {
-        const payload = {
-          start_date: this.startdate,
-          end_date: this.enddate,
-        };
-
-        await this.$vs.loading({
-          scale: 0.8,
-        });
-
-        await reportApi
-          .shipmentWiseProfit(payload)
-          .then((res) => {
-            this.shipmentprofit = res.data.data;
-            this.$vs.loading.close();
-          })
-          .catch(() => {
-            this.$vs.loading.close();
-          });
-      }
-      // if seach data clear geting pprofits  with not seach
-      else if (this.startdate === "" || this.enddate === "") {
-        await this.$vs.loading({
-          scale: 0.8,
-        });
-
-        await reportApi
-          .shipmentWiseProfit()
-          .then((res) => {
-            this.shipmentprofit = res.data.data;
-           
-            this.$vs.loading.close();
-          })
-          .catch(() => {
-            this.$vs.loading.close();
-          });
-      }
-    },
-    // clear searhces
-
-    async clear() {
-      // clear start  and date
-
-      this.startdate = "";
-      this.enddate = "";
-      await this.shipmntProfit();
+  // get shipment wise profit loss details
+    async shipmentWiseProfitLossDetails() {
+      await this.$vs.loading({
+        scale: 0.8,
+      });
+      const payload = {
+        shipment_id: this.$route.params.shipment_id        
+      };   
+      const res = await reportApi.shipmentWiseProfitLoss(payload);   
+      this.details = res.data.data.suplier_report.results_data;
+   
+      this.$vs.loading.close();
     },
   },
 };

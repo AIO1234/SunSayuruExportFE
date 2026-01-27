@@ -50,4 +50,38 @@ export default [
       ],
     },
   },
+   {
+    path: "/shipments_wise_profit_loss/:shipment_id",
+    name: "shipments_wise_profit_loss",
+    component: () =>
+      import("@/views/Reports/ShipmentWiseProfitLossReport.vue"),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Profit & Loss Reports",
+      breadcrumb: [
+        {
+          text: "Profit Loss - Shipment Wise",
+          active: true,
+        },
+      ],
+    },
+  },
+   {
+    path: "/shipment_wise_cost",
+    name: "shipment_wise_cost",
+    component: () => import("@/views/Reports/ShipmentWiseCostReport.vue"),
+    meta: {
+      authReuire: true,
+      role: ["Super Admin", "Admin"],
+      pageTitle: "Shipment Wise Cost Reports",
+      breadcrumb: [
+        {
+          text: "Shipment Wise Cost",
+          active: true,
+        },
+      ],
+    },
+  },
+
 ];

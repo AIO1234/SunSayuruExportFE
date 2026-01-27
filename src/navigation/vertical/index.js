@@ -117,6 +117,10 @@ export default [
         title: "Monthly Wise",
         route: "monthly_profit",
       },
+       {
+        title: "Shipment Wise Cost",
+        route: "shipment_wise_cost",
+      },
     ],
   },
 
