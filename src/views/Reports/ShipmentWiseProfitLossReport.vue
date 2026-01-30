@@ -73,20 +73,24 @@
       >
         <template #cell(amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>      
+        </template>
+        <template #cell(weight)="data">
+          {{ data.value }}
+        </template>
         <template #cell(seafood_additional_cost)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>     
-         <template #cell(buyer_total_amount)="data">
+        </template>
+        <template #cell(buyer_total_amount)="data">
           {{ getPriceWithOutCurrency(data.value) }}
-        </template>        
-         <template #cell(profit_loss_amount)="data">        
-            {{
-              (getPriceWithOutCurrency(data.item.buyer_total_amount -  data.item.total_seafood_cost))
-            }}          
-        </template>         
+        </template>
+        <template #cell(profit_loss_amount)="data">
+          {{
+            getPriceWithOutCurrency(
+              data.item.buyer_total_amount - data.item.total_seafood_cost,
+            )
+          }}
+        </template>
       </b-table>
-
       <!-- pagination -->
       <b-row>
         <b-col lg="4"></b-col>
@@ -95,7 +99,7 @@
             <b-pagination
               v-model="currentPage"
               :total-rows="details.length"
-              per-page="10"
+              per-page="100"
               first-text="First"
               prev-text="Prev"
               next-text="Next"
@@ -104,6 +108,63 @@
           </div>
         </b-col>
       </b-row>
+      <b-container>
+        <b-row>
+          <b-col lg="6" cols="6"
+            ><span class="totaltext ml-1">Total Weight</span></b-col
+          >
+          <b-col lg="3" cols="6"
+            ><span class="totaltext ml-0">
+              {{ getWeight(detailslist.total_weight) }} kg</span
+            ></b-col
+          >
+        </b-row>
+
+        <b-row>
+          <b-col lg="6" cols="6"
+            ><span class="totaltext ml-1">Total Additional Cost </span></b-col
+          >
+          <b-col lg="3" cols="6"
+            ><span class="totaltext ml-0">
+              {{
+                detailslist.total_additional_costs
+                  ? getPrice(detailslist.total_additional_costs)
+                  : getPrice(0)
+              }}</span
+            ></b-col
+          >
+        </b-row>
+
+        <b-row>
+          <b-col lg="6" cols="6"
+            ><span class="totaltext ml-1">Total Material Cost </span></b-col
+          >
+          <b-col lg="3" cols="6"
+            ><span class="totaltext ml-0">
+              {{
+                detailslist.total_material_costs
+                  ? getPrice(detailslist.total_material_costs)
+                  : getPrice(0)
+              }}</span
+            ></b-col
+          >
+        </b-row>
+
+        <b-row>
+          <b-col lg="6" cols="6"
+            ><span class="totaltext ml-1">Total Airfreight Cost </span></b-col
+          >
+          <b-col lg="3" cols="6"
+            ><span class="totaltext ml-0">
+              {{
+                detailslist.total_material_costs
+                  ? getPrice(detailslist.total_airfreight_costs)
+                  : getPrice(0)
+              }}</span
+            ></b-col
+          >
+        </b-row>
+      </b-container>
     </b-card>
   </div>
 </template>
@@ -154,8 +215,9 @@ export default {
       // startdate: "",
       // enddate: "",
       details: [],
-        additional_cost_per_kg:'',
-        fields: [
+      detailslist: [],
+      additional_cost_per_kg: "",
+      fields: [
         {
           key: "seafoodtype",
           label: "Seafood type",
@@ -195,23 +257,20 @@ export default {
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
-         {
+        {
           key: "buyer_total_amount",
           label: "Buyer total amount(Rs)",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
-       
-         {
-         key: "profit_loss_amount",
+
+        {
+          key: "profit_loss_amount",
           label: "Profit / Loss (Rs)",
           sortable: true,
           // tdClass: "custom-cell-padding",
         },
-      
-        
       ],
-      
     };
   },
 
@@ -219,17 +278,18 @@ export default {
     await this.shipmentWiseProfitLossDetails();
   },
   methods: {
-  // get shipment wise profit loss details
+    // get shipment wise profit loss details
     async shipmentWiseProfitLossDetails() {
       await this.$vs.loading({
         scale: 0.8,
       });
       const payload = {
-        shipment_id: this.$route.params.shipment_id        
-      };   
-      const res = await reportApi.shipmentWiseProfitLoss(payload);   
+        shipment_id: this.$route.params.shipment_id,
+      };
+      const res = await reportApi.shipmentWiseProfitLoss(payload);
       this.details = res.data.data.suplier_report.results_data;
-   
+      this.detailslist = res.data.data.suplier_report;
+
       this.$vs.loading.close();
     },
   },

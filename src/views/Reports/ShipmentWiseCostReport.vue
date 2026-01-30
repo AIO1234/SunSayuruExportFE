@@ -205,7 +205,7 @@ export default {
         },
         {
           key: "total_weight",
-          label: "Total Cost Per Kg",
+          label: "Average Total Cost",
           sortable: true,
           // thStyle: { width: "2%" },
           // tdClass: "td-style",
