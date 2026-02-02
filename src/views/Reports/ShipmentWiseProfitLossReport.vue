@@ -64,7 +64,6 @@
 
     <b-card class="mt-5">
       <b-table
-        sticky-header=""
         responsive="sm"
         :items="details"
         :fields="fields"
@@ -109,18 +108,25 @@
         </b-col>
       </b-row>
       <b-container>
-        <b-row>
+        <!-- shipment total weight -->
+        <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Weight</span></b-col
           >
           <b-col lg="3" cols="6"
             ><span class="totaltext ml-0">
-              {{ getWeight(detailslist.total_weight) }} kg</span
+              {{
+                detailslist.total_weight
+                  ? getWeight(detailslist.total_weight)
+                  : getWeight(0)
+              }}
+              kg</span
             ></b-col
           >
         </b-row>
 
-        <b-row>
+        <!-- shipment wise additional cost -->
+        <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Additional Cost </span></b-col
           >
@@ -135,7 +141,8 @@
           >
         </b-row>
 
-        <b-row>
+        <!-- shipment wise aterial cost -->
+        <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Material Cost </span></b-col
           >
@@ -150,7 +157,8 @@
           >
         </b-row>
 
-        <b-row>
+        <!-- shipment wise airfreight cost -->
+        <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Airfreight Cost </span></b-col
           >
@@ -159,6 +167,22 @@
               {{
                 detailslist.total_material_costs
                   ? getPrice(detailslist.total_airfreight_costs)
+                  : getPrice(0)
+              }}</span
+            ></b-col
+          >
+        </b-row>
+
+        <!-- shipment wise seafood cost -->
+        <b-row class="mt-1">
+          <b-col lg="6" cols="6"
+            ><span class="totaltext ml-1">Total Seafood Cost </span></b-col
+          >
+          <b-col lg="3" cols="6"
+            ><span class="totaltext ml-0">
+              {{
+                detailslist.total_earnings
+                  ? getPrice(detailslist.total_earnings)
                   : getPrice(0)
               }}</span
             ></b-col
