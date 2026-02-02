@@ -125,6 +125,7 @@
           >
         </b-row>
 
+        <!-- shipment wise additional cost -->
         <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Additional Cost </span></b-col
@@ -140,6 +141,7 @@
           >
         </b-row>
 
+        <!-- shipment wise aterial cost -->
         <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Material Cost </span></b-col
@@ -155,6 +157,7 @@
           >
         </b-row>
 
+        <!-- shipment wise airfreight cost -->
         <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Airfreight Cost </span></b-col
@@ -170,6 +173,7 @@
           >
         </b-row>
 
+        <!-- shipment wise seafood cost -->
         <b-row class="mt-1">
           <b-col lg="6" cols="6"
             ><span class="totaltext ml-1">Total Seafood Cost </span></b-col
