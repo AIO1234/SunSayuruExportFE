@@ -67,7 +67,7 @@
         responsive="sm"
         :items="details"
         :fields="fields"
-        per-page="10"
+        per-page="100"
         :current-page="currentPage"
       >
         <template #cell(amount)="data">
